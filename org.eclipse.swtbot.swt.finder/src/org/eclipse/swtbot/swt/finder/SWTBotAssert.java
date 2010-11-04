@@ -14,6 +14,7 @@ package org.eclipse.swtbot.swt.finder;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertEquals;
@@ -257,6 +258,16 @@ public abstract class SWTBotAssert {
 	 */
 	public static void assertMatchesRegex(String regex, String actual) {
 		assertThat(actual, new RegexMatcher(Pattern.compile("([\r\n]|.)*" + regex + "([\r\n]|.)*")));
+	}
+	
+	/**
+	 * Assert that the two objects are not equal.
+	 * 
+	 * @param one one object
+	 * @param another another object
+	 */
+	public static void assertNotEquals(Object one, Object another){
+		assertThat(one, not(equalTo(another)));
 	}
 
 }

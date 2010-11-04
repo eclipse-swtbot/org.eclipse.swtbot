@@ -28,11 +28,12 @@ import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-class KeyboardLayout {
+@Deprecated
+class OldKeyboardLayout {
 	private final BidiMap<Character, KeyStroke>	keyStrokes	= new BidiMap<Character, KeyStroke>();
 	private final String						layoutName;
 
-	private KeyboardLayout(String name, URL resource) throws IOException {
+	private OldKeyboardLayout(String name, URL resource) throws IOException {
 		this.layoutName = name;
 		initialiseDefaults();
 		parseKeyStrokes(resource);
@@ -71,7 +72,7 @@ class KeyboardLayout {
 	 * @return the default keyboard layout.
 	 * @see SWTBotPreferences#KEYBOARD_LAYOUT
 	 */
-	public static KeyboardLayout getDefaultKeyboardLayout() {
+	public static OldKeyboardLayout getDefaultKeyboardLayout() {
 		return getKeyboardLayout(SWTBotPreferences.KEYBOARD_LAYOUT);
 	}
 
@@ -79,8 +80,8 @@ class KeyboardLayout {
 	 * @param layoutName the layout of the keyboard.
 	 * @return the keyboard layout corresponding to the specified layout.
 	 */
-	public static KeyboardLayout getKeyboardLayout(String layoutName) {
-		ClassLoader classLoader = KeyboardLayout.class.getClassLoader();
+	public static OldKeyboardLayout getKeyboardLayout(String layoutName) {
+		ClassLoader classLoader = OldKeyboardLayout.class.getClassLoader();
 		URL configURL = classLoader.getResource(toFolder(myPackage() + "." + layoutName) + ".keyboard");
 
 		if (configURL == null)
@@ -89,14 +90,14 @@ class KeyboardLayout {
 			throw new IllegalArgumentException(layoutName + ".keyboard not found, see http://wiki.eclipse.org/SWTBot/Keyboard_Layouts for more information.");
 
 		try {
-			return new KeyboardLayout(layoutName, configURL);
+			return new OldKeyboardLayout(layoutName, configURL);
 		} catch (IOException e) {
 			throw new IllegalStateException("could not parse " + layoutName + " keyboard layout properties");
 		}
 	}
 
 	private static String myPackage() {
-		return KeyboardLayout.class.getPackage().getName();
+		return OldKeyboardLayout.class.getPackage().getName();
 	}
 
 	private static String toFolder(String layoutName) {

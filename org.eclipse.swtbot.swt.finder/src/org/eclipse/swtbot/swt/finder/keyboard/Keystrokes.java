@@ -107,7 +107,7 @@ public class Keystrokes {
 	public static final KeyStroke	PAGE_DOWN				= KeyStroke.getInstance(0, SWT.PAGE_DOWN);
 
 	/** The keyboard layout to use for mapping characters. */
-	private static KeyboardLayout	defaultKeyboardLayout	= KeyboardLayout.getDefaultKeyboardLayout();
+	private static OldKeyboardLayout	defaultKeyboardLayout	= OldKeyboardLayout.getDefaultKeyboardLayout();
 
 	/**
 	 * @param ch the character to convert to {@link KeyStroke}s.

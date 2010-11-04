@@ -23,18 +23,18 @@ import org.junit.Test;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class KeyboardLayoutTest {
+public class OldKeyboardLayoutTest {
 
 	@Test
 	public void shouldBeAbleToParseUserProvidedKeyboardLayout() throws Exception {
-		KeyboardLayout layout = KeyboardLayout.getKeyboardLayout("com.foo.bar.BAZ");
+		OldKeyboardLayout layout = OldKeyboardLayout.getKeyboardLayout("com.foo.bar.BAZ");
 		assertEquals(keys(SWT.SHIFT, 't'), layout.keyStrokeFor('#'));
 	}
 
 	@Test
 	public void shouldBeAbleToParseUserProvidedKeyboardLayoutViaPreference() throws Exception {
 		SWTBotPreferences.KEYBOARD_LAYOUT = "com.foo.bar.MAC_FOOBAR";
-		KeyboardLayout layout = KeyboardLayout.getDefaultKeyboardLayout();
+		OldKeyboardLayout layout = OldKeyboardLayout.getDefaultKeyboardLayout();
 		assertEquals(keys(SWT.SHIFT, 'Y'), layout.keyStrokeFor('*'));
 	}
 

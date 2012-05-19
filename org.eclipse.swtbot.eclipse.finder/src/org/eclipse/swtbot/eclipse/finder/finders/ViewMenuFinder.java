@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2011 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2012 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.SubContributionItem;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotViewMenu;
@@ -23,9 +24,8 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.internal.ViewPane;
-import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.hamcrest.Matcher;
 
@@ -62,13 +62,14 @@ public class ViewMenuFinder {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotViewMenu>() {
 
 			public List<SWTBotViewMenu> run() {
-				ViewPane viewPane = (ViewPane) ((WorkbenchPartReference) view).getPane();
-				MenuManager mgr = viewPane.getMenuManager();
 				List<SWTBotViewMenu> l = new ArrayList<SWTBotViewMenu>();
-
-				l.addAll(getMenuItemsInternal(mgr.getItems(), matcher, recursive));
-
-				return l;
+                IViewPart viewPart = view.getView(false);
+                if (viewPart == null) {
+                   return l;
+                }
+               IMenuManager viewMenuManager = viewPart.getViewSite().getActionBars().getMenuManager();
+               l.addAll(getMenuItemsInternal(viewMenuManager.getItems(), matcher, recursive));
+               return l;
 			}
 		});
 	}

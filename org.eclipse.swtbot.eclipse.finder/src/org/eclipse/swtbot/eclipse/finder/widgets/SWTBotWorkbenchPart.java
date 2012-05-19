@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2012 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
@@ -38,9 +40,10 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarPushButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarRadioButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarSeparatorButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
+import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.internal.PartPane;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
@@ -137,11 +140,19 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	public List<SWTBotToolbarButton> getToolbarButtons() {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotToolbarButton>() {
 
-			public List<SWTBotToolbarButton> run() {
-				PartPane obj = ((WorkbenchPartReference) partReference).getPane();
-				ToolBar toolbar = (ToolBar) obj.getToolBar();
+			public List<SWTBotToolbarButton> run() {				
+				ToolBar toolbar = null;
+				
+				IWorkbenchPartSite site = partReference.getPart(false).getSite();
+				if (site instanceof IViewSite) {
+					IToolBarManager t = ((IViewSite) site).getActionBars().getToolBarManager();
+					if (t instanceof ToolBarManager) {
+						toolbar = ((ToolBarManager)t).getControl();
+					}
+				}
+				
 				final List<SWTBotToolbarButton> l = new ArrayList<SWTBotToolbarButton>();
-
+				
 				if (toolbar == null)
 					return l;
 

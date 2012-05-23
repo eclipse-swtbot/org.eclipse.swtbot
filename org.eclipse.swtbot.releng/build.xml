@@ -22,7 +22,7 @@
 	<!-- Load up the gef specific properties -->
 	<available file="build-conf/gef${eclipse.version}.properties" property="gef-conf-available" />
 	<fail unless="gef-conf-available" message="Could not find file 'build-conf/gef${eclipse.version}.properties'" />
-	<property file="build-conf/gef.properties" />
+	<property file="build-conf/gef${eclipse.version}.properties" />
 
 	<property file="build.default.properties" />
 	<import file="check-prerequisites.xml" />

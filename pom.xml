@@ -1,0 +1,259 @@
+<!-- Copyright (c) 2011 PetalsLink. All rights reserved. This program and 
+	the accompanying materials are made available under the terms of the Eclipse 
+	Public License v1.0 which accompanies this distribution, and is available 
+	at http://www.eclipse.org/legal/epl-v10.html Authors: * Mickael Istria (PetalsLink) -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.eclipse.swtbot</groupId>
+	<artifactId>parent</artifactId>
+	<name>Eclipse SWTBot</name>
+	<version>2.0.5-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+	<properties>
+		<tycho-version>0.15.0</tycho-version>
+	</properties>
+
+	<modules>
+		<!-- Plugins -->
+		<module>org.eclipse.swtbot.ant.junit</module>
+		<module>org.eclipse.swtbot.eclipse</module>
+		<module>org.eclipse.swtbot.eclipse.core</module>
+		<module>org.eclipse.swtbot.eclipse.dsl</module>
+		<module>org.eclipse.swtbot.eclipse.finder</module>
+		<module>org.eclipse.swtbot.eclipse.gef.finder</module>
+		<module>org.eclipse.swtbot.eclipse.spy</module>
+		<module>org.eclipse.swtbot.eclipse.test.junit</module>
+		<module>org.eclipse.swtbot.eclipse.ui</module>
+		<module>org.eclipse.swtbot.forms.finder</module>
+		<module>org.eclipse.swtbot.generator</module>
+		<module>org.eclipse.swtbot.go</module>
+		<module>org.eclipse.swtbot.junit4_x</module>
+		<module>org.eclipse.swtbot.swt.demo</module>
+		<module>org.eclipse.swtbot.swt.finder</module>
+		<module>org.eclipse.swt.examples</module>
+		<module>org.eclipse.ui.forms.examples</module>
+		<!-- features -->
+		<module>org.eclipse.swtbot</module>
+		<module>org.eclipse.swtbot.forms</module>
+		<module>org.eclipse.swtbot.eclipse.gef</module>
+		<module>org.eclipse.swtbot.ide</module>
+		<module>org.eclipse.swtbot.eclipse.junit.headless</module>
+		<!-- Repo -->
+		<module>org.eclipse.swtbot.updatesite</module>
+		<!-- Tests -->
+		<module>org.eclipse.swtbot.generator.test</module>
+		<module>org.eclipse.swtbot.eclipse.ui.test</module>
+		<module>org.eclipse.swtbot.swt.finder.test.keyboards</module>
+		<module>org.eclipse.swtbot.swt.finder.test</module>
+		<module>org.eclipse.swtbot.forms.finder.test</module>
+		<module>org.eclipse.swtbot.eclipse.finder.test</module>
+		<module>org.eclipse.swtbot.test</module>
+	</modules>
+
+	<mailingLists>
+		<mailingList>
+			<name>swtbot-dev Mailing List</name>
+			<post>swtbot-dev@eclipse.org</post>
+			<subscribe>https://dev.eclipse.org/mailman/listinfo/swtbot-dev</subscribe>
+			<unsubscribe>https://dev.eclipse.org/mailman/listinfo/swtbot-dev</unsubscribe>
+			<archive>http://dev.eclipse.org/mhonarc/lists/swtbot-dev</archive>
+		</mailingList>
+	</mailingLists>
+
+	<issueManagement>
+		<url>https://bugs.eclipse.org/bugs/buglist.cgi?classification=Technology;query_format=advanced;product=SWTBot</url>
+		<system>Bugzilla</system>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:http://git.eclipse.org/gitroot/swtbot/org.eclipse.swtbot.git</connection>
+		<url>https://git.eclipse.org/c/swtbot/org.eclipse.swtbot.git/</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>Eclipse Public License v1.0</name>
+			<comments>
+       All rights reserved.
+
+       This program and the accompanying materials are made
+       available under the terms of the Eclipse Public License v1.0
+       which accompanies this distribution, and is available at
+       http://www.eclipse.org/legal/epl-v10.htm
+			</comments>
+		</license>
+	</licenses>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<resolver>p2</resolver>
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>jacoco</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- Properties to enable jacoco code coverage analysis -->
+				<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+				<sonar.jacoco.itReportPath>../target/jacoco.exec</sonar.jacoco.itReportPath>
+			</properties>
+			<build>
+				<plugins>
+					<!-- Enabling use of jacoco -->
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.5.3.201107060350</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+								<configuration>
+									<!-- Where to put jacoco coverage report -->
+									<destFile>${sonar.jacoco.itReportPath}</destFile>
+									<includes>*.swtbot.*</includes>
+									<append>true</append>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>helios</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>Helios</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/helios</url>
+				</repository>
+				<repository>
+					<id>Orbit-Helios</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20100519200754/repository</url>
+				</repository>
+			</repositories>
+		</profile>
+		<profile>
+			<id>indigo</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>Indigo</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/indigo</url>
+				</repository>
+				<repository>
+					<id>Orbit-Indigo</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/</url>
+				</repository>
+			</repositories>
+		</profile>
+
+		<profile>
+			<id>juno-staging</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>staging</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/staging/</url>
+				</repository>
+				<repository>
+					<id>Orbit-Staging</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/tools/orbit/downloads/drops/S20110907174232/repository/</url>
+				</repository>
+			</repositories>
+		</profile>
+
+		<profile>
+			<id>juno</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>Juno</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/juno/</url>
+				</repository>
+				<repository>
+					<id>Orbit-Juno</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/</url>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
+
+</project>

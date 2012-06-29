@@ -7,10 +7,14 @@
  * 
  * Contributors:
  *     Cedric Chabanois - initial API and implementation
+ *     Mickael Istria (PetalsLink) - Fix bug 362476
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.jface.snippets.viewers.Snippet052DoubleClickCellEditor;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.swt.finder.UIThread;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTTest;
 import org.junit.Test;
@@ -30,7 +34,12 @@ public class SWTBotTableDoubleClickTest extends AbstractSWTTest {
 
 	@UIThread
 	public void runUIThread() {
-		Snippet052DoubleClickCellEditor.main(new String[0]);
+		Display display = Display.getDefault();
+
+		Shell shell = new Shell(display);
+		shell.setLayout(new FillLayout());
+		new Snippet052DoubleClickCellEditor(shell);
+		shell.open();
 	}
 
 }

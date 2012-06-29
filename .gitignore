@@ -3,6 +3,7 @@
 /swtbot/
 .DS_Store
 /*/bin
+target/
 
 examples/rcp/*/bin/
 examples/gef/*/bin/
@@ -37,6 +38,9 @@ org.eclipse.swtbot.releng/test-sandbox/org.eclipse.swtbot.eclipse.ui.test.ser
 
 org.eclipse.swtbot.swt.finder.test/keyboard.layout
 org.eclipse.swtbot.swt.finder.test/keyboard.layout.filtered
+
+org.eclipse.ui.forms.examples/examples.jar
+
 /eclipse-3.4/
 /eclipse-3.5/
 /eclipse/

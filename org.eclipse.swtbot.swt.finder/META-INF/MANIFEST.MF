@@ -28,5 +28,6 @@ Import-Package: junit.framework;version="4.5.0",
  org.eclipse.swt.events,
  org.eclipse.swt.graphics,
  org.eclipse.swt.widgets,
- org.hamcrest;version="1.1.0",
  org.junit;version="4.5.0"
+Require-Bundle: org.hamcrest.core;bundle-version="1.1.0",
+ org.hamcrest;bundle-version="1.1.0"

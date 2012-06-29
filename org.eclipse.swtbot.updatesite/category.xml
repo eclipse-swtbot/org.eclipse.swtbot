@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.swtbot_2.0.5.qualifier.jar" id="org.eclipse.swtbot" version="2.0.5.qualifier">
+      <category name="SWTBot - API"/>
+   </feature>
+   <feature url="features/org.eclipse.swtbot.eclipse_2.0.5.qualifier.jar" id="org.eclipse.swtbot.eclipse" version="2.0.5.qualifier">
+      <category name="SWTBot - API"/>
+   </feature>
+   <feature url="features/org.eclipse.swtbot.eclipse.gef_2.0.5.qualifier.jar" id="org.eclipse.swtbot.eclipse.gef" version="2.0.5.qualifier">
+      <category name="SWTBot - API"/>
+   </feature>
+   <feature url="features/org.eclipse.swtbot.forms_2.0.5.qualifier.jar" id="org.eclipse.swtbot.forms" version="2.0.5.qualifier">
+      <category name="SWTBot - API"/>
+   </feature>
+   <feature url="features/org.eclipse.swtbot.ide_2.0.5.qualifier.jar" id="org.eclipse.swtbot.ide" version="2.0.5.qualifier">
+      <category name="SWTBot - IDE Integration"/>
+   </feature>
+   <feature url="features/org.eclipse.swtbot.eclipse.test.junit_2.0.5.qualifier.jar" id="org.eclipse.swtbot.eclipse.test.junit" version="2.0.5.qualifier">
+      <category name="SWTBot - Headless Support"/>
+   </feature>
+   <category-def name="SWTBot - API" label="SWTBot - API"/>
+   <category-def name="SWTBot - IDE Integration" label="SWTBot - IDE Integration"/>
+   <category-def name="SWTBot - Headless Support" label="SWTBot - Headless Support"/>
+</site>

@@ -33,6 +33,5 @@ Import-Package: org.eclipse.core.resources,
  org.eclipse.swt.events,
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
- org.eclipse.ui,
- org.eclipse.ui.plugin,
  org.osgi.framework
+Require-Bundle: org.eclipse.ui;bundle-version="3.6.0"

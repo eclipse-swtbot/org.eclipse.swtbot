@@ -326,7 +326,16 @@ abstract class SWTBotFactory {
 		Shell[] shells = finder.getShells();
 		ArrayList<SWTBotShell> result = new ArrayList<SWTBotShell>();
 		for (Shell shell : shells) {
-			result.add(new SWTBotShell(shell));
+			try {
+				result.add(new SWTBotShell(shell));
+			}
+			catch (WidgetNotFoundException exc) {
+				// Bug 385220
+				// If we were called while a shell was closing, a shell we
+				// got from finder.getShells() above could have been disposed
+				// by now. Simply ignore it
+			}
+
 		}
 		return result.toArray(new SWTBotShell[] {});
 	}

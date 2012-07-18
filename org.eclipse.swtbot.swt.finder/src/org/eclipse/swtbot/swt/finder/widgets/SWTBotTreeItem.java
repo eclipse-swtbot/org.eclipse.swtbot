@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * Copyright (c) 2008, 2010 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -678,11 +678,13 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		return syncExec(new ArrayResult<SWTBotTreeItem>() {
 			public SWTBotTreeItem[] run() {
 				TreeItem[] items = widget.getItems();
-				SWTBotTreeItem[] children = new SWTBotTreeItem[items.length];
+				List<SWTBotTreeItem> children = new ArrayList<SWTBotTreeItem>(); 
 				for (int i = 0; i < items.length; i++) {
-					children[i] = new SWTBotTreeItem(items[i]);
+					if (!items[i].isDisposed()) {
+						children.add(new SWTBotTreeItem(items[i]));
+					}
 				}
-				return children;
+				return children.toArray(new SWTBotTreeItem[children.size()]);
 			}
 		});
 	}

@@ -25,7 +25,7 @@ import org.eclipse.swt.SWT;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
+public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 
 	private final Robot							robot;
 

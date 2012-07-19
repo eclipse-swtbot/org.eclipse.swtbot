@@ -29,7 +29,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  * @see Display#KeyTable
  */
-class SWTKeyboardStrategy extends AbstractKeyboardStrategy {
+public class SWTKeyboardStrategy extends AbstractKeyboardStrategy {
 
 	private final Display				display;
 

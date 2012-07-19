@@ -113,7 +113,7 @@ public class Keystrokes {
 	 * @param ch the character to convert to {@link KeyStroke}s.
 	 * @return the {@link KeyStroke}s corresponding to the character.
 	 */
-	static KeyStroke[] create(char ch) {
+	public static KeyStroke[] create(char ch) {
 		KeyStroke keyStroke = defaultKeyboardLayout.keyStrokeFor(ch);
 		if (keyStroke.getModifierKeys() == KeyStroke.NO_KEY)
 			return new KeyStroke[] { keyStroke };

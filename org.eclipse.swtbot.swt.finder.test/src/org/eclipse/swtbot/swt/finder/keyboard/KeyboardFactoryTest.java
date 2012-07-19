@@ -34,7 +34,7 @@ public class KeyboardFactoryTest extends AbstractSWTShellTest {
 
 	@Test
 	public void createsKeyboardForMockKeyboardStrategy() throws Exception {
-		assertEquals(MockKeyboardStrategy.class, new KeyboardFactory(MockKeyboardStrategy.class.getName()).strategyClass);
+		assertEquals(MockKeyboardStrategy.class, new KeyboardFactory(MockKeyboardStrategy.class).strategyClass);
 	}
 
 	@Override

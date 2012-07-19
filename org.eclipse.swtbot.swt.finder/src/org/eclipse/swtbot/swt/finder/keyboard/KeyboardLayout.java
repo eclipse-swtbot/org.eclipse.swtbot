@@ -28,7 +28,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-class KeyboardLayout {
+public class KeyboardLayout {
 	private final BidiMap<Character, KeyStroke>	keyStrokes	= new BidiMap<Character, KeyStroke>();
 	private final String						layoutName;
 

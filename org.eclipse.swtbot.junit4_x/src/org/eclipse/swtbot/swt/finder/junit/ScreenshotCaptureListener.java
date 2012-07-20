@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others.
+ * Copyright (c) 2010 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,8 +9,6 @@
  *     Hans Schwaebli - initial API and implementation (Bug 259787)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.junit;
-
-import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
@@ -41,7 +39,6 @@ public final class ScreenshotCaptureListener extends RunListener {
 			int maximumScreenshots = SWTBotPreferences.MAX_ERROR_SCREENSHOT_COUNT;
 			String fileName = SWTBotPreferences.SCREENSHOTS_DIR + "/" + failure.getTestHeader() + "." + SWTBotPreferences.SCREENSHOT_FORMAT.toLowerCase(); //$NON-NLS-1$
 			if (++screenshotCounter <= maximumScreenshots) {
-				new File("screenshots").mkdirs(); //$NON-NLS-1$ 
 				captureScreenshot(fileName);
 			} else {
 				log.info("No screenshot captured for '" + failure.getTestHeader() + "' because maximum number of screenshots reached: " //$NON-NLS-1$ 

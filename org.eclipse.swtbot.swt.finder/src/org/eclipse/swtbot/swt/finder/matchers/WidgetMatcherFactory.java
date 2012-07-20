@@ -1,4 +1,6 @@
-// Generated source.
+// Generated source. DO NOT MODIFY.
+// To add new new methods, please see README file in the generator plugin.
+
 package org.eclipse.swtbot.swt.finder.matchers;
 
 public abstract class WidgetMatcherFactory {
@@ -18,12 +20,12 @@ public abstract class WidgetMatcherFactory {
    * Matches a widget that has the specified labelText within the given parent.
    * 
    * @param labelText the label.
-   * @param parent the parent widget to which the matcher is scoped.
+   * @param finder finder for locating widgets
    * @return a matcher.
    * @since 2.0
    */
-  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withLabel(java.lang.String labelText, org.eclipse.swt.widgets.Composite parent) {
-    return org.eclipse.swtbot.swt.finder.matchers.WithLabel.withLabel(labelText, parent);
+  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withLabel(java.lang.String labelText, org.eclipse.swtbot.swt.finder.finders.Finder finder) {
+    return org.eclipse.swtbot.swt.finder.matchers.WithLabel.withLabel(labelText, finder);
   }
 
   /**
@@ -68,6 +70,17 @@ public abstract class WidgetMatcherFactory {
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withTextIgnoringCase(java.lang.String text) {
     return org.eclipse.swtbot.swt.finder.matchers.WithText.withTextIgnoringCase(text);
+  }
+
+  /**
+   * Matches a widget that has the specified exact message.
+   * 
+   * @param message the message.
+   * @return a matcher.
+   * @since 2.0
+   */
+  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withMessage(java.lang.String message) {
+    return org.eclipse.swtbot.swt.finder.matchers.WithMessage.withMessage(message);
   }
 
   /**
@@ -181,6 +194,7 @@ public abstract class WidgetMatcherFactory {
    * @param matcher the matcher
    * @return a matcher.
    * @since 2.0
+   * @deprecated this has been deprecated and will be removed in future releases of swtbot.
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> inUIThread(org.hamcrest.Matcher<?> matcher) {
     return org.eclipse.swtbot.swt.finder.matchers.InUIThread.inUIThread(matcher);
@@ -202,6 +216,24 @@ public abstract class WidgetMatcherFactory {
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> allOf(java.lang.Iterable<org.hamcrest.Matcher<? extends T>> matchers) {
     return org.eclipse.swtbot.swt.finder.matchers.AllOf.allOf(matchers);
+  }
+
+  /**
+   * Evaluates to true only if ANY of the passed in matchers evaluate to true.
+   * 
+   * @return a matcher.
+   */
+  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> anyOf(org.hamcrest.Matcher<? extends T>... matchers) {
+    return org.eclipse.swtbot.swt.finder.matchers.AnyOf.anyOf(matchers);
+  }
+
+  /**
+   * Evaluates to true only if ANY of the passed in matchers evaluate to true.
+   * 
+   * @return a matcher.
+   */
+  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> anyOf(java.lang.Iterable<org.hamcrest.Matcher<? extends T>> matchers) {
+    return org.eclipse.swtbot.swt.finder.matchers.AnyOf.anyOf(matchers);
   }
 
 }

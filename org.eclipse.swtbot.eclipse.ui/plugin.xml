@@ -19,7 +19,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
             type="org.eclipse.swtbot.eclipse.ui.launcher.JunitLaunchConfig"
-            class="org.eclipse.pde.ui.launcher.JUnitTabGroup"
+            class="org.eclipse.swtbot.eclipse.ui.launcher.SWTBotJUnitTabGroup"
             id="org.eclipse.swtbot.eclipse.ui.launcher.JUnitTabGroup">
          <launchMode
                description="Create a configuration that will launch a SWTBot test in debug mode."
@@ -46,7 +46,7 @@
             configTypeID="org.eclipse.swtbot.eclipse.ui.launcher.JunitLaunchConfig">
       </launchConfigType>
    </extension>
- 
+
    <extension
          point="org.eclipse.ui.commands">
       <command
@@ -61,7 +61,7 @@
             categoryId="org.eclipse.debug.ui.category.run"
             id="org.eclipse.swtbot.eclipse.ui.junitShortcut.debug">
       </command>
-   </extension>   
+   </extension>
    <extension
          point="org.eclipse.ui.bindings">
       <key
@@ -76,7 +76,7 @@
    <extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
-            class="org.eclipse.swtbot.eclipse.ui.SWTBotLaunchShortcut"
+            class="org.eclipse.swtbot.eclipse.ui.launcher.SWTBotLaunchShortcut"
             description="Launch an SWTBot Test"
             icon="icons/swtbot_runner.png"
             id="org.eclipse.swtbot.eclipse.ui.junitShortcut"
@@ -125,5 +125,16 @@
             configId="org.eclipse.ui.intro.universalConfig"
             content="intro/tutorialsExtensionContent.xml">
       </configExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.eclipse.swtbot.eclipse.ui.wizards.NewSWTBotTestPluginWizard"
+            finalPerspective="org.eclipse.jdt.ui.JavaPerspective"
+            icon="icons/swtbot_runner.png"
+            id="org.eclipse.swtbot.eclipse.ui.wizards.NewSWTBotTestPluginWizard"
+            name="New SWTBot Test Plug-in"
+            project="true">
+      </wizard>
    </extension>
 </plugin>

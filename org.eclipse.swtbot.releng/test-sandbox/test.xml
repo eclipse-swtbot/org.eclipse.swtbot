@@ -24,8 +24,6 @@
 			<contains string="${runtimeArchive}" substring=".tar.gz" />
 		</condition>
 		<antcall target="${setupTarget}" />
-		<antcall target="configureTeamTest" />
-		<antcall target="configureDeltaPack" />
 	</target>
 
 	<!--setup for zip archives-->
@@ -189,55 +187,6 @@
 		</condition>
 	</target>
 
-	<target name="setJVMProperties" depends="setJVMfromUserSpecified">
-		<!--enable tests requiring 1.5 or 1.6 vms to run if running vm level detected matches required execution environment-->
-		<condition property="J2SE-5.0" value="${java.home}/bin/java">
-			<or>
-				<equals arg1="${ant.java.version}" arg2="1.5" />
-				<equals arg1="${ant.java.version}" arg2="1.6" />
-			</or>
-		</condition>
-		<condition property="J2SE-6.0" value="${java.home}/bin/java">
-			<equals arg1="${ant.java.version}" arg2="1.6" />
-		</condition>
-	</target>
-
-	<target name="setJVMfromUserSpecified" if="jvm">
-		<exec executable="${jvm}" outputproperty="javaversion">
-			<arg line="-version" />
-		</exec>
-		<echo message="java version of ${jvm} is ${javaversion}" />
-		<condition property="J2SE-6.0" value="${jvm}">
-			<contains string="${javaversion}" substring="java version &quot;1.6" />
-		</condition>
-		<condition property="J2SE-5.0" value="${jvm}">
-			<or>
-				<contains string="${javaversion}" substring="java version &quot;1.6" />
-				<contains string="${javaversion}" substring="java version &quot;1.5" />
-			</or>
-		</condition>
-		<echo message="J2SE-6.0:  ${J2SE-6.0}" />
-		<echo message="J2SE-5.0:  ${J2SE-5.0}" />
-	</target>
-
-	<target name="configureTeamTest" if="teamcvs">
-		<!-- Fill in cvs repository information -->
-		<replace file="${eclipse-home}/plugins/${org.eclipse.team.tests.cvs.core}/repository.properties" token="@user@" value="${cvs_user}" />
-		<replace file="${eclipse-home}/plugins/${org.eclipse.team.tests.cvs.core}/repository.properties" token="@password@" value="${cvs_password}" />
-		<replace file="${eclipse-home}/plugins/${org.eclipse.team.tests.cvs.core}/repository.properties" token="@host@" value="${cvs_host}" />
-		<replace file="${eclipse-home}/plugins/${org.eclipse.team.tests.cvs.core}/repository.properties" token="@root@" value="${cvs_root}" />
-	</target>
-
-	<target name="configureDeltaPack" if="pdebuild">
-		<property name="deltapackArchive" value="eclipse-RCP-${buildId}-delta-pack.zip" />
-		<property name="installDeltapack" value="${install}/deltapack" />
-		<mkdir dir="${installDeltapack}" />
-		<exec dir="." executable="unzip">
-			<arg line="-o -qq ${deltapackArchive} -d ${installDeltapack}" />
-		</exec>
-	</target>
-
-
 	<macrodef name="runTests">
 		<attribute name="testPlugin" />
 		<attribute name="testPluginsRequired" default="" />
@@ -276,7 +225,19 @@
 		<available file="${eclipse-home}/plugins/org.eclipse.swtbot.eclipse.junit3.headless_${all.buildId}/JUNIT.XSL" property="junit.xsl" value="${eclipse-home}/plugins/org.eclipse.swtbot.eclipse.junit3.headless_${all.buildId}/JUNIT.XSL" />
 		<available file="${eclipse-home}/plugins/org.eclipse.swtbot.eclipse.junit4.headless_${all.buildId}/JUNIT.XSL" property="junit.xsl" value="${eclipse-home}/plugins/org.eclipse.swtbot.eclipse.junit4.headless_${all.buildId}/JUNIT.XSL" />
 		
-		<style style="${junit.xsl}" in="${junit.reports.xml.dir}/index.xml" out="${junit.reports.html.dir}/index.html" />
+		<mkdir dir="${junit.reports.html.dir}/screenshots" />
+		<move todir="${junit.reports.html.dir}/screenshots" failonerror="false">
+			<fileset dir="${junit-report-output}/screenshots" includes="*.*" />
+		</move>
+
+		<xslt style="${junit.xsl}" in="${junit.reports.xml.dir}/index.xml" out="${junit.reports.html.dir}/index.html">
+			<param name="screenshot_dir" expression="screenshots"/>
+			<!--
+			Only use this if you've set SWTBotPreferences#SCREENSHOT_FORMAT preference
+			Optional: possible values are bmp, gif, ico, jpeg, jpg, png or tiff
+			<param name="screenshot_format" expression="jpeg"/>
+			-->
+		</xslt>
 		
 		<xslt in="${junit.reports.xml.dir}/index.xml" out="./passFail.txt" style="passFail.xsl" />
 		<property file="passFail.txt" />
@@ -308,18 +269,6 @@
 		</antcall>
 	</target>
 
-	<target name="test-recorder" depends="setup">
-		<antcall target="core-tests">
-			<param name="testPlugin" value="org.eclipse.swtbot.swt.recorder.test" />
-		</antcall>
-	</target>
-
-	<target name="test-recorder-ui" depends="setup">
-		<antcall target="core-tests">
-			<param name="testPlugin" value="org.eclipse.swtbot.swt.recorder.ui.test" />
-		</antcall>
-	</target>
-
 	<target name="test-generator" depends="setup">
 		<antcall target="core-tests">
 			<param name="testPlugin" value="org.eclipse.swtbot.generator.test" />
@@ -330,11 +279,15 @@
 		<runTests testPlugin="org.eclipse.swtbot.eclipse.finder.test" />
 	</target>
 
+	<target name="test-forms">
+		<runTests testPlugin="org.eclipse.swtbot.forms.finder.test" />
+	</target>
+
 	<target name="test-eclipse-ui">
 		<runTests testPlugin="org.eclipse.swtbot.eclipse.ui.test" />
 	</target>
 
-	<target name="all" depends="test-finder, test-recorder-ui, test-recorder, test-generator, test-eclipse-finder, test-eclipse-ui" />
+	<target name="all" depends="test-finder, test-forms, test-eclipse-finder, test-eclipse-ui, test-generator" />
 
 </project>
 

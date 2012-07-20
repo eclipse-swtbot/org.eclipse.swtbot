@@ -15,12 +15,28 @@
             id="org.eclipse.swtbot.eclipse.finder.test.ui.views.SWTBotTestView"
             name="SWTBot Test View">
       </view>
+      <view
+            class="org.eclipse.swtbot.eclipse.finder.test.ui.views.SWTBotFormView"
+            id="org.eclipse.swtbot.eclipse.finder.test.ui.views.SWTBotFormView1"
+            name="Form 1"
+            restorable="true">
+      </view>
+      <view
+            class="org.eclipse.swtbot.eclipse.finder.test.ui.views.SWTBotFormView"
+            id="org.eclipse.swtbot.eclipse.finder.test.ui.views.SWTBotFormView2"
+            name="Form 2"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
             class="org.eclipse.swtbot.eclipse.finder.test.ui.handler.SampleHandler"
             commandId="org.eclipse.swtbot.eclipse.finder.test.ui.commands.ContributionItemCommand">
+      </handler>
+      <handler
+            class="org.eclipse.swtbot.eclipse.finder.test.ui.handler.SampleParameterizedHandler"
+            commandId="org.eclipse.swtbot.eclipse.finder.test.ui.commands.ParameterizedContributionItemCommand">
       </handler>
    </extension>
    <extension
@@ -43,6 +59,26 @@
                mnemonic="C"
                style="toggle">
          </command>
+         <command
+               commandId="org.eclipse.swtbot.eclipse.finder.test.ui.commands.ParameterizedContributionItemCommand"
+               id="org.eclipse.swtbot.eclipse.finder.test.ui.view.menu.ParameterizedContributionItemCommand"
+               label="Try the Strawberry"
+               mnemonic="S">
+               <parameter
+                     name="org.eclipse.swtbot.eclipse.finder.test.flavor"
+                     value="Strawberry">
+               </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.swtbot.eclipse.finder.test.ui.commands.ParameterizedContributionItemCommand"
+               id="org.eclipse.swtbot.eclipse.finder.test.ui.view.menu.ParameterizedContributionItemCommand"
+               label="Try the Banana"
+               mnemonic="B">
+               <parameter
+                     name="org.eclipse.swtbot.eclipse.finder.test.flavor"
+                     value="Banana">
+               </parameter>
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -56,6 +92,35 @@
             id="org.eclipse.swtbot.eclipse.finder.test.ui.commands.ContributionItemCommand"
             name="Contribution Item Command">
       </command>
+      <command
+            categoryId="org.eclipse.swtbot.eclipse.finder.test.ui.commands.category"
+            id="org.eclipse.swtbot.eclipse.finder.test.ui.commands.ParameterizedContributionItemCommand"
+            name="Parameterized Contribution Item Command">
+            <commandParameter
+                  id="org.eclipse.swtbot.eclipse.finder.test.flavor"
+                  name="Flavor"
+                  optional="true">
+            </commandParameter>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.swtbot.eclipse.finder.test.ui.editors.MultiPageEditor"
+            contributorClass="org.eclipse.swtbot.eclipse.finder.test.ui.editors.MultiPageEditorContributor"
+            extensions="mpe"
+            icon="icons/sample.gif"
+            id="org.eclipse.swtbot.eclipse.finder.test.ui.editors.MultiPageEditor"
+            name="Sample Multi-page Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.swtbot.eclipse.finder.test.ui.perspectives.FormPerspective"
+            id="org.eclipse.swtbot.eclipse.finder.test.ui.perspectives.FormPerspective"
+            name="name">
+      </perspective>
    </extension>
 
 </plugin>

@@ -11,21 +11,25 @@
 package org.eclipse.swtbot.swt.finder.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class SWTUtilsTest extends AbstractSWTTestCase {
+public class SWTUtilsTest extends AbstractControlExampleTest {
 
 	@Test
 	public void findsRightIndexOfControlInParentWithNoParent() throws Exception {
-		assertEquals(-1, SWTUtils.widgetIndex(controlShell));
+		assertEquals(-1, SWTUtils.widgetIndex(shell));
 	}
 
 	@Test
@@ -52,8 +56,23 @@ public class SWTUtilsTest extends AbstractSWTTestCase {
 	}
 
 	@Test
+	public void getsCorrectStyle() throws Exception {
+		assertTrue(SWTUtils.hasStyle(bot.button("One").widget, SWT.PUSH));
+		assertTrue(SWTUtils.hasStyle(bot.radio("SWT.RADIO").widget, SWT.RADIO));
+		assertTrue(SWTUtils.hasStyle(bot.checkBox("SWT.FLAT").widget, SWT.CHECK));
+
+		assertTrue(SWTUtils.hasStyle(bot.checkBox("SWT.FLAT").widget, SWT.NONE));
+		assertFalse(SWTUtils.hasStyle(null, SWT.CHECK));
+	}
+
+	@Test
 	public void previousWidgetOnFirstWidget() throws Exception {
 		assertSame(null, SWTUtils.previousWidget(getChildren()[0]));
+	}
+
+	@Before
+	public void prepareExample() throws Exception {
+		bot.tabItem("Button").activate();
 	}
 
 	@Test

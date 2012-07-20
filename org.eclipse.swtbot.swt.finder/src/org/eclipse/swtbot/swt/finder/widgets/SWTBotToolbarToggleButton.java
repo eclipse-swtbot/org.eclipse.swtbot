@@ -30,7 +30,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 @SWTBotWidget(clasz = ToolItem.class, preferredName = "toolbarToggleButton", style = @Style(name = "SWT.CHECK", value = SWT.CHECK), referenceBy = {
-		ReferenceBy.MNEMONIC, ReferenceBy.TOOLTIP })
+		ReferenceBy.MNEMONIC, ReferenceBy.TOOLTIP }, returnType = SWTBotToolbarToggleButton.class)
 public class SWTBotToolbarToggleButton extends SWTBotToolbarButton {
 
 	/**
@@ -62,7 +62,7 @@ public class SWTBotToolbarToggleButton extends SWTBotToolbarButton {
 	 */
 	public SWTBotToolbarToggleButton toggle() {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
-		assertEnabled();
+		waitForEnabled();
 		internalToggle();
 		sendNotifications();
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$

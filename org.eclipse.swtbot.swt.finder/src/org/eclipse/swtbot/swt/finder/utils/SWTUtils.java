@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2011 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.swtbot.swt.finder.utils;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
@@ -299,6 +300,22 @@ public abstract class SWTUtils {
 	}
 
 	/**
+	 * Get the value of an attribute on the object even if the attribute is not accessible. 
+	 * @param object the object
+	 * @param attributeName the attribute name
+	 * @return the value the attribute value
+	 * @throws SecurityException if the attribute accessibility may not be changed.
+	 * @throws NoSuchFieldException if the attribute attributeName does not exist.
+	 * @throws IllegalAccessException if the java access control does not allow access.
+	 */
+	public static Object getAttribute(final Object object, final String attributeName) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = object.getClass().getDeclaredField(attributeName);
+		if (!field.isAccessible())
+			field.setAccessible(true);
+		return field.get(object);
+	}
+	
+	/**
 	 * This captures a screen shot and saves it to the given file.
 	 * 
 	 * @param fileName the filename to save screenshot to.
@@ -380,6 +397,10 @@ public abstract class SWTUtils {
 	private static boolean captureScreenshotInternal(final String fileName, Rectangle bounds) {
 		GC gc = new GC(display);
 		Image image = null;
+		File file = new File(fileName);
+		File parentDir = file.getParentFile();
+		if (parentDir != null)
+			parentDir.mkdirs();
 		try {
 			log.debug(MessageFormat.format("Capturing screenshot ''{0}''", fileName)); //$NON-NLS-1$
 
@@ -391,7 +412,7 @@ public abstract class SWTUtils {
 			return true;
 		} catch (Exception e) {
 			log.warn("Could not capture screenshot: " + fileName + "'", e); //$NON-NLS-1$ //$NON-NLS-2$
-			File brokenImage = new File(fileName).getAbsoluteFile();
+			File brokenImage = file.getAbsoluteFile();
 			if (brokenImage.exists()) {
 				try {
 					log.trace(MessageFormat.format("Broken screenshot set to be deleted on exit: {0}", fileName)); //$NON-NLS-1$
@@ -474,4 +495,27 @@ public abstract class SWTUtils {
 	public static boolean isUIThread() {
 		return isUIThread(display);
 	}
+
+
+	/**
+	 * @return <code>true</code> if the current OS is macosx.
+	 */
+	public static boolean isMac(){
+		return isCocoa() || isCarbon();
+	}
+
+	/**
+	 * @return <code>true</code> if the current platform is {@code cocoa}
+	 */
+	public static boolean isCocoa(){
+		return SWT.getPlatform().equals("cocoa");
+	}
+
+	/**
+	 * @return <code>true</code> if the current platform is {@code carbon}
+	 */
+	public static boolean isCarbon(){
+		return SWT.getPlatform().equals("carbon");
+	}
+
 }

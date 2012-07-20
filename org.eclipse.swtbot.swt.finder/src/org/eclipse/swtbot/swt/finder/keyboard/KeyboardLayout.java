@@ -28,7 +28,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-class KeyboardLayout {
+public class KeyboardLayout {
 	private final BidiMap<Character, KeyStroke>	keyStrokes	= new BidiMap<Character, KeyStroke>();
 	private final String						layoutName;
 
@@ -86,7 +86,7 @@ class KeyboardLayout {
 		if (configURL == null)
 			configURL = classLoader.getResource(toFolder(layoutName) + ".keyboard");
 		if (configURL == null)
-			throw new IllegalArgumentException("keyboard layout " + layoutName + " not available.");
+			throw new IllegalArgumentException(layoutName + ".keyboard not found, see http://wiki.eclipse.org/SWTBot/Keyboard_Layouts for more information.");
 
 		try {
 			return new KeyboardLayout(layoutName, configURL);

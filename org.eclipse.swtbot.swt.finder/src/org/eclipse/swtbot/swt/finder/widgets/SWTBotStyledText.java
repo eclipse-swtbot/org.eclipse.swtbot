@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008,2010 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -70,7 +70,7 @@ public class SWTBotStyledText extends AbstractSWTBot<StyledText> {
 	 * @param text the text to set.
 	 */
 	public void setText(final String text) {
-		assertEnabled();
+		waitForEnabled();
 		asyncExec(new VoidResult() {
 			public void run() {
 				widget.setText(text);
@@ -119,7 +119,7 @@ public class SWTBotStyledText extends AbstractSWTBot<StyledText> {
 	 */
 	public void navigateTo(final int line, final int column) {
 		log.debug(MessageFormat.format("Enquing navigation to location {0}, {1} in {2}", line, column, this)); //$NON-NLS-1$
-		assertEnabled();
+		waitForEnabled();
 		setFocus();
 		asyncExec(new VoidResult() {
 			public void run() {
@@ -190,7 +190,7 @@ public class SWTBotStyledText extends AbstractSWTBot<StyledText> {
 	 * @param text the text to be inserted at the location of the caret.
 	 */
 	public void insertText(final String text) {
-		assertEnabled();
+		waitForEnabled();
 		syncExec(new VoidResult() {
 			public void run() {
 				widget.insert(text);
@@ -262,7 +262,7 @@ public class SWTBotStyledText extends AbstractSWTBot<StyledText> {
 	 * @param length the length of the selection.
 	 */
 	public void selectRange(final int line, final int column, final int length) {
-		assertEnabled();
+		waitForEnabled();
 		asyncExec(new VoidResult() {
 			public void run() {
 				int offset = offset(line, column);
@@ -442,4 +442,18 @@ public class SWTBotStyledText extends AbstractSWTBot<StyledText> {
 			}
 		});
 	}
+
+	/**
+	 * Gets the tab width of the {@link StyledText} measured in characters.
+	 * 
+	 * @return the tab width of the {@link StyledText} measured in characters.
+	 */
+	public int getTabs() {
+		return syncExec(new IntResult() {
+			public Integer run() {
+				return widget.getTabs();
+			}
+		});
+	}
+
 }

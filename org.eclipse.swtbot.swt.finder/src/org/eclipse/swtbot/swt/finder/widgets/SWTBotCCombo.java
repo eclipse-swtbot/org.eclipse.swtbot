@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Cedric Chabanois and others.
+ * Copyright (c) 2008, 2010 Cedric Chabanois and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Cedric Chabanois - initial API and implementation
  *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=17
  *     Stefan Seelmann - http://swtbot.org/bugzilla/show_bug.cgi?id=26
+ *     Ketan Padegaonkar - ongoing bugfixes
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -64,7 +65,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 */
 	public void setText(final String text) {
 		log.debug(MessageFormat.format("Setting text on widget {0} to {1}", this, text)); //$NON-NLS-1$
-		assertEnabled();
+		waitForEnabled();
 		if (hasStyle(widget, SWT.READ_ONLY))
 			throw new RuntimeException("This combo box is read-only."); //$NON-NLS-1$
 		asyncExec(new VoidResult() {
@@ -97,7 +98,6 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	public void setSelection(final String text) {
 		log.debug(MessageFormat.format("Setting selection on {0} to {1}", widget, text)); //$NON-NLS-1$
 		_setSelection(text);
-		notify(SWT.Selection);
 		log.debug(MessageFormat.format("Set selection on {0} to {1}", widget, text)); //$NON-NLS-1$
 	}
 
@@ -107,7 +107,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 * @param text The text to use.
 	 */
 	private void _setSelection(final String text) {
-		assertEnabled();
+		waitForEnabled();
 		final int indexOf = syncExec(new IntResult() {
 			public Integer run() {
 				String[] items = widget.getItems();
@@ -164,7 +164,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 * @param index the zero based index.
 	 */
 	public void setSelection(final int index) {
-		assertEnabled();
+		waitForEnabled();
 		int itemCount = itemCount();
 		if (index > itemCount)
 			throw new RuntimeException("The index (" + index + ") is more than the number of items (" + itemCount + ") in the combo."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

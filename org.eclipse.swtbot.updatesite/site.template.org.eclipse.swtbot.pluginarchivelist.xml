@@ -1,3 +1,0 @@
-
-	<archive path="${file.basedir}/${file}" 
-		url="${update.site.base.url}/${file.basedir}/${file}"/>

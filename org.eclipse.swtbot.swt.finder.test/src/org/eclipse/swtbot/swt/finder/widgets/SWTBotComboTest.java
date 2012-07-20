@@ -4,13 +4,14 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=17
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
+import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.isCocoa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -19,17 +20,15 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class SWTBotComboTest extends AbstractSWTTestCase {
-
-	private SWTBot	bot;
+public class SWTBotComboTest extends AbstractControlExampleTest {
 
 	@Test
 	public void findsCombo() throws Exception {
@@ -96,6 +95,27 @@ public class SWTBotComboTest extends AbstractSWTTestCase {
 	}
 
 	@Test
+	public void typeAndVerifiesTextInCombo() throws Exception {
+		bot.checkBox("SWT.READ_ONLY").deselect();
+
+		bot.checkBox("Listen").select();
+		bot.button("Clear").click();
+
+		SWTBotCombo comboBox = bot.comboBoxInGroup("Combo");
+		comboBox.setText("");
+		comboBox.typeText("New typed Text");
+		assertEquals("New typed Text", comboBox.getText());
+
+		if (!isCocoa())
+			assertEventMatches(bot.textInGroup("Listeners"), "KeyDown [1]: KeyEvent{Combo {} time=490981104 data=null character='\\0' keyCode=131072 stateMask=0 doit=true}");
+		assertEventMatches(bot.textInGroup("Listeners"), "KeyDown [1]: KeyEvent{Combo {} time=490981272 data=null character='N' keyCode=110 stateMask=131072 doit=true}");
+		assertEventMatches(bot.textInGroup("Listeners"), "Verify [25]: VerifyEvent{Combo {} time=490981272 data=null character='N' keyCode=110 stateMask=131072 doit=true start=0 end=0 text=N}");
+		assertEventMatches(bot.textInGroup("Listeners"), "KeyUp [2]: KeyEvent{Combo {N} time=490981352 data=null character='N' keyCode=110 stateMask=131072 doit=true}");
+		if (!isCocoa())
+			assertEventMatches(bot.textInGroup("Listeners"), "KeyUp [2]: KeyEvent{Combo {N} time=490981457 data=null character='\\0' keyCode=131072 stateMask=131072 doit=true}");
+	}
+
+	@Test
 	public void throwsExceptionInCaseOfChangeTextOfReadOnlyCombo() throws Exception {
 		bot.checkBox("SWT.READ_ONLY").select();
 		SWTBotCombo comboBox = bot.comboBoxInGroup("Combo");
@@ -109,9 +129,8 @@ public class SWTBotComboTest extends AbstractSWTTestCase {
 		}
 	}
 
-	public void setUp() throws Exception {
-		super.setUp();
-		bot = new SWTBot();
+	@Before
+	public void prepareExample() throws Exception {
 		bot.tabItem("Combo").activate();
 	}
 

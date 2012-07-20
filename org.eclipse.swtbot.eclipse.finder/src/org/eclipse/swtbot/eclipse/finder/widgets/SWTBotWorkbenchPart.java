@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2012 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,23 +10,20 @@
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
 import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.eclipse.finder.finders.CommandFinder;
-import org.eclipse.swtbot.eclipse.finder.finders.ViewMenuFinder;
 import org.eclipse.swtbot.eclipse.finder.widgets.utils.PartLabelDescription;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -37,17 +34,16 @@ import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarDropDownButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarPushButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarRadioButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarSeparatorButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
-import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.internal.PartPane;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
@@ -69,7 +65,6 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	protected final Logger			log;
 	/** A helper swtbot instance. */
 	protected final SWTWorkbenchBot	bot;
-	private final ViewMenuFinder	menuFinder;
 	private final SelfDescribing	description;
 	private Widget widget;
 
@@ -97,7 +92,6 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 		this.description = description;
 		Assert.isNotNull(partReference, "The part reference cannot be null"); //$NON-NLS-1$
 		this.partReference = partReference;
-		this.menuFinder = new ViewMenuFinder();
 		log = Logger.getLogger(getClass());
 	}
 
@@ -108,18 +102,10 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 		return partReference;
 	}
 
-	
 	/**
 	 * Close the partReference.
 	 */
-	public void close() {
-		UIThreadRunnable.syncExec(new VoidResult() {
-			public void run() {
-				IViewReference viewReference = (IViewReference) partReference;
-				viewReference.getPage().hideView(viewReference);
-			}
-		});
-	}
+	public abstract void close();
 
 	/**
 	 * Shows the part if it is visible.
@@ -147,50 +133,6 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	}
 
 	/**
-	 * Gets a list of all menus within the partReference. This will also include sub menus.
-	 * 
-	 * @return The list of menus
-	 */
-	public List<SWTBotViewMenu> menus() {
-		return menuFinder.findMenus((IViewReference) partReference, anything(), true);
-	}
-
-	/**
-	 * Gets a menu item matching the give label within the partReference menu if one exists.
-	 * 
-	 * @param label The label matching name in the menu.
-	 * @return The {@link SWTBotMenu} item.
-	 * @throws WidgetNotFoundException Thrown if the menu can not be found or if the partReference does not contain a
-	 *             menu.
-	 */
-	public SWTBotViewMenu menu(String label) throws WidgetNotFoundException {
-		return menu(label, 0);
-	}
-
-	/**
-	 * Gets a menu item matching the give label within the partReference menu if one exists.
-	 * 
-	 * @param label The label matching name in the menu.
-	 * @param index The index of the menu to choose.
-	 * @return The {@link SWTBotMenu} item.
-	 * @throws WidgetNotFoundException Thrown if the menu can not be found or if the partReference does not contain a
-	 *             menu.
-	 */
-	public SWTBotViewMenu menu(String label, int index) throws WidgetNotFoundException {
-		try {
-			List<SWTBotViewMenu> menuItems = menuFinder.findMenus((IViewReference) partReference, withMnemonic(label), true);
-			if ((menuItems == null) || (menuItems.size() < 1)) {
-				CommandFinder finder = new CommandFinder();
-				List<SWTBotCommand> command = finder.findCommand(equalTo(label));
-				return command.get(index);
-			}
-			return menuItems.get(index);
-		} catch (Exception e) {
-			throw new WidgetNotFoundException("Could not find view menu with label " + label + " at index " + index, e); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-	}
-
-	/**
 	 * Gets the toolbar buttons currently visible.
 	 * 
 	 * @return The set of toolbar buttons.
@@ -198,11 +140,19 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	public List<SWTBotToolbarButton> getToolbarButtons() {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotToolbarButton>() {
 
-			public List<SWTBotToolbarButton> run() {
-				PartPane obj = ((WorkbenchPartReference) partReference).getPane();
-				ToolBar toolbar = (ToolBar) obj.getToolBar();
+			public List<SWTBotToolbarButton> run() {				
+				ToolBar toolbar = null;
+				
+				IWorkbenchPartSite site = partReference.getPart(false).getSite();
+				if (site instanceof IViewSite) {
+					IToolBarManager t = ((IViewSite) site).getActionBars().getToolBarManager();
+					if (t instanceof ToolBarManager) {
+						toolbar = ((ToolBarManager)t).getControl();
+					}
+				}
+				
 				final List<SWTBotToolbarButton> l = new ArrayList<SWTBotToolbarButton>();
-
+				
 				if (toolbar == null)
 					return l;
 

@@ -1,0 +1,81 @@
+<!-- Copyright (c) 2011 PetalsLink. All rights reserved. This program and 
+	the accompanying materials are made available under the terms of the Eclipse 
+	Public License v1.0 which accompanies this distribution, and is available 
+	at http://www.eclipse.org/legal/epl-v10.html Authors: * Mickael Istria (PetalsLink) -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.eclipse.swtbot.plugins</groupId>
+	<artifactId>org.eclipse.swtbot.eclipse.finder.test</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
+	<parent>
+		<groupId>org.eclipse.swtbot</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.0.5-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<properties>
+		<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
+		<uitest.vmparams>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=128M</uitest.vmparams>
+	</properties>
+	<profiles>
+		<profile>
+			<id>skip-ui-tests</id>
+			<activation>
+				<property>
+					<name>skip-ui-tests</name>
+				</property>
+			</activation>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+		</profile>
+		<profile>
+			<id>macosx</id>
+			<activation>
+				<os>
+					<name>mac os x</name>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<ui.test.vmargs>${uitest.vmparams} -XstartOnFirstThread</ui.test.vmargs>
+			</properties>
+		</profile>
+		<profile>
+			<id>other-os</id>
+			<activation>
+				<os>
+					<name>not-mac</name>
+					<family>!mac</family>
+				</os>
+			</activation>
+			<properties>
+				<ui.test.vmargs>${uitest.vmparams}</ui.test.vmargs>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<argLine>${ui.test.vmargs}</argLine>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>false</useUIThread>
+					<product>org.eclipse.sdk.ide</product>
+					<application>org.eclipse.ui.ide.workbench</application>
+					<testSuite>org.eclipse.swtbot.eclipse.finder.test</testSuite>
+					<testClass>org.eclipse.swtbot.eclipse.finder.AllTests</testClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

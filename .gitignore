@@ -1,14 +1,16 @@
 /eclipse/
 /.metadata/
-.svn/
 /swtbot/
 .DS_Store
 /*/bin
+target/
 
 examples/rcp/*/bin/
 examples/gef/*/bin/
 
 /*/screenshots
+
+org.eclipse.swtbot.releng/.git.properties
 
 org.eclipse.swtbot.releng/externals/eclipse-SDK-*
 org.eclipse.swtbot.releng/externals/libs
@@ -20,7 +22,6 @@ org.eclipse.swtbot.releng/build.developer.properties
 org.eclipse.swtbot.releng/build.properties
 org.eclipse.swtbot.releng/artifacts/
 org.eclipse.swtbot.releng/to-upload/
-org.eclipse.swtbot.releng/javadoc
 
 org.eclipse.swtbot.releng/test-sandbox/results/
 org.eclipse.swtbot.releng/test-sandbox/screenshots/
@@ -32,17 +33,17 @@ org.eclipse.swtbot.updatesite/build/
 
 /swtbot/
 
-org.eclipse.swtbot.junit4_x/.classpath
-org.eclipse.swtbot.junit4_x/META-INF/MANIFEST.MF
-org.eclipse.swtbot.junit4_x/build.properties
-
-org.eclipse.swtbot.eclipse.ui/META-INF/MANIFEST.MF
-
 org.eclipse.swtbot.releng/test-sandbox/passFail.txt
+org.eclipse.swtbot.releng/test-sandbox/org.eclipse.swtbot.eclipse.ui.test.ser
+
 org.eclipse.swtbot.swt.finder.test/keyboard.layout
 org.eclipse.swtbot.swt.finder.test/keyboard.layout.filtered
-org.eclipse.swtbot.eclipse.ui/.classpath
-org.eclipse.swtbot.eclipse.ui/build.properties
+
+org.eclipse.ui.forms.examples/examples.jar
+
 /eclipse-3.4/
 /eclipse-3.5/
 /eclipse/
+
+*recorder*
+External Plug-in Libraries

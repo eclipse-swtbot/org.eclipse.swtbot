@@ -30,7 +30,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 @SWTBotWidget(clasz = ToolItem.class, preferredName = "toolbarRadioButton", style = @Style(name = "SWT.RADIO", value = SWT.RADIO), referenceBy = {
-		ReferenceBy.MNEMONIC, ReferenceBy.TOOLTIP })
+		ReferenceBy.MNEMONIC, ReferenceBy.TOOLTIP }, returnType = SWTBotToolbarRadioButton.class)
 public class SWTBotToolbarRadioButton extends SWTBotToolbarButton {
 
 	/**
@@ -62,7 +62,7 @@ public class SWTBotToolbarRadioButton extends SWTBotToolbarButton {
 	 */
 	public SWTBotToolbarRadioButton toggle() {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
-		assertEnabled();
+		waitForEnabled();
 		internalToggle();
 		sendNotifications();
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$

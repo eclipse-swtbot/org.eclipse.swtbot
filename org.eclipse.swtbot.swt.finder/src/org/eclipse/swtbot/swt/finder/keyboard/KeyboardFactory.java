@@ -26,12 +26,13 @@ import org.hamcrest.SelfDescribing;
  */
 public class KeyboardFactory {
 
-	final Class<?>	strategyClass;
+	public final Class<?>	strategyClass;
 
 	/**
 	 * @param strategyClass the name of the class that is an instance of {@link KeyboardStrategy}.
 	 * @throws Exception if the class cannot be instantiated.
 	 */
+	@Deprecated
 	public KeyboardFactory(String strategyClass) throws Exception {
 		this(Class.forName(strategyClass));
 	}

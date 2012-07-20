@@ -13,9 +13,10 @@ package org.eclipse.swtbot.swt.finder;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertEnabled;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertNotEnabled;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertSameWidget;
-import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
+import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.swt.SWT;
@@ -24,10 +25,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.Traverse;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.Test;
 
@@ -35,9 +38,7 @@ import org.junit.Test;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class SWTBot2Test extends AbstractSWTTestCase {
-
-	private SWTBot	bot;
+public class SWTBot2Test extends AbstractControlExampleTest {
 
 	@Test
 	public void findsTextBox() throws Exception {
@@ -100,24 +101,26 @@ public class SWTBot2Test extends AbstractSWTTestCase {
 		bot.button("One").traverse(Traverse.TAB_NEXT);
 
 		SWTBotText textInGroup = bot.textInGroup("Listeners");
-
-		assertTextContains("Traverse [31]: TraverseEvent{Button {One} ", textInGroup);
-		assertTextContains("data=null character='\\0' keyCode=0 stateMask=0 doit=true detail=16}", textInGroup);
-		assertTextContains("FocusOut [16]: FocusEvent{Button {One} time=", textInGroup);
-		assertTextContains("FocusIn [15]: FocusEvent{Button {Two} time=", textInGroup);
+		assertEventMatches(textInGroup, "Traverse [31]: TraverseEvent{Button {One} time=60232779 data=null character='\\0' keyCode=0 stateMask=0 doit=true detail=16}");
+		assertEventMatches(textInGroup, "FocusOut [16]: FocusEvent{Button {One} time=60232779 data=null}");
+		assertEventMatches(textInGroup, "FocusIn [15]: FocusEvent{Button {Two} time=60232779 data=null}");
 		assertTrue(bot.button("Two").isActive());
 	}
 
-	public void setUp() throws Exception {
-		super.setUp();
-		bot = new SWTBot();
-		bot.tabItem("Button").activate();
+	@Test
+	public void findsGetsIdOfAControl() throws Exception {
+		final SWTBotButton button = bot.button("Two");
+		assertNull(button.getId());
+		syncExec(new VoidResult() {
+			public void run() {
+				button.widget.setData(SWTBotPreferences.DEFAULT_KEY, "foo");
+			}
+		});
+		assertEquals("foo", button.getId());
 	}
 
-	public void tearDown() throws Exception {
-		super.tearDown();
-		bot.checkBox("Listen").deselect();
-		bot.button("Clear").click();
+	public void prepareExample() throws Exception {
+		bot.tabItem("Button").activate();
 	}
 
 }

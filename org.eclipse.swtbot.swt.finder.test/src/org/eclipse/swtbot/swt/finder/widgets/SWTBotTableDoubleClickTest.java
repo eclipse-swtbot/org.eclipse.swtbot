@@ -7,17 +7,16 @@
  * 
  * Contributors:
  *     Cedric Chabanois - initial API and implementation
+ *     Mickael Istria (PetalsLink) - Fix bug 362476
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.jface.snippets.viewers.Snippet052DoubleClickCellEditor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
-import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
-import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.UIThread;
+import org.eclipse.swtbot.swt.finder.test.AbstractSWTTest;
 import org.junit.Test;
 
 /**
@@ -25,44 +24,22 @@ import org.junit.Test;
  * @version $Id$
  * @since 1.2
  */
-public class SWTBotTableDoubleClickTest extends AbstractSWTTestCase {
-
-	private SWTBot		bot;
-	private SWTBotTable	table;
-	private Shell		snippetCellEditorShell;
+public class SWTBotTableDoubleClickTest extends AbstractSWTTest {
 
 	@Test
 	public void doubleClickOnCell() throws Exception {
-		table.doubleClick(0, 0);
+		bot.table().doubleClick(0, 0);
 		bot.text("Column 1 => Item 0", 0);
 	}
 
-	protected Shell getFocusShell() {
-		return snippetCellEditorShell;
-	}
+	@UIThread
+	public void runUIThread() {
+		Display display = Display.getDefault();
 
-	public void setUp() throws Exception {
-		UIThreadRunnable.syncExec(new VoidResult() {
-			public void run() {
-				snippetCellEditorShell = new Shell(display, SWT.SHELL_TRIM);
-				snippetCellEditorShell.setLayout(new FillLayout());
-				snippetCellEditorShell.setText("Snippet cell editor");
-				new Snippet052DoubleClickCellEditor(snippetCellEditorShell);
-				snippetCellEditorShell.open();
-			}
-		});
-		super.setUp();
-		bot = new SWTBot();
-		table = bot.table();
-	}
-
-	public void tearDown() throws Exception {
-		UIThreadRunnable.syncExec(new VoidResult() {
-			public void run() {
-				snippetCellEditorShell.close();
-			}
-		});
-		super.tearDown();
+		Shell shell = new Shell(display);
+		shell.setLayout(new FillLayout());
+		new Snippet052DoubleClickCellEditor(shell);
+		shell.open();
 	}
 
 }

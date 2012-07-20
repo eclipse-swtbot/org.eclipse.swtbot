@@ -1,15 +1,15 @@
 To build/run/test SWTBot from source and command-line you need to do the following:
 
 Install Subversion Command-Line Client, Ant and Info-ZIP. Add them into your environment's command execution path.
-Verify that you can execute these commands on your command-line: svn, ant, unzip.
+Verify that you can execute these commands on your command-line: git, ant, unzip.
 
 Checkout code:
- $ svn co http://dev.eclipse.org/svnroot/technology/org.eclipse.swtbot/trunk swtbot
+ $ git clone http://git.eclipse.org/gitroot/swtbot/org.eclipse.swtbot.git swtbot
  $ cd swtbot/org.eclipse.swtbot.releng
 
 Edit some properties file for your platform:
  $ cp build.developer.properties.sample build.developer.properties
- $ vi build.developer.properties (Change the os, ws arch parameters)
+ $ vi build.developer.properties (Change the os, ws, arch and eclipse.version parameters)
 
 Copy the Eclipse SDK archive which you want to use into: /org.eclipse.swtbot.releng/externals
 

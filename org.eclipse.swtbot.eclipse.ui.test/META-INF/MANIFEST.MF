@@ -2,10 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Eclipse Ui Test Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.ui.test
-Bundle-Version: 2.0.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Version: 2.0.5.qualifier
+Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: org.eclipse.swtbot.eclipse.ui,
- org.eclipse.ui,
- org.junit4,
- org.hamcrest
+Fragment-Host: org.eclipse.swtbot.eclipse.ui
+Require-Bundle: org.eclipse.swtbot.go

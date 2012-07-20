@@ -19,8 +19,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -28,7 +29,7 @@ import org.junit.Test;
  * @author Ketan Patel
  * @version $Id$
  */
-public class SWTBotTreeItemTest extends AbstractSWTTestCase {
+public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 
 	private SWTBotTree	tree;
 	private SWTBotText	listeners;
@@ -38,9 +39,10 @@ public class SWTBotTreeItemTest extends AbstractSWTTestCase {
 		SWTBotTreeItem node = tree.expandNode("Node 2").expandNode("Node 2.2").expandNode("Node 2.2.1");
 		bot.button("Clear").click();
 		node.contextMenu("getItem(Point) on mouse coordinates").click();
-		assertTextContains("Selection [13]: SelectionEvent{Tree {} ", listeners);
-		assertTextContains("MenuDetect [35]: Event {type=35 Tree {}", listeners);
-		assertTextContains("getItem(Point(Point {", listeners);
+		assertEventMatches(listeners, "MenuDetect [35]: Event {type=35 Tree {} time=175982645 data=null x=148 y=195 width=0 height=0 detail=0}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=175982645 data=null button=3 stateMask=0 x=122 y=81 count=1}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=175985221 data=null item=TreeItem {Node 2.2.1} detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}");
+		assertEventMatches(listeners, "getItem(Point(Point {");
 	}
 
 	@Test
@@ -233,10 +235,19 @@ public class SWTBotTreeItemTest extends AbstractSWTTestCase {
 		assertTextContains("MouseDoubleClick [8]: MouseEvent{Tree {} ", listeners);
 		assertTextContains("DefaultSelection [14]: SelectionEvent{Tree {} ", listeners);
 		assertTextContains("MouseUp [4]: MouseEvent{Tree {} ", listeners);
+		assertTextContains("button=1", listeners);
+	}
+	
+	@Test
+	public void canExpandANodeUsingVarArgs() throws Exception {
+		SWTBotTreeItem node = tree.getTreeItem("Node 2").expand();
+		node = node.expandNode("Node 2.2", "Node 2.2.1");
+
+		assertEquals(7, tree.visibleRowCount());
 	}
 
-	public void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void prepareExample() throws Exception {
 		bot.tabItem("Tree").activate();
 		bot.checkBox("Horizontal Fill").select();
 		bot.checkBox("Vertical Fill").select();

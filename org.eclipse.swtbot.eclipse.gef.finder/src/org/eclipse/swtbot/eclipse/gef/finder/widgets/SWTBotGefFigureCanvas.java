@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Obeo and others
+ * Copyright (c) 2009, 2010 Obeo and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,9 @@ package org.eclipse.swtbot.eclipse.gef.finder.widgets;
 
 import org.eclipse.draw2d.EventDispatcher;
 import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -22,58 +24,109 @@ import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBotControl;
 
 /**
- * TODO comment
+ * A bot  which wraps the swt canvas control.
  * @author mchauvin
  */
-public class SWTBotGefFigureCanvas extends AbstractSWTBotControl<FigureCanvas>{
+public class SWTBotGefFigureCanvas extends AbstractSWTBotControl<Canvas>{
 
     protected EventDispatcher eventDispatcher;
-
-    //TODO should be documented
-    public SWTBotGefFigureCanvas(FigureCanvas w) throws WidgetNotFoundException {
-        super(w);
-        eventDispatcher = w.getLightweightSystem().getRootFigure().internalGetEventDispatcher();
+    
+    /**
+     * Constructs a new instance from a {@link FigureCanvas}.
+     * @param canvas the canvas to wrap
+     * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
+     */
+    public SWTBotGefFigureCanvas(FigureCanvas canvas) throws WidgetNotFoundException {
+        this(canvas, canvas.getLightweightSystem());
     }
 
-    public void mouseMoveDoubleClick(int xPosition, int yPosition) {
-        org.eclipse.swt.events.MouseEvent meMove = wrapMouseEvent(xPosition, yPosition, 0, 0, 0);
-        eventDispatcher.dispatchMouseMoved(meMove);
-        org.eclipse.swt.events.MouseEvent meDown = wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1);
-        eventDispatcher.dispatchMousePressed(meDown);
-        org.eclipse.swt.events.MouseEvent meDoubleClick = wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1);
-        eventDispatcher.dispatchMouseDoubleClicked(meDoubleClick);
+    /**
+     * Constructs a new instance from a {@link Canvas} and a {@link LightweightSystem}. If the canvas is an instance of {@link FigureCanvas}, use {@link SWTBotGefFigureCanvas#SWTBotGefFigureCanvas(FigureCanvas)} instead.
+     * @param canvas the canvas to wrap
+     * @param lightweightSystem the lightweight system to use 
+     * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
+     */
+    public SWTBotGefFigureCanvas(Canvas canvas, LightweightSystem lightweightSystem) throws WidgetNotFoundException {
+        super(canvas);
+        eventDispatcher = lightweightSystem.getRootFigure().internalGetEventDispatcher();
+    }
+    
+    /**
+     * this method emits mouse events that handle a mouse move and double click to the specified position within the canvas.
+     * @param xPosition the relative x position
+     * @param yPosition the relative y position
+     */
+    public void mouseMoveDoubleClick(final int xPosition, final int yPosition) {
+    UIThreadRunnable.asyncExec(new VoidResult() {
+    		public void run() {
+    	        org.eclipse.swt.events.MouseEvent meMove = wrapMouseEvent(xPosition, yPosition, 0, 0, 0);
+    	        eventDispatcher.dispatchMouseMoved(meMove);
+    	        org.eclipse.swt.events.MouseEvent meDown = wrapMouseEvent(xPosition, yPosition, 1, SWT.None, 1);
+    	        eventDispatcher.dispatchMousePressed(meDown);
+    	        org.eclipse.swt.events.MouseEvent meUp = wrapMouseEvent(xPosition, yPosition, 1 , SWT.BUTTON1, 1);
+    	        eventDispatcher.dispatchMouseReleased(meUp);
+    	        org.eclipse.swt.events.MouseEvent meDown2 = wrapMouseEvent(xPosition, yPosition, 1, SWT.None, 2);
+    	        eventDispatcher.dispatchMousePressed(meDown2);
+    	        org.eclipse.swt.events.MouseEvent meDoubleClick = wrapMouseEvent(xPosition, yPosition, 1, SWT.None, 2);
+    	        meDoubleClick.time = meDown2.time;
+    	        eventDispatcher.dispatchMouseDoubleClicked(meDoubleClick);
+    	        org.eclipse.swt.events.MouseEvent meUp2 = wrapMouseEvent(xPosition, yPosition, 1 , SWT.BUTTON1, 2);
+    	        eventDispatcher.dispatchMouseReleased(meUp2); 
+    		}
+    	});
     }
     
     private org.eclipse.swt.events.MouseEvent wrapMouseEvent(int x, int y, int button, int stateMask, int count) {
         return new org.eclipse.swt.events.MouseEvent(createMouseEvent(x, y, button, stateMask, count));
     }
 
-    public void mouseDrag(int fromXPosition, int fromYPosition, int toXPosition, int toYPosition) {
-        org.eclipse.swt.events.MouseEvent meMove = wrapMouseEvent(fromXPosition, fromYPosition, 0, 0, 0);
-        eventDispatcher.dispatchMouseMoved(meMove);
-        org.eclipse.swt.events.MouseEvent meDown = wrapMouseEvent(fromXPosition, fromYPosition, 1, SWT.BUTTON1, 1);
-        eventDispatcher.dispatchMousePressed(meDown);
-        org.eclipse.swt.events.MouseEvent meMoveTarget = wrapMouseEvent(toXPosition, toYPosition, 1, SWT.BUTTON1, 0);
-        eventDispatcher.dispatchMouseMoved(meMoveTarget);
-        org.eclipse.swt.events.MouseEvent meUp = wrapMouseEvent(toXPosition, toYPosition, 1 , SWT.BUTTON1, 1);
-        eventDispatcher.dispatchMouseReleased(meUp);
+    
+    /**
+     * this method emits mouse events that handle drags within the canvas
+     * 
+     * @param fromXPosition the relative x position within the canvas to drag from
+     * @param fromYPosition the relative y position within the canvas to drag from
+     * @param toXPosition the relative x position within the canvas to drag to
+     * @param toYPosition the relative y position within the canvas to drag to
+     */
+    public void mouseDrag(final int fromXPosition, final int fromYPosition, final int toXPosition, final int toYPosition) {
+        UIThreadRunnable.asyncExec(new VoidResult() {
+            public void run() {
+            	org.eclipse.swt.events.MouseEvent meMove = wrapMouseEvent(fromXPosition, fromYPosition, 0, 0, 0);
+            	eventDispatcher.dispatchMouseMoved(meMove);
+            	org.eclipse.swt.events.MouseEvent meDown = wrapMouseEvent(fromXPosition, fromYPosition, 1, SWT.BUTTON1, 1);
+            	eventDispatcher.dispatchMousePressed(meDown);
+            	org.eclipse.swt.events.MouseEvent meMoveTarget = wrapMouseEvent(toXPosition, toYPosition, 1, SWT.BUTTON1, 0);
+            	eventDispatcher.dispatchMouseMoved(meMoveTarget);
+            	org.eclipse.swt.events.MouseEvent meUp = wrapMouseEvent(toXPosition, toYPosition, 1 , SWT.BUTTON1, 1);
+            	eventDispatcher.dispatchMouseReleased(meUp);
+            }
+        });
     }
     
     public void mouseMoveLeftClick(final int xPosition, final int yPosition) {
-        org.eclipse.swt.events.MouseEvent meMove = wrapMouseEvent(xPosition, yPosition, 0, 0, 0);
-        eventDispatcher.dispatchMouseMoved(meMove);
-        org.eclipse.swt.events.MouseEvent meDown = wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1);
-        eventDispatcher.dispatchMousePressed(meDown);
-        org.eclipse.swt.events.MouseEvent meUp = wrapMouseEvent(xPosition, yPosition, 1 , SWT.BUTTON1, 1);
-        eventDispatcher.dispatchMouseReleased(meUp);
+        UIThreadRunnable.asyncExec(new VoidResult() {
+            public void run() {
+            	org.eclipse.swt.events.MouseEvent meMove = wrapMouseEvent(xPosition, yPosition, 0, 0, 0);
+            	eventDispatcher.dispatchMouseMoved(meMove);
+            	org.eclipse.swt.events.MouseEvent meDown = wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1);
+            	eventDispatcher.dispatchMousePressed(meDown);
+            	org.eclipse.swt.events.MouseEvent meUp = wrapMouseEvent(xPosition, yPosition, 1 , SWT.BUTTON1, 1);
+            	eventDispatcher.dispatchMouseReleased(meUp);
+            }
+        });
     }
     
-    public void mouseEnterLeftClickAndExit(int xPosition, int yPosition) {
-        eventDispatcher.dispatchMouseEntered(wrapMouseEvent(xPosition, yPosition, 0, 0, 0));
-        eventDispatcher.dispatchMouseMoved(wrapMouseEvent(xPosition, yPosition, 0, 0, 0));
-        eventDispatcher.dispatchMousePressed(wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1));
-        eventDispatcher.dispatchMouseReleased(wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1));
-        eventDispatcher.dispatchMouseExited(wrapMouseEvent(xPosition, yPosition, 0, 0, 0));
+    public void mouseEnterLeftClickAndExit(final int xPosition, final int yPosition) {
+		UIThreadRunnable.asyncExec(new VoidResult() {
+			public void run() {
+				eventDispatcher.dispatchMouseEntered(wrapMouseEvent(xPosition, yPosition, 0, 0, 0));
+				eventDispatcher.dispatchMouseMoved(wrapMouseEvent(xPosition, yPosition, 0, 0, 0));
+				eventDispatcher.dispatchMousePressed(wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1));
+				eventDispatcher.dispatchMouseReleased(wrapMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1));
+				eventDispatcher.dispatchMouseExited(wrapMouseEvent(xPosition, yPosition, 0, 0, 0));
+			}
+		});
     }
     
     public void typeText(final Text textControl, final String text) {

@@ -29,7 +29,7 @@ import org.hamcrest.SelfDescribing;
  * @since 2.0
  */
 @SWTBotWidget(clasz = ToolItem.class, preferredName = "toolbarSeparatorButton", style = @Style(name = "SWT.SEPARATOR", value = SWT.SEPARATOR), referenceBy = {
-		ReferenceBy.MNEMONIC, ReferenceBy.TOOLTIP })
+		ReferenceBy.MNEMONIC, ReferenceBy.TOOLTIP }, returnType = SWTBotToolbarButton.class)
 public class SWTBotToolbarSeparatorButton extends SWTBotToolbarButton {
 
 	/**
@@ -62,7 +62,7 @@ public class SWTBotToolbarSeparatorButton extends SWTBotToolbarButton {
 	 */
 	public SWTBotToolbarSeparatorButton click() {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
-		assertEnabled();
+		waitForEnabled();
 		sendNotifications();
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
 		return this;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2010 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,19 +18,24 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
+import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.Result;
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class SWTBotTreeTest extends AbstractSWTTestCase {
+public class SWTBotTreeTest extends AbstractControlExampleTest {
 
 	private SWTBot		bot;
 	private SWTBotTree	tree;
@@ -187,17 +192,43 @@ public class SWTBotTreeTest extends AbstractSWTTestCase {
 	}
 
 	@Test
+	public void clicksOnANodeInAColumn() throws Exception {
+		bot.checkBox("Multiple Columns").select();
+		bot.checkBox("Listen").select();
+		final SWTBotTreeItem node = bot.tree().expandNode("Node 2", true);
+		bot.button("Clear").click();
+		Rectangle columnBounds = getColumnBounds(node, 2);
+		int targetX = columnBounds.x +(columnBounds.width/2);
+		int targetY = columnBounds.y + (columnBounds.height/2);
+		node.click(2);
+		SWTBotText listener = bot.textInGroup("Listeners");
+		assertTextContains("MouseDown [3]: MouseEvent{Tree {}", listener);
+		assertTextContains("Selection [13]: SelectionEvent{Tree {}", listener);
+		assertTextContains("item=TreeItem {Node 2}", listener);
+		assertTextContains("x=" + targetX +" y=" + targetY, listener);
+		assertTextContains("MouseUp [4]: MouseEvent{Tree {}", listener);
+	}
+	
+	private Rectangle getColumnBounds(final SWTBotTreeItem node, final int columnIndex) {
+		 return UIThreadRunnable.syncExec(new Result<Rectangle>() {
+				public Rectangle run() {
+					return node.widget.getBounds(2);
+				}
+			});
+	}
+	
+	@Test
 	public void clicksOnANode() throws Exception {
 		bot.checkBox("Listen").select();
 		SWTBotTreeItem node = bot.tree().expandNode("Node 3").expandNode("Node 3.1");
 		bot.button("Clear").click();
 		node.click();
 		SWTBotText listener = bot.textInGroup("Listeners");
-		assertTextContains("MouseDown [3]: MouseEvent{Tree {}", listener);
-		assertTextContains("Selection [13]: SelectionEvent{Tree {}", listener);
-		assertTextContains("item=TreeItem {Node 3.1}", listener);
-		assertTextContains("MouseUp [4]: MouseEvent{Tree {}", listener);
+		assertEventMatches(listener, "MouseDown [3]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=0 x=104 y=54 count=1}");
+		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=174577490 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=524288 text=null doit=true}");
+		assertEventMatches(listener, "MouseUp [4]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=524288 x=104 y=54 count=1}");
 	}
+	
 
 	@Test
 	public void doubleClicksOnANode() throws Exception {
@@ -215,8 +246,21 @@ public class SWTBotTreeTest extends AbstractSWTTestCase {
 		assertTextContains("MouseDoubleClick [8]: MouseEvent{Tree {} ", listener);
 	}
 
+	@Test
+	public void expandANodePath() throws Exception {
+		SWTBotTree tree = bot.treeInGroup("Tree");
+
+		tree.expandNode("Node 2", "Node 2.2", "Node 2.2.1");
+		assertEquals(7, tree.visibleRowCount());
+	}
+
+	@Test(expected=AssertionFailedException.class)
+	public void expandEmptyPath() throws Exception {
+		bot.tree().expandNode();
+	}
+	
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		bot = new SWTBot();
 		bot.tabItem("Tree").activate();
 		bot.checkBox("Listen").deselect();

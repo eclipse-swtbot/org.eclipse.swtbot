@@ -2,10 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse SWT Example plugin (based on Eclipse's SWT Examples) (incubation)
 Bundle-SymbolicName: org.eclipse.swt.examples;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.0.5.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Export-Package: org.eclipse.swt.examples.addressbook,
+Export-Package: org.eclipse.jface.snippets.viewers,
+ org.eclipse.swt.examples.addressbook,
  org.eclipse.swt.examples.browserexample,
  org.eclipse.swt.examples.clipboard,
  org.eclipse.swt.examples.controlexample,
@@ -19,10 +20,9 @@ Export-Package: org.eclipse.swt.examples.addressbook,
  org.eclipse.swt.examples.layoutexample,
  org.eclipse.swt.examples.paint,
  org.eclipse.swt.examples.texteditor
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.eclipse.core.commands.common,
- org.eclipse.core.runtime,
  org.eclipse.jface.viewers,
  org.eclipse.swt,
  org.eclipse.swt.accessibility,
@@ -35,3 +35,4 @@ Import-Package: org.eclipse.core.commands.common,
  org.eclipse.swt.printing,
  org.eclipse.swt.program,
  org.eclipse.swt.widgets
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0"

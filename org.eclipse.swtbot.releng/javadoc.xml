@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="javadoc">
 
-	<target name="check-package-list">
-		<available file="javadoc/eclipse-package-list/package-list" property="package-list-available" />
-		<available file="javadoc/java-package-list/package-list" property="package-list-available" />
-	</target>
-
-	<target name="fetch-package-list" unless="package-list-available">
-		<delete dir="javadoc" />
-		<mkdir dir="javadoc/eclipse-package-list" />
-		<mkdir dir="javadoc/java-package-list" />
-		<get dest="javadoc/eclipse-package-list/package-list" src="http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/reference/api/package-list" />
-		<get dest="javadoc/java-package-list/package-list" src="http://java.sun.com/j2se/1.5.0/docs/api/package-list" />
-	</target>
-
-	<target name="javadoc" depends="check-package-list,fetch-package-list">
+	<target name="javadoc">
+		<property name="junit.dir" value="junit4_5"/>
+		
 		<delete dir="artifacts/apidocs" />
 		<javadoc destdir="artifacts/apidocs" access="protected" author="true" splitindex="true" use="true" version="true" source="1.5" doctitle="SWTBot API Documentation" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" useexternalfile="true" packagenames="
-
+				org.eclipse.swtbot.swt.finder.junit,
+			
 				org.eclipse.swtbot.eclipse.gef.finder,
 				org.eclipse.swtbot.eclipse.gef.finder.finders,
 				org.eclipse.swtbot.eclipse.gef.finder.matchers,
 				org.eclipse.swtbot.eclipse.gef.finder.widgets,
+
+				org.eclipse.swtbot.forms.finder,
+				org.eclipse.swtbot.forms.finder.widgets,
 
 				org.eclipse.swtbot.eclipse.finder,
 			 	org.eclipse.swtbot.eclipse.finder.exceptions,
@@ -43,9 +36,12 @@
 				org.eclipse.swtbot.swt.finder.widgets">
 			<sourcepath>
 				<dirset dir="../">
+					<include name="org.eclipse.swtbot.forms.finder/src" />
 					<include name="org.eclipse.swtbot.swt.finder/src" />
 					<include name="org.eclipse.swtbot.eclipse.finder/src" />
 					<include name="org.eclipse.swtbot.eclipse.gef.finder/src" />
+					<include name="org.eclipse.swtbot.junit4_x/src" />
+					<include name="org.eclipse.swtbot.junit4_x/${junit.dir}" />
 				</dirset>
 			</sourcepath>
 			<classpath>
@@ -65,8 +61,9 @@
 					<include name="**/org.eclipse.gef*.jar" />
 				</fileset>
 			</classpath>
-			<link href="http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/reference/api" offline="true" packagelistloc="javadoc/eclipse-package-list" />
+			<link href="http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/reference/api" offline="true" packagelistloc="javadoc/eclipse-package-list" />
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" offline="true" packagelistloc="javadoc/java-package-list" />
+			<link href="http://kentbeck.github.com/junit/javadoc/latest/" offline="true" packagelistloc="javadoc/junit-package-list" />
 		</javadoc>
 	</target>
 </project>

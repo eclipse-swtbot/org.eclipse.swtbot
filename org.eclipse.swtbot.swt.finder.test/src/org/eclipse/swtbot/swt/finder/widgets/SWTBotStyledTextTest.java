@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008,2010 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,20 +22,18 @@ import org.eclipse.swt.custom.Bullet;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.GlyphMetrics;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
+import org.eclipse.swtbot.swt.finder.test.AbstractCustomControlExampleTest;
 import org.eclipse.swtbot.swt.finder.utils.Position;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class SWTBotStyledTextTest extends AbstractSWTTestCase {
+public class SWTBotStyledTextTest extends AbstractCustomControlExampleTest {
 
-	private SWTBot				bot;
 	private SWTBotStyledText	styledText;
 
 	@Test
@@ -145,6 +143,17 @@ public class SWTBotStyledTextTest extends AbstractSWTTestCase {
 	}
 
 	@Test
+	public void getsTabs() {
+		assertEquals(4, styledText.getTabs());
+		try {
+			setTabs(15);
+			assertEquals(15, styledText.getTabs());
+		} finally {
+			setTabs(4);
+		}
+	}
+
+	@Test
 	public void getsBullet() throws Exception {
 
 		styledText.setText("hello world\n" + "it is a very good day today\n" + "good bye world\n" + "it was nice to meet you");
@@ -163,9 +172,8 @@ public class SWTBotStyledTextTest extends AbstractSWTTestCase {
 		assertTrue(styledText.hasBulletOnCurrentLine());
 	}
 
-	public void setUp() throws Exception {
-		super.setUp();
-		bot = new SWTBot();
+	@Before
+	public void prepareExample() throws Exception {
 		bot.shell("SWT Custom Controls").activate();
 		bot.tabItem("StyledText").activate();
 		styledText = bot.styledTextInGroup("StyledText");
@@ -173,7 +181,13 @@ public class SWTBotStyledTextTest extends AbstractSWTTestCase {
 		bot.checkBox("Vertical Fill").select();
 	}
 
-	protected Shell getFocusShell() {
-		return customControlShell;
+	private void setTabs(final int tabSize) {
+		display.syncExec(new Runnable() {
+			public void run() {
+				StyledText t = styledText.widget;
+				t.setTabs(tabSize);
+			}
+		});
 	}
+
 }

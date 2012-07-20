@@ -94,4 +94,6 @@ public @interface SWTBotWidget {
 
 	/** Default reference by */
 	ReferenceBy[] defaultReferenceBy() default { ReferenceBy.ID_KEY_VALUE, ReferenceBy.ID_VALUE, ReferenceBy.IN_GROUP, ReferenceBy.NONE };
+
+	Class<?> returnType() default Object.class;
 }

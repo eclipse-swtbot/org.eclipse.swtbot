@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2012 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,14 +16,17 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.SubContributionItem;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotViewMenu;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
+import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.internal.ViewPane;
-import org.eclipse.ui.internal.WorkbenchPartReference;
+import org.eclipse.ui.menus.CommandContributionItem;
 import org.hamcrest.Matcher;
 
 /**
@@ -59,13 +62,14 @@ public class ViewMenuFinder {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotViewMenu>() {
 
 			public List<SWTBotViewMenu> run() {
-				ViewPane viewPane = (ViewPane) ((WorkbenchPartReference) view).getPane();
-				MenuManager mgr = viewPane.getMenuManager();
 				List<SWTBotViewMenu> l = new ArrayList<SWTBotViewMenu>();
-
-				l.addAll(getMenuItemsInternal(mgr.getItems(), matcher, recursive));
-
-				return l;
+                IViewPart viewPart = view.getView(false);
+                if (viewPart == null) {
+                   return l;
+                }
+               IMenuManager viewMenuManager = viewPart.getViewSite().getActionBars().getMenuManager();
+               l.addAll(getMenuItemsInternal(viewMenuManager.getItems(), matcher, recursive));
+               return l;
 			}
 		});
 	}
@@ -84,12 +88,10 @@ public class ViewMenuFinder {
 					MenuManager menuManager = (MenuManager) item;
 
 					l.addAll(getMenuItemsInternal(menuManager.getItems(), matcher, recursive));
-				} else if (item instanceof ActionContributionItem) {
-					// Menus
-					ActionContributionItem actionContribution = (ActionContributionItem) item;
-
-					if (matcher.matches(actionContribution.getAction()))
-						l.add(new SWTBotViewMenu(actionContribution));
+				} else {
+					SWTBotViewMenu menu = getMenuItem(item, matcher);
+					if (menu != null)
+						l.add(menu);
 				}
 			} catch (WidgetNotFoundException e) {
 				log.warn(e);
@@ -97,5 +99,41 @@ public class ViewMenuFinder {
 		}
 
 		return l;
+	}
+	
+	private SWTBotViewMenu  getMenuItem(IContributionItem item, Matcher<?> matcher) {
+		SWTBotViewMenu menu = null;
+		if (item instanceof ActionContributionItem) {
+			ActionContributionItem actionContribution = (ActionContributionItem) item;
+			if (matcher.matches(actionContribution.getAction()))
+				menu = new SWTBotViewMenu(actionContribution);
+		} else if (item instanceof SubContributionItem ) {
+			    menu = getMenuItem(((SubContributionItem) item).getInnerItem(), matcher);
+		} else if (item instanceof CommandContributionItem) {
+			CommandContributionItem cmdContribution = (CommandContributionItem) item;
+			if (matcher.matches(new CommandItemWithTextMatcherWrapper(cmdContribution)))
+				menu = new SWTBotViewMenu(cmdContribution.getCommand());
+		}
+		return menu;
+	}
+	
+	/* This class should be public at it will be accessed outside of its parent class*/
+	public static class CommandItemWithTextMatcherWrapper {
+		
+		private CommandContributionItem wrappedCommandItem;
+		
+		public CommandItemWithTextMatcherWrapper(CommandContributionItem item) {
+			this.wrappedCommandItem = item;
+		}
+		
+		/*
+		 * This method will be called reflectively by a matcher.
+		 */
+		@SuppressWarnings("unused")
+		public String getText() throws Exception {
+				/* label attribute of command contribution item is not available */
+				String label = (String) SWTUtils.getAttribute(wrappedCommandItem, "label"); ////$NON-NLS-1$
+				return label != null ? label:""; ////$NON-NLS-1$
+		}
 	}
 }

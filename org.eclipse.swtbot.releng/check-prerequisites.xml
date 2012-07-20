@@ -1,9 +1,5 @@
 <project>
 
-	<!-- load up the properties for cruise agents based on their hostnames, if available -->
-	<exec executable="hostname" outputproperty="hostname" />
-	<property file="host-conf/build.${hostname}.properties" />
-
 	<import file="download-dependencies.xml" />
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -65,61 +61,26 @@
 	</target>
 
 	<target name="check-conditions" depends="download-dependencies, check-windows-preconditions, check-other-preconditions">
-		<check.executable executable="svn" />
+		<check.executable executable="git" />
 		<available file="build.developer.properties" property="build.developer.properties.available" />
 		<available file="host-conf/build.${hostname}.properties" property="build.developer.properties.available" />
 		<fail unless="build.developer.properties.available">Could not find the file "build.developer.properties", or host-conf/build.${hostname}.properties. Please create the file using "build.developer.properties.sample" as the starting point.</fail>
 	</target>
 
-	<target name="guess-junit-version">
-		<echo>Guessing plugin version of org.junit4.</echo>
-		<for param="junit-version-file">
-			<dirset dir="../eclipse/plugins/" includes="org.junit4_*" />
-			<sequential>
-				<propertyregex property="junit4-build-version" input="@{junit-version-file}" regexp="org.junit4_(.*)" select="\1" />
-			</sequential>
-		</for>
-		<condition property="isJunit4.5">
-			<contains string="${junit4-build-version}" substring="4.5" />
-		</condition>
-		<fail unless="junit4-build-version" message="Could not find org.junit4 in target eclipse" />
-		<echo>Plugin version of org.junit is "${junit4-build-version}"</echo>
-		<echo>isJunit4.5: ${isJunit4.5}</echo>
-	</target>
+	<target name="initialize-environment" depends="guess-pde-build-version, create-build-properties-from-template" />
 
-	<target name="initialize-environment" depends="guess-junit-version, guess-pde-build-version, create-build-properties-from-template" />
+	<delete file=".git.properties" />
+	<touch file=".git.properties" />
 
-	<delete file=".git.svn.properties" />
-	<touch file=".git.svn.properties" />
-	<!-- guess svn revision -->
-	<exec executable="git" output=".git.svn.properties" dir=".." failifexecutionfails="false" failonerror="false">
-		<arg line="svn info" />
+	<!-- guess git revision -->
+	<exec executable="git" output=".git.properties" dir=".." failifexecutionfails="false" failonerror="false">
+		<arg line="log --pretty=format:'git.version=%h' -1" />
 	</exec>
+  <tstamp prefix="now"><format timezone="utc" pattern="yyyyMMdd_hhmm" property="now"/></tstamp>
 
-	<!-- prefix all properties with "svn." and replace spaces to make the keys unique -->
-	<loadproperties srcfile=".git.svn.properties">
-		<filterchain>
-			<prefixlines prefix="svn." />
-			<deletecharacters chars="\ " />
-		</filterchain>
-	</loadproperties>
+  <replace file=".git.properties" token="git.version=" value="git.version=${now.now}-"/>
+	<loadproperties srcfile=".git.properties" />
 
-	<delete file=".svn.properties" />
-	<touch file=".svn.properties" />
-	<!-- guess svn revision -->
-	<exec executable="svn" output=".svn.properties" dir=".." failifexecutionfails="false" failonerror="false">
-		<arg value="info" />
-	</exec>
-
-	<!-- prefix all properties with "svn." and replace spaces to make the keys unique -->
-	<loadproperties srcfile=".svn.properties">
-		<filterchain>
-			<prefixlines prefix="svn." />
-			<deletecharacters chars="\ " />
-		</filterchain>
-	</loadproperties>
-
-	<property name="svn.version" value="${svn.LastChangedRev}" />
-	<fail unless="svn.version" message="could not determine svn version number" />
+	<fail unless="git.version" message="could not determine git version number" />
 
 </project>

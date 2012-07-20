@@ -23,8 +23,8 @@ import org.eclipse.swtbot.swt.finder.utils.StringUtils;
  */
 public enum ReferenceBy {
 	TEXT(100) {
-		protected boolean isCompatibleWith(ReferenceBy other) {
-			return other != LABEL && other != TOOLTIP && other != MNEMONIC;
+		public boolean isCompatibleWith(ReferenceBy other) {
+			return other != LABEL && other != TOOLTIP && other != MNEMONIC && other != MESSAGE;
 		}
 
 		public String matcherMethod() {
@@ -36,8 +36,8 @@ public enum ReferenceBy {
 		}
 	},
 	MNEMONIC(100) {
-		protected boolean isCompatibleWith(ReferenceBy other) {
-			return other != LABEL && other != TOOLTIP && other != TEXT;
+		public boolean isCompatibleWith(ReferenceBy other) {
+			return other != LABEL && other != TOOLTIP && other != TEXT && other != MESSAGE;
 		}
 
 		public String matcherMethod() {
@@ -53,8 +53,8 @@ public enum ReferenceBy {
 		}
 	},
 	LABEL(100) {
-		protected boolean isCompatibleWith(ReferenceBy other) {
-			return other != TEXT && other != TOOLTIP && other != MNEMONIC;
+		public boolean isCompatibleWith(ReferenceBy other) {
+			return other != TEXT && other != TOOLTIP && other != MNEMONIC && other != MESSAGE;
 		}
 
 		public String matcherMethod() {
@@ -62,16 +62,25 @@ public enum ReferenceBy {
 		}
 	},
 	TOOLTIP(90) {
-		protected boolean isCompatibleWith(ReferenceBy other) {
-			return other != TEXT && other != LABEL && other != MNEMONIC;
+		public boolean isCompatibleWith(ReferenceBy other) {
+			return other != TEXT && other != LABEL && other != MNEMONIC  && other != MESSAGE;
 		}
 
 		public String matcherMethod() {
 			return "withTooltip(" + argumentName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	},
+	MESSAGE(90) {
+		public boolean isCompatibleWith(ReferenceBy other) {
+			return other != TEXT && other != LABEL && other != MNEMONIC && other != TOOLTIP && other != IN_GROUP;
+		}
+
+		public String matcherMethod() {
+			return "withMessage(" + argumentName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	},
 	ID_KEY_VALUE(100) {
-		protected boolean isCompatibleWith(ReferenceBy other) {
+		public boolean isCompatibleWith(ReferenceBy other) {
 			return false;
 		}
 
@@ -96,7 +105,7 @@ public enum ReferenceBy {
 		}
 	},
 	ID_VALUE(100) {
-		protected boolean isCompatibleWith(ReferenceBy other) {
+		public boolean isCompatibleWith(ReferenceBy other) {
 			return false;
 		}
 
@@ -121,7 +130,7 @@ public enum ReferenceBy {
 		}
 	},
 	NONE(100) {
-		protected boolean isCompatibleWith(ReferenceBy other) {
+		public boolean isCompatibleWith(ReferenceBy other) {
 			return false;
 		}
 
@@ -156,7 +165,7 @@ public enum ReferenceBy {
 		this.priority = priority;
 	}
 
-	protected boolean isCompatibleWith(ReferenceBy other) {
+	public boolean isCompatibleWith(ReferenceBy other) {
 		return true;
 	}
 

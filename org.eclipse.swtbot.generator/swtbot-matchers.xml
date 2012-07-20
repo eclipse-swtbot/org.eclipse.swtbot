@@ -5,6 +5,7 @@
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.WithMnemonic" />
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.WithRegex" />
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.WithText" />
+	<factory class="org.eclipse.swtbot.swt.finder.matchers.WithMessage" />
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.WithStyle" />
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.WithTooltip" />
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.WithId" />
@@ -13,4 +14,5 @@
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.WidgetOfType" />
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.InUIThread" />
 	<factory class="org.eclipse.swtbot.swt.finder.matchers.AllOf" />
+	<factory class="org.eclipse.swtbot.swt.finder.matchers.AnyOf" />
 </matchers>

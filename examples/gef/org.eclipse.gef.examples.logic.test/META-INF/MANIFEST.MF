@@ -2,13 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: GEF logic SWTBot Test
 Bundle-SymbolicName: org.eclipse.gef.examples.logic.test
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.0.5.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.gef.examples.logic,
  org.eclipse.swtbot.eclipse.gef.finder,
  org.eclipse.swtbot.eclipse.finder,
  org.eclipse.swtbot.eclipse.core,
  org.eclipse.swtbot.swt.finder,
+ org.eclipse.swtbot.junit4_x,
  org.junit4,
  org.eclipse.swt,
  org.eclipse.ui,
@@ -16,4 +17,5 @@ Require-Bundle: org.eclipse.gef.examples.logic,
  org.hamcrest,
  org.eclipse.gef,
  org.eclipse.core.runtime,
- org.apache.log4j
+ org.apache.log4j,
+ org.eclipse.core.resources

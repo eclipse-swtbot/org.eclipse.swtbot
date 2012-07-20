@@ -20,17 +20,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.swt.widgets.DateTime;
-import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class SWTBotDateTimeTest extends AbstractSWTTestCase {
+public class SWTBotDateTimeTest extends AbstractControlExampleTest {
 
-	private SWTBot			bot;
 	private SWTBotDateTime	dateTime;
 
 	@Test
@@ -51,6 +50,39 @@ public class SWTBotDateTimeTest extends AbstractSWTTestCase {
 	}
 
 	@Test
+	public void shouldHandleInvalidDates() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(0);
+		calendar.set(2011, 1, 3, 0, 0, 0);
+		Date expected = calendar.getTime();
+		assertFalse(expected.equals(dateTime.getDate()));
+		dateTime.setDate(expected);
+
+		calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(0);
+		calendar.set(2010, 11, 31, 0, 0, 0);
+		dateTime.setDate(calendar.getTime());
+		assertEquals(calendar.getTime(), dateTime.getDate());
+	}
+
+	@Test
+	public void bug347824() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(0);
+		calendar.set(2011, Calendar.MAY, 31, 0, 0, 0);
+		Date expected = calendar.getTime();
+		assertFalse(expected.equals(dateTime.getDate()));
+		dateTime.setDate(expected);
+		assertEquals(expected, dateTime.getDate());
+		
+		calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(0);
+		calendar.set(2010, Calendar.SEPTEMBER, 28, 0, 0, 0);
+		dateTime.setDate(calendar.getTime());
+		assertEquals(calendar.getTime(), dateTime.getDate());
+	}
+	
+	@Test
 	public void sendsNotification() throws Exception {
 		bot.checkBox("Listen").click();
 		SWTBotDateTime dateTime = bot.dateTimeInGroup("DateTime");
@@ -64,9 +96,8 @@ public class SWTBotDateTimeTest extends AbstractSWTTestCase {
 		assertThat(text, containsString(" data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}"));
 	}
 
-	public void setUp() throws Exception {
-		super.setUp();
-		bot = new SWTBot();
+	@Before
+	public void prepareExample() throws Exception {
 		bot.tabItem("DateTime").activate();
 		dateTime = bot.dateTimeInGroup("DateTime");
 	}

@@ -13,26 +13,18 @@ package org.eclipse.swtbot.swt.finder.matchers;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withLabel;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.swt.finder.finders.AbstractSWTTestCase;
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.junit.Test;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-public class TextLabelMatcherTest extends AbstractSWTTestCase {
+public class TextLabelMatcherTest extends AbstractControlExampleTest{
 
 	@Test
 	public void getsToString() throws Exception {
 		assertEquals("with label (with mnemonic 'SomeLabel')", withLabel("SomeLabel").toString());
 	}
 
-	public void setUp() throws Exception {
-		super.setUp();
-	}
-
-	protected Shell getFocusShell() {
-		return clipboardExampleShell;
-	}
 }

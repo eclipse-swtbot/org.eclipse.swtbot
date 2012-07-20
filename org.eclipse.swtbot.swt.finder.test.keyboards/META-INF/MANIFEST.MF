@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dummy keyboards layouts for Testing
+Bundle-SymbolicName: org.eclipse.swtbot.swt.finder.test.keyboards
+Bundle-Version: 2.0.5.qualifier
+Bundle-Vendor: Eclipse.org
+Fragment-Host: org.eclipse.swtbot.swt.finder;bundle-version="2.0.5"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

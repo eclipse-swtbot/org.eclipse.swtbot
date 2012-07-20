@@ -10,7 +10,7 @@
 	<property name="build.instrumentation.reports.xml.dir" value="${results.dir}/${plugin-name}/coverage/xml" />
 
 	<path id="cobertura.classpath">
-		<fileset dir="${build.base}/../externals/libs/cobertura-1.9">
+		<fileset dir="${build.base}/../externals/libs/cobertura-1.9.4.1">
 			<include name="cobertura.jar" />
 			<include name="lib/**/*.jar" />
 		</fileset>
@@ -31,6 +31,8 @@
 			<include name="org.eclipse.jface_*.jar" />
 			<include name="org.eclipse.core.commands_*.jar" />
 			<include name="org.junit4_*/junit*.jar" />
+			<!-- org.junit4_4.x.y was renamed to org.junit_4.x.y -->
+			<include name="org.junit_4*/junit*.jar" />
 			<include name="org.eclipse.swtbot*" />
 			<include name="org.apache.log4j_1.2.*.jar" />
 			<include name="org.hamcrest*.jar" />

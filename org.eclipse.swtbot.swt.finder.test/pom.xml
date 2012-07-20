@@ -1,0 +1,44 @@
+<!-- Copyright (c) 2011 PetalsLink. All rights reserved. This program and 
+	the accompanying materials are made available under the terms of the Eclipse 
+	Public License v1.0 which accompanies this distribution, and is available 
+	at http://www.eclipse.org/legal/epl-v10.html Authors: * Mickael Istria (PetalsLink) -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.eclipse.swtbot.plugins</groupId>
+	<artifactId>org.eclipse.swtbot.swt.finder.test</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
+	<parent>
+		<groupId>org.eclipse.swtbot</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.0.5-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
+					<argLine>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=128M</argLine>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>true</useUIThread>
+					<product>org.eclipse.sdk.ide</product>
+					<application>org.eclipse.ui.ide.workbench</application>
+					<dependencies>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.eclipse.swtbot.swt.finder.test.keyboards</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+					</dependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

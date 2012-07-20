@@ -12,6 +12,7 @@ package org.eclipse.swtbot.eclipse.finder.widgets.helpers;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 
 /**
@@ -25,7 +26,18 @@ public class NewJavaProject {
 	private SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
 
 	public void createProject(String projectName) throws Exception {
+		try {
+			SWTBotMenu windowMenu = bot.menu("Window");
+			SWTBotMenu perspectiveMenu = windowMenu.menu("Open Perspective");
+			SWTBotMenu javaPerspectiveMenu = perspectiveMenu.menu("Java");
+			if (javaPerspectiveMenu.isVisible() && javaPerspectiveMenu.isEnabled()) { 
+				javaPerspectiveMenu.click();
+			}
+		} catch (Exception ex) {
+			// Java menu not available: already selected
+		}
 		bot.menu("File").menu("New").menu("Java Project").click();
+	
 
 		SWTBotShell shell = bot.shell("New Java Project");
 		shell.activate();

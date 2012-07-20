@@ -26,7 +26,7 @@ import org.hamcrest.SelfDescribing;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-class MockKeyboardStrategy extends AbstractKeyboardStrategy {
+public class MockKeyboardStrategy extends AbstractKeyboardStrategy {
 
 	private MyWidget	widget;
 

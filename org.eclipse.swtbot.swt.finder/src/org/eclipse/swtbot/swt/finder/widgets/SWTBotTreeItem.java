@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2010 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,10 +17,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
@@ -36,6 +38,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.eclipse.swtbot.swt.finder.utils.TextDescription;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
+import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -45,9 +48,9 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
-//	private static final int	expandKey	= SWT.getPlatform().equals("gtk") ? SWT.KEYPAD_ADD : SWT.ARROW_RIGHT;
-//	private static final int	collapseKey	= SWT.getPlatform().equals("gtk") ? SWT.KEYPAD_SUBTRACT : SWT.ARROW_LEFT;
-	private Tree				tree;
+	// private static final int expandKey = SWT.getPlatform().equals("gtk") ? SWT.KEYPAD_ADD : SWT.ARROW_RIGHT;
+	// private static final int collapseKey = SWT.getPlatform().equals("gtk") ? SWT.KEYPAD_SUBTRACT : SWT.ARROW_LEFT;
+	private Tree	tree;
 
 	/**
 	 * @param treeItem the widget.
@@ -83,7 +86,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			return getText();
 		}
 		int columnCount = new SWTBotTree(tree).columnCount();
-		Assert.isLegal(column < columnCount, java.text.MessageFormat.format("The column index ({0}) is more than the number of column({1}) in the tree.", column, columnCount)); //$NON-NLS-1$
+		Assert.isLegal(column < columnCount, java.text.MessageFormat.format(
+				"The column index ({0}) is more than the number of column({1}) in the tree.", column, columnCount)); //$NON-NLS-1$
 		return syncExec(new StringResult() {
 			public String run() {
 				return widget.getText(column);
@@ -133,7 +137,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem getNode(final int row) {
 		int rowCount = rowCount();
-		Assert.isLegal(row < rowCount, java.text.MessageFormat.format("The row number ({0}) is more than the number of rows({1}) in the tree.", row, rowCount)); //$NON-NLS-1$
+		Assert.isLegal(row < rowCount,
+				java.text.MessageFormat.format("The row number ({0}) is more than the number of rows({1}) in the tree.", row, rowCount)); //$NON-NLS-1$
 		return syncExec(new Result<SWTBotTreeItem>() {
 			public SWTBotTreeItem run() {
 				return new SWTBotTreeItem(widget.getItem(row));
@@ -161,6 +166,12 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem expand() {
 		assertEnabled();
+
+		if (isExpanded()) {
+			log.warn(MessageFormat.format("Tree item {0} is already expanded. Won''t expand it again.", this));
+			return this;
+		}
+
 		preExpandNotify();
 		asyncExec(new VoidResult() {
 			public void run() {
@@ -173,11 +184,17 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 	/**
 	 * Collapses the tree item to simulate click the plus sign.
-	 *
+	 * 
 	 * @return the tree item, after collapsing it.
 	 */
 	public SWTBotTreeItem collapse() {
 		assertEnabled();
+
+		if (!isExpanded()) {
+			log.warn(MessageFormat.format("Tree item {0} is already collapsed. Won''t collapse it again.", this));
+			return this;
+		}
+
 		preCollapseNotify();
 		asyncExec(new VoidResult() {
 			public void run() {
@@ -250,19 +267,26 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
-	 * Expands the node matching the given node text.
+	 * Expands the node matching the given node texts.
 	 * 
-	 * @param nodeText the text on the node.
-	 * @return the node that was expanded or <code>null</code> if not match exists.
+	 * @param nodes the text on the node.
+	 * @return the last tree node that was expanded or <code>null</code> if none exists.
+	 * @throws WidgetNotFoundException if any of the nodes on the path do not exist
 	 */
-	public SWTBotTreeItem expandNode(final String nodeText) {
+	public SWTBotTreeItem expandNode(final String... nodes) {
+		Assert.isNotEmpty((Object[]) nodes);
 		assertEnabled();
-		return getNode(nodeText).expand();
+
+		SWTBotTreeItem item = this;
+		for (String node : nodes)
+			item = item.getNode(node).expand();
+
+		return item;
 	}
 
 	/**
 	 * Collapses the node matching the given node text.
-	 *
+	 * 
 	 * @param nodeText the text on the node.
 	 * @return the node that was collapsed or <code>null</code> if not match exists.
 	 */
@@ -270,28 +294,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		assertEnabled();
 		return getNode(nodeText).collapse();
 	}
-
-	// /**
-	// * Expand the tree item using the right arrow key.
-	// *
-	// * @return the tree item, after expanding it.
-	// */
-	// SWTBotTreeItem expandWithKeys() {
-	// SWTBotTree parent = getParent();
-	// parent.keyPress(expandKey, true);
-	// return this;
-	// }
-
-	// /**
-	// * Collapse the tree item using the left arrow key.
-	// *
-	// * @return the tree item, after collapsing it.
-	// */
-	// SWTBotTreeItem collapseWithKeys() {
-	// SWTBotTree parent = getParent();
-	// parent.keyPress(collapseKey, true);
-	// return this;
-	// }
 
 	/**
 	 * Gets the node matching the given node text and index.
@@ -303,7 +305,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem getNode(final String nodeText, final int index) {
 		List<SWTBotTreeItem> nodes = getNodes(nodeText);
-		Assert.isTrue(index < nodes.size(), MessageFormat.format("The index ({0}) was more than the number of nodes ({1}) in the tree.", index, nodes.size()));
+		Assert.isTrue(index < nodes.size(),
+				MessageFormat.format("The index ({0}) was more than the number of nodes ({1}) in the tree.", index, nodes.size()));
 		return nodes.get(index);
 	}
 
@@ -374,9 +377,9 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseMove);
 		notifyTree(SWT.Activate);
 		notifyTree(SWT.FocusIn);
-		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
-		notifyTree(SWT.MouseUp);
-		notifyTree(SWT.Selection, createEvent());
+		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		notifyTree(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
+		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 		notifyTree(SWT.MouseHover);
 		notifyTree(SWT.MouseMove);
 		notifyTree(SWT.MouseExit);
@@ -393,12 +396,21 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem click() {
 		assertEnabled();
-		Rectangle cellBounds = syncExec(new Result<Rectangle>() {
-			public Rectangle run() {
-				return widget.getBounds();
-			}
-		});
-		clickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
+		Point center = getCenter(getCellBounds());
+		clickXY(center.x, center.y);
+		return this;
+	}
+
+	/**
+	 * Clicks on this node at the given column index.
+	 * 
+	 * @return the current node.
+	 * @since 2.0
+	 */
+	public SWTBotTreeItem click(final int column) {
+		assertEnabled();
+		Point center = getCenter(getCellBounds(column));
+		clickXY(center.x, center.y);
 		return this;
 	}
 
@@ -410,19 +422,60 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem doubleClick() {
 		assertEnabled();
+		
+		final Point center = getCenter(getCellBounds());
+		
 		asyncExec(new VoidResult() {
 			public void run() {
 				tree.setSelection(widget);
 			}
 		});
-		notifyTree(SWT.Selection);
-		notifyTree(SWT.MouseDown);
-		notifyTree(SWT.MouseUp);
-		notifyTree(SWT.MouseDown);
-		notifyTree(SWT.MouseDoubleClick);
+		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
+		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
+		notifyTree(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
+		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
+		notifyTree(SWT.MouseDoubleClick, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
+
 		notifyTree(SWT.DefaultSelection);
 		notifyTree(SWT.MouseUp);
 		return this;
+	}
+
+	/**
+	 * Get the cell bounds. widget should be enabled before calling this method.
+	 * 
+	 * @param column the tree column index
+	 * @return the cell bounds
+	 */
+	private Rectangle getCellBounds(final int column) {
+		return syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return widget.getBounds(column);
+			}
+		});
+	}
+
+	/**
+	 * Get the cell bounds. widget should be enabled before calling this method.
+	 * @return the cell bounds
+	 */
+	private Rectangle getCellBounds() {
+		return 	 syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return widget.getBounds();
+			}
+		});
+	}
+
+
+	/**
+	 * Get the center of the given rectangle.
+	 * 
+	 * @param bounds the rectangle
+	 * @return the center.
+	 */
+	private Point getCenter(Rectangle bounds) {
+		return new Point(bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));
 	}
 
 	/**
@@ -439,12 +492,11 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 		syncExec(new VoidResult() {
 			public void run() {
-				TreeItem[] treeItems = widget.getItems();
 				ArrayList<TreeItem> selection = new ArrayList<TreeItem>();
 
-				for (TreeItem treeItem : treeItems) {
-					if (nodes.contains(treeItem.getText()))
-						selection.add(treeItem);
+				for (String item : items) {
+					SWTBotTreeItem si = getTreeItem(item);
+					selection.add(si.widget);
 				}
 				tree.setFocus();
 				tree.setSelection(selection.toArray(new TreeItem[] {}));
@@ -493,8 +545,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 	@Override
 	public SWTBotMenu contextMenu(String text) {
-		new SWTBotTree(tree).assertEnabled();
+		new SWTBotTree(tree).waitForEnabled();
 		select();
+		notifyTree(SWT.MouseDown, createMouseEvent(0, 0, 3, 0, 1));
+		notifyTree(SWT.MouseUp, createMouseEvent(0, 0, 3, 0, 1));
 		notifyTree(SWT.MenuDetect);
 		return super.contextMenu(tree, text);
 	}
@@ -599,72 +653,21 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			}
 		});
 	}
-	
-	 /**
-     * Gets if the item is expanded.
-     * 
-     * @return <code>true</code> if the item is expanded,
-     *         <code>false</code> otherwise.
-     * @since 2.0
-     */
-    public boolean isExpanded() {
-        assertEnabled();
-        return UIThreadRunnable.syncExec(new BoolResult() {
-            public Boolean run() {
-                return widget.getExpanded();
-            }
-        });
-    }
 
-	// protected Rectangle absoluteLocation() {
-	// return syncExec(new Result<Rectangle>() {
-	// public Rectangle run() {
-	// return display.map(widget.getParent(), null, getBounds());
-	// }
-	// });
-	// }
-	//
-	// /**
-	// * Click on the center of the widget.
-	// *
-	// * @param post Whether or not {@link Display#post} should be used
-	// */
-	// private SWTBotTreeItem click(final boolean post) {
-	// if (post) {
-	// Rectangle location = absoluteLocation();
-	// click(location.x, location.y, true);
-	// } else
-	// click();
-	// return this;
-	// }
-	//
-	// /**
-	// * Right click on the center of the widget.
-	// *
-	// * @param post Whether or not {@link Display#post} should be used
-	// */
-	// private SWTBotTreeItem rightClick(final boolean post) {
-	// if (post) {
-	// Rectangle location = absoluteLocation();
-	// rightClick(location.x, location.y, true);
-	// } else
-	// rightClick();
-	// return this;
-	// }
-	//
-	// /**
-	// * Moves the cursor to the center of the widget
-	// */
-	// private void moveMouseToWidget() {
-	// syncExec(new VoidResult() {
-	// public void run() {
-	// Rectangle bounds = getBounds();
-	// Point point = new Point(bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));
-	// Point pt = display.map(widget.getParent(), null, point.x, point.y);
-	// moveMouse(pt.x, pt.y);
-	// }
-	// });
-	// }
+	/**
+	 * Gets if the item is expanded.
+	 * 
+	 * @return <code>true</code> if the item is expanded, <code>false</code> otherwise.
+	 * @since 2.0
+	 */
+	public boolean isExpanded() {
+		assertEnabled();
+		return UIThreadRunnable.syncExec(new BoolResult() {
+			public Boolean run() {
+				return widget.getExpanded();
+			}
+		});
+	}
 
 	/**
 	 * Gets all the items in this tree node.
@@ -675,12 +678,66 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		return syncExec(new ArrayResult<SWTBotTreeItem>() {
 			public SWTBotTreeItem[] run() {
 				TreeItem[] items = widget.getItems();
-				SWTBotTreeItem[] children = new SWTBotTreeItem[items.length];
+				List<SWTBotTreeItem> children = new ArrayList<SWTBotTreeItem>(); 
 				for (int i = 0; i < items.length; i++) {
-					children[i] = new SWTBotTreeItem(items[i]);
+					if (!items[i].isDisposed()) {
+						children.add(new SWTBotTreeItem(items[i]));
+					}
 				}
-				return children;
+				return children.toArray(new SWTBotTreeItem[children.size()]);
 			}
 		});
 	}
+
+	/**
+	 * Gets the tree item matching the given name.
+	 * 
+	 * @param nodeText the text on the node.
+	 * @return the tree item with the specified text.
+	 * @throws WidgetNotFoundException if the node was not found.
+	 */
+	private SWTBotTreeItem getTreeItem(final String nodeText) throws WidgetNotFoundException {
+		try {
+			new SWTBot().waitUntil(new DefaultCondition() {
+				public String getFailureMessage() {
+					return "Could not find node with text " + nodeText; //$NON-NLS-1$
+				}
+
+				public boolean test() throws Exception {
+					return getItem(nodeText) != null;
+				}
+			});
+		} catch (TimeoutException e) {
+			throw new WidgetNotFoundException("Timed out waiting for tree item " + nodeText, e); //$NON-NLS-1$
+		}
+		return new SWTBotTreeItem(getItem(nodeText));
+	}
+
+	/**
+	 * Gets the item matching the given name.
+	 * 
+	 * @param nodeText the text on the node.
+	 * @return the tree item with the specified text.
+	 */
+	private TreeItem getItem(final String nodeText) {
+		return syncExec(new WidgetResult<TreeItem>() {
+			public TreeItem run() {
+				TreeItem[] items = widget.getItems();
+				for (TreeItem item : items) {
+					if (item.getText().equals(nodeText))
+						return item;
+				}
+				return null;
+			}
+		});
+	}
+
+	public boolean isEnabled() {
+		return syncExec(new BoolResult() {
+			public Boolean run() {
+				return tree.isEnabled();
+			}
+		});
+	}
+
 }

@@ -700,7 +700,24 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 					return styledText.widget.getShell();
 				}
 			});
-			SWTBotShell shell = bot.shell("", mainWindow); //$NON-NLS-1$
+			
+			final List<Shell> shells = bot.shells("", mainWindow);
+			Shell widgetShell = syncExec(new WidgetResult<Shell>() {
+				public Shell run() {
+					for(int j=0; j<shells.size(); j++) {
+						Shell s = shells.get(j);
+						Control[] children = s.getChildren();
+						for (int i = 0; i < children.length; i++) {
+							//Select shell which has content assist table
+							if(children[i] instanceof Table) {
+								return s;
+							}
+						}
+					}
+					return shells.get(0);
+				}
+			});
+			SWTBotShell shell = new SWTBotShell(widgetShell);
 			shell.activate();
 			log.debug("Activated quickfix shell."); //$NON-NLS-1$
 			return shell;

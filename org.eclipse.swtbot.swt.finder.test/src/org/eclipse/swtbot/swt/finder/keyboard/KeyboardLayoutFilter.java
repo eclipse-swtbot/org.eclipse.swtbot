@@ -14,8 +14,8 @@ import java.awt.im.InputContext;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.eclipse.swtbot.swt.finder.utils.FileUtils;
 

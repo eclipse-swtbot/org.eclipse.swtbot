@@ -35,7 +35,7 @@ public class SWTBotToolbarRadioButtonTest extends AbstractControlExampleTest {
 	public void clicksRadioButton() throws Exception {
 		SWTBotToolbarRadioButton button = bot.toolbarRadioButton("Radio");
 		button.click();
-		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Radio} time=-941780677 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}");
+		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Radio} time=-941780677 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, button.widget) + " text=null doit=true}");
 	}
 
 	@Test

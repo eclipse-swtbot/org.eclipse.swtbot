@@ -96,12 +96,13 @@ public class SWTBot2Test extends AbstractControlExampleTest {
 	public void tabKeyTraversalSetsFocusOnTheNextControlAndSendsTraverseEvents() throws Exception {
 		bot.checkBox("Listen").select();
 		bot.button("Clear").click();
-		bot.button("One").setFocus();
-		assertTrue(bot.button("One").isActive());
-		bot.button("One").traverse(Traverse.TAB_NEXT);
+		SWTBotButton buttonOne = bot.button("One");
+		buttonOne.setFocus();
+		assertTrue(buttonOne.isActive());
+		buttonOne.traverse(Traverse.TAB_NEXT);
 
 		SWTBotText textInGroup = bot.textInGroup("Listeners");
-		assertEventMatches(textInGroup, "Traverse [31]: TraverseEvent{Button {One} time=60232779 data=null character='\\0' keyCode=0 stateMask=0 doit=true detail=16}");
+		assertEventMatches(textInGroup, "Traverse [31]: TraverseEvent{Button {One} time=60232779 data=null character=" + toCharacter('\0', buttonOne.widget) + " keyCode=" + toKeyCode(0, buttonOne.widget) + " stateMask=" + toStateMask(0, buttonOne.widget) + " doit=true detail=16}");
 		assertEventMatches(textInGroup, "FocusOut [16]: FocusEvent{Button {One} time=60232779 data=null}");
 		assertEventMatches(textInGroup, "FocusIn [15]: FocusEvent{Button {Two} time=60232779 data=null}");
 		assertTrue(bot.button("Two").isActive());

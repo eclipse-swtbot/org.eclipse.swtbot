@@ -93,7 +93,7 @@ public class SWTBotDateTimeTest extends AbstractControlExampleTest {
 		String expectedWindows = "Selection [13]: SelectionEvent{DateTime {DateTime";
 		String text = bot.textInGroup("Listeners").getText();
 		assertThat(text, anyOf(containsString(expectedLinux), containsString(expectedWindows)));
-		assertThat(text, containsString(" data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}"));
+		assertThat(text, containsString(" data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, dateTime.widget) +" text=null doit=true}"));
 	}
 
 	@Before

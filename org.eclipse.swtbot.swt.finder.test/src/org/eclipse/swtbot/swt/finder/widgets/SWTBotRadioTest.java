@@ -48,24 +48,26 @@ public class SWTBotRadioTest extends AbstractControlExampleTest {
 		bot.radio("Three").click();
 		listeners.setText("");
 
-		bot.radio("One").click();
+		SWTBotRadio radio = bot.radio("One");
+		radio.click();
 		assertEventMatches(listeners, "Activate [26]: ShellEvent{Button {One} time=557343275 data=null doit=true}");
-		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Button {One} time=557343275 data=null button=1 stateMask=0 x=31 y=13 count=1}");
-		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Button {One} time=557343275 data=null button=1 stateMask=524288 x=31 y=12 count=1}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Button {One} time=557343275 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Button {One} time=557343275 data=null button=1 stateMask=" + toStateMask(0, radio.widget) + " x=31 y=13 count=1}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Button {One} time=557343275 data=null button=1 stateMask=" + toStateMask(524288, radio.widget) + " x=31 y=12 count=1}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Button {One} time=557343275 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, radio.widget) + " text=null doit=true}");
 	}
 
 	@Test
 	public void clickingOneRadioDeselectsOthers() throws Exception {
 		bot.radio("One").click();
 		listeners.setText("");
-		bot.radio("Two").click();
+		SWTBotRadio radio = bot.radio("Two");
+		radio.click();
 		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Button {One} time=557347515 data=null doit=true}");
 		assertEventMatches(listeners, "Activate [26]: ShellEvent{Button {Two} time=557347515 data=null doit=true}");
-		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Button {Two} time=557347515 data=null button=1 stateMask=0 x=16 y=13 count=1}");
-		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Button {Two} time=557347515 data=null button=1 stateMask=524288 x=16 y=13 count=1}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Button {One} time=557347515 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Button {Two} time=557347515 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Button {Two} time=557347515 data=null button=1 stateMask=" + toStateMask(0, radio.widget) + " x=16 y=13 count=1}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Button {Two} time=557347515 data=null button=1 stateMask=" + toStateMask(524288, radio.widget) + " x=16 y=13 count=1}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Button {One} time=557347515 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, radio.widget) + " text=null doit=true}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Button {Two} time=557347515 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, radio.widget) + " text=null doit=true}");
 	}
 
 	@Test

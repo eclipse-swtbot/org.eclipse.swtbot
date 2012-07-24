@@ -26,5 +26,5 @@ public abstract class AbstractControlExampleTest extends AbstractSWTShellTest {
 		shell.setText(ControlExample.getResourceString("window.title"));
 		controlExample = new ControlExample(parent);
 	}
-
+	
 }

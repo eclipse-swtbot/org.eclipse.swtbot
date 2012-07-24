@@ -107,12 +107,12 @@ public class SWTBotComboTest extends AbstractControlExampleTest {
 		assertEquals("New typed Text", comboBox.getText());
 
 		if (!isCocoa())
-			assertEventMatches(bot.textInGroup("Listeners"), "KeyDown [1]: KeyEvent{Combo {} time=490981104 data=null character='\\0' keyCode=131072 stateMask=0 doit=true}");
-		assertEventMatches(bot.textInGroup("Listeners"), "KeyDown [1]: KeyEvent{Combo {} time=490981272 data=null character='N' keyCode=110 stateMask=131072 doit=true}");
-		assertEventMatches(bot.textInGroup("Listeners"), "Verify [25]: VerifyEvent{Combo {} time=490981272 data=null character='N' keyCode=110 stateMask=131072 doit=true start=0 end=0 text=N}");
-		assertEventMatches(bot.textInGroup("Listeners"), "KeyUp [2]: KeyEvent{Combo {N} time=490981352 data=null character='N' keyCode=110 stateMask=131072 doit=true}");
+			assertEventMatches(bot.textInGroup("Listeners"), "KeyDown [1]: KeyEvent{Combo {} time=490981104 data=null character=" + toCharacter('\0', comboBox.widget) + " keyCode=" + toKeyCode(131072, comboBox.widget) + " stateMask=" + toStateMask(0, comboBox.widget) + " doit=true}");
+		assertEventMatches(bot.textInGroup("Listeners"), "KeyDown [1]: KeyEvent{Combo {} time=490981272 data=null character=" + toCharacter('N', comboBox.widget) + " keyCode=" + toKeyCode(110, comboBox.widget) + " stateMask=" + toStateMask(131072, comboBox.widget) + " doit=true}");
+		assertEventMatches(bot.textInGroup("Listeners"), "Verify [25]: VerifyEvent{Combo {} time=490981272 data=null character=" + toCharacter('N', comboBox.widget) + " keyCode=" + toKeyCode(110, comboBox.widget) + " stateMask=" + toStateMask(131072, comboBox.widget) + " doit=true start=0 end=0 text=N}");
+		assertEventMatches(bot.textInGroup("Listeners"), "KeyUp [2]: KeyEvent{Combo {N} time=490981352 data=null character=" + toCharacter('N', comboBox.widget) + " keyCode=" + toKeyCode(110, comboBox.widget) + " stateMask=" + toStateMask(131072, comboBox.widget) + " doit=true}");
 		if (!isCocoa())
-			assertEventMatches(bot.textInGroup("Listeners"), "KeyUp [2]: KeyEvent{Combo {N} time=490981457 data=null character='\\0' keyCode=131072 stateMask=131072 doit=true}");
+			assertEventMatches(bot.textInGroup("Listeners"), "KeyUp [2]: KeyEvent{Combo {N} time=490981457 data=null character=" + toCharacter('\0', comboBox.widget) + " keyCode=" + toKeyCode(131072, comboBox.widget) + " stateMask=" + toStateMask(131072, comboBox.widget) + " doit=true}");
 	}
 
 	@Test

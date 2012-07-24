@@ -13,6 +13,7 @@ package org.eclipse.swtbot.swt.finder.widgets;
 import static org.eclipse.swtbot.swt.finder.SWTBotAssert.pass;
 import static org.junit.Assert.fail;
 
+import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.eclipse.swtbot.swt.finder.test.AbstractCustomControlExampleTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,11 +35,12 @@ public class SWTBotCTabItemTest extends AbstractCustomControlExampleTest {
 
 	@Test
 	public void canCloseCTabItems() throws Exception {
-		bot.cTabItem("CTabItem 0").close();
+		SWTBotCTabItem cTabItem = bot.cTabItem("CTabItem 0");
+		cTabItem.close();
 
 		SWTBotText listeners = bot.textInGroup("Listeners");
 		assertEventMatches(listeners, "CTabFolderEvent: CTabFolderEvent{CTabFolder {} time=185015066 data=null item=CTabItem {CTabItem 0} doit=true x=0 y=0 width=0 height=0}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{CTabFolder {} time=185324514 data=null item=CTabItem {CTabItem 1} detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{CTabFolder {} time=185324514 data=null item=CTabItem {CTabItem 1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + AbstractControlExampleTest.toStateMask(0, cTabItem.widget) + " text=null doit=true}");
 		assertEventMatches(listeners, "Dispose [12]: DisposeEvent{CTabItem {CTabItem 0} time=185739697 data=null}");
 
 		try{

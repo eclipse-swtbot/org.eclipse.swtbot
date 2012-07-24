@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
+ *     Mickael Istria - Updated to support SWT 4.2
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -39,7 +40,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 
 	private SWTBot		bot;
 	private SWTBotTree	tree;
-
+	
 	@Test
 	public void findsTable() throws Exception {
 		assertEquals(Tree.class, tree.widget.getClass());
@@ -167,7 +168,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		tree.expandNode("Node 2");
 		assertEquals(6, tree.visibleRowCount());
 		assertTextContains("Expand [17]: TreeEvent{Tree {} time=", notifications);
-		assertTextContains("data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}",
+		assertTextContains("data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, tree.widget) + " text=null doit=true}",
 				notifications);
 	}
 
@@ -178,9 +179,9 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		tree = bot.treeInGroup("Tree");
 		tree.expandNode("Node 2", true);
 		assertEquals(7, tree.visibleRowCount());
-		assertTextContains("data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}", bot
+		assertTextContains("data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, tree.widget) + " text=null doit=true}", bot
 				.textInGroup("Listeners").widget);
-		assertTextContains("data=null item=TreeItem {Node 2.2} detail=0 x=0 y=0 width=0 height=0 stateMask=0 text=null doit=true}", bot
+		assertTextContains("data=null item=TreeItem {Node 2.2} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, tree.widget) + " text=null doit=true}", bot
 				.textInGroup("Listeners").widget);
 	}
 
@@ -224,9 +225,9 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		bot.button("Clear").click();
 		node.click();
 		SWTBotText listener = bot.textInGroup("Listeners");
-		assertEventMatches(listener, "MouseDown [3]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=0 x=104 y=54 count=1}");
-		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=174577490 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=524288 text=null doit=true}");
-		assertEventMatches(listener, "MouseUp [4]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=524288 x=104 y=54 count=1}");
+		assertEventMatches(listener, "MouseDown [3]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=" + toStateMask(0, tree.widget) + " x=104 y=54 count=1}");
+		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=174577490 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(524288, tree.widget) + " text=null doit=true}");
+		assertEventMatches(listener, "MouseUp [4]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=" + toStateMask(524288, tree.widget) + " x=104 y=54 count=1}");
 	}
 	
 
@@ -270,5 +271,6 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		bot.checkBox("Header Visible").select();
 		bot.checkBox("Multiple Columns").deselect();
 		tree = bot.treeInGroup("Tree");
+		
 	}
 }

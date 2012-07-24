@@ -13,10 +13,14 @@ package org.eclipse.swtbot.swt.finder.test;
 import static org.hamcrest.Matchers.containsString;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.UIThread;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
@@ -59,7 +63,7 @@ public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 			public boolean test() throws Exception {
 				text = listeners.getText();
 				// keyLocation was added in 3.6, we don't care about it for the tests
-				String listenersText = text.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=\\d+", "x=X_CO_ORDINATE").replaceAll("y=\\d+", "y=Y_CO_ORDINATE").replaceAll("keyLocation=\\d+ ", "");
+				String listenersText = text.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=\\d+", "x=X_CO_ORDINATE").replaceAll("y=\\d+", "y=Y_CO_ORDINATE").replaceAll("keyLocation=(0x)?[0-9a-f]+ ", "");
 				return matcher.matches(listenersText);
 			}
 
@@ -71,5 +75,51 @@ public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 		});
 	}
 
-
+	// State mask written in Hexa for SWT 4.2 and decimal for SWT 3.x.
+	// This method create a stateMask according the SWT version 
+	public static String toStateMask(int n, Widget widget) {
+		// looks into how SelectionEvent.toString is implemented
+		Event e = new Event();
+		e.widget = widget;
+		String toStringTreeEvent = new SelectionEvent(e).toString();
+		if (toStringTreeEvent.contains("stateMask=0x")) {
+			// SWT 4.2 uses hexa
+			return "0x" + Integer.toHexString(n);
+		} else {
+			// SWT 3.8 uses decimal
+			return Integer.toString(n);
+		}
+	}
+	
+	// KeyCode written in Hexa for SWT 4.2 and decimal for SWT 3.x.
+	// This method create a stateMask according the SWT version 
+	public static String toKeyCode(int n, Widget widget) {
+		// looks into how KeyEvent.toString is implemented
+		Event e = new Event();
+		e.widget = widget;
+		String toStringTreeEvent = new KeyEvent(e).toString();
+		if (toStringTreeEvent.contains("keyCode=0x")) {
+			// SWT 4.2 uses hexa
+			return "0x" + Integer.toHexString(n);
+		} else {
+			// SWT 3.8 uses decimal
+			return Integer.toString(n);
+		}
+	}
+	
+	// character='t'=0x74 for SWT 4.2 and character='t' for SWT 3.x.
+	// This method create a stateMask according the SWT version 
+	public static String toCharacter(char c, Widget widget) {
+		// looks into how KeyEvent.toString is implemented
+		Event e = new Event();
+		e.widget = widget;
+		String toStringTreeEvent = new KeyEvent(e).toString();
+		if (toStringTreeEvent.contains("character='\\0'=0x0")) {
+			// SWT 4.2 uses both notation
+			return "'" + ((c == 0) ? "\\0" : String.valueOf(c)) + "'=0x" + Integer.toHexString(c);
+		} else {
+			// SWT 3.8 uses only char
+			return "'" + ((c == 0) ? "\\0" : String.valueOf(c)) + "'";
+		}
+	}
 }

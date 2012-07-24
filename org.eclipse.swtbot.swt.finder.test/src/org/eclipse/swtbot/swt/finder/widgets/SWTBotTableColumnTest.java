@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class SWTBotTableColumnTest extends AbstractControlExampleTest {
 
-	private SWTBotTable	table;
+	private SWTBotTable	 table;
 
 	@Test
 	public void findsTableColumn() throws Exception {
@@ -44,7 +44,7 @@ public class SWTBotTableColumnTest extends AbstractControlExampleTest {
 
 		assertTextContains("Selection [13]: SelectionEvent{TableColumn {Name}", text);
 		assertTextContains("MouseUp [4]: MouseEvent{Table {}", text);
-		assertTextContains("data=null button=1 stateMask=524288 x=0 y=0 count=1}", text);
+		assertTextContains("data=null button=1 stateMask=" + toStateMask(524288, table.widget) + " x=0 y=0 count=1}", text);
 	}
 
 	@Before
@@ -56,4 +56,5 @@ public class SWTBotTableColumnTest extends AbstractControlExampleTest {
 		bot.button("Clear").click();
 		table = bot.tableInGroup("Table");
 	}
+	
 }

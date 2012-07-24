@@ -24,7 +24,7 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
-					<argLine>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=128M</argLine>
+					<argLine>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=256m</argLine>
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>true</useUIThread>
 					<product>org.eclipse.sdk.ide</product>

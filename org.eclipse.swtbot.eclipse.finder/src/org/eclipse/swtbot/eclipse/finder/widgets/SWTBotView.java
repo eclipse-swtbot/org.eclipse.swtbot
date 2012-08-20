@@ -138,4 +138,18 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 			throw new WidgetNotFoundException("Could not find view menu with label " + label + " at index " + index, e); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
+	
+	@Override
+	public void show() {
+		UIThreadRunnable.syncExec(new VoidResult() {
+			public void run() {
+				try {
+					partReference.getPage().activate(partReference.getPart(true));
+					partReference.getPage().showView(partReference.getId(), partReference.getSecondaryId(), IWorkbenchPage.VIEW_ACTIVATE);
+				} catch (PartInitException e) {
+					throw new RuntimeException("Could not show partReference - " + partReference.getPartName(), e); //$NON-NLS-1$
+				}
+			}
+		});
+	}
 }

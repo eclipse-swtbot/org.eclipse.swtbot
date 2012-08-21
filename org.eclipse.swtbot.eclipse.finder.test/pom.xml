@@ -71,7 +71,7 @@
 					<product>org.eclipse.platform.ide</product>
 					<application>org.eclipse.ui.ide.workbench</application>
 					<testSuite>org.eclipse.swtbot.eclipse.finder.test</testSuite>
-					<testClass>org.eclipse.swtbot.eclipse.finder.widgets.SWTBotViewTest</testClass>
+					<testClass>org.eclipse.swtbot.eclipse.finder.AllTests</testClass>
 				</configuration>
 			</plugin>
 		</plugins>

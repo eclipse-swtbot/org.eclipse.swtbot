@@ -68,10 +68,10 @@
 					<argLine>${ui.test.vmargs}</argLine>
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>false</useUIThread>
-					<product>org.eclipse.sdk.ide</product>
+					<product>org.eclipse.platform.ide</product>
 					<application>org.eclipse.ui.ide.workbench</application>
 					<testSuite>org.eclipse.swtbot.eclipse.finder.test</testSuite>
-					<testClass>org.eclipse.swtbot.eclipse.finder.AllTests</testClass>
+					<testClass>org.eclipse.swtbot.eclipse.finder.widgets.SWTBotViewTest</testClass>
 				</configuration>
 			</plugin>
 		</plugins>

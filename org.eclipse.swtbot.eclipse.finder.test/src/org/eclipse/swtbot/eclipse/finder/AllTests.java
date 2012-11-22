@@ -13,6 +13,7 @@ package org.eclipse.swtbot.eclipse.finder;
 import org.eclipse.swtbot.eclipse.finder.exceptions.QuickFixNotFoundExceptionTest;
 import org.eclipse.swtbot.eclipse.finder.finders.CommandFinderTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditorTest;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseProjectTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotMultiPageEditorTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotViewTest;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJUnit4Suite;
@@ -28,6 +29,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		QuickFixNotFoundExceptionTest.class,
 		CommandFinderTest.class,
 		SWTBotEclipseEditorTest.class,
+		SWTBotEclipseProjectTest.class,
 		SWTBotViewTest.class,
 		SWTBotMultiPageEditorTest.class })
 public class AllTests {

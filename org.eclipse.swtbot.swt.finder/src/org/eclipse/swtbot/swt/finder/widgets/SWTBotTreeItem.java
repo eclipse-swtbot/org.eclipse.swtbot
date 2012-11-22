@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
@@ -545,12 +546,24 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 	@Override
 	public SWTBotMenu contextMenu(String text) {
-		new SWTBotTree(tree).waitForEnabled();
+		SWTBotTree swtBotTree = new SWTBotTree(tree);
+		swtBotTree.waitForEnabled();
 		select();
 		notifyTree(SWT.MouseDown, createMouseEvent(0, 0, 3, 0, 1));
 		notifyTree(SWT.MouseUp, createMouseEvent(0, 0, 3, 0, 1));
 		notifyTree(SWT.MenuDetect);
-		return super.contextMenu(tree, text);
+		SWTBotMenu contextMenu = null;
+		try {
+			contextMenu = super.contextMenu(tree, text);
+		} catch (WidgetNotFoundException e) {
+			// in e4, if the context menu contains submenus it appears
+			// as disposed after detection, so we use the ContextMenuHelper
+			if (e.getMessage().contains("was disposed")) {
+				return new SWTBotMenu(ContextMenuHelper.contextMenu(swtBotTree, text));
+			} else
+				throw e;
+		}
+		return contextMenu;
 	}
 
 	/**

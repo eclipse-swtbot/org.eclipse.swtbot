@@ -1,8 +1,0 @@
-# see http://archive.eclipse.org/eclipse/downloads/drops/R-3.3-200706251500/srcIncludedBuildInstructions.html#build_platforms for valid values
-
-os = macosx
-ws = cocoa
-arch = x86_64
-
-# provide 35, 36 or 37
-eclipse.version = 37

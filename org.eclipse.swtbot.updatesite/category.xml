@@ -15,6 +15,9 @@
    <feature url="features/org.eclipse.swtbot.ide_0.0.0.jar" id="org.eclipse.swtbot.ide" version="0.0.0">
       <category name="SWTBot - IDE Integration"/>
    </feature>
+   <feature url="features/org.eclipse.swtbot.generator.feature_0.0.0.jar" id="org.eclipse.swtbot.generator.feature" version="0.0.0">
+      <category name="SWTBot - IDE Integration"/>
+   </feature>
    <feature url="features/org.eclipse.swtbot.eclipse.test.junit_0.0.0.jar" id="org.eclipse.swtbot.eclipse.test.junit" version="0.0.0">
       <category name="SWTBot - Headless Support"/>
    </feature>

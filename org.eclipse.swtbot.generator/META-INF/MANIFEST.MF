@@ -1,16 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Code Generator Plug-in (incubation)
-Bundle-SymbolicName: org.eclipse.swtbot.generator
+Bundle-SymbolicName: org.eclipse.swtbot.generator;singleton:=true
 Bundle-Version: 2.1.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: .
-Export-Package: org.eclipse.swtbot.generator
-Import-Package: com.thoughtworks.qdox;version="1.6.3",
- org.eclipse.swt.widgets,
- org.eclipse.swtbot.eclipse.finder,
- org.eclipse.swtbot.forms.finder.widgets,
- org.eclipse.swtbot.swt.finder,
- org.eclipse.swtbot.swt.finder.utils,
- org.hamcrest.generator.config;version="1.1.0"
+Export-Package: org.eclipse.swtbot.generator.framework
+Import-Package: org.eclipse.swt.widgets
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime

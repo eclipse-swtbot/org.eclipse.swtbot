@@ -23,7 +23,7 @@ import org.hamcrest.SelfDescribing;
 
 /**
  * This represents a {@link Text} widget.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
@@ -32,7 +32,7 @@ public class SWTBotText extends AbstractSWTBot<Text> {
 
 	/**
 	 * Constructs a new instance of this object.
-	 * 
+	 *
 	 * @param w the widget.
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
 	 */
@@ -42,7 +42,7 @@ public class SWTBotText extends AbstractSWTBot<Text> {
 
 	/**
 	 * Constructs a new instance of this object.
-	 * 
+	 *
 	 * @param w the widget.
 	 * @param description the description of the widget, this will be reported by {@link #toString()}
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.

@@ -195,19 +195,24 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<!-- TODO: Replace by usage of a target definiton -->
-			<repositories>
-				<repository>
-					<id>Indigo</id>
-					<layout>p2</layout>
-					<url>http://download.eclipse.org/releases/indigo</url>
-				</repository>
-				<repository>
-					<id>Orbit-Indigo</id>
-					<layout>p2</layout>
-					<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/</url>
-				</repository>
-			</repositories>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<target>
+								<artifact>
+									<groupId>org.eclipse.swtbot.target-platforms</groupId>
+									<artifactId>indigo</artifactId>
+									<version>2.1.1-SNAPSHOT</version>
+								</artifact>
+							</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 		<profile>

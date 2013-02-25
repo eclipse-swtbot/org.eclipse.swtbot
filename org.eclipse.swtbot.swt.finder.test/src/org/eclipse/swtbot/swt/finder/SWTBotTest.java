@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.test.AbstractMenuExampleTest;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
@@ -35,6 +36,11 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 
 	@Test
 	public void waits5SecondsAndFailsForFailingCondition() throws Exception {
+		// a custom timeout could have been specified so we save it...
+		long currentTimeout = SWTBotPreferences.TIMEOUT;
+		// ...and we set it to the expected 5 seconds
+		SWTBotPreferences.TIMEOUT = 5000;
+		
 		final long begin = System.currentTimeMillis();
 		try {
 			bot.waitUntil(new DefaultCondition() {
@@ -54,6 +60,9 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 			assertTrue(timeout <= 6000);
 			assertEquals("Timeout after: 5000 ms.: timed out", expected.getMessage());
 		}
+		
+		// and we reset the possible custom timeout
+		SWTBotPreferences.TIMEOUT = currentTimeout;
 	}
 
 	@Test
@@ -125,6 +134,11 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 
 	@Test
 	public void waitsMoreThan5sWhenConditionDoesNotSwitchToFailing() {
+		// a custom timeout could have been specified so we save it...
+		long currentTimeout = SWTBotPreferences.TIMEOUT;
+		// ...and we set it to the expected 5 seconds
+		SWTBotPreferences.TIMEOUT = 5000;
+		
 		final long begin = System.currentTimeMillis();
 		try {
 			bot.waitWhile(new DefaultCondition() {
@@ -147,6 +161,9 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 			assertTrue(timeout <= 6000);
 			assertEquals("Timeout after: 5000 ms.: time out", expected.getMessage());
 		}
+		
+		// and we reset the possible custom timeout
+		SWTBotPreferences.TIMEOUT = currentTimeout;
 	}
 
 	public void setUp() throws Exception {

@@ -32,7 +32,7 @@
 
    <requires>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.junit4"/>
+      <import plugin="org.junit"/>
       <import plugin="org.apache.log4j"/>
       <import plugin="org.eclipse.core.commands"/>
       <import plugin="org.eclipse.core.runtime"/>

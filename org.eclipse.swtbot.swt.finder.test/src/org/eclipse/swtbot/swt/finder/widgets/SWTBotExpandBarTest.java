@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,6 +81,11 @@ public class SWTBotExpandBarTest extends AbstractControlExampleTest {
 
 	@Test
 	public void shouldThrowExceptionWhenItemIsNotFound() throws Exception {
+		// a custom timeout could have been specified so we save it...
+		long currentTimeout = SWTBotPreferences.TIMEOUT;
+		// ...and we set it to the expected 5 seconds
+		SWTBotPreferences.TIMEOUT = 5000;
+
 		try {
 			bot.expandBar().getExpandItem(withText("some text"));
 			fail("Expected WNFE");
@@ -88,6 +94,9 @@ public class SWTBotExpandBarTest extends AbstractControlExampleTest {
 			assertEquals("Timeout after: 5000 ms.: Could not find widget matching: (of type 'ExpandItem' and with text 'some text')", e
 					.getCause().getMessage());
 		}
+
+		// and we reset the possible custom timeout
+		SWTBotPreferences.TIMEOUT = currentTimeout;
 	}
 
 	@Before

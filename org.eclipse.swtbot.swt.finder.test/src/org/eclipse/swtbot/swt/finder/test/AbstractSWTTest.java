@@ -10,13 +10,17 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.test;
 
+import static org.hamcrest.Matchers.anything;
+
 import org.apache.log4j.Logger;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.swt.finder.RunUIThreadRule;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.finders.ControlFinder;
 import org.eclipse.swtbot.swt.finder.finders.Finder;
 import org.eclipse.swtbot.swt.finder.finders.MenuFinder;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.MethodRule;
@@ -36,11 +40,12 @@ public abstract class AbstractSWTTest {
 		java.lang.System.setProperty("org.eclipse.swt.internal.carbon.smallFonts", "");
 	}
 
-	protected final Logger	log	= Logger.getLogger(getClass());
-	protected SWTBot		bot;
-	protected ControlFinder	controlFinder;
-	protected Finder		finder;
-	protected MenuFinder	menuFinder;
+	protected final Logger	    log	= Logger.getLogger(getClass());
+	protected SWTBot		    bot;
+	protected ControlFinder	    controlFinder;
+	protected Finder		    finder;
+	protected MenuFinder	    menuFinder;
+	protected Matcher<MenuItem> anyMenuItem = anything();
 
 	@Rule
 	public MethodRule runner = new MethodRule(){

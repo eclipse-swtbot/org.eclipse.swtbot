@@ -55,7 +55,7 @@ public class SWTBotToolbarDropDownButtonTest extends AbstractControlExampleTest 
 	@Test
 	@Ignore("Broken on cocoa")
 	public void getsAllMenuItems() throws Exception {
-		List<? extends SWTBotMenu> menuItems = bot.toolbarDropDownButton("Drop Down").menuItems(any(MenuItem.class));
+		List<? extends SWTBotMenu> menuItems = bot.toolbarDropDownButton("Drop Down").menuItems(anyMenuItem);
 		menuItems.get(0).click();
 		assertEquals(7, menuItems.size());
 	}

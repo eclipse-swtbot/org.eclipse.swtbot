@@ -12,7 +12,6 @@ package org.eclipse.swtbot.swt.finder.finders;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.pass;
-import static org.hamcrest.Matchers.any;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -32,7 +31,7 @@ public class MenuFinderTest extends AbstractMenuExampleTest {
 
 	@Test
 	public void clicksMenuItem() throws Exception {
-		List<MenuItem> findControls = menuFinder.findMenus(any(MenuItem.class));
+		List<MenuItem> findControls = menuFinder.findMenus(anyMenuItem);
 		MenuItem menuItem = findControls.get(1);
 		try {
 			menuItem.notifyListeners(SWT.Selection, null);
@@ -45,7 +44,7 @@ public class MenuFinderTest extends AbstractMenuExampleTest {
 
 	@Test
 	public void findsAllVisibleMenus() throws Exception {
-		List<MenuItem> findControls = menuFinder.findMenus(any(MenuItem.class));
+		List<MenuItem> findControls = menuFinder.findMenus(anyMenuItem);
 		assertEquals(25, findControls.size());
 		assertText("&Find...\tCtrl+F", findControls.get(21));
 	}

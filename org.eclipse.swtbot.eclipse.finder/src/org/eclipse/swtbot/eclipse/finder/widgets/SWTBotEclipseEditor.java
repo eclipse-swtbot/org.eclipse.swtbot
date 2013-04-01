@@ -14,7 +14,7 @@ package org.eclipse.swtbot.eclipse.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
-import static org.hamcrest.Matchers.any;
+import static org.hamcrest.Matchers.anything;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +65,8 @@ import org.hamcrest.SelfDescribing;
  */
 public class SWTBotEclipseEditor extends SWTBotEditor {
 
-	private final SWTBotStyledText	styledText;
+	private final SWTBotStyledText	   styledText;
+	private final Matcher<SWTBotTable> anyTable = anything();
 
 	/**
 	 * Constructs an instance of the given object.
@@ -120,7 +121,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 * @throws WidgetNotFoundException if the quickfix could not be found.
 	 */
 	public void quickfix(int quickFixIndex) {
-		WaitForObjectCondition<SWTBotTable> quickFixTableCondition = quickFixAppears(any(SWTBotTable.class));
+		WaitForObjectCondition<SWTBotTable> quickFixTableCondition = quickFixAppears(anyTable);
 		waitUntil(quickFixTableCondition);
 		SWTBotTable quickFixTable = quickFixTableCondition.get(0);
 		selectProposal(quickFixTable, quickFixIndex);
@@ -144,7 +145,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 * @since 1.2
 	 */
 	public List<String> getQuickFixes() {
-		WaitForObjectCondition<SWTBotTable> quickFixTableCondition = quickFixAppears(any(SWTBotTable.class));
+		WaitForObjectCondition<SWTBotTable> quickFixTableCondition = quickFixAppears(anyTable);
 		waitUntil(quickFixTableCondition);
 		SWTBotTable quickFixTable = quickFixTableCondition.get(0);
 		List<String> proposals = getRows(quickFixTable);
@@ -159,7 +160,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 * @since 1.2
 	 */
 	public int getQuickfixListItemCount() {
-		WaitForObjectCondition<SWTBotTable> quickFixTableCondition = quickFixAppears(any(SWTBotTable.class));
+		WaitForObjectCondition<SWTBotTable> quickFixTableCondition = quickFixAppears(anyTable);
 		waitUntil(quickFixTableCondition);
 		SWTBotTable quickFixTable = quickFixTableCondition.get(0);
 		return quickFixTable.rowCount();

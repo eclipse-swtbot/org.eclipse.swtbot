@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
-import static org.hamcrest.Matchers.any;
+import static org.hamcrest.Matchers.anything;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +67,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	protected final SWTWorkbenchBot	bot;
 	private final SelfDescribing	description;
 	private Widget widget;
+	private final Matcher<Widget>   anyWidget = anything();
 
 	/**
 	 * Creates an instance of a workbench part.
@@ -339,7 +340,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	public Widget getWidget() {
 		show();
 		if (widget == null)
-			widget = findWidget(any(Widget.class));
+			widget = findWidget(anyWidget);
 		return widget;
 	}
 	

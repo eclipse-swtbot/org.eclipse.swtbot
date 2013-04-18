@@ -9,15 +9,15 @@
  *    Mickael Istria (Red Hat) - initial API and implementation
  *    Vlado Pakan (Red Hat)
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.swtbot.generator.framework.GenerationRule;
+import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
-public class SingleListSelectionRule extends GenerationRule {
+public class SingleListSelectionRule extends GenerationSimpleRule {
 
 	private List list;
 	private String newSelectionText = null;
@@ -37,7 +37,7 @@ public class SingleListSelectionRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getWidgetAccessor() {
+	public String getWidgetAccessor() {
 		int index = WidgetUtils.getIndex(this.list);
 		if (index != 0) {
 			return "bot.list(" + index + ")";
@@ -47,7 +47,7 @@ public class SingleListSelectionRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getActon() {
+	public String getAction() {
 		StringBuilder res = new StringBuilder();
 		if (this.newSelectionText != null){
 			res.append(".select(\"");

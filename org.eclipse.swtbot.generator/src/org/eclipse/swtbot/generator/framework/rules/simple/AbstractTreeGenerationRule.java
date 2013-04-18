@@ -8,7 +8,7 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,10 +17,10 @@ import java.util.List;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swtbot.generator.framework.GenerationRule;
+import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
-public abstract class AbstractTreeGenerationRule extends GenerationRule {
+public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
 
 	private Tree tree;
 	private TreeItem item;
@@ -43,7 +43,7 @@ public abstract class AbstractTreeGenerationRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getWidgetAccessor() {
+	public String getWidgetAccessor() {
 		StringBuilder res = new StringBuilder();
 		res.append("bot.tree(");
 		int index = WidgetUtils.getIndex(this.tree);

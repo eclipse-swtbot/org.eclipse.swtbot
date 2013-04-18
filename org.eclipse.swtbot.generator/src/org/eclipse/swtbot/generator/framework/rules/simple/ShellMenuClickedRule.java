@@ -8,7 +8,7 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,15 +18,25 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swtbot.generator.framework.GenerationRule;
+import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 
-public class MenuClickedRule extends GenerationRule {
+public class ShellMenuClickedRule extends GenerationSimpleRule {
 
 	private MenuItem item;
 
 	@Override
 	public boolean appliesTo(Event event) {
-		return event.type == SWT.Selection && event.widget instanceof MenuItem;
+		boolean menu = event.widget instanceof MenuItem;
+		int style = 0;
+		if(menu){
+			MenuItem currentItem = ((MenuItem)event.widget);
+			Menu parent = null;
+			while (currentItem != null && (parent = currentItem.getParent()) != null) {
+				style = parent.getStyle();
+				currentItem = parent.getParentItem();
+			}
+		}
+		return event.type == SWT.Selection && menu && (style & SWT.BAR)!=0;
 	}
 
 	@Override
@@ -35,7 +45,7 @@ public class MenuClickedRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getWidgetAccessor() {
+	public String getWidgetAccessor() {
 		StringBuilder code = new StringBuilder();
 		List<String> path = new ArrayList<String>();
 		path.add(cleanMenuText(this.item.getText()));
@@ -62,7 +72,7 @@ public class MenuClickedRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getActon() {
+	public String getAction() {
 		return ".click()";
 	}
 

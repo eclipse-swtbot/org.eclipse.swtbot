@@ -8,7 +8,7 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
@@ -21,7 +21,7 @@ public class ExpandTreeItemRule extends AbstractTreeGenerationRule {
 	}
 
 	@Override
-	protected String getActon() {
+	public String getAction() {
 		return ".expand()";
 	}
 

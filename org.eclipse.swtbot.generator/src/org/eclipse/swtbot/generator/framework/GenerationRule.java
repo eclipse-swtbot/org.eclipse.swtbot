@@ -11,19 +11,32 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework;
 
-import org.eclipse.swt.widgets.Event;
-
+/**
+ * This class represents abstract GenerationRule
+ *
+ */
 public abstract class GenerationRule {
-
-	public abstract boolean appliesTo(Event event);
-
-	public abstract void initializeForEvent(Event event) ;
-
+	
+	/**
+	 * Generates code
+	 * @return String of generated code
+	 */
 	public String generateCode() {
-		return getWidgetAccessor() + getActon();
+		if(getWidgetAccessor() !=null && getAction() != null){
+			return getWidgetAccessor() + getAction();
+		}
+		return null;
 	}
-
-	protected abstract String getWidgetAccessor();
-	protected abstract String getActon();
-
+	
+	/**
+	 * 
+	 * @return String of code for accessing Widget
+	 */
+	public abstract String getWidgetAccessor();
+	
+	/**
+	 * 
+	 * @return String of code to call action on widget
+	 */
+	public abstract String getAction();
 }

@@ -12,7 +12,6 @@
 package org.eclipse.swtbot.generator.ui;
 
 import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
@@ -35,9 +34,7 @@ public class StartupRecorder implements IStartup {
 		Generator generator = availableGenerators.get(0);
 		final BotGeneratorEventDispatcher dispatcher = new BotGeneratorEventDispatcher();
 		dispatcher.setGenerator(generator);
-
 		final Display display = PlatformUI.getWorkbench().getDisplay();
-
 		display.asyncExec(new Runnable() {
 			public void run() {
 				display.addFilter(SWT.Activate, dispatcher);
@@ -45,6 +42,9 @@ public class StartupRecorder implements IStartup {
 				display.addFilter(SWT.Selection, dispatcher);
 				display.addFilter(SWT.Expand, dispatcher);
 				display.addFilter(SWT.Modify, dispatcher);
+				display.addFilter(SWT.MouseDown, dispatcher);
+				display.addFilter(SWT.MouseDoubleClick, dispatcher);
+				
 				Shell recorderShell = new Shell(PlatformUI.getWorkbench().getDisplay(), SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
 				recorderShell.setText("SWTBot test recorder");
 				dispatcher.ignoreShell(recorderShell);
@@ -61,6 +61,7 @@ public class StartupRecorder implements IStartup {
 						display.removeFilter(SWT.Selection, dispatcher);
 						display.removeFilter(SWT.Expand, dispatcher);
 						display.removeFilter(SWT.Modify, dispatcher);
+						display.removeFilter(SWT.DefaultSelection, dispatcher);
 					}
 				});
 			}

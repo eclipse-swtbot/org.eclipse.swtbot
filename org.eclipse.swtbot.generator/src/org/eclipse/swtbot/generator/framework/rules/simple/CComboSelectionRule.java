@@ -8,15 +8,15 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swtbot.generator.framework.GenerationRule;
+import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
-public class CComboSelectionRule extends GenerationRule {
+public class CComboSelectionRule extends GenerationSimpleRule {
 
 	private Combo combo;
 	private String newSelection;
@@ -35,7 +35,7 @@ public class CComboSelectionRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getWidgetAccessor() {
+	public String getWidgetAccessor() {
 		int index = WidgetUtils.getIndex(this.combo);
 		if (index != 0) {
 			return "bot.combo(" + index + ")";
@@ -45,7 +45,7 @@ public class CComboSelectionRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getActon() {
+	public String getAction() {
 		StringBuilder res = new StringBuilder();
 		res.append(".select(");
 		if (this.newSelection != null) {

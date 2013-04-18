@@ -8,15 +8,15 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swtbot.generator.framework.GenerationRule;
+import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
-public class RadioButtonClickedRule extends GenerationRule {
+public class CheckboxClickedRule extends GenerationSimpleRule {
 
 	private String buttonText;
 	private int index;
@@ -24,7 +24,7 @@ public class RadioButtonClickedRule extends GenerationRule {
 	@Override
 	public boolean appliesTo(Event event) {
 		return event.widget instanceof Button &&
-				(((Button)event.widget).getStyle() & SWT.CHECK) != 0
+				(((Button)event.widget).getStyle() & SWT.RADIO) != 0
 				&& event.type == SWT.Selection;
 	}
 
@@ -37,16 +37,16 @@ public class RadioButtonClickedRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getWidgetAccessor() {
+	public String getWidgetAccessor() {
 		if (this.buttonText != null) {
-			return "bot.checkBox(\"" + this.buttonText + "\")";
+			return "bot.radio(\"" + this.buttonText + "\")";
 		} else {
-			return "bot.checkBox(" + this.index + ")";
+			return "bot.radio(" + this.index + ")";
 		}
 	}
 
 	@Override
-	protected String getActon() {
+	public String getAction() {
 		return ".click()";
 	}
 

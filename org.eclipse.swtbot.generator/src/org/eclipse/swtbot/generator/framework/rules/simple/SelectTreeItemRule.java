@@ -8,21 +8,21 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.SWT;
 
-public class DoubleClickTreeItemRule extends AbstractTreeGenerationRule {
+public class SelectTreeItemRule extends AbstractTreeGenerationRule {
 
 	@Override
-	public boolean appliesTo(Event event) {
-		return super.appliesTo(event) && event.type == SWT.MouseDoubleClick;
+	public boolean appliesTo(Event e) {
+		return super.appliesTo(e) && e.type == SWT.Selection;
 	}
 
 	@Override
-	protected String getActon() {
-		return ".doubleClick()";
+	public String getAction() {
+		return ".select()";
 	}
 
 }

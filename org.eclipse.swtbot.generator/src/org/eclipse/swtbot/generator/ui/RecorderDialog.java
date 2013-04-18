@@ -99,7 +99,7 @@ public class RecorderDialog extends TitleAreaDialog {
 		actionsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 		final Button recordPauseButton = new Button(actionsComposite, SWT.PUSH);
-		recordPauseButton.setText(this.recorder.isReording() ? "Pause" : "Start Recording");
+		recordPauseButton.setText(this.recorder.isRecording() ? "Pause" : "Start Recording");
 		final Button copyButton = new Button(actionsComposite, SWT.PUSH);
 		copyButton.setToolTipText("Copy");
 		copyButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_COPY));
@@ -108,7 +108,7 @@ public class RecorderDialog extends TitleAreaDialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				recorder.switchRecording();
-				recordPauseButton.setText(recorder.isReording() ? "Pause" : "Start Recording");
+				recordPauseButton.setText(recorder.isRecording() ? "Pause" : "Start Recording");
 			}
 		});
 		this.recorder.addListener(new CodeGenerationListener() {

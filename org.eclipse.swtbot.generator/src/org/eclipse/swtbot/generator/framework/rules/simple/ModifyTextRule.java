@@ -8,15 +8,15 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.framework.rules;
+package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swtbot.generator.framework.GenerationRule;
+import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
-public class ModifyTextRule extends GenerationRule {
+public class ModifyTextRule extends GenerationSimpleRule {
 
 	private Text text;
 	private String newValue;
@@ -33,7 +33,7 @@ public class ModifyTextRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getWidgetAccessor() {
+	public String getWidgetAccessor() {
 		StringBuilder res = new StringBuilder();
 		res.append("bot.text(");
 		int index = WidgetUtils.getIndex(this.text);
@@ -45,7 +45,7 @@ public class ModifyTextRule extends GenerationRule {
 	}
 
 	@Override
-	protected String getActon() {
+	public String getAction() {
 		return ".setText(\"" + this.newValue + "\")";
 	}
 

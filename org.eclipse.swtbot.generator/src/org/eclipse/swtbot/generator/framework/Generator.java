@@ -15,7 +15,8 @@ import java.util.List;
 
 public interface Generator {
 
-	public List<GenerationRule> createRules();
+	public List<GenerationSimpleRule> createSimpleRules();
+	public List<GenerationComplexRule> createComplexRules();
 	public String getLabel();
 
 }

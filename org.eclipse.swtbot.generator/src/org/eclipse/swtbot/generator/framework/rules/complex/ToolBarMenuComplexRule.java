@@ -21,7 +21,6 @@ import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarDropDownRule;
 public class ToolBarMenuComplexRule extends GenerationComplexRule{
 	
 	private List<GenerationSimpleRule> rules;
-	private List<GenerationSimpleRule> initializedRules;
 	
 	public ToolBarMenuComplexRule(){
 		rules = new ArrayList<GenerationSimpleRule>();
@@ -32,19 +31,12 @@ public class ToolBarMenuComplexRule extends GenerationComplexRule{
 		rules.add(toolBar);
 		rules.add(menu);
 	}
-
-	@Override
-	public List<GenerationSimpleRule> getRules() {
-		return rules;
-		
-
-	}
 	
 	@Override
 	public String getWidgetAccessor(){
 		StringBuilder builder = new StringBuilder();
-		builder.append(((ToolBarDropDownRule)initializedRules.get(0)).getWidgetAccessor());
-		ContextMenuRule cmr = ((ContextMenuRule)initializedRules.get(1));
+		builder.append(((ToolBarDropDownRule)getInitializationRules().get(0)).getWidgetAccessor());
+		ContextMenuRule cmr = ((ContextMenuRule)getInitializationRules().get(1));
 		for(String s: cmr.getPath()){
 			builder.append(".menuItem(\""+s+"\")");
 		}
@@ -59,14 +51,24 @@ public class ToolBarMenuComplexRule extends GenerationComplexRule{
 	
 
 	@Override
-	public boolean appliesTo(GenerationSimpleRule rule, int i) {
-		return rules.get(i).getClass().equals(rule.getClass()); 
+	public boolean appliesToPartially(GenerationSimpleRule rule, int i) {
+		if(rules.size() > i){
+			return rules.get(i).getClass().equals(rule.getClass());
+		}
+		return false;
 	}
 
 	@Override
-	public void initializeForRules(List<GenerationSimpleRule> rules) {
-		this.initializedRules=rules;
-		
+	public boolean appliesTo(List<GenerationSimpleRule> rules) {
+		if(rules.size() != this.rules.size()){
+			return false;
+		}
+		for(int i=0;i<rules.size();i++){
+			if(!this.rules.get(i).getClass().equals(rules.get(i).getClass())){
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

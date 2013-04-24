@@ -12,18 +12,14 @@
 package org.eclipse.swtbot.generator.ui;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.Generator;
@@ -42,7 +38,6 @@ public class BotGeneratorEventDispatcher implements Listener{
 	private List<CodeGenerationListener> listeners = new ArrayList<CodeGenerationListener>();
 	private Shell ignoredShell;
 	private boolean recording;
-	private Event lastModifyEvent;
 	
 	private GenerationComplexRule longestMatchedComplex;
 
@@ -91,73 +86,33 @@ public class BotGeneratorEventDispatcher implements Listener{
 							&& ((Control) event.widget).isEnabled())) {
 			return;
 		}
-		
-
-		/*
-		 * Excpetion 1: Modify Events are a stream, only last one is interesting
-		 * We should check whether an event was supported by another rule
-		 * between 2 modifies. If yes => It's a new setText, apply setText rule
-		 * if any If no => It's still the same setText, event is stored for
-		 * later
-		 */
-		if (this.lastModifyEvent != null) {
-			// unrelated event
-			if (event.type != SWT.Modify
-					|| event.widget != this.lastModifyEvent.widget) {
-				processRules(this.lastModifyEvent);
-				this.lastModifyEvent = null;
-			}
-		}
-		if (event.type == SWT.Modify) {
-			if(event.widget instanceof Text){
-				if(((Text)event.widget).getMessage() != null){
-					if(((Text)event.widget).getMessage().equals(((Text)event.widget).getText())){
-						return;
-					} else if(((Text)event.widget).getText().isEmpty()){
-						return;
-					}
-				}
-			}
- 			Control control = (Control) event.widget;
-			// new event or next one on same widget
-			if (this.lastModifyEvent == null
-					|| this.lastModifyEvent.widget == control) {
-				this.lastModifyEvent = event;
-	 			// Store for later usage so it can be overriden if a newer
-				// ModifyEvent on samme widget happen
-				return;
-			}
-		}
-		
 		processRules(event);
 	}
 	
 	private void processRules(Event event) {
-		for (GenerationSimpleRule rule : generator.createSimpleRules()) {
-			if (rule.appliesTo(event)) {
-				rule.initializeForEvent(event);
-				listOfSimpleRules.add(rule); //store simple rule for further processing
+		if(event != null){
+			for (GenerationSimpleRule rule : generator.createSimpleRules()) {
+				if (rule.appliesTo(event)) {
+					rule.initializeForEvent(event);
+					listOfSimpleRules.add(rule); //store simple rule for further processing
+				}
 			}
 		}
 		if(!listOfSimpleRules.isEmpty()){  //find complex rules			
 			
 			if(newGenerationComplexRules){
 				modifGenerationComplexRules.addAll(generator.createComplexRules());
-				Collections.sort(modifGenerationComplexRules, new Comparator<GenerationComplexRule>() {
-					public int compare(GenerationComplexRule g1, GenerationComplexRule g2) {
-						return g2.getRules().size()-g1.getRules().size();
-					}
-				});
 			}
 			newGenerationComplexRules = true;
 			Set<GenerationComplexRule> toDelete = matchComplexRules(modifGenerationComplexRules);
 			modifGenerationComplexRules.removeAll(toDelete);
-			if(longestMatchedComplex != null && ((modifGenerationComplexRules.size() == 0)||
-					(modifGenerationComplexRules.size() == 1 && longestMatchedComplex.equals(modifGenerationComplexRules.get(0))))){ //match
+			if(modifGenerationComplexRules.isEmpty()){
+				if(longestMatchedComplex != null){
 					processComplexMatch();
-			} else if(modifGenerationComplexRules.size() == 0 && longestMatchedComplex == null){//no match,
-				processComplexNoMatch(); //keep looking for match without first simple rule 
-			} else if(modifGenerationComplexRules.size() > 0){ //there's possibility to find better match
+				} else {
+					processComplexNoMatch();
+				}
+			} else {
 				newGenerationComplexRules = false; //get next event
 				return;
 			}
@@ -166,37 +121,48 @@ public class BotGeneratorEventDispatcher implements Listener{
 	}
 	
 	private void processComplexMatch(){
-		List<GenerationSimpleRule> rulesToKeep = new ArrayList<GenerationSimpleRule>();
-		int toKeep = listOfSimpleRules.size()-longestMatchedComplex.getRules().size();
-		for(int i=toKeep; i>0; i--){
-			rulesToKeep.add(listOfSimpleRules.get(listOfSimpleRules.size()-i));
-		}
-		listOfSimpleRules.removeAll(rulesToKeep);
-		longestMatchedComplex.initializeForRules(listOfSimpleRules);
+		listOfSimpleRules.removeAll(longestMatchedComplex.getInitializationRules());
 		dispatchCodeGenerated(WidgetUtils.cleanText(longestMatchedComplex.generateCode()));
 		longestMatchedComplex=null;
-		listOfSimpleRules.clear();
-		listOfSimpleRules.addAll(rulesToKeep);
+		processRules(null); //process rest of the listOfSimpleRules
 	}
 	
 	private void processComplexNoMatch(){
 		dispatchCodeGenerated(WidgetUtils.cleanText(listOfSimpleRules.get(0).generateCode())); //generate code for first simple rule
 		listOfSimpleRules.remove(0);
+		processRules(null); //proces listOfSimpleRules without the first element
 	}
 	
 	private Set<GenerationComplexRule> matchComplexRules(List<GenerationComplexRule> modifGenerationComplexRules){
 		Set<GenerationComplexRule> toDelete= new HashSet<GenerationComplexRule>();
-		for(int i=0; i<listOfSimpleRules.size(); i++){
+		for(int i=0;i<listOfSimpleRules.size(); i++){
 			for(GenerationComplexRule complexRule: modifGenerationComplexRules){
-				if(complexRule.getRules().size() < listOfSimpleRules.size()){ //complex rule has less rules that listofRules
+				if(!complexRule.appliesToPartially(listOfSimpleRules.get(i), i)){
 					toDelete.add(complexRule);
-				}else{
-					if(!complexRule.appliesTo(listOfSimpleRules.get(i), i)){
-						toDelete.add(complexRule);
-					} else if(complexRule.getRules().size()-1==i){
-						longestMatchedComplex=complexRule;
+				} else {
+					List<GenerationSimpleRule> modifSimpleRules = new ArrayList<GenerationSimpleRule>();
+					modifSimpleRules.addAll(listOfSimpleRules);
+					GenerationComplexRule matchedComplex = null;
+					while(matchedComplex == null && !modifSimpleRules.isEmpty()){
+						if(complexRule.appliesTo(modifSimpleRules)){
+							matchedComplex=complexRule;
+							matchedComplex.initializeForRules(modifSimpleRules);
+						} else {
+							modifSimpleRules.remove(modifSimpleRules.size()-1);
+						}
 					}
-				}
+					if(matchedComplex!=null){
+						if(longestMatchedComplex == null){
+							longestMatchedComplex = matchedComplex;
+						} else {
+							//check if we have found a better match
+							if(matchedComplex.getInitializationRules().size() > longestMatchedComplex.getInitializationRules().size()){
+								longestMatchedComplex = matchedComplex;
+							}
+						}
+					}
+					matchedComplex = null;
+				}	
 			}
 		}
 		return toDelete;

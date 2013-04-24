@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.Generator;
+import org.eclipse.swtbot.generator.framework.rules.complex.ModifyTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ToolBarMenuComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CComboSelectionRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CheckboxClickedRule;
@@ -59,6 +60,7 @@ public class SWTBotGeneratorRules implements Generator {
 	public List<GenerationComplexRule> createComplexRules() {
 		List<GenerationComplexRule> cres = new ArrayList<GenerationComplexRule>();
 		cres.add(new ToolBarMenuComplexRule());
+		cres.add(new ModifyTextComplexRule());
 		return cres;
 	}
 }

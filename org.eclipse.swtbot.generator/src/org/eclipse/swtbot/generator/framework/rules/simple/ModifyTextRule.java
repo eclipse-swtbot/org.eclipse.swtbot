@@ -18,27 +18,28 @@ import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class ModifyTextRule extends GenerationSimpleRule {
 
-	private Text text;
+	private int textIndex;
 	private String newValue;
 
 	@Override
 	public boolean appliesTo(Event event) {
-		return event.widget instanceof Text && event.type == SWT.Modify;
+		return event.widget instanceof Text && event.type == SWT.Modify &&
+				!((Text)event.widget).getText().isEmpty() &&
+				!((Text)event.widget).getText().equals(((Text)event.widget).getMessage());
 	}
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.text = (Text)event.widget;
-		this.newValue = this.text.getText();
+		this.textIndex = WidgetUtils.getIndex((Text)event.widget);
+		this.newValue = ((Text)event.widget).getText();
 	}
 
 	@Override
 	public String getWidgetAccessor() {
 		StringBuilder res = new StringBuilder();
 		res.append("bot.text(");
-		int index = WidgetUtils.getIndex(this.text);
-		if (index != 0) {
-			res.append(index);
+		if (textIndex != 0) {
+			res.append(textIndex);
 		}
 		res.append(")");
 		return res.toString();
@@ -48,5 +49,15 @@ public class ModifyTextRule extends GenerationSimpleRule {
 	public String getAction() {
 		return ".setText(\"" + this.newValue + "\")";
 	}
+
+	public int getTextIndex() {
+		return textIndex;
+	}
+
+	public void setTextIndex(int textIndex) {
+		this.textIndex = textIndex;
+	}
+	
+	
 
 }

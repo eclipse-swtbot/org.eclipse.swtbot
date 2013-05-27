@@ -12,21 +12,23 @@
 <repository location="http://download.eclipse.org/releases/indigo"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<!-- We ship sources on update-site -->
+<!-- Versions allowed by CQs -->
 <unit id="org.apache.log4j" version="1.2.13.v200903072027"/>
-<unit id="org.hamcrest.core" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.core.source" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.generator" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.generator.source" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.library" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.library.source" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.text" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.text.source" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.integration" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.integration.source" version="1.1.0.v20090501071000"/>
-<unit id="org.junit" version="4.8.2.v4_8_2_v20110321-1705"/>
-<unit id="com.thoughtworks.qdox" version="1.6.3.v20081201-1400"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
+<unit id="org.junit" version="4.11.0.v201303080030"/>
+<unit id="com.thoughtworks.qdox" version="0.0.0"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<repository location="http://build.eclipse.org/orbit/committers/orbit-I/20130528180513/I20130528180513/repository/"/>
+<!-- We ship hamcrest sources -->
+<unit id="org.hamcrest.generator" version="1.3.0.v201305210900"/>
+<unit id="org.hamcrest.generator.source" version="1.3.0.v201305210900"/>
+<unit id="org.hamcrest.library" version="1.3.0.v201305281000"/>
+<unit id="org.hamcrest.library.source" version="1.3.0.v201305281000"/>
+<unit id="org.hamcrest.integration" version="1.3.0.v201305210900"/>
+<unit id="org.hamcrest.integration.source" version="1.3.0.v201305210900"/>
+<unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
+<unit id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
 </location>
 </locations>
 <launcherArgs>

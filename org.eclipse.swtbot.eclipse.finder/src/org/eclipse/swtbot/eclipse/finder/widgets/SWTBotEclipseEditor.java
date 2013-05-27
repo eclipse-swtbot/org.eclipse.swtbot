@@ -14,7 +14,6 @@ package org.eclipse.swtbot.eclipse.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
-import static org.hamcrest.Matchers.anything;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,10 +54,11 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
+import org.hamcrest.core.IsAnything;
 
 /**
  * This represents an eclipse editor item.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @author Ralf Ebert www.ralfebert.de (bug 271630)
  * @version $Id$
@@ -66,11 +66,11 @@ import org.hamcrest.SelfDescribing;
 public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	private final SWTBotStyledText	   styledText;
-	private final Matcher<SWTBotTable> anyTable = anything();
+	private final Matcher<SWTBotTable> anyTable = new IsAnything<SWTBotTable>();
 
 	/**
 	 * Constructs an instance of the given object.
-	 * 
+	 *
 	 * @param editorReference the editor reference.
 	 * @param bot the instance of {@link SWTWorkbenchBot} which will be used to drive operations on behalf of this
 	 *            object.
@@ -84,7 +84,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Constructs an instance for the given editorReference.
-	 * 
+	 *
 	 * @param editorReference the part reference.
 	 * @param bot the helper bot.
 	 * @param description the description of the editor part.
@@ -116,7 +116,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Applys a quick fix item at the given index.
-	 * 
+	 *
 	 * @param quickFixIndex the index of the quickfix item to apply.
 	 * @throws WidgetNotFoundException if the quickfix could not be found.
 	 */
@@ -129,7 +129,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Applys a quick fix item with the given name.
-	 * 
+	 *
 	 * @param quickFixName the name of the quick fix to apply.
 	 */
 	public void quickfix(String quickFixName) {
@@ -140,7 +140,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Finds all the quickfixes in the quickfix list.
-	 * 
+	 *
 	 * @return the list of all available quickfixes.
 	 * @since 1.2
 	 */
@@ -155,7 +155,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the quick fix item count.
-	 * 
+	 *
 	 * @return the number of quickfix items in the quickfix proposals.
 	 * @since 1.2
 	 */
@@ -171,7 +171,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 * <p>
 	 * FIXME: this needs a lot of optimization.
 	 * </p>
-	 * 
+	 *
 	 * @param proposalTable the table containing the quickfix.
 	 * @param proposalText the name of the quickfix to apply.
 	 */
@@ -186,7 +186,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Applies the specified quickfix.
-	 * 
+	 *
 	 * @param proposalTable the table containing the quickfix.
 	 * @param proposalIndex the index of the quickfix.
 	 */
@@ -228,7 +228,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the auto completion proposal matching the given text..
-	 * 
+	 *
 	 * @param insertText the proposal text to type before auto completing
 	 * @return the list of proposals
 	 * @throws TimeoutException if the autocomplete shell did not close in time.
@@ -247,7 +247,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Auto completes the given proposal.
-	 * 
+	 *
 	 * @param insertText the text to be inserted before activating the auto-complete.
 	 * @param proposalText the auto-completion proposal to select from the list.
 	 */
@@ -260,7 +260,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the context menu in the editor.
-	 * 
+	 *
 	 * @param text the context menu item.
 	 * @return the menu
 	 * @throws WidgetNotFoundException if the menu with the specified text could not be found.
@@ -272,7 +272,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the current position of the cursor. The returned position will contain a 0-based line and column.
-	 * 
+	 *
 	 * @return the position of the cursor.
 	 * @see SWTBotStyledText#cursorPosition()
 	 */
@@ -282,7 +282,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets if the object's widget is enabled.
-	 * 
+	 *
 	 * @return <code>true</code> if the widget is enabled.
 	 * @see org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot#isEnabled()
 	 */
@@ -292,7 +292,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the current selection.
-	 * 
+	 *
 	 * @return The selected string.
 	 */
 	public String getSelection() {
@@ -301,7 +301,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the style text.
-	 * 
+	 *
 	 * @param line the line number, 0 based.
 	 * @param column the column number, 0 based.
 	 * @return the {@link StyleRange} at the specified location
@@ -313,7 +313,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the text of this object's widget.
-	 * 
+	 *
 	 * @return the text on the styledtext.
 	 * @see org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot#getText()
 	 */
@@ -371,7 +371,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Sets the caret at the specified location.
-	 * 
+	 *
 	 * @param position the position of the caret.
 	 */
 	public void navigateTo(Position position) {
@@ -392,7 +392,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 * <p>
 	 * FIXME need some work for CTRL|SHIFT + 1 the 1 is to be sent as '!' in this case.
 	 * </p>
-	 * 
+	 *
 	 * @param modificationKeys the modification keys.
 	 * @param c the character.
 	 * @see Event#character
@@ -405,7 +405,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Notifies of keyboard event.
-	 * 
+	 *
 	 * @param modificationKeys the modification key.
 	 * @param c the character.
 	 * @param keyCode any special keys (function keys, arrow or navigation keys etc.)
@@ -420,7 +420,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Presses the shortcut specified by the given keys.
-	 * 
+	 *
 	 * @param modificationKeys the combination of {@link SWT#ALT} | {@link SWT#CTRL} | {@link SWT#SHIFT} |
 	 *            {@link SWT#COMMAND}.
 	 * @param c the character.
@@ -433,7 +433,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Presses the shortcut specified by the given keys.
-	 * 
+	 *
 	 * @param modificationKeys the combination of {@link SWT#ALT} | {@link SWT#CTRL} | {@link SWT#SHIFT} |
 	 *            {@link SWT#COMMAND}.
 	 * @param keyCode the keyCode, these may be special keys like F1-F12, or navigation keys like HOME, PAGE_UP
@@ -446,7 +446,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Presses the shortcut specified by the given keys.
-	 * 
+	 *
 	 * @param keys the keys to press
 	 * @see Keyboard#pressShortcut(KeyStroke...)
 	 * @see Keystrokes
@@ -476,7 +476,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Selects the text on the current line.
-	 * 
+	 *
 	 * @see SWTBotStyledText#selectCurrentLine()
 	 * @since 1.1
 	 */
@@ -565,7 +565,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the background color of the widget.
-	 * 
+	 *
 	 * @return the background color on the widget, or <code>null</code> if the widget is not an instance of
 	 *         {@link Control}.
 	 * @since 1.3
@@ -577,7 +577,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the foreground color of the widget.
-	 * 
+	 *
 	 * @return the foreground color on the widget, or <code>null</code> if the widget is not an instance of
 	 *         {@link Control}.
 	 * @since 1.3
@@ -589,7 +589,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the color of the background on the specified line.
-	 * 
+	 *
 	 * @param line the line number, 0 based.
 	 * @return the RGB of the line background color of the specified line.
 	 * @since 1.3
@@ -601,7 +601,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the number of lines in the {@link StyledText}.
-	 * 
+	 *
 	 * @return the number of lines in the {@link StyledText}.
 	 */
 	public int getLineCount(){
@@ -610,7 +610,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets all the lines in the editor.
-	 * 
+	 *
 	 * @return the lines in the editor.
 	 */
 	public List<String> getLines() {
@@ -619,7 +619,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * Gets the tooltip of this object's widget.
-	 * 
+	 *
 	 * @return the tooltip on the widget.
 	 * @see org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot#getToolTipText()
 	 * @since 1.3
@@ -690,7 +690,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * This activates the popup shell.
-	 * 
+	 *
 	 * @return The shell.
 	 */
 	private SWTBotShell activatePopupShell() {
@@ -701,7 +701,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 					return styledText.widget.getShell();
 				}
 			});
-			
+
 			final List<Shell> shells = bot.shells("", mainWindow);
 			Shell widgetShell = syncExec(new WidgetResult<Shell>() {
 				public Shell run() {

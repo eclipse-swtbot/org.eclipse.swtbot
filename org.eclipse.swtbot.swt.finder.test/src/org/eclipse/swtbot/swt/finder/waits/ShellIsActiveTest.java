@@ -11,13 +11,12 @@
 package org.eclipse.swtbot.swt.finder.waits;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThan;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTShellTest;
+import org.hamcrest.core.AllOf;
+import org.hamcrest.number.OrderingComparison;
 import org.junit.Test;
 
 /**
@@ -35,11 +34,11 @@ public class ShellIsActiveTest extends AbstractSWTShellTest {
 		long end = System.currentTimeMillis();
 
 		int time = (int) (end - start);
-		assertThat(time, allOf(lessThan(200), greaterThanOrEqualTo(0)));
+		assertThat(time, AllOf.allOf(OrderingComparison.lessThan(200), OrderingComparison.greaterThanOrEqualTo(0)));
 	}
 
 	@Override
 	protected void createUI(Composite parent) {
 	}
-	
+
 }

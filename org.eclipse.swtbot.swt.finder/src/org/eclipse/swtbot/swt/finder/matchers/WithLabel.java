@@ -25,13 +25,14 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsAnything;
 
 /**
  * Tells if a particular widget has a label with the specified text.
  * <p>
  * <b>NOTE:</b> This will <em>drill upwards</em> in the widget hierarchy in an attempt to find the label for a widget.
  * </p>
- * 
+ *
  * @see WithMnemonic
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
@@ -47,7 +48,7 @@ public class WithLabel<T extends Widget> extends AbstractMatcher<T> {
 
 	/**
 	 * Matches a widget that has the specified Label.
-	 * 
+	 *
 	 * @param labelText the label.
 	 * @param finder finder for locating widgets
 	 */
@@ -59,7 +60,7 @@ public class WithLabel<T extends Widget> extends AbstractMatcher<T> {
 	}
 
 	protected boolean doMatch(Object obj) {
-		List<? extends Widget> allWidgets = finder.findControls(Matchers.<Widget> anything());
+		List<? extends Widget> allWidgets = finder.findControls(new IsAnything<Widget>());
 
 		int widgetIndex = allWidgets.indexOf(obj);
 
@@ -84,7 +85,7 @@ public class WithLabel<T extends Widget> extends AbstractMatcher<T> {
 
 	/**
 	 * Matches a widget that has the specified labelText.
-	 * 
+	 *
 	 * @param labelText the label.
 	 * @return a matcher.
 	 * @since 2.0
@@ -96,7 +97,7 @@ public class WithLabel<T extends Widget> extends AbstractMatcher<T> {
 
 	/**
 	 * Matches a widget that has the specified labelText within the given parent.
-	 * 
+	 *
 	 * @param labelText the label.
 	 * @param finder finder for locating widgets
 	 * @return a matcher.

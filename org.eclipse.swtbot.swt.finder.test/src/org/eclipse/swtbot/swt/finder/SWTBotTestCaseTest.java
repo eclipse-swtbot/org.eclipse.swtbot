@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -44,8 +44,8 @@ public class SWTBotTestCaseTest extends AbstractSWTBotTest {
 			assertContains("this does not exist", "some haystack needle. foo bar");
 			fail("Was expecting an exception");
 		} catch (AssertionError e) {
-			assertEquals("\n" + "Expected: a string containing \"this does not exist\"\n" + "     got: \"some haystack needle. foo bar\"\n"
-					+ "", e.getMessage());
+			assertEquals("\n" + "Expected: a string containing \"this does not exist\"\n" + "     but: was \"some haystack needle. foo bar\"",
+					e.getMessage());
 		}
 	}
 
@@ -60,8 +60,8 @@ public class SWTBotTestCaseTest extends AbstractSWTBotTest {
 			assertDoesNotContain("needle", "some haystack needle. foo bar");
 			fail("Was expecting an exception");
 		} catch (AssertionError e) {
-			assertEquals("\n" + "Expected: not a string containing \"needle\"\n" + "     got: \"some haystack needle. foo bar\"\n" + "", e
-					.getMessage());
+			assertEquals("\n" + "Expected: not a string containing \"needle\"\n" + "     but: was \"some haystack needle. foo bar\"",
+					e.getMessage());
 		}
 	}
 
@@ -123,7 +123,7 @@ public class SWTBotTestCaseTest extends AbstractSWTBotTest {
 			assertMatchesRegex("foo", bot.button("One"));
 			fail("Expecting an exception");
 		} catch (AssertionError e) {
-			assertEquals("\nExpected: matching regex (<([\r\n]|.)*foo([\r\n]|.)*>)\n     got: \"One\"\n", e.getMessage());
+			assertEquals("\nExpected: matching regex (<([\r\n]|.)*foo([\r\n]|.)*>)\n     but: was \"One\"", e.getMessage());
 		}
 	}
 

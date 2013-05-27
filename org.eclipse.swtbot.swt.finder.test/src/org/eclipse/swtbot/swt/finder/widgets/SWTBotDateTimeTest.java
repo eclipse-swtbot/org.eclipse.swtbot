@@ -4,14 +4,13 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,6 +20,7 @@ import java.util.Date;
 
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.hamcrest.core.AnyOf;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -74,14 +74,14 @@ public class SWTBotDateTimeTest extends AbstractControlExampleTest {
 		assertFalse(expected.equals(dateTime.getDate()));
 		dateTime.setDate(expected);
 		assertEquals(expected, dateTime.getDate());
-		
+
 		calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(0);
 		calendar.set(2010, Calendar.SEPTEMBER, 28, 0, 0, 0);
 		dateTime.setDate(calendar.getTime());
 		assertEquals(calendar.getTime(), dateTime.getDate());
 	}
-	
+
 	@Test
 	public void sendsNotification() throws Exception {
 		bot.checkBox("Listen").click();
@@ -92,7 +92,7 @@ public class SWTBotDateTimeTest extends AbstractControlExampleTest {
 		String expectedLinux = "Selection [13]: SelectionEvent{DateTime";
 		String expectedWindows = "Selection [13]: SelectionEvent{DateTime {DateTime";
 		String text = bot.textInGroup("Listeners").getText();
-		assertThat(text, anyOf(containsString(expectedLinux), containsString(expectedWindows)));
+		assertThat(text, AnyOf.anyOf(containsString(expectedLinux), containsString(expectedWindows)));
 		assertThat(text, containsString(" data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, dateTime.widget) +" text=null doit=true}"));
 	}
 

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.test;
 
-import static org.hamcrest.Matchers.anything;
-
 import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.swt.finder.RunUIThreadRule;
@@ -21,6 +19,7 @@ import org.eclipse.swtbot.swt.finder.finders.Finder;
 import org.eclipse.swtbot.swt.finder.finders.MenuFinder;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.hamcrest.Matcher;
+import org.hamcrest.core.IsAnything;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.MethodRule;
@@ -45,7 +44,7 @@ public abstract class AbstractSWTTest {
 	protected ControlFinder	    controlFinder;
 	protected Finder		    finder;
 	protected MenuFinder	    menuFinder;
-	protected Matcher<MenuItem> anyMenuItem = anything();
+	protected Matcher<MenuItem> anyMenuItem = new IsAnything<MenuItem>();
 
 	@Rule
 	public MethodRule runner = new MethodRule(){

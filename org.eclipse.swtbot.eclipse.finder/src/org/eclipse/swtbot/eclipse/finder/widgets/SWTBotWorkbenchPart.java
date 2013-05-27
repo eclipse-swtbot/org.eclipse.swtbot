@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
-import static org.hamcrest.Matchers.anything;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +45,12 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
+import org.hamcrest.core.IsAnything;
 
 /**
  * This represents the eclipse {@link IWorkbenchPartReference} item, subclasses must extend this to implement support
  * for various {@link IWorkbenchPartReference}s.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @author Ralf Ebert www.ralfebert.de (bug 271630)
  * @version $Id$
@@ -67,11 +66,11 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	protected final SWTWorkbenchBot	bot;
 	private final SelfDescribing	description;
 	private Widget widget;
-	private final Matcher<Widget>   anyWidget = anything();
+	private final Matcher<Widget>   anyWidget = new IsAnything<Widget>();
 
 	/**
 	 * Creates an instance of a workbench part.
-	 * 
+	 *
 	 * @param partReference the part reference.
 	 * @param bot the helper bot.
 	 */
@@ -81,7 +80,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 
 	/**
 	 * Creates an instance of a workbench part.
-	 * 
+	 *
 	 * @param partReference the part reference.
 	 * @param bot the helper bot.
 	 * @param description the description of the workbench part.
@@ -126,7 +125,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 
 	/**
 	 * Gets the title of the partReference.
-	 * 
+	 *
 	 * @return the title of the part as visible in the tab
 	 */
 	public String getTitle() {
@@ -135,15 +134,15 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 
 	/**
 	 * Gets the toolbar buttons currently visible.
-	 * 
+	 *
 	 * @return The set of toolbar buttons.
 	 */
 	public List<SWTBotToolbarButton> getToolbarButtons() {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotToolbarButton>() {
 
-			public List<SWTBotToolbarButton> run() {				
+			public List<SWTBotToolbarButton> run() {
 				ToolBar toolbar = null;
-				
+
 				IWorkbenchPartSite site = partReference.getPart(false).getSite();
 				if (site instanceof IViewSite) {
 					IToolBarManager t = ((IViewSite) site).getActionBars().getToolBarManager();
@@ -151,9 +150,9 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 						toolbar = ((ToolBarManager)t).getControl();
 					}
 				}
-				
+
 				final List<SWTBotToolbarButton> l = new ArrayList<SWTBotToolbarButton>();
-				
+
 				if (toolbar == null)
 					return l;
 
@@ -244,7 +243,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 
 	/**
 	 * Gets the toolbar button matching the given toolbar button.
-	 * 
+	 *
 	 * @param tooltip The tooltip to use to find the button to return.
 	 * @return The toolbar button.
 	 * @throws WidgetNotFoundException Thrown if the widget was not found matching the given tooltip.
@@ -290,7 +289,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 
 	/**
 	 * Returns the workbench pane control.
-	 * 
+	 *
 	 * @return returns the workbench pane control.
 	 */
 	private Control getControl() {
@@ -299,7 +298,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 
 	/**
 	 * Returns a SWTBot instance that matches the contents of this workbench part.
-	 * 
+	 *
 	 * @return SWTBot
 	 */
 	public SWTBot bot() {
@@ -308,7 +307,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 
 	/**
 	 * Asserts that the viewpart is active.
-	 * 
+	 *
 	 */
 	protected void assertActive() {
 		Assert.isLegal(isActive(), MessageFormat.format("The workbench part {0}is not active", description));
@@ -331,7 +330,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	 * <b>NOTE:</b> Clients must ensure that the part is active at the time of making this call. If the part is not
 	 * active, then this method will throw a {@link WidgetNotFoundException}.
 	 * </p>
-	 * 
+	 *
 	 * @return the parent widget in the part.
 	 * @see #findWidget(org.hamcrest.Matcher)
 	 * @see #assertActive()
@@ -343,5 +342,5 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 			widget = findWidget(anyWidget);
 		return widget;
 	}
-	
+
 }

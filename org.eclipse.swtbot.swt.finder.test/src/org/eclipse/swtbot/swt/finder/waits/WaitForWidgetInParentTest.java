@@ -11,15 +11,14 @@
 package org.eclipse.swtbot.swt.finder.waits;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertFalse;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.hamcrest.core.AllOf;
+import org.hamcrest.number.OrderingComparison;
 import org.junit.Test;
 
 /**
@@ -37,7 +36,7 @@ public class WaitForWidgetInParentTest extends AbstractControlExampleTest {
 		long end = System.currentTimeMillis();
 
 		int time = (int) (end - start);
-		assertThat(time, allOf(lessThan(1000), greaterThanOrEqualTo(500)));
+		assertThat(time, AllOf.allOf(OrderingComparison.lessThan(1000), OrderingComparison.greaterThanOrEqualTo(500)));
 		assertFalse(condition.getAllMatches().isEmpty());
 	}
 

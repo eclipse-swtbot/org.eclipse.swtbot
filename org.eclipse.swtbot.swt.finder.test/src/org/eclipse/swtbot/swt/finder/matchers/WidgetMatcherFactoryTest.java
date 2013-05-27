@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -20,6 +20,7 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTe
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTextIgnoringCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import java.util.List;
@@ -56,24 +57,24 @@ public class WidgetMatcherFactoryTest extends AbstractClipboardExampleTest {
 	public void matchesControlsWithText() throws Exception {
 		List findControls = finder.findControls(withText("some\n" + "plain\n" + "text"));
 		assertThat(findControls.size(), is(1));
-		assertThat(findControls.get(0), is(Text.class));
+		assertThat(findControls.get(0), is(instanceOf(Text.class)));
 	}
 
 	@Test
 	public void matchesControlsWithTextIgnoringCase() throws Exception {
 		List findControls = finder.findControls(withTextIgnoringCase("SOME\n" + "plain\n" + "TeXt"));
 		assertThat(findControls.size(), is(1));
-		assertThat(findControls.get(0), is(Text.class));
+		assertThat(findControls.get(0), is(instanceOf(Text.class)));
 	}
 
 	@Test
 	public void matchesControlsInGroup() throws Exception {
 		List findControls = finder.findControls(inGroup("Paste To:"));
 		assertThat(findControls.size(), is(12));
-		assertThat(findControls.get(0), is(Label.class));
-		assertThat(findControls.get(1), is(Text.class));
-		assertThat(findControls.get(2), is(Button.class));
-		assertThat(findControls.get(3), is(Label.class));
+		assertThat(findControls.get(0), is(instanceOf(Label.class)));
+		assertThat(findControls.get(1), is(instanceOf(Text.class)));
+		assertThat(findControls.get(2), is(instanceOf(Button.class)));
+		assertThat(findControls.get(3), is(instanceOf(Label.class)));
 	}
 
 	@Test

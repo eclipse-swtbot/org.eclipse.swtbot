@@ -14,12 +14,12 @@ import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertNotSameWidget;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertSameWidget;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.hamcrest.core.AnyOf;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class SWTBotPopupMenuTest extends AbstractControlExampleTest {
 		// FIXED > 071114
 		String expectedLinux = "Show [22]: MenuEvent{Menu {Push, , Check, Radio1, Radio2, Cascade} time=";
 		String expectedWindows = "Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=";
-		assertThat(text, anyOf(containsString(expectedWindows), containsString(expectedLinux)));
+		assertThat(text, AnyOf.anyOf(containsString(expectedWindows), containsString(expectedLinux)));
 		assertTextContains("Selection [13]: SelectionEvent{MenuItem {Push} time=", bot.textInGroup("Listeners").widget);
 	}
 

@@ -12,9 +12,6 @@ package org.eclipse.swtbot.swt.finder.waits;
 
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withText;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThan;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
@@ -25,6 +22,8 @@ import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTTest;
 import org.hamcrest.Matcher;
+import org.hamcrest.core.AllOf;
+import org.hamcrest.number.OrderingComparison;
 import org.junit.Test;
 
 /**
@@ -39,7 +38,7 @@ public class WaitForShellTest extends AbstractSWTTest {
 	public void runUIThread() {
 		new Display();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void waitsForShellToAppear() throws Exception {
@@ -50,7 +49,7 @@ public class WaitForShellTest extends AbstractSWTTest {
 		long end = System.currentTimeMillis();
 
 		int time = (int) (end - start);
-		assertThat(time, allOf(lessThan(800), greaterThanOrEqualTo(450)));
+		assertThat(time, AllOf.allOf(OrderingComparison.lessThan(800), OrderingComparison.greaterThanOrEqualTo(450)));
 	}
 
 	private void createShellAfter(int delay) {

@@ -116,7 +116,7 @@ public class SWTBotViewTest {
 		pCICMenu.click();
 		bot.button("OK").click();
 }
-	
+
 	@Test
 	public void getToolbarButtons() throws Exception {
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
@@ -127,6 +127,7 @@ public class SWTBotViewTest {
 
 	@Test
 	public void toolbarPushButton() throws Exception {
+		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 
 		SWTBotToolbarButton button = view.toolbarButton("This represents an IAction command.");
@@ -135,9 +136,10 @@ public class SWTBotViewTest {
 		button.click();
 		bot.button("OK").click();
 	}
-	
+
 	@Test
 	public void toolbarToogleButton() throws Exception {
+		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 
 		SWTBotToolbarToggleButton button = view.toolbarToggleButton("This represents a toggle IAction command.");
@@ -149,6 +151,7 @@ public class SWTBotViewTest {
 
 	@Test
 	public void toolbarRadioButton() throws Exception {
+		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 
 		SWTBotToolbarRadioButton button = view.toolbarRadioButton("This represents a radio IAction command.");
@@ -157,9 +160,10 @@ public class SWTBotViewTest {
 		button.click();
 		bot.button("OK").click();
 	}
-	
+
 	@Test
 	public void toolbarDropDownButton() throws Exception {
+		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 
 		SWTBotToolbarDropDownButton button = view.toolbarDropDownButton("This represents a drop down IAction command.");
@@ -168,9 +172,10 @@ public class SWTBotViewTest {
 		button.click();
 		bot.button("OK").click();
 	}
-	
+
 	@Test
 	public void toolbarButtonNotFound() throws Exception {
+		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 
 		try {

@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.swtbot_0.0.0.jar" id="org.eclipse.swtbot" version="0.0.0">
+   <feature id="org.eclipse.swtbot" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
-   <feature url="features/org.eclipse.swtbot.eclipse_0.0.0.jar" id="org.eclipse.swtbot.eclipse" version="0.0.0">
+   <feature id="org.eclipse.swtbot.eclipse" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
-   <feature url="features/org.eclipse.swtbot.eclipse.gef_0.0.0.jar" id="org.eclipse.swtbot.eclipse.gef" version="0.0.0">
+   <feature id="org.eclipse.swtbot.eclipse.gef" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
-   <feature url="features/org.eclipse.swtbot.forms_0.0.0.jar" id="org.eclipse.swtbot.forms" version="0.0.0">
+   <feature id="org.eclipse.swtbot.forms" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
-   <feature url="features/org.eclipse.swtbot.ide_0.0.0.jar" id="org.eclipse.swtbot.ide" version="0.0.0">
+   <feature id="org.eclipse.swtbot.ide" version="0.0.0">
       <category name="SWTBot - IDE Integration"/>
    </feature>
-   <feature url="features/org.eclipse.swtbot.generator.feature_0.0.0.jar" id="org.eclipse.swtbot.generator.feature" version="0.0.0">
+   <feature id="org.eclipse.swtbot.generator.feature" version="0.0.0">
       <category name="SWTBot - IDE Integration"/>
    </feature>
-   <feature url="features/org.eclipse.swtbot.eclipse.test.junit_0.0.0.jar" id="org.eclipse.swtbot.eclipse.test.junit" version="0.0.0">
+   <feature id="org.eclipse.swtbot.eclipse.test.junit" version="0.0.0">
       <category name="SWTBot - Headless Support"/>
    </feature>
    <category-def name="SWTBot - API" label="SWTBot - API"/>
    <category-def name="SWTBot - IDE Integration" label="SWTBot - IDE Integration"/>
    <category-def name="SWTBot - Headless Support" label="SWTBot - Headless Support"/>
+   <category-def name="SWTBot - Sources" label="SWTBot - Sources"/>
+   <feature id="org.eclipse.swtbot.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
+   </feature>
+   <feature id="org.eclipse.swtbot.eclipse.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
+   </feature>
+   <feature id="org.eclipse.swtbot.eclipse.gef.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
+   </feature>
+   <feature id="org.eclipse.swtbot.forms.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
+   </feature>
+   <feature id="org.eclipse.swtbot.ide.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
+   </feature>
+   <feature id="org.eclipse.swtbot.generator.feature.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
+   </feature>
 </site>

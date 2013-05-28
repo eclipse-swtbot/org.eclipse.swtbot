@@ -3,24 +3,27 @@
 
 <target name="Eclipse via p2" sequenceNumber="50">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.ide" version="0.0.0"/>
 <unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.draw2d.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.draw2d.source.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.gef.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.gef.source.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <!-- Versions allowed by CQs -->
 <unit id="org.apache.log4j" version="1.2.13.v200903072027"/>
-<unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
 <unit id="org.hamcrest.generator" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.generator.source" version="1.1.0.v20090501071000"/>
 <unit id="org.hamcrest.core" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.core.source" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.library" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.library.source" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.text" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.text.source" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.integration" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.integration.source" version="1.1.0.v20090501071000"/>
 <unit id="org.junit" version="4.10.0.v4_10_0_v20120426-0900"/>
 <unit id="com.thoughtworks.qdox" version="0.0.0"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/"/>

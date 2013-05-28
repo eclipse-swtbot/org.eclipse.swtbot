@@ -3,23 +3,27 @@
 
 <target name="Eclipse Indigo via p2" sequenceNumber="58">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.jdt.feature.group" version="3.7.2.v20120120-1414-7z8gFcuFMP7BW5XTz0jLTnz0l9B1"/>
 <unit id="org.eclipse.platform.ide" version="3.7.2.M20120208-0800"/>
 <unit id="org.eclipse.pde.feature.group" version="3.7.2.v20120120-1420-7b7rFUOFEx2Xnqafnpz0E--0"/>
 <unit id="org.eclipse.draw2d.feature.group" version="3.7.2.v20110927-2020-4617w3122212803131"/>
-<unit id="org.eclipse.draw2d.sdk.feature.group" version="3.7.2.v20110927-2020-7A7I38yF6F19G9K5A7H558C58x42"/>
-<unit id="org.eclipse.draw2d.source.feature.group" version="3.7.2.v20110927-2020-4617w3122212803131"/>
 <unit id="org.eclipse.gef.feature.group" version="3.7.2.v20110927-2020-777D381B4Bz0755B465D34242"/>
-<unit id="org.eclipse.gef.sdk.feature.group" version="3.7.2.v20110927-2020-7G7W77A5WNgIRPdWXDIbNTSQPdQL"/>
-<unit id="org.eclipse.gef.source.feature.group" version="3.7.2.v20110927-2020-777D381B4Bz0755B465D34242"/>
 <repository location="http://download.eclipse.org/releases/indigo"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<!-- We ship sources on update-site -->
 <unit id="org.apache.log4j" version="1.2.13.v200903072027"/>
 <unit id="org.hamcrest.core" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.core.source" version="1.1.0.v20090501071000"/>
 <unit id="org.hamcrest.generator" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.generator.source" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.library" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.library.source" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.text" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.text.source" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.integration" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.integration.source" version="1.1.0.v20090501071000"/>
 <unit id="org.junit" version="4.8.2.v4_8_2_v20110321-1705"/>
 <unit id="com.thoughtworks.qdox" version="1.6.3.v20081201-1400"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>

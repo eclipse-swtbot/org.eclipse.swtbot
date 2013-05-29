@@ -19,6 +19,7 @@ import org.eclipse.swtbot.eclipse.finder.finders.WorkbenchContentsFinder;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.forms.finder.SWTFormsBot;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
@@ -41,17 +42,11 @@ public abstract class AbstractSWTBotFormsTest {
 	}
 
 	private static void showFormsView() {
-		syncExec(new VoidResult() {
-			public void run() {
-				IWorkbenchWindow window = new WorkbenchContentsFinder().activeWorkbenchWindow();
-				try {
-					window.getActivePage().showView("org.eclipse.ui.forms.examples.views.FormView");
-					ActionFactory.MAXIMIZE.create(window).run();
-				} catch (PartInitException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		});
+		bot.menu("Window").menu("Show View").menu("Other...").click();
+		SWTBot showViewDialogBot = bot.shell("Show View").bot();
+		showViewDialogBot.tree().getTreeItem("Eclipse Forms Examples").expand().getNode("Eclipse Form").select();
+		showViewDialogBot.button("OK").click();
+		workbench.viewByTitle("Eclipse Form");
 	}
 
 	private static void closeAllViews() {

@@ -27,6 +27,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarRadioButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,6 +39,16 @@ import org.junit.runner.RunWith;
 public class SWTBotViewTest {
 
 	private SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
+
+	@Before
+	public void setUp() {
+		try {
+			this.bot.viewByTitle("Welcome").close();
+		} catch (Exception ex) {
+			// Welcome view not open
+			// -> continuing
+		}
+	}
 
 	@Test
 	public void findsView() throws Exception {

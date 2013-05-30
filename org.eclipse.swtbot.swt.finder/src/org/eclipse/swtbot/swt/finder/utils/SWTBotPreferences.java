@@ -23,7 +23,7 @@ import org.eclipse.swtbot.swt.finder.waits.ICondition;
 
 /**
  * Holds the preferences for the SWT Bot.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  * @since 1.1
@@ -42,14 +42,6 @@ public class SWTBotPreferences implements SWTBotPreferenceConstants {
 	 * property {@value org.eclipse.swtbot.swt.finder.utils.SWTBotPreferenceConstants#KEY_TIMEOUT}.
 	 */
 	public static long			TIMEOUT						= toLong(System.getProperty(KEY_TIMEOUT, "5000"), 5000);
-
-	/**
-	 * The name of the file in which the recorder records. Defaults to "swtbot.record.txt". To set another default, use
-	 * the system property {@value org.eclipse.swtbot.swt.finder.utils.SWTBotPreferenceConstants#KEY_RECORER_FILE_NAME}.
-	 * 
-	 * @deprecated - this will be removed in future versions
-	 */
-	public static String		RECORDER_FILE_NAME			= System.getProperty(KEY_RECORER_FILE_NAME, "swtbot.record.txt");
 
 	/**
 	 * The speed of playback in milliseconds. Defaults to 0. To set another default, use the system property {@code
@@ -107,7 +99,7 @@ public class SWTBotPreferences implements SWTBotPreferenceConstants {
 	 * <td>/com/foo/bar/DE.keyboard</td>
 	 * </tr>
 	 * </table>
-	 * 
+	 *
 	 * @see Locale
 	 */
 	public static String		KEYBOARD_LAYOUT				= System.getProperty(KEY_KEYBOARD_LAYOUT, KeyboardLayoutDetector
@@ -122,7 +114,7 @@ public class SWTBotPreferences implements SWTBotPreferenceConstants {
 	 * The default keyboard strategy. Defaults to org.eclipse.swtbot.swt.finder.keyboard.AWTKeyboardStrategy. To set
 	 * another default use the system property {@code org.eclipse.swtbot.keyboard.strategy}. This property must be set
 	 * to a subclass of {@link KeyboardStrategy}.
-	 * 
+	 *
 	 * @see KeyboardStrategy
 	 * @see Keyboard
 	 */
@@ -133,7 +125,7 @@ public class SWTBotPreferences implements SWTBotPreferenceConstants {
 	 * The default time delay between successive polling while waiting for a condition to be evaluated. Defaults to
 	 * 500ms. To set another default use the system property
 	 * {@value org.eclipse.swtbot.swt.finder.utils.SWTBotPreferenceConstants#KEY_DEFAULT_POLL_DELAY}.
-	 * 
+	 *
 	 * @see SWTBot#waitUntil(ICondition, long, long)
 	 * @see SWTBot#waitWhile(ICondition, long, long)
 	 */

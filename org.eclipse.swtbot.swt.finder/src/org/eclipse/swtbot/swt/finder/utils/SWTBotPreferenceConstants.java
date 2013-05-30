@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -12,7 +12,7 @@ package org.eclipse.swtbot.swt.finder.utils;
 
 /**
  * Constants used by {@link SWTBotPreferences}.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
@@ -22,11 +22,6 @@ public interface SWTBotPreferenceConstants {
 	public static final String	KEY_DEFAULT_KEY					= "org.eclipse.swtbot.search.defaultKey";
 	/** @see SWTBotPreferences#TIMEOUT */
 	public static final String	KEY_TIMEOUT						= "org.eclipse.swtbot.search.timeout";
-	/**
-	 * @see SWTBotPreferences#RECORDER_FILE_NAME
-	 * @deprecated - this will be removed in future versions of swtbot.
-	 */
-	public static final String	KEY_RECORER_FILE_NAME			= "org.eclipse.swtbot.recorder.file.name";
 
 	/** @see SWTBotPreferences#PLAYBACK_DELAY */
 	public static final String	KEY_PLAYBACK_DELAY				= "org.eclipse.swtbot.playback.delay";

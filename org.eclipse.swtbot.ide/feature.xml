@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.swtbot.ide"
-      label="SWTBot IDE Features (incubation)"
+      label="SWTBot IDE Features"
       version="2.1.1.qualifier"
       provider-name="Eclipse.org"
       plugin="org.eclipse.swtbot.eclipse.ui">
 
    <description url="http://eclipse.org/">
-      SWTBot IDE support (incubation)
+      SWTBot IDE support
    </description>
 
    <copyright>

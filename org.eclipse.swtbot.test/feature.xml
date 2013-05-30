@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.swtbot.test"
-      label="SWTBot Tests Feature (incubation)"
+      label="SWTBot Tests Feature"
       version="2.1.1.qualifier"
       provider-name="Eclipse.org">
 
    <description url="http://eclipse.org/">
-      Tests for SWTBot (incubation)
+      Tests for SWTBot
    </description>
 
    <copyright>

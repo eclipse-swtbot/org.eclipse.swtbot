@@ -30,5 +30,4 @@ Import-Package: junit.framework;version="4.5.0",
  org.eclipse.swt.widgets,
  org.junit;version="4.5.0"
 Require-Bundle: org.hamcrest.core;bundle-version="1.1.0",
- org.hamcrest.library;bundle-version="1.1.0",
- org.hamcrest.integration;bundle-version="1.1.0"
+ org.hamcrest.library;bundle-version="1.1.0"

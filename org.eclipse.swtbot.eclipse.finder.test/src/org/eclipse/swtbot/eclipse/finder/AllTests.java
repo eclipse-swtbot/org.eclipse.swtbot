@@ -16,21 +16,21 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditorTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseProjectTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotMultiPageEditorTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotViewTest;
-import org.eclipse.swtbot.swt.finder.junit.SWTBotJUnit4Suite;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-@RunWith(SWTBotJUnit4Suite.class)
+@RunWith(Suite.class)
 @SuiteClasses({
-		QuickFixNotFoundExceptionTest.class,
 		CommandFinderTest.class,
+		SWTBotViewTest.class,
+		QuickFixNotFoundExceptionTest.class,
 		SWTBotEclipseEditorTest.class,
 		SWTBotEclipseProjectTest.class,
-		SWTBotViewTest.class,
 		SWTBotMultiPageEditorTest.class })
 public class AllTests {
 }

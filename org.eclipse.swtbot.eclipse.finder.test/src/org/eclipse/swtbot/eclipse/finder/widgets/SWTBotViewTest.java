@@ -92,14 +92,14 @@ public class SWTBotViewTest {
 	}
 
 	private void openSWTBotTestView() throws Exception {
-		bot.sleep(1000);
-		bot.menu("Window").menu("Show View").menu("Other...").click();
-		bot.shell("Show View").activate();
+		this.bot.sleep(1000);
+		this.bot.menu("Window").menu("Show View").menu("Other...").click();
+		this.bot.shell("Show View").activate();
 		SWTBotTree tree = bot.tree();
 		SWTBotTreeItem expandNode = tree.expandNode("SWTBot Test Category");
 		expandNode.select("SWTBot Test View").click();
-		bot.button("OK").click();
-		bot.viewByTitle("SWTBot Test View").show();
+		this.bot.button("OK").click();
+		this.bot.viewByTitle("SWTBot Test View").show();
 	}
 
 	@Test

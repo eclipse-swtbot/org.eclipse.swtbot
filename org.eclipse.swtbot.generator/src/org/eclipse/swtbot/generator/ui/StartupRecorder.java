@@ -30,6 +30,10 @@ public class StartupRecorder implements IStartup {
 			return;
 		}
 
+		openRecorder();
+	}
+
+	public static void openRecorder() {
 		final List<Generator> availableGenerators = GeneratorExtensionPointManager.loadGenerators();
 		Generator generator = availableGenerators.get(0);
 		final BotGeneratorEventDispatcher dispatcher = new BotGeneratorEventDispatcher();
@@ -44,7 +48,7 @@ public class StartupRecorder implements IStartup {
 				display.addFilter(SWT.Modify, dispatcher);
 				display.addFilter(SWT.MouseDown, dispatcher);
 				display.addFilter(SWT.MouseDoubleClick, dispatcher);
-				
+
 				Shell recorderShell = new Shell(PlatformUI.getWorkbench().getDisplay(), SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
 				recorderShell.setText("SWTBot test recorder");
 				dispatcher.ignoreShell(recorderShell);

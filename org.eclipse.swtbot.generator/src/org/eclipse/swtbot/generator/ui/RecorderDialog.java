@@ -46,6 +46,7 @@ public class RecorderDialog extends TitleAreaDialog {
 
 	private BotGeneratorEventDispatcher recorder;
 	private List<Generator> availableGenerators;
+	private Text generatedCode;
 
 	/**
 	 * Create the dialog.
@@ -65,7 +66,9 @@ public class RecorderDialog extends TitleAreaDialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		getShell().setText("SWTBot Test Recorder");
 		setTitle("SWTBot Test Recorder");
+		setMessage("This dialog will track the generated code while you're recording your UI scenario.");
 		Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		container.setLayout(new GridLayout(1, false));
@@ -92,12 +95,12 @@ public class RecorderDialog extends TitleAreaDialog {
 			}
 		});
 
-		final Text generatedCode = new Text(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		generatedCode.setText("// Generated code goes there\n");
-		generatedCode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.generatedCode = new Text(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		this.generatedCode.setText("// Generated code goes there\n");
+		this.generatedCode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		Composite actionsComposite = new Composite(container, SWT.NONE);
 		actionsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
-
 		final Button recordPauseButton = new Button(actionsComposite, SWT.PUSH);
 		recordPauseButton.setText(this.recorder.isRecording() ? "Pause" : "Start Recording");
 		final Button copyButton = new Button(actionsComposite, SWT.PUSH);
@@ -140,5 +143,13 @@ public class RecorderDialog extends TitleAreaDialog {
 	@Override
 	protected Point getInitialSize() {
 		return new Point(450, 650);
+	}
+
+	public Text getGeneratedCodeText() {
+		return this.generatedCode;
+	}
+
+	public BotGeneratorEventDispatcher getRecorderGenerator() {
+		return this.recorder;
 	}
 }

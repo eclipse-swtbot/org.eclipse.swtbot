@@ -16,11 +16,13 @@ import java.util.List;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.Generator;
+import org.eclipse.swtbot.generator.framework.rules.complex.ModifyComboComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ToolBarMenuComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CComboSelectionRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CheckboxClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboSelectionRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ContextMenuRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.DoubleClickTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ExpandTreeItemRule;
@@ -35,7 +37,7 @@ public class SWTBotGeneratorRules implements Generator {
 
 	public List<GenerationSimpleRule> createSimpleRules() {
 		List<GenerationSimpleRule> res = new ArrayList<GenerationSimpleRule>();
-		
+
 		res.add(new PushButtonClickedRule());
 		res.add(new CheckboxClickedRule());
 		res.add(new RadioButtonClickedRule());
@@ -46,11 +48,12 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new ShellMenuClickedRule());
 		res.add(new SelectTreeItemRule());
 		res.add(new ModifyTextRule());
+		res.add(new ComboTextModifyRule());
 		res.add(new ContextMenuRule());
 		res.add(new ToolBarDropDownRule());
-		
+
 		return res;
-		
+
 	}
 
 	public String getLabel() {
@@ -61,6 +64,7 @@ public class SWTBotGeneratorRules implements Generator {
 		List<GenerationComplexRule> cres = new ArrayList<GenerationComplexRule>();
 		cres.add(new ToolBarMenuComplexRule());
 		cres.add(new ModifyTextComplexRule());
+		cres.add(new ModifyComboComplexRule());
 		return cres;
 	}
 }

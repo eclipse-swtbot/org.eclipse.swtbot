@@ -38,9 +38,9 @@ public class ComboSelectionRule extends GenerationSimpleRule {
 	public String getWidgetAccessor() {
 		int index = WidgetUtils.getIndex(this.combo);
 		if (index != 0) {
-			return "bot.combo(" + index + ")";
+			return "bot.comboBox(" + index + ")";
 		} else {
-			return "bot.combo()";
+			return "bot.comboBox()";
 		}
 	}
 

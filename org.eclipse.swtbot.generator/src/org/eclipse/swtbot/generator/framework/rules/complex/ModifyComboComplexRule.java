@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2013 Red Hat Inc..
+ * Copyright (c) 2012 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Mickael Istria (Red Hat) - copied and adapted from ModifyTextComplexRule
+ *    Rastislav Wagner (Red Hat) - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.complex;
 
@@ -14,28 +14,28 @@ import java.util.List;
 
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
-import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.ModifyTextRule;
 
-public class ModifyTextComplexRule extends GenerationComplexRule {
-
+public class ModifyComboComplexRule extends GenerationComplexRule{
+	
 	private int textIndex;
 
 	@Override
 	public boolean appliesToPartially(GenerationSimpleRule rule, int i) {
-		if(i==0 &&  rule instanceof ComboTextModifyRule){ //first event, so we will store some identifier of text
-			this.textIndex = ((ComboTextModifyRule)rule).getTextIndex();
+		if(i==0 &&  rule instanceof ModifyTextRule){ //first event, so we will store some identifier of text
+			textIndex = ((ModifyTextRule)rule).getTextIndex();
 		}
-		//check whether ComboTextModifyRule happened on the same text as the first one
+		//check whether ModifyTextRule happened on the same text as the first one
 		//if not then it should be processed by another ModifyTextComplexRule
-		return rule instanceof ComboTextModifyRule && ((ComboTextModifyRule)rule).getTextIndex() == textIndex;
+		return rule instanceof ModifyTextRule && ((ModifyTextRule)rule).getTextIndex() == textIndex;
 	}
 
 	@Override
 	public boolean appliesTo(List<GenerationSimpleRule> rules) {
 		for(GenerationSimpleRule r: rules){
-			if (!(r instanceof ComboTextModifyRule)) {
+			if(!(r instanceof ModifyTextRule)){
 				return false;
-			} else if (((ComboTextModifyRule)r).getTextIndex() != this.textIndex){
+			} else if(((ModifyTextRule)r).getTextIndex() != textIndex){
 				return false;
 			}
 		}
@@ -49,7 +49,7 @@ public class ModifyTextComplexRule extends GenerationComplexRule {
 
 	@Override
 	public String getAction() {
-		return ((ComboTextModifyRule)getInitializationRules().get(getInitializationRules().size()-1)).getAction();
+		return ((ModifyTextRule)getInitializationRules().get(getInitializationRules().size()-1)).getAction();
 	}
 
 }

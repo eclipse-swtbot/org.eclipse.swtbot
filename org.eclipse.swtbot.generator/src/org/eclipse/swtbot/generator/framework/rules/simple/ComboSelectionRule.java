@@ -11,25 +11,25 @@
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class ComboSelectionRule extends GenerationSimpleRule {
 
-	private CCombo combo;
+	private Combo combo;
 	private String newSelection;
 	private int newSelectionIndex;
 
 	@Override
 	public boolean appliesTo(Event event) {
-		return event.widget instanceof CCombo && event.type == SWT.Selection;
+		return event.widget instanceof Combo && event.type == SWT.Selection;
 	}
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.combo = (CCombo)event.widget;
+		this.combo = (Combo)event.widget;
 		this.newSelection = this.combo.getText();
 		this.newSelectionIndex = this.combo.getSelectionIndex();
 	}

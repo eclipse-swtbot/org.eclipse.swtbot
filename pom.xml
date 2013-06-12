@@ -61,6 +61,7 @@
 		<module>org.eclipse.swtbot.forms.finder.test</module>
 		<module>org.eclipse.swtbot.eclipse.finder.test</module>
 		<module>org.eclipse.swtbot.test</module>
+		<module>org.eclipse.swtbot.generator.test</module>
 	</modules>
 
 	<mailingLists>

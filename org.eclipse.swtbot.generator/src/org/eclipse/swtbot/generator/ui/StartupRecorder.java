@@ -46,7 +46,7 @@ public class StartupRecorder implements IStartup {
 			this.display.addFilter(SWT.MouseDown, dispatcher);
 			this.display.addFilter(SWT.MouseDoubleClick, dispatcher);
 
-			Shell recorderShell = new Shell(PlatformUI.getWorkbench().getDisplay(), SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
+			Shell recorderShell = new Shell(this.display, SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
 			recorderShell.setText("SWTBot test recorder");
 			dispatcher.ignoreShell(recorderShell);
 			this.recorderDialog = new RecorderDialog(recorderShell, dispatcher, availableGenerators);
@@ -83,7 +83,7 @@ public class StartupRecorder implements IStartup {
 	}
 
 	public static RecorderDialog openRecorder() {
-		final Display display = PlatformUI.getWorkbench().getDisplay();
+		final Display display = Display.getDefault();
 		StartRecorderRunnable recorderStarter = new StartRecorderRunnable(display);
 		display.syncExec(recorderStarter);
 		return recorderStarter.getRecorderDialog();

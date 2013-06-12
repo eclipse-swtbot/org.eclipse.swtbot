@@ -16,12 +16,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.generator.ui.RecorderDialog;
 import org.eclipse.swtbot.generator.ui.StartupRecorder;
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 
 public abstract class AbstractGeneratorTest {
 
+	private Display display;
 	private Shell shell;
 	protected SWTBot bot;
 	protected RecorderDialog recorderDialog;
@@ -30,26 +31,39 @@ public abstract class AbstractGeneratorTest {
 
 	@Before
 	public void setUp() {
-		this.shell = new Shell();
-		populateTestArea(this.shell);
-		this.shell.open();
 		this.recorderDialog = StartupRecorder.openRecorder();
+		this.bot = new SWTBot();
+		SWTBotShell recorderShell = this.bot.shell("SWTBot Test Recorder");
+		recorderShell.bot().button("Start Recording").click();
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				recorderDialog.getGeneratedCodeText().setText("");
 			}
 		});
-		this.recorderDialog.getRecorderGenerator().switchRecording();
-		this.bot = new SWTBot();
-		this.shell.setFocus();
+
+		this.display = Display.getDefault();
+		this.display.syncExec(new Runnable() {
+			public void run() {
+				AbstractGeneratorTest.this.shell = new Shell();
+				AbstractGeneratorTest.this.shell.setText("Test Area");
+				populateTestArea(AbstractGeneratorTest.this.shell);
+				AbstractGeneratorTest.this.shell.open();
+				AbstractGeneratorTest.this.shell.setFocus();
+			}
+		});
 	}
 
 	@After
 	public void tearDown() {
-		if (! this.shell.isDisposed()) {
-			this.shell.close();
-		}
-		this.shell = null;
+		this.display.syncExec(new Runnable() {
+			public void run() {
+				if (! AbstractGeneratorTest.this.shell.isDisposed()) {
+					AbstractGeneratorTest.this.shell.close();
+				}
+				AbstractGeneratorTest.this.shell = null;
+			}
+		});
+
 	}
 
 	/**
@@ -57,6 +71,10 @@ public abstract class AbstractGeneratorTest {
 	 * to compute generated code.
 	 */
 	public void flushEvents() {
-		this.recorderDialog.getRecorderGenerator().flushGenerationRules();
+		this.display.syncExec(new Runnable() {
+			public void run() {
+				AbstractGeneratorTest.this.recorderDialog.getRecorderGenerator().flushGenerationRules();
+			}
+		});
 	}
 }

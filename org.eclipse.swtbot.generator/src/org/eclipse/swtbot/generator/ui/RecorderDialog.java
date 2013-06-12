@@ -41,6 +41,7 @@ import org.eclipse.swtbot.generator.framework.Generator;
 import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher.CodeGenerationListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.WorkbenchImages;
 
 public class RecorderDialog extends TitleAreaDialog {
 
@@ -105,7 +106,7 @@ public class RecorderDialog extends TitleAreaDialog {
 		recordPauseButton.setText(this.recorder.isRecording() ? "Pause" : "Start Recording");
 		final Button copyButton = new Button(actionsComposite, SWT.PUSH);
 		copyButton.setToolTipText("Copy");
-		copyButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_COPY));
+		copyButton.setImage(WorkbenchImages.getImage(ISharedImages.IMG_TOOL_COPY));
 
 		recordPauseButton.addSelectionListener(new SelectionAdapter() {
 			@Override

@@ -42,7 +42,6 @@ public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
 		this.item = (TreeItem)event.item;
 	}
 
-	@Override
 	public String getWidgetAccessor() {
 		StringBuilder res = new StringBuilder();
 		res.append("bot.tree(");

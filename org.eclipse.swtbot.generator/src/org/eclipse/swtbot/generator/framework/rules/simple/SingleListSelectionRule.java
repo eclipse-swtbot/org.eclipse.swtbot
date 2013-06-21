@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.List;
@@ -35,20 +37,19 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 			this.newSelectionText = this.list.getSelection()[0];
 		}
 	}
-
+	
 	@Override
-	public String getWidgetAccessor() {
+	public java.util.List<String> getActions() {
+		java.util.List<String> actions = new ArrayList<String>();
+		
+		StringBuilder res = new StringBuilder();
 		int index = WidgetUtils.getIndex(this.list);
 		if (index != 0) {
-			return "bot.list(" + index + ")";
+			res.append("bot.list(" + index + ")");
 		} else {
-			return "bot.list()";
+			res.append("bot.list()");
 		}
-	}
-
-	@Override
-	public String getAction() {
-		StringBuilder res = new StringBuilder();
+	
 		if (this.newSelectionText != null){
 			res.append(".select(\"");
 			res.append(this.newSelectionText);
@@ -57,7 +58,16 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 		else {
 			res.append(".unselect()");
 		}
-		return res.toString();
+		
+		actions.add(res.toString());
+		
+		return actions;
+	}
+
+	@Override
+	public java.util.List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

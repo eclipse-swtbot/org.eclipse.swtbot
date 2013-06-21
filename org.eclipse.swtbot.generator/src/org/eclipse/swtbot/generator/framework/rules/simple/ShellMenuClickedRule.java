@@ -45,16 +45,18 @@ public class ShellMenuClickedRule extends GenerationSimpleRule {
 	}
 
 	@Override
-	public String getWidgetAccessor() {
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		
 		StringBuilder code = new StringBuilder();
 		List<String> path = new ArrayList<String>();
-		path.add(cleanMenuText(this.item.getText()));
+		path.add(this.item.getText());
 		MenuItem currentItem = this.item;
 		Menu parent = null;
 		while (currentItem != null && (parent = currentItem.getParent()) != null) {
 			currentItem = parent.getParentItem();
 			if (currentItem != null && currentItem.getText() != null) {
-				path.add(cleanMenuText(currentItem.getText()));
+				path.add(currentItem.getText());
 			}
 		}
 		Collections.reverse(path);
@@ -64,16 +66,18 @@ public class ShellMenuClickedRule extends GenerationSimpleRule {
 			code.append(text);
 			code.append("\")");
 		}
-		return code.toString();
-	}
-
-	private static String cleanMenuText(String text) {
-		return text.replace("&", "").split("\t")[0];
+		
+		code.append(".click()");
+		actions.add(code.toString());
+		
+		
+		return actions;
 	}
 
 	@Override
-	public String getAction() {
-		return ".click()";
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

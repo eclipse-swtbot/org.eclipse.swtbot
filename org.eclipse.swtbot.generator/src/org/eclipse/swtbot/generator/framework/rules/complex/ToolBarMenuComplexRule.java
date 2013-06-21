@@ -32,23 +32,6 @@ public class ToolBarMenuComplexRule extends GenerationComplexRule{
 		rules.add(menu);
 	}
 	
-	@Override
-	public String getWidgetAccessor(){
-		StringBuilder builder = new StringBuilder();
-		builder.append(((ToolBarDropDownRule)getInitializationRules().get(0)).getWidgetAccessor());
-		ContextMenuRule cmr = ((ContextMenuRule)getInitializationRules().get(1));
-		for(String s: cmr.getPath()){
-			builder.append(".menuItem(\""+s+"\")");
-		}
-		builder.append(".menuItem(\""+cmr.getMenu()+"\")");
-		return builder.toString();
-	}
-	
-	@Override
-	public String getAction(){
-		return ".click()";
-	}
-	
 
 	@Override
 	public boolean appliesToPartially(GenerationSimpleRule rule, int i) {
@@ -69,6 +52,29 @@ public class ToolBarMenuComplexRule extends GenerationComplexRule{
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		StringBuilder builder = new StringBuilder();
+		String toolTip = ((ToolBarDropDownRule)getInitializationRules().get(0)).getToolTipText();
+		
+		builder.append("bot.toolbarDropDownButtonWithToolTip(\""+toolTip+"\")");
+		ContextMenuRule cmr = ((ContextMenuRule)getInitializationRules().get(1));
+		for(String s: cmr.getPath()){
+			builder.append(".menuItem(\""+s+"\")");
+		}
+		builder.append(".menuItem(\""+cmr.getMenu()+"\")");
+		builder.append(".click()");
+		actions.add(builder.toString());
+		return actions;
+	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

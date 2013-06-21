@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
@@ -34,28 +37,31 @@ public class ModifyTextRule extends GenerationSimpleRule {
 		this.newValue = ((Text)event.widget).getText();
 	}
 
-	@Override
-	public String getWidgetAccessor() {
-		StringBuilder res = new StringBuilder();
-		res.append("bot.text(");
-		if (textIndex != 0) {
-			res.append(textIndex);
-		}
-		res.append(")");
-		return res.toString();
-	}
-
-	@Override
-	public String getAction() {
-		return ".setText(\"" + this.newValue + "\")";
-	}
-
 	public int getTextIndex() {
 		return textIndex;
 	}
 
 	public void setTextIndex(int textIndex) {
 		this.textIndex = textIndex;
+	}
+	
+	@Override
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		StringBuilder res = new StringBuilder();
+		res.append("bot.text(");
+		if (textIndex != 0) {
+			res.append(textIndex);
+		}
+		res.append(").setText(\"" + this.newValue + "\")");
+		actions.add(res.toString());
+		return actions;
+	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

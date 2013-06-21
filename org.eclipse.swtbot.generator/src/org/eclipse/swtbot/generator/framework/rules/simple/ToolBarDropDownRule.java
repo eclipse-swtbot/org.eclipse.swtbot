@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ToolItem;
@@ -31,23 +34,25 @@ public class ToolBarDropDownRule extends GenerationSimpleRule{
 		this.toolTipText = ((ToolItem)event.widget).getToolTipText();
 	}
 
-	@Override
-	public String getAction() {
-		return ".click()";
-		
-	}
-	
-	@Override
-	public String getWidgetAccessor() {
-		return "bot.toolbarDropDownButtonWithToolTip(\""+toolTipText+"\")";
-	}
-
 	public String getToolTipText() {
 		return toolTipText;
 	}
 
 	public void setToolTipText(String toolTipText) {
 		this.toolTipText = toolTipText;
+	}
+
+	@Override
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		actions.add("bot.toolbarDropDownButtonWithToolTip(\""+toolTipText+"\").click()");
+		return actions;
+	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

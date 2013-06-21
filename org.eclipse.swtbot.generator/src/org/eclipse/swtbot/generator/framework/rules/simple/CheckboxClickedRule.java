@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Event;
@@ -36,18 +39,26 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 		}
 	}
 
+
 	@Override
-	public String getWidgetAccessor() {
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		StringBuilder code = new StringBuilder();
+		
 		if (this.buttonText != null) {
-			return "bot.radio(\"" + this.buttonText + "\")";
+			code.append("bot.radio(\"" + this.buttonText + "\")");
 		} else {
-			return "bot.radio(" + this.index + ")";
+			code.append("bot.radio(" + this.index + ")");
 		}
+		code.append(".click()");
+		actions.add(code.toString());
+		return actions;
 	}
 
 	@Override
-	public String getAction() {
-		return ".click()";
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

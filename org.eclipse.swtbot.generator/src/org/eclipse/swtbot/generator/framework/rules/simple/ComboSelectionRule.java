@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Event;
@@ -35,18 +38,16 @@ public class ComboSelectionRule extends GenerationSimpleRule {
 	}
 
 	@Override
-	public String getWidgetAccessor() {
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		StringBuilder res = new StringBuilder();
 		int index = WidgetUtils.getIndex(this.combo);
 		if (index != 0) {
-			return "bot.comboBox(" + index + ")";
+			res.append("bot.comboBox(" + index + ")");
 		} else {
-			return "bot.comboBox()";
+			res.append("bot.comboBox()");
 		}
-	}
-
-	@Override
-	public String getAction() {
-		StringBuilder res = new StringBuilder();
+		
 		res.append(".select(");
 		if (this.newSelection != null) {
 			res.append('"');
@@ -56,7 +57,16 @@ public class ComboSelectionRule extends GenerationSimpleRule {
 			res.append(this.newSelectionIndex);
 			res.append(")");
 		}
-		return res.toString();
+		actions.add(res.toString());
+		return actions;
 	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 
 }

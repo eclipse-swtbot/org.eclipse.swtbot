@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swtbot.generator.framework.GenerationRule;
 import org.eclipse.swtbot.generator.framework.Generator;
 import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher.CodeGenerationListener;
 import org.eclipse.ui.ISharedImages;
@@ -116,8 +117,11 @@ public class RecorderDialog extends TitleAreaDialog {
 			}
 		});
 		this.recorder.addListener(new CodeGenerationListener() {
-			public void handleCodeGenerated(String code) {
-				generatedCode.setText(generatedCode.getText() + code + ";\n");
+			
+			public void handleCodeGenerated(GenerationRule code) {
+				for(String action: code.getActions())
+				generatedCode.setText(generatedCode.getText() + action + ";\n");
+				
 			}
 		});
 		copyButton.addSelectionListener(new SelectionAdapter() {

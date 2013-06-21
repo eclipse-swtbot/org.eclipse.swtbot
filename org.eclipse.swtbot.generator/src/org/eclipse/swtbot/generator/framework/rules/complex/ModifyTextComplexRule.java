@@ -43,13 +43,14 @@ public class ModifyTextComplexRule extends GenerationComplexRule {
 	}
 
 	@Override
-	public String getWidgetAccessor() {
-		return getInitializationRules().get(0).getWidgetAccessor();
+	public List<String> getActions() {
+		return ((ComboTextModifyRule)getInitializationRules().get(getInitializationRules().size()-1)).getActions();
 	}
 
 	@Override
-	public String getAction() {
-		return ((ComboTextModifyRule)getInitializationRules().get(getInitializationRules().size()-1)).getAction();
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

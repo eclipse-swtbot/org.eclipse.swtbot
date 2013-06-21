@@ -46,16 +46,6 @@ public class ContextMenuRule extends GenerationSimpleRule{
 		}
 		Collections.reverse(path);
 	}
-
-	@Override
-	public String getWidgetAccessor() {
-		return null;
-	}
-
-	@Override
-	public String getAction() {
-		return null;
-	}
 	
 	public List<String> getPath() {
 		return path;
@@ -71,6 +61,18 @@ public class ContextMenuRule extends GenerationSimpleRule{
 
 	public void setMenu(String menu) {
 		this.menu = menu;
+	}
+
+	@Override
+	public List<String> getActions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

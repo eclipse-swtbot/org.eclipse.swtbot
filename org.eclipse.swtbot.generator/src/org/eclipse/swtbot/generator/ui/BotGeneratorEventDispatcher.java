@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
+import org.eclipse.swtbot.generator.framework.GenerationRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.Generator;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
@@ -30,7 +31,7 @@ public class BotGeneratorEventDispatcher implements Listener{
 	public static final Event FLUSH_GENERATION_RULES = new Event();
 
 	public static interface CodeGenerationListener {
-		public void handleCodeGenerated(String code);
+		public void handleCodeGenerated(GenerationRule code);
 	}
 
 	private Generator generator;
@@ -118,7 +119,7 @@ public class BotGeneratorEventDispatcher implements Listener{
 			if (this.activeComplexRules.isEmpty() || forceGeneration) {
 				if (this.longestMatchedComplex != null) {
 					// generate code
-					dispatchCodeGenerated(WidgetUtils.cleanText(this.longestMatchedComplex.generateCode()));
+					dispatchCodeGenerated(longestMatchedComplex);
 					// Remove matched contained rules
 					this.simpleRules.removeAll(this.longestMatchedComplex.getInitializationRules());
 					// Remove current complex rull
@@ -127,7 +128,7 @@ public class BotGeneratorEventDispatcher implements Listener{
 					processRules(null, forceGeneration);
 				} else {
 					// generate code for first simple rule
-					dispatchCodeGenerated(WidgetUtils.cleanText(this.simpleRules.get(0).generateCode()));
+					dispatchCodeGenerated(this.simpleRules.get(0));
 					// consume first simple rule
 					this.simpleRules.remove(0);
 					// continue on remaining simple rules
@@ -169,8 +170,8 @@ public class BotGeneratorEventDispatcher implements Listener{
 		}
 	}
 
-	private void dispatchCodeGenerated(String code) {
-		if(code != null){
+	private void dispatchCodeGenerated(GenerationRule code) {
+		if (code != null) {
 			for (CodeGenerationListener listener : this.listeners) {
 				listener.handleCodeGenerated(code);
 			}

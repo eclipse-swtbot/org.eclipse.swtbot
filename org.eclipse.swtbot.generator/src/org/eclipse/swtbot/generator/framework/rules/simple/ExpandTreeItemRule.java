@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 
@@ -21,8 +24,20 @@ public class ExpandTreeItemRule extends AbstractTreeGenerationRule {
 	}
 
 	@Override
-	public String getAction() {
-		return ".expand()";
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		StringBuilder code = new StringBuilder();
+		code.append(getWidgetAccessor());
+		code.append(".expand()");
+		actions.add(code.toString());
+		return actions;
+		
+	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

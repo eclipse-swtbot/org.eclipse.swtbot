@@ -11,32 +11,15 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework;
 
+import java.util.List;
+
 /**
  * This class represents abstract GenerationRule
  *
  */
 public abstract class GenerationRule {
 	
-	/**
-	 * Generates code
-	 * @return String of generated code
-	 */
-	public String generateCode() {
-		if(getWidgetAccessor() !=null && getAction() != null){
-			return getWidgetAccessor() + getAction();
-		}
-		return null;
-	}
+	public abstract List<String> getActions();
 	
-	/**
-	 * 
-	 * @return String of code for accessing Widget
-	 */
-	public abstract String getWidgetAccessor();
-	
-	/**
-	 * 
-	 * @return String of code to call action on widget
-	 */
-	public abstract String getAction();
+	public abstract List<String> getImports();
 }

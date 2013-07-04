@@ -205,17 +205,17 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 				}
 				if (!hasStyle(widget, SWT.MULTI) && items.length > 1)
 					log.warn("Tree does not support SWT.MULTI, cannot make multiple selections"); //$NON-NLS-1$
-				widget.setSelection(selection.toArray(new TreeItem[] {}));
+				widget.setSelection(selection.toArray(new TreeItem[selection.size()]));
 			}
 		});
 		notifySelect();
 		return this;
 	}
-	
+
 	/**
 	 * Selects the items in the array. Useful for cases where you're selecting items whose names are not unique, or
 	 * items you've exposed one at a time while traversing the tree.
-	 * 
+	 *
 	 * @param items the items to select.
 	 * @return this same instance.
 	 */
@@ -298,23 +298,25 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 
 	/**
 	 * Attempts to expand all nodes along the path specified by the node array parameter.
-	 * 
+	 *
 	 * @param nodes node path to expand
 	 * @return the last Tree item that was expanded.
 	 * @throws WidgetNotFoundException if any of the nodes on the path do not exist
 	 */
 	public SWTBotTreeItem expandNode(String... nodes) throws WidgetNotFoundException {
+		// TODO: this method should be made iterative instead of recursive
 		Assert.isNotEmpty((Object[])nodes);
 
 		log.debug(MessageFormat.format("Expanding nodes {0} in tree {1}", StringUtils.join(nodes, ">"), this));
 
 		waitForEnabled();
 		SWTBotTreeItem item = getTreeItem(nodes[0]).expand();
-		
-		List<String> asList = new ArrayList<String>(Arrays.asList(nodes));
-		asList.remove(0);
-		if (!asList.isEmpty())
-			item = item.expandNode(asList.toArray(new String[0]));
+
+		String[] tail = new String[nodes.length - 1];
+		System.arraycopy(nodes, 1, tail, 0, nodes.length - 1);
+		if (tail.length > 0) {
+			item = item.expandNode(tail);
+		}
 
 		return item;
 	}

@@ -41,7 +41,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
  * <p>
  * <b>Special characters:</b> On a US keyboard '#' requires that you type SHIFT+3. ':' requires you to type SHIFT+;.
  * </p>
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  * @see Keystrokes#toKeys(int, char)
@@ -61,7 +61,7 @@ public class Keyboard {
 
 	/**
 	 * Creates a new keyboard that uses the specified strategy to type on the keyboard.
-	 * 
+	 *
 	 * @param strategy the keyboard strategy.
 	 */
 	public Keyboard(KeyboardStrategy strategy) {
@@ -70,7 +70,7 @@ public class Keyboard {
 
 	/**
 	 * Types the string on the keyboard.
-	 * 
+	 *
 	 * @param text the text to type on the keyboard.
 	 */
 	public void typeText(String text) {
@@ -79,7 +79,7 @@ public class Keyboard {
 
 	/**
 	 * Types the string on the keyboard.
-	 * 
+	 *
 	 * @param text the text to type on the keyboard.
 	 * @param interval the interval between the keystrokes.
 	 */
@@ -93,7 +93,7 @@ public class Keyboard {
 
 	/**
 	 * Types the character on the keyboard. Note that the character may refer to multiple keystrokes.
-	 * 
+	 *
 	 * @param ch the character to type on the keyboard.
 	 */
 	public void typeCharacter(char ch) {
@@ -102,7 +102,7 @@ public class Keyboard {
 
 	/**
 	 * Presses the shortcut specified by the given keys.
-	 * 
+	 *
 	 * @param modificationKeys the combination of {@link SWT#ALT} | {@link SWT#CTRL} | {@link SWT#SHIFT} |
 	 *            {@link SWT#COMMAND}.
 	 * @param c the character
@@ -114,7 +114,7 @@ public class Keyboard {
 
 	/**
 	 * Presses the shortcut specified by the given keys.
-	 * 
+	 *
 	 * @param keys the keys to press
 	 * @see Keystrokes#toKeys(int, char)
 	 */
@@ -126,7 +126,7 @@ public class Keyboard {
 
 	/**
 	 * Presses the shortcut specified by the given keys.
-	 * 
+	 *
 	 * @param modificationKeys the combination of {@link SWT#ALT} | {@link SWT#CTRL} | {@link SWT#SHIFT} |
 	 *            {@link SWT#COMMAND}.
 	 * @param keyCode the keyCode, these may be special keys like F1-F12, or navigation keys like HOME, PAGE_UP
@@ -139,14 +139,14 @@ public class Keyboard {
 		if (keyCode != 0)
 			addKeyCode(keyCode, c, keys);
 
-		pressShortcut(keys.toArray(new KeyStroke[0]));
+		pressShortcut(keys.toArray(new KeyStroke[keys.size()]));
 
 	}
 
 	private KeyStroke[] reverse(KeyStroke... keys) {
 		ArrayList<KeyStroke> copy = new ArrayList<KeyStroke>(Arrays.asList(keys));
 		Collections.reverse(copy);
-		return copy.toArray(new KeyStroke[0]);
+		return copy.toArray(new KeyStroke[copy.size()]);
 	}
 
 	private void releaseKeys(KeyStroke... keys) {

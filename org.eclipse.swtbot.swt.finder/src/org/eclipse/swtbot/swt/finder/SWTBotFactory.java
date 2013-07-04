@@ -337,7 +337,7 @@ abstract class SWTBotFactory {
 			}
 
 		}
-		return result.toArray(new SWTBotShell[] {});
+		return result.toArray(new SWTBotShell[result.size()]);
 	}
 
 	/**

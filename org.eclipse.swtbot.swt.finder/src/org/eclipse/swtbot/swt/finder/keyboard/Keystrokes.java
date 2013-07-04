@@ -23,7 +23,7 @@ import org.eclipse.swt.SWT;
  * <p>
  * For e.g. on a US keyboard converts a character '$' to two keystrokes SHIFT and 4, and a 'T' to a SHIFT and 'T'.
  * </p>
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
@@ -149,7 +149,7 @@ public class Keystrokes {
 		}
 		if (c != 0)
 			keys.addAll(Arrays.asList(Keystrokes.create(c)));
-		return keys.toArray(new KeyStroke[] {});
+		return keys.toArray(new KeyStroke[keys.size()]);
 	}
 
 	// FIXME: performance improvement: put in a hash of input and output values.

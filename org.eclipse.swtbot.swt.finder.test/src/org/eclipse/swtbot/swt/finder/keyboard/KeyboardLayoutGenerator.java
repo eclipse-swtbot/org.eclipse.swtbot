@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -96,7 +96,8 @@ public class KeyboardLayoutGenerator {
 	private static void combination(char ch) {
 		Iterator<List<Integer>> iterator = generator.iterator();
 		while (iterator.hasNext()) {
-			Integer[] combination = iterator.next().toArray(new Integer[0]);
+			List<Integer> combinationList = iterator.next();
+			Integer[] combination = combinationList.toArray(new Integer[combinationList.size()]);
 			int modificationKeys = or(combination);
 
 			KeyStroke[] keys;

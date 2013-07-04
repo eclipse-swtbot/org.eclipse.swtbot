@@ -178,7 +178,7 @@ class FormLayoutTab extends Tab {
 					if (positionInput.length() == 0)
 						positionInput = "0";
 					try {
-						new Integer(positionInput).intValue();
+						Integer.parseInt(positionInput);
 					} catch (NumberFormatException except) {
 						positionInput = "0";
 					}
@@ -186,7 +186,7 @@ class FormLayoutTab extends Tab {
 					if (offsetInput.length() == 0)
 						offsetInput = "0";
 					try {
-						new Integer(offsetInput).intValue();
+						Integer.parseInt(offsetInput);
 					} catch (NumberFormatException except) {
 						offsetInput = "0";
 					}
@@ -558,8 +558,8 @@ class FormLayoutTab extends Tab {
 					if (data.left.control != null) {
 						TableItem item = table.getItem(i);
 						String controlString = item.getText(LEFT_COL);
-						int index = new Integer(controlString.substring(controlString.indexOf(',') - 1, controlString
-								.indexOf(','))).intValue();
+						int index = Integer.parseInt(
+								controlString.substring(controlString.indexOf(',') - 1, controlString.indexOf(',')));
 						code.append("\t\tdata.left = new FormAttachment (" + names[index] + ", " + data.left.offset
 								+ ", SWT." + alignmentString(data.left.alignment) + ");\n");
 					} else if (data.right != null || data.left.numerator != 0 || data.left.offset != 0)
@@ -569,8 +569,8 @@ class FormLayoutTab extends Tab {
 					if (data.right.control != null) {
 						TableItem item = table.getItem(i);
 						String controlString = item.getText(RIGHT_COL);
-						int index = new Integer(controlString.substring(controlString.indexOf(',') - 1, controlString
-								.indexOf(','))).intValue();
+						int index = Integer.parseInt(
+								controlString.substring(controlString.indexOf(',') - 1, controlString.indexOf(',')));
 						code.append("\t\tdata.right = new FormAttachment (" + names[index] + ", " + data.right.offset
 								+ ", SWT." + alignmentString(data.right.alignment) + ");\n");
 					} else
@@ -580,8 +580,8 @@ class FormLayoutTab extends Tab {
 					if (data.top.control != null) {
 						TableItem item = table.getItem(i);
 						String controlString = item.getText(TOP_COL);
-						int index = new Integer(controlString.substring(controlString.indexOf(',') - 1, controlString
-								.indexOf(','))).intValue();
+						int index = Integer.parseInt(
+								controlString.substring(controlString.indexOf(',') - 1, controlString.indexOf(',')));
 						code.append("\t\tdata.top = new FormAttachment (" + names[index] + ", " + data.top.offset
 								+ ", SWT." + alignmentString(data.top.alignment) + ");\n");
 					} else if (data.bottom != null || data.top.numerator != 0 || data.top.offset != 0)
@@ -591,8 +591,8 @@ class FormLayoutTab extends Tab {
 					if (data.bottom.control != null) {
 						TableItem item = table.getItem(i);
 						String controlString = item.getText(BOTTOM_COL);
-						int index = new Integer(controlString.substring(controlString.indexOf(',') - 1, controlString
-								.indexOf(','))).intValue();
+						int index = Integer.parseInt(
+								controlString.substring(controlString.indexOf(',') - 1, controlString.indexOf(',')));
 						code.append("\t\tdata.bottom = new FormAttachment (" + names[index] + ", " + data.bottom.offset
 								+ ", SWT." + alignmentString(data.bottom.alignment) + ");\n");
 					} else
@@ -630,12 +630,12 @@ class FormLayoutTab extends Tab {
 		if (oldItem != null) {
 			int row = table.indexOf(oldItem);
 			try {
-				new Integer(widthText.getText()).intValue();
+				Integer.parseInt(widthText.getText());
 			} catch (NumberFormatException e) {
 				widthText.setText(oldItem.getText(WIDTH_COL));
 			}
 			try {
-				new Integer(heightText.getText()).intValue();
+				Integer.parseInt(heightText.getText());
 			} catch (NumberFormatException e) {
 				heightText.setText(oldItem.getText(HEIGHT_COL));
 			}
@@ -669,11 +669,11 @@ class FormLayoutTab extends Tab {
 			while (i < control.length() && !Character.isDigit(control.charAt(i)))
 				i++;
 			String end = control.substring(i);
-			int index = new Integer(end).intValue();
+			int index = Integer.parseInt(end);
 			Control attachControl = children[index];
 			int colon = attachment.indexOf(':');
 			try {
-				offset = new Integer(attachment.substring(comma + 1, colon)).intValue();
+				offset = Integer.parseInt(attachment.substring(comma + 1, colon));
 			} catch (NumberFormatException e) {
 				offset = 0;
 			}
@@ -682,12 +682,12 @@ class FormLayoutTab extends Tab {
 		}
 		/* Case where there is a position */
 		try {
-			position = new Integer(attachment.substring(0, comma)).intValue();
+			position = Integer.parseInt(attachment.substring(0, comma));
 		} catch (NumberFormatException e) {
 			position = 0;
 		}
 		try {
-			offset = new Integer(attachment.substring(comma + 1)).intValue();
+			offset = Integer.parseInt(attachment.substring(comma + 1));
 		} catch (NumberFormatException e) {
 			offset = 0;
 		}
@@ -704,8 +704,8 @@ class FormLayoutTab extends Tab {
 		int width, height;
 		String left, right, top, bottom;
 		for (int i = 0; i < children.length; i++) {
-			width = new Integer(items[i].getText(WIDTH_COL)).intValue();
-			height = new Integer(items[i].getText(HEIGHT_COL)).intValue();
+			width = Integer.parseInt(items[i].getText(WIDTH_COL));
+			height = Integer.parseInt(items[i].getText(HEIGHT_COL));
 			data = new FormData();
 			if (width > 0)
 				data.width = width;
@@ -754,13 +754,13 @@ class FormLayoutTab extends Tab {
 	void setLayoutState() {
 		/* Set the margins and spacing */
 		try {
-			formLayout.marginHeight = new Integer(marginHeight.getText()).intValue();
+			formLayout.marginHeight = Integer.parseInt(marginHeight.getText());
 		} catch (NumberFormatException e) {
 			formLayout.marginHeight = 0;
 			marginHeight.select(0);
 		}
 		try {
-			formLayout.marginWidth = new Integer(marginWidth.getText()).intValue();
+			formLayout.marginWidth = Integer.parseInt(marginWidth.getText());
 		} catch (NumberFormatException e) {
 			formLayout.marginWidth = 0;
 			marginWidth.select(0);

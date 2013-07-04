@@ -331,7 +331,7 @@ abstract class Tab {
 
 	/**
 	 * Creates the tab folder page.
-	 * 
+	 *
 	 * @param tabFolder
 	 *            org.eclipse.swt.widgets.TabFolder
 	 * @return the new page for the tab folder
@@ -527,7 +527,7 @@ abstract class Tab {
 			if (control.equals("Button")) {
 				Button button = new Button(layoutComposite, SWT.PUSH);
 				button.setText(LayoutExample.getResourceString("Button_Index",
-						new String[] { new Integer(i).toString() }));
+						new String[] { Integer.toString(i) }));
 				children[i] = button;
 			} else if (control.equals("Canvas")) {
 				Canvas canvas = new Canvas(layoutComposite, SWT.BORDER);
@@ -565,12 +565,12 @@ abstract class Tab {
 			} else if (control.equals("Group")) {
 				Group group = new Group(layoutComposite, SWT.NONE);
 				group.setText(LayoutExample
-						.getResourceString("Group_Index", new String[] { new Integer(i).toString() }));
+						.getResourceString("Group_Index", new String[] { Integer.toString(i) }));
 				children[i] = group;
 			} else if (control.equals("Label")) {
 				Label label = new Label(layoutComposite, SWT.NONE);
 				label.setText(LayoutExample
-						.getResourceString("Label_Index", new String[] { new Integer(i).toString() }));
+						.getResourceString("Label_Index", new String[] { Integer.toString(i) }));
 				children[i] = label;
 			} else if (control.equals("List")) {
 				List list = new List(layoutComposite, SWT.BORDER);
@@ -589,8 +589,7 @@ abstract class Tab {
 			} else if (control.equals("StyledText")) {
 				StyledText styledText = new StyledText(layoutComposite, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL
 						| SWT.H_SCROLL);
-				styledText.setText(LayoutExample.getResourceString("StyledText_Index", new String[] { new Integer(i)
-						.toString() }));
+				styledText.setText(LayoutExample.getResourceString("StyledText_Index", new String[] { Integer.toString(i) }));
 				children[i] = styledText;
 			} else if (control.equals("Table")) {
 				Table table = new Table(layoutComposite, SWT.BORDER);
@@ -602,7 +601,7 @@ abstract class Tab {
 				children[i] = table;
 			} else if (control.equals("Text")) {
 				Text text = new Text(layoutComposite, SWT.BORDER);
-				text.setText(LayoutExample.getResourceString("Text_Index", new String[] { new Integer(i).toString() }));
+				text.setText(LayoutExample.getResourceString("Text_Index", new String[] { Integer.toString(i) }));
 				children[i] = text;
 			} else if (control.equals("ToolBar")) {
 				ToolBar toolBar = new ToolBar(layoutComposite, SWT.BORDER);

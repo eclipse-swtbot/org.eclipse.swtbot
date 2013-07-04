@@ -54,13 +54,13 @@ public class PaintExample {
 			new Tool(PaintExample.RoundedRectangle_tool, "RoundedRectangle", "tool", SWT.RADIO),
 			new Tool(PaintExample.Ellipse_tool, "Ellipse", "tool", SWT.RADIO),
 			new Tool(PaintExample.Text_tool, "Text", "tool", SWT.RADIO),
-			new Tool(PaintExample.None_fill, "None", "fill", SWT.RADIO, new Integer(ToolSettings.ftNone)),
-			new Tool(PaintExample.Outline_fill, "Outline", "fill", SWT.RADIO, new Integer(ToolSettings.ftOutline)),
-			new Tool(PaintExample.Solid_fill, "Solid", "fill", SWT.RADIO, new Integer(ToolSettings.ftSolid)),
-			new Tool(PaintExample.Solid_linestyle, "Solid", "linestyle", SWT.RADIO, new Integer(SWT.LINE_SOLID)),
-			new Tool(PaintExample.Dash_linestyle, "Dash", "linestyle", SWT.RADIO, new Integer(SWT.LINE_DASH)),
-			new Tool(PaintExample.Dot_linestyle, "Dot", "linestyle", SWT.RADIO, new Integer(SWT.LINE_DOT)),
-			new Tool(PaintExample.DashDot_linestyle, "DashDot", "linestyle", SWT.RADIO, new Integer(SWT.LINE_DASHDOT)),
+			new Tool(PaintExample.None_fill, "None", "fill", SWT.RADIO, Integer.valueOf(ToolSettings.ftNone)),
+			new Tool(PaintExample.Outline_fill, "Outline", "fill", SWT.RADIO, Integer.valueOf(ToolSettings.ftOutline)),
+			new Tool(PaintExample.Solid_fill, "Solid", "fill", SWT.RADIO, Integer.valueOf(ToolSettings.ftSolid)),
+			new Tool(PaintExample.Solid_linestyle, "Solid", "linestyle", SWT.RADIO, Integer.valueOf(SWT.LINE_SOLID)),
+			new Tool(PaintExample.Dash_linestyle, "Dash", "linestyle", SWT.RADIO, Integer.valueOf(SWT.LINE_DASH)),
+			new Tool(PaintExample.Dot_linestyle, "Dot", "linestyle", SWT.RADIO, Integer.valueOf(SWT.LINE_DOT)),
+			new Tool(PaintExample.DashDot_linestyle, "DashDot", "linestyle", SWT.RADIO, Integer.valueOf(SWT.LINE_DASHDOT)),
 			new Tool(PaintExample.Font_options, "Font", "options", SWT.PUSH) };
 	private static final int		numPaletteCols			= 50;
 	// free
@@ -175,7 +175,7 @@ public class PaintExample {
 
 	/**
 	 * Creates an instance of a PaintExample embedded inside the supplied parent Composite.
-	 * 
+	 *
 	 * @param parent
 	 *            the container of the example
 	 */
@@ -379,7 +379,7 @@ public class PaintExample {
 
 	/**
 	 * Returns the Display.
-	 * 
+	 *
 	 * @return the display we're using
 	 */
 	public Display getDisplay() {
@@ -417,7 +417,7 @@ public class PaintExample {
 
 	/**
 	 * Set the tool background color.
-	 * 
+	 *
 	 * @param color
 	 *            the new color to use
 	 */
@@ -457,7 +457,7 @@ public class PaintExample {
 
 	/**
 	 * Sets the tool foreground color.
-	 * 
+	 *
 	 * @param color
 	 *            the new color to use
 	 */

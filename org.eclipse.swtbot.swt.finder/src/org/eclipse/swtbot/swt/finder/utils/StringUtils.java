@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -17,7 +17,7 @@ import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 
 /**
  * A set of utilities for string manipulation.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  * @since 1.0
@@ -26,7 +26,7 @@ public class StringUtils {
 
 	/**
 	 * Joins an array of objects using the given delimiter as spacing.
-	 * 
+	 *
 	 * @param toJoin the objects to join into a string.
 	 * @param delimiter the delimiter used to join the objects.
 	 * @return the result of joining the <code>toJoin</code> with <code>delimiter</code>.
@@ -49,7 +49,7 @@ public class StringUtils {
 
 	/**
 	 * Joins an array of objects using the given delimiter as spacing.
-	 * 
+	 *
 	 * @param toJoin the objects to join into a string.
 	 * @param delimiter the delimiter used to join the objects.
 	 * @param converter the converter that can convert objects in the collection into strings.
@@ -70,7 +70,7 @@ public class StringUtils {
 
 	/**
 	 * Joins a collection of objects using the given delimiter as spacing.
-	 * 
+	 *
 	 * @param toJoin the objects to join into a string.
 	 * @param delimiter the delimiter used to join the objects.
 	 * @return the result of joining the <code>toJoin</code> with <code>delimiter</code>.
@@ -81,7 +81,7 @@ public class StringUtils {
 
 	/**
 	 * Joins a collection of objects using the given delimiter as spacing.
-	 * 
+	 *
 	 * @param toJoin the objects to join into a string.
 	 * @param delimiter the delimiter used to join the objects.
 	 * @param converter the converter that can convert objects in the collection into strings.
@@ -93,7 +93,7 @@ public class StringUtils {
 
 	/**
 	 * Checks if the given string is <code>null</code> or empty.
-	 * 
+	 *
 	 * @param string the string.
 	 * @return <code>true</code> if string is null, blank or whitespaces. <code>false</code> otherwise.
 	 */
@@ -103,15 +103,16 @@ public class StringUtils {
 
 	/**
 	 * Joins the given integer array with the given delimiter.
-	 * 
+	 *
 	 * @param toJoin the integers to join into a string.
 	 * @param delimiter the delimiter.
 	 * @return the result of joining the <code>toJoin</code> with <code>delimiter</code>.
 	 */
 	public static String join(int[] toJoin, String delimiter) {
 		Integer[] ints = new Integer[toJoin.length];
-		for (int i = 0; i < toJoin.length; i++)
-			ints[i] = new Integer(toJoin[i]);
+		for (int i = 0; i < toJoin.length; i++) {
+			ints[i] = Integer.valueOf(toJoin[i]);
+		}
 		return join(ints, delimiter);
 	}
 
@@ -136,7 +137,7 @@ public class StringUtils {
 	/**
 	 * Converts the string to camelcase. Strings are of the format: THIS_IS_A_STRING, and the result of camel casing
 	 * would be thisIsAString.
-	 * 
+	 *
 	 * @param string the string to be camelcased.
 	 * @return the camel cased string.
 	 * @since 2.0
@@ -153,7 +154,7 @@ public class StringUtils {
 	/**
 	 * Converts the string to capitalized. Strings are of the format: THIS_IS_A_STRING, and the result of capitalization
 	 * would be ThisIsAString.
-	 * 
+	 *
 	 * @param string the string to capitalize.
 	 * @return the capitalized string.
 	 * @since 2.0

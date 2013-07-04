@@ -33,7 +33,7 @@ public class CountDownTab extends AnimatedGraphicsTab {
 
 	/**
 	 * Returns the name of a valid font for the resident platform.
-	 * 
+	 *
 	 * @param index
 	 *            index is used to determine the appropriate font face
 	 */
@@ -70,7 +70,7 @@ public class CountDownTab extends AnimatedGraphicsTab {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param example
 	 *            A GraphicsExample
 	 */
@@ -81,7 +81,7 @@ public class CountDownTab extends AnimatedGraphicsTab {
 	/**
 	 * This method creates the controls specific to the tab. The call to the createControlPanel method in the super
 	 * class create the controls that are defined in the super class.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite
 	 */
@@ -165,7 +165,7 @@ public class CountDownTab extends AnimatedGraphicsTab {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.examples.graphics.AnimatedGraphicsTab#getAnimationTime()
 	 */
 	public int getInitialAnimationTime() {
@@ -178,7 +178,7 @@ public class CountDownTab extends AnimatedGraphicsTab {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.examples.graphics.AnimatedGraphicsTab#next(int, int)
 	 */
 	public void next(int width, int height) {
@@ -195,7 +195,7 @@ public class CountDownTab extends AnimatedGraphicsTab {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.examples.graphics.GraphicsTab#paint(org.eclipse.swt.graphics.GC, int, int)
 	 */
 	public void paint(GC gc, int width, int height) {
@@ -244,12 +244,12 @@ public class CountDownTab extends AnimatedGraphicsTab {
 			gc.fillPath(path);
 			path.dispose();
 
-			Point point = gc.stringExtent(new Integer(nextNumber).toString());
+			Point point = gc.stringExtent(Integer.toString(nextNumber));
 			int textWidth = point.x;
 			int textHeight = point.y;
 
 			// draw the number
-			gc.drawString(new Integer(nextNumber).toString(), (width - textWidth) / 2, (height - textHeight) / 2, true);
+			gc.drawString(Integer.toString(nextNumber), (width - textWidth) / 2, (height - textHeight) / 2, true);
 
 			// draw the rotating arm
 			Transform transform = new Transform(device);

@@ -181,7 +181,7 @@ class JavaLineStyler implements LineStyleListener {
 		 */
 		void initialize() {
 			fgKeys = new Hashtable();
-			Integer k = new Integer(JavaLineStyler.KEY);
+			Integer k = Integer.valueOf(JavaLineStyler.KEY);
 			for (int i = 0; i < fgKeywords.length; i++)
 				fgKeys.put(fgKeywords[i], k);
 		}

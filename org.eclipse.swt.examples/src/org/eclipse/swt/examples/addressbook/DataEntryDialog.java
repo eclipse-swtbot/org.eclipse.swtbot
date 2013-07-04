@@ -55,7 +55,7 @@ public class DataEntryDialog {
 
 	/**
 	 * Returns the contents of the <code>Text</code> widgets in the dialog in a <code>String</code> array.
-	 * 
+	 *
 	 * @return String[] The contents of the text widgets of the dialog. May return null if all text widgets are empty.
 	 */
 	public String[] getValues() {
@@ -64,7 +64,7 @@ public class DataEntryDialog {
 
 	/**
 	 * Opens the dialog in the given state. Sets <code>Text</code> widget contents and dialog behaviour accordingly.
-	 * 
+	 *
 	 * @param dialogState
 	 *            int The state the dialog should be opened in.
 	 */
@@ -91,7 +91,7 @@ public class DataEntryDialog {
 
 	/**
 	 * Sets the values of the <code>Text</code> widgets of the dialog to the values supplied in the parameter array.
-	 * 
+	 *
 	 * @param itemInfo
 	 *            String[] The values to which the dialog contents will be set.
 	 */
@@ -165,7 +165,7 @@ public class DataEntryDialog {
 			text.setLayoutData(gridData);
 			if (values[i] != null)
 				text.setText(values[i]);
-			text.setData("index", new Integer(i));
+			text.setData("index", Integer.valueOf(i));
 			addTextListener(text);
 		}
 	}

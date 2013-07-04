@@ -36,7 +36,7 @@ public class MazeTab extends AnimatedGraphicsTab {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param example
 	 *            A GraphicsExample
 	 */
@@ -143,7 +143,7 @@ public class MazeTab extends AnimatedGraphicsTab {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.examples.graphics.AnimatedGraphicsTab#next(int, int)
 	 */
 	public void next(int width, int height) {
@@ -175,7 +175,7 @@ public class MazeTab extends AnimatedGraphicsTab {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.examples.graphics.GraphicsTab#paint(org.eclipse.swt.graphics.GC, int, int)
 	 */
 	public void paint(GC gc, int width, int height) {
@@ -219,7 +219,7 @@ public class MazeTab extends AnimatedGraphicsTab {
 
 	/**
 	 * Returns a list of coordinates moving in a downward fashion from the start point to the end point inclusively.
-	 * 
+	 *
 	 * @param x1
 	 *            X component of the start point
 	 * @param y1
@@ -233,22 +233,22 @@ public class MazeTab extends AnimatedGraphicsTab {
 	 */
 	private ArrayList moveDown(int x1, int y1, int x2, int y2, int stepsize) {
 		ArrayList coords = new ArrayList();
-		coords.add(new Integer(x1));
-		coords.add(new Integer(y1));
+		coords.add(Integer.valueOf(x1));
+		coords.add(Integer.valueOf(y1));
 		while (y1 + stepsize < y2) {
 			y1 = y1 + stepsize;
-			coords.add(new Integer(x1));
-			coords.add(new Integer(y1));
+			coords.add(Integer.valueOf(x1));
+			coords.add(Integer.valueOf(y1));
 		}
-		coords.add(new Integer(x2));
-		coords.add(new Integer(y2));
+		coords.add(Integer.valueOf(x2));
+		coords.add(Integer.valueOf(y2));
 		return coords;
 	}
 
 	/**
 	 * Returns a list of coordinates moving in a "left-moving" fashion from the start point to the end point
 	 * inclusively.
-	 * 
+	 *
 	 * @param x1
 	 *            X component of the start point
 	 * @param y1
@@ -262,22 +262,22 @@ public class MazeTab extends AnimatedGraphicsTab {
 	 */
 	private ArrayList moveLeft(int x1, int y1, int x2, int y2, int stepsize) {
 		ArrayList coords = new ArrayList();
-		coords.add(new Integer(x1));
-		coords.add(new Integer(y1));
+		coords.add(Integer.valueOf(x1));
+		coords.add(Integer.valueOf(y1));
 		while (x1 - stepsize > x2) {
 			x1 = x1 - stepsize;
-			coords.add(new Integer(x1));
-			coords.add(new Integer(y1));
+			coords.add(Integer.valueOf(x1));
+			coords.add(Integer.valueOf(y1));
 		}
-		coords.add(new Integer(x2));
-		coords.add(new Integer(y2));
+		coords.add(Integer.valueOf(x2));
+		coords.add(Integer.valueOf(y2));
 		return coords;
 	}
 
 	/**
 	 * Returns a list of coordinates moving in a "right-moving" fashion from the start point to the end point
 	 * inclusively.
-	 * 
+	 *
 	 * @param x1
 	 *            X component of the start point
 	 * @param y1
@@ -291,21 +291,21 @@ public class MazeTab extends AnimatedGraphicsTab {
 	 */
 	private ArrayList moveRight(int x1, int y1, int x2, int y2, int stepsize) {
 		ArrayList coords = new ArrayList();
-		coords.add(new Integer(x1));
-		coords.add(new Integer(y1));
+		coords.add(Integer.valueOf(x1));
+		coords.add(Integer.valueOf(y1));
 		while (x1 + stepsize < x2) {
 			x1 = x1 + stepsize;
-			coords.add(new Integer(x1));
-			coords.add(new Integer(y1));
+			coords.add(Integer.valueOf(x1));
+			coords.add(Integer.valueOf(y1));
 		}
-		coords.add(new Integer(x2));
-		coords.add(new Integer(y2));
+		coords.add(Integer.valueOf(x2));
+		coords.add(Integer.valueOf(y2));
 		return coords;
 	}
 
 	/**
 	 * Returns a list of coordinates moving in an upward fashion from the start point to the end point inclusively.
-	 * 
+	 *
 	 * @param x1
 	 *            X component of the start point
 	 * @param y1
@@ -319,15 +319,15 @@ public class MazeTab extends AnimatedGraphicsTab {
 	 */
 	private ArrayList moveUp(int x1, int y1, int x2, int y2, int stepsize) {
 		ArrayList coords = new ArrayList();
-		coords.add(new Integer(x1));
-		coords.add(new Integer(y1));
+		coords.add(Integer.valueOf(x1));
+		coords.add(Integer.valueOf(y1));
 		while (y1 - stepsize > y2) {
 			y1 = y1 - stepsize;
-			coords.add(new Integer(x1));
-			coords.add(new Integer(y1));
+			coords.add(Integer.valueOf(x1));
+			coords.add(Integer.valueOf(y1));
 		}
-		coords.add(new Integer(x2));
-		coords.add(new Integer(y2));
+		coords.add(Integer.valueOf(x2));
+		coords.add(Integer.valueOf(y2));
 		return coords;
 	}
 

@@ -66,7 +66,7 @@ public class PaintSurface {
 	 * paintCanvas must have SWT.NO_REDRAW_RESIZE and SWT.NO_BACKGROUND styles, and may have SWT.V_SCROLL and/or
 	 * SWT.H_SCROLL.
 	 * </p>
-	 * 
+	 *
 	 * @param paintCanvas
 	 *            the Canvas object in which to render
 	 * @param paintStatus
@@ -202,7 +202,7 @@ public class PaintSurface {
 	 * This object will be drawn to the screen as a preview and refreshed appropriately until the selection is either
 	 * cleared or committed.
 	 * </p>
-	 * 
+	 *
 	 * @param object
 	 *            the object to add to the selection
 	 */
@@ -281,7 +281,7 @@ public class PaintSurface {
 
 	/**
 	 * Draws a Figure object to the screen and to the backing store permanently.
-	 * 
+	 *
 	 * @param object
 	 *            the object to draw onscreen
 	 */
@@ -292,7 +292,7 @@ public class PaintSurface {
 
 	/**
 	 * Returns the current position in an interactive operation.
-	 * 
+	 *
 	 * @return the last known position of the pointer
 	 */
 	public Point getCurrentPosition() {
@@ -301,7 +301,7 @@ public class PaintSurface {
 
 	/**
 	 * Returns the Display on which the PaintSurface resides.
-	 * 
+	 *
 	 * @return the Display
 	 */
 	public Display getDisplay() {
@@ -310,7 +310,7 @@ public class PaintSurface {
 
 	/**
 	 * Returns the current paint session.
-	 * 
+	 *
 	 * @return the current paint session, null if none is active
 	 */
 	public PaintSession getPaintSession() {
@@ -319,7 +319,7 @@ public class PaintSurface {
 
 	/**
 	 * Returns the current paint tool.
-	 * 
+	 *
 	 * @return the current paint tool, null if none is active (though some other session might be)
 	 */
 	public PaintTool getPaintTool() {
@@ -328,7 +328,7 @@ public class PaintSurface {
 
 	/**
 	 * Returns the Shell in which the PaintSurface resides.
-	 * 
+	 *
 	 * @return the Shell
 	 */
 	public Shell getShell() {
@@ -354,7 +354,7 @@ public class PaintSurface {
 
 	/**
 	 * Determines if the rubberband is hidden.
-	 * 
+	 *
 	 * @return true iff the rubber is hidden
 	 */
 	public boolean isRubberbandHidden() {
@@ -363,7 +363,7 @@ public class PaintSurface {
 
 	/**
 	 * Handles a horizontal scroll event
-	 * 
+	 *
 	 * @param scrollbar
 	 *            the horizontal scroll bar that posted this event
 	 */
@@ -384,7 +384,7 @@ public class PaintSurface {
 
 	/**
 	 * Handles a vertical scroll event
-	 * 
+	 *
 	 * @param scrollbar
 	 *            the vertical scroll bar that posted this event
 	 */
@@ -415,7 +415,7 @@ public class PaintSurface {
 	 * <p>
 	 * If oldPaintSession != paintSession calls oldPaintSession.end() and paintSession.begin()
 	 * </p>
-	 * 
+	 *
 	 * @param paintSession
 	 *            the paint session to activate; null to disable all sessions
 	 */
@@ -438,7 +438,7 @@ public class PaintSurface {
 
 	/**
 	 * Sets the status bar action text.
-	 * 
+	 *
 	 * @param action
 	 *            the action in progress, null to clear
 	 */
@@ -449,19 +449,19 @@ public class PaintSurface {
 
 	/**
 	 * Sets the coordinates in the status bar.
-	 * 
+	 *
 	 * @param coord
 	 *            the coordinates to display, null to clear
 	 */
 	public void setStatusCoord(Point coord) {
 		statusCoordInfo = coord != null ? PaintExample.getResourceString("status.Coord.format", new Object[] {
-				new Integer(coord.x), new Integer(coord.y) }) : "";
+				Integer.valueOf(coord.x), Integer.valueOf(coord.y) }) : "";
 		updateStatus();
 	}
 
 	/**
 	 * Sets the coordinate range in the status bar.
-	 * 
+	 *
 	 * @param a
 	 *            the "from" coordinate, must not be null
 	 * @param b
@@ -475,7 +475,7 @@ public class PaintSurface {
 
 	/**
 	 * Sets the status bar message text.
-	 * 
+	 *
 	 * @param message
 	 *            the message to display, null to clear
 	 */

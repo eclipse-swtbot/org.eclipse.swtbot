@@ -86,7 +86,7 @@ public class FileViewer {
 
 		/**
 		 * Creates a progress dialog but does not open it immediately.
-		 * 
+		 *
 		 * @param parent
 		 *            the parent Shell
 		 * @param style
@@ -131,7 +131,7 @@ public class FileViewer {
 
 		/**
 		 * Adds to the progress of completion of the total work units.
-		 * 
+		 *
 		 * @param work
 		 *            the number of work units completed to add
 		 */
@@ -141,7 +141,7 @@ public class FileViewer {
 
 		/**
 		 * Adds to the total number of work units to be performed.
-		 * 
+		 *
 		 * @param work
 		 *            the number of work units to add
 		 */
@@ -164,7 +164,7 @@ public class FileViewer {
 
 		/**
 		 * Returns true if the Cancel button was been clicked.
-		 * 
+		 *
 		 * @return true if the Cancel button was clicked.
 		 */
 		public boolean isCancelled() {
@@ -188,7 +188,7 @@ public class FileViewer {
 		/**
 		 * Sets the detail text to show the filename along with a string representing the operation being performed on
 		 * that file.
-		 * 
+		 *
 		 * @param file
 		 *            the file to be detailed
 		 * @param operation
@@ -201,7 +201,7 @@ public class FileViewer {
 
 		/**
 		 * Sets the progress of completion of the total work units.
-		 * 
+		 *
 		 * @param work
 		 *            the total number of work units completed
 		 */
@@ -213,7 +213,7 @@ public class FileViewer {
 
 		/**
 		 * Sets the total number of work units to be performed.
-		 * 
+		 *
 		 * @param work
 		 *            the total number of work units
 		 */
@@ -307,7 +307,7 @@ public class FileViewer {
 
 	/**
 	 * Foreign method: removes all children of a TreeItem.
-	 * 
+	 *
 	 * @param treeItem
 	 *            the TreeItem
 	 */
@@ -319,7 +319,7 @@ public class FileViewer {
 
 	/**
 	 * Gets a directory listing
-	 * 
+	 *
 	 * @param file
 	 *            the directory to be listed
 	 * @return an array of files this directory contains, may be empty but not null
@@ -362,7 +362,7 @@ public class FileViewer {
 
 	/**
 	 * Sorts files lexicographically by name.
-	 * 
+	 *
 	 * @param files
 	 *            the array of Files to be sorted
 	 */
@@ -505,7 +505,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the combo box view.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent control
 	 */
@@ -537,7 +537,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the File Menu.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent menu
 	 */
@@ -567,7 +567,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the Help Menu.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent menu
 	 */
@@ -592,7 +592,7 @@ public class FileViewer {
 
 	/**
 	 * Construct the UI
-	 * 
+	 *
 	 * @param container
 	 *            the ShellContainer managing the Shell we are rendering inside
 	 */
@@ -638,7 +638,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the Drag & Drop DragSource for items being dragged from the table.
-	 * 
+	 *
 	 * @return the DragSource for the table
 	 */
 	private DragSource createTableDragSource(final Table table) {
@@ -682,7 +682,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the Drag & Drop DropTarget for items being dropped onto the table.
-	 * 
+	 *
 	 * @return the DropTarget for the table
 	 */
 	private DropTarget createTableDropTarget(final Table table) {
@@ -729,7 +729,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the file details table.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent control
 	 */
@@ -777,7 +777,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the toolbar
-	 * 
+	 *
 	 * @param shell
 	 *            the shell on which to attach the toolbar
 	 * @param layoutData
@@ -849,7 +849,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the Drag & Drop DragSource for items being dragged from the tree.
-	 * 
+	 *
 	 * @return the DragSource for the tree
 	 */
 	private DragSource createTreeDragSource(final Tree tree) {
@@ -895,7 +895,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the Drag & Drop DropTarget for items being dropped onto the tree.
-	 * 
+	 *
 	 * @return the DropTarget for the tree
 	 */
 	private DropTarget createTreeDropTarget(final Tree tree) {
@@ -937,7 +937,7 @@ public class FileViewer {
 
 	/**
 	 * Creates the file tree view.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent control
 	 */
@@ -1001,7 +1001,7 @@ public class FileViewer {
 	 * <p>
 	 * Used in dragFinished().<br>
 	 * </p>
-	 * 
+	 *
 	 * @param event
 	 *            the DragSourceEvent passed as parameter to the dragFinished() method
 	 * @param sourceNames
@@ -1059,7 +1059,7 @@ public class FileViewer {
 	 * Used in drop().<br>
 	 * Note event.detail is modified by this method.
 	 * </p>
-	 * 
+	 *
 	 * @param event
 	 *            the DropTargetEvent passed as parameter to the drop() method
 	 * @param targetFile
@@ -1143,7 +1143,7 @@ public class FileViewer {
 	 * Used in dragOver() and dropAccept().<br>
 	 * Note event.detail is set to DND.DROP_NONE by this method if the target is not valid.
 	 * </p>
-	 * 
+	 *
 	 * @param event
 	 *            the DropTargetEvent to validate
 	 * @param targetFile
@@ -1160,7 +1160,7 @@ public class FileViewer {
 
 	/**
 	 * Handles expand events on a tree item.
-	 * 
+	 *
 	 * @param item
 	 *            the TreeItem to fill in
 	 */
@@ -1174,7 +1174,7 @@ public class FileViewer {
 
 	/**
 	 * Initializes a folder item.
-	 * 
+	 *
 	 * @param item
 	 *            the TreeItem to initialize
 	 * @param folder
@@ -1190,7 +1190,7 @@ public class FileViewer {
 
 	/**
 	 * Initializes a volume item.
-	 * 
+	 *
 	 * @param item
 	 *            the TreeItem to initialize
 	 * @param volume
@@ -1206,7 +1206,7 @@ public class FileViewer {
 
 	/**
 	 * Traverse the entire tree and update only what has changed.
-	 * 
+	 *
 	 * @param roots
 	 *            the root directory listing
 	 */
@@ -1251,7 +1251,7 @@ public class FileViewer {
 
 	/**
 	 * Traverse an item in the tree and update only what has changed.
-	 * 
+	 *
 	 * @param dirItem
 	 *            the tree item of the directory
 	 * @param forcePopulate
@@ -1414,7 +1414,7 @@ public class FileViewer {
 
 	/**
 	 * Copies a file or entire directory structure.
-	 * 
+	 *
 	 * @param oldFile
 	 *            the location of the old file or directory
 	 * @param newFile
@@ -1496,7 +1496,7 @@ public class FileViewer {
 
 	/**
 	 * Deletes a file or entire directory structure.
-	 * 
+	 *
 	 * @param oldFile
 	 *            the location of the old file or directory
 	 * @return true iff the operation succeeds without errors
@@ -1535,7 +1535,7 @@ public class FileViewer {
 
 	/**
 	 * Performs the default action on a set of files.
-	 * 
+	 *
 	 * @param files
 	 *            the array of files to process
 	 */
@@ -1579,7 +1579,7 @@ public class FileViewer {
 
 	/**
 	 * Gets filesystem root entries
-	 * 
+	 *
 	 * @return an array of Files corresponding to the root directories on the platform, may be empty but not null
 	 */
 	File[] getRoots() {
@@ -1705,7 +1705,7 @@ public class FileViewer {
 
 	/**
 	 * Notifies the application components that files must be refreshed
-	 * 
+	 *
 	 * @param files
 	 *            the files that need refreshing, empty array is a no-op, null refreshes all
 	 */
@@ -1728,7 +1728,7 @@ public class FileViewer {
 
 	/**
 	 * Notifies the application components that a new current directory has been selected
-	 * 
+	 *
 	 * @param dir
 	 *            the directory that was selected, null is ignored
 	 */
@@ -1808,7 +1808,7 @@ public class FileViewer {
 
 	/**
 	 * Notifies the application components that files have been selected
-	 * 
+	 *
 	 * @param files
 	 *            the files that were selected, null or empty array indicates no active selection
 	 */
@@ -1818,19 +1818,18 @@ public class FileViewer {
 		 */
 		if (files != null && files.length != 0) {
 			numObjectsLabel.setText(FileViewer.getResourceString("details.NumberOfSelectedFiles.text",
-					new Object[] { new Integer(files.length) }));
+					new Object[] { Integer.valueOf(files.length) }));
 			long fileSize = 0L;
 			for (int i = 0; i < files.length; ++i)
 				fileSize += files[i].length();
-			diskSpaceLabel.setText(FileViewer.getResourceString("details.FileSize.text", new Object[] { new Long(
-					fileSize) }));
+			diskSpaceLabel.setText(FileViewer.getResourceString("details.FileSize.text", new Object[] { Long.valueOf(fileSize) }));
 		} else {
 			// No files selected
 			diskSpaceLabel.setText("");
 			if (currentDirectory != null) {
 				int numObjects = FileViewer.getDirectoryList(currentDirectory).length;
 				numObjectsLabel.setText(FileViewer.getResourceString("details.DirNumberOfObjects.text",
-						new Object[] { new Integer(numObjects) }));
+						new Object[] { Integer.valueOf(numObjects) }));
 			} else
 				numObjectsLabel.setText("");
 		}
@@ -1855,7 +1854,7 @@ public class FileViewer {
 	/**
 	 * Notifies the worker that it should update itself with new data. Cancels any previous operation and begins a new
 	 * one.
-	 * 
+	 *
 	 * @param dir
 	 *            the new base directory for the table, null is ignored
 	 * @param force

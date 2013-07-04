@@ -440,27 +440,27 @@ class GridLayoutTab extends Tab {
 		if (oldItem != null) {
 			int row = table.indexOf(oldItem);
 			try {
-				new Integer(widthText.getText()).intValue();
+				Integer.parseInt(widthText.getText());
 			} catch (NumberFormatException e) {
 				widthText.setText(oldItem.getText(WIDTH_COL));
 			}
 			try {
-				new Integer(heightText.getText()).intValue();
+				Integer.parseInt(heightText.getText());
 			} catch (NumberFormatException e) {
 				heightText.setText(oldItem.getText(HEIGHT_COL));
 			}
 			try {
-				new Integer(hIndent.getText()).intValue();
+				Integer.parseInt(hIndent.getText());
 			} catch (NumberFormatException e) {
 				hIndent.setText(oldItem.getText(HINDENT_COL));
 			}
 			try {
-				new Integer(hSpan.getText()).intValue();
+				Integer.parseInt(hSpan.getText());
 			} catch (NumberFormatException e) {
 				hSpan.setText(oldItem.getText(HSPAN_COL));
 			}
 			try {
-				new Integer(vSpan.getText()).intValue();
+				Integer.parseInt(vSpan.getText());
 			} catch (NumberFormatException e) {
 				vSpan.setText(oldItem.getText(VSPAN_COL));
 			}
@@ -492,8 +492,8 @@ class GridLayoutTab extends Tab {
 		for (int i = 0; i < children.length; i++) {
 			data = new GridData();
 			/* Set widthHint and heightHint */
-			data.widthHint = new Integer(items[i].getText(WIDTH_COL)).intValue();
-			data.heightHint = new Integer(items[i].getText(HEIGHT_COL)).intValue();
+			data.widthHint = Integer.parseInt(items[i].getText(WIDTH_COL));
+			data.heightHint = Integer.parseInt(items[i].getText(HEIGHT_COL));
 			/* Set vertical alignment and horizontal alignment */
 			hAlign = items[i].getText(HALIGN_COL);
 			if (hAlign.equals("CENTER"))
@@ -514,11 +514,11 @@ class GridLayoutTab extends Tab {
 			else
 				data.verticalAlignment = GridData.CENTER;
 			/* Set indents and spans */
-			hIndent = new Integer(items[i].getText(HINDENT_COL)).intValue();
+			hIndent = Integer.parseInt(items[i].getText(HINDENT_COL));
 			data.horizontalIndent = hIndent;
-			hSpan = new Integer(items[i].getText(HSPAN_COL)).intValue();
+			hSpan = Integer.parseInt(items[i].getText(HSPAN_COL));
 			data.horizontalSpan = hSpan;
-			vSpan = new Integer(items[i].getText(VSPAN_COL)).intValue();
+			vSpan = Integer.parseInt(items[i].getText(VSPAN_COL));
 			data.verticalSpan = vSpan;
 			/* Set grabbers */
 			hGrab = items[i].getText(HGRAB_COL);
@@ -541,7 +541,7 @@ class GridLayoutTab extends Tab {
 	void setLayoutState() {
 		/* Set the columns for the layout */
 		try {
-			gridLayout.numColumns = new Integer(numColumns.getText()).intValue();
+			gridLayout.numColumns = Integer.parseInt(numColumns.getText());
 		} catch (NumberFormatException e) {
 			gridLayout.numColumns = 1;
 		}
@@ -549,25 +549,25 @@ class GridLayoutTab extends Tab {
 
 		/* Set the margins and spacing */
 		try {
-			gridLayout.marginHeight = new Integer(marginHeight.getText()).intValue();
+			gridLayout.marginHeight = Integer.parseInt(marginHeight.getText());
 		} catch (NumberFormatException e) {
 			gridLayout.marginHeight = 5;
 			marginHeight.select(2);
 		}
 		try {
-			gridLayout.marginWidth = new Integer(marginWidth.getText()).intValue();
+			gridLayout.marginWidth = Integer.parseInt(marginWidth.getText());
 		} catch (NumberFormatException e) {
 			gridLayout.marginWidth = 5;
 			marginWidth.select(2);
 		}
 		try {
-			gridLayout.horizontalSpacing = new Integer(horizontalSpacing.getText()).intValue();
+			gridLayout.horizontalSpacing = Integer.parseInt(horizontalSpacing.getText());
 		} catch (NumberFormatException e) {
 			gridLayout.horizontalSpacing = 5;
 			horizontalSpacing.select(2);
 		}
 		try {
-			gridLayout.verticalSpacing = new Integer(verticalSpacing.getText()).intValue();
+			gridLayout.verticalSpacing = Integer.parseInt(verticalSpacing.getText());
 		} catch (NumberFormatException e) {
 			gridLayout.verticalSpacing = 5;
 			verticalSpacing.select(2);

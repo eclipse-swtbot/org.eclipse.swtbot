@@ -72,28 +72,28 @@ import org.eclipse.swt.widgets.Widget;
  */
 abstract class Tab {
 	static final int		BACKGROUND_COLOR	= 1;
-	static final Object[][]	EVENT_NAMES			= { { "Activate", new Integer(SWT.Activate) },
-			{ "Arm", new Integer(SWT.Arm) }, { "Close", new Integer(SWT.Close) },
-			{ "Collapse", new Integer(SWT.Collapse) }, { "Deactivate", new Integer(SWT.Deactivate) },
-			{ "DefaultSelection", new Integer(SWT.DefaultSelection) }, { "Deiconify", new Integer(SWT.Deiconify) },
-			{ "Dispose", new Integer(SWT.Dispose) }, { "DragDetect", new Integer(SWT.DragDetect) },
-			{ "EraseItem", new Integer(SWT.EraseItem) }, { "Expand", new Integer(SWT.Expand) },
-			{ "FocusIn", new Integer(SWT.FocusIn) }, { "FocusOut", new Integer(SWT.FocusOut) },
-			{ "HardKeyDown", new Integer(SWT.HardKeyDown) }, { "HardKeyUp", new Integer(SWT.HardKeyUp) },
-			{ "Help", new Integer(SWT.Help) }, { "Hide", new Integer(SWT.Hide) },
-			{ "Iconify", new Integer(SWT.Iconify) }, { "KeyDown", new Integer(SWT.KeyDown) },
-			{ "KeyUp", new Integer(SWT.KeyUp) }, { "MeasureItem", new Integer(SWT.MeasureItem) },
-			{ "MenuDetect", new Integer(SWT.MenuDetect) }, { "Modify", new Integer(SWT.Modify) },
-			{ "MouseDoubleClick", new Integer(SWT.MouseDoubleClick) }, { "MouseDown", new Integer(SWT.MouseDown) },
-			{ "MouseEnter", new Integer(SWT.MouseEnter) }, { "MouseExit", new Integer(SWT.MouseExit) },
-			{ "MouseHover", new Integer(SWT.MouseHover) }, { "MouseMove", new Integer(SWT.MouseMove) },
-			{ "MouseUp", new Integer(SWT.MouseUp) }, { "MouseWheel", new Integer(SWT.MouseWheel) },
-			{ "Move", new Integer(SWT.Move) }, { "Paint", new Integer(SWT.Paint) },
-			{ "PaintItem", new Integer(SWT.PaintItem) }, { "Resize", new Integer(SWT.Resize) },
-			{ "Selection", new Integer(SWT.Selection) }, { "SetData", new Integer(SWT.SetData) },
-			// {"Settings", new Integer(SWT.Settings)}, // note: this event only goes to Display
-			{ "Show", new Integer(SWT.Show) }, { "Traverse", new Integer(SWT.Traverse) },
-			{ "Verify", new Integer(SWT.Verify) }, };
+	static final Object[][]	EVENT_NAMES			= { { "Activate", Integer.valueOf(SWT.Activate) },
+			{ "Arm", Integer.valueOf(SWT.Arm) }, { "Close", Integer.valueOf(SWT.Close) },
+			{ "Collapse", Integer.valueOf(SWT.Collapse) }, { "Deactivate", Integer.valueOf(SWT.Deactivate) },
+			{ "DefaultSelection", Integer.valueOf(SWT.DefaultSelection) }, { "Deiconify", Integer.valueOf(SWT.Deiconify) },
+			{ "Dispose", Integer.valueOf(SWT.Dispose) }, { "DragDetect", Integer.valueOf(SWT.DragDetect) },
+			{ "EraseItem", Integer.valueOf(SWT.EraseItem) }, { "Expand", Integer.valueOf(SWT.Expand) },
+			{ "FocusIn", Integer.valueOf(SWT.FocusIn) }, { "FocusOut", Integer.valueOf(SWT.FocusOut) },
+			{ "HardKeyDown", Integer.valueOf(SWT.HardKeyDown) }, { "HardKeyUp", Integer.valueOf(SWT.HardKeyUp) },
+			{ "Help", Integer.valueOf(SWT.Help) }, { "Hide", Integer.valueOf(SWT.Hide) },
+			{ "Iconify", Integer.valueOf(SWT.Iconify) }, { "KeyDown", Integer.valueOf(SWT.KeyDown) },
+			{ "KeyUp", Integer.valueOf(SWT.KeyUp) }, { "MeasureItem", Integer.valueOf(SWT.MeasureItem) },
+			{ "MenuDetect", Integer.valueOf(SWT.MenuDetect) }, { "Modify", Integer.valueOf(SWT.Modify) },
+			{ "MouseDoubleClick", Integer.valueOf(SWT.MouseDoubleClick) }, { "MouseDown", Integer.valueOf(SWT.MouseDown) },
+			{ "MouseEnter", Integer.valueOf(SWT.MouseEnter) }, { "MouseExit", Integer.valueOf(SWT.MouseExit) },
+			{ "MouseHover", Integer.valueOf(SWT.MouseHover) }, { "MouseMove", Integer.valueOf(SWT.MouseMove) },
+			{ "MouseUp", Integer.valueOf(SWT.MouseUp) }, { "MouseWheel", Integer.valueOf(SWT.MouseWheel) },
+			{ "Move", Integer.valueOf(SWT.Move) }, { "Paint", Integer.valueOf(SWT.Paint) },
+			{ "PaintItem", Integer.valueOf(SWT.PaintItem) }, { "Resize", Integer.valueOf(SWT.Resize) },
+			{ "Selection", Integer.valueOf(SWT.Selection) }, { "SetData", Integer.valueOf(SWT.SetData) },
+			// {"Settings", Integer.valueOf(SWT.Settings)}, // note: this event only goes to Display
+			{ "Show", Integer.valueOf(SWT.Show) }, { "Traverse", Integer.valueOf(SWT.Traverse) },
+			{ "Verify", Integer.valueOf(SWT.Verify) }, };
 
 	static final int		FONT				= 2;
 	static final int		FOREGROUND_COLOR	= 0;
@@ -795,7 +795,7 @@ abstract class Tab {
 
 	/**
 	 * Creates the tab folder page.
-	 * 
+	 *
 	 * @param tabFolder
 	 *            org.eclipse.swt.widgets.TabFolder
 	 * @return the new page for the tab folder
@@ -883,7 +883,7 @@ abstract class Tab {
 
 	/**
 	 * Gets the list of custom event names.
-	 * 
+	 *
 	 * @return an array containing custom event names
 	 */
 	String[] getCustomEventNames() {
@@ -892,7 +892,7 @@ abstract class Tab {
 
 	/**
 	 * Gets the default style for a widget
-	 * 
+	 *
 	 * @return the default style bit
 	 */
 	int getDefaultStyle() {
@@ -905,7 +905,7 @@ abstract class Tab {
 
 	/**
 	 * Gets the "Example" controls. This is the subset of "Example" widgets that are controls.
-	 * 
+	 *
 	 * @return an array containing the example controls
 	 */
 	Control[] getExampleControls() {
@@ -923,7 +923,7 @@ abstract class Tab {
 
 	/**
 	 * Gets the "Example" widget children's items, if any.
-	 * 
+	 *
 	 * @return an array containing the example widget children's items
 	 */
 	Item[] getExampleWidgetItems() {
@@ -932,7 +932,7 @@ abstract class Tab {
 
 	/**
 	 * Gets the "Example" widgets.
-	 * 
+	 *
 	 * @return an array containing the example widgets
 	 */
 	Widget[] getExampleWidgets() {
@@ -961,7 +961,7 @@ abstract class Tab {
 
 	/**
 	 * Gets the short text for the tab folder item.
-	 * 
+	 *
 	 * @return the short text for the tab item
 	 */
 	String getShortTabText() {
@@ -970,7 +970,7 @@ abstract class Tab {
 
 	/**
 	 * Gets the text for the tab folder item.
-	 * 
+	 *
 	 * @return the text for the tab item
 	 */
 	String getTabText() {
@@ -1442,7 +1442,7 @@ abstract class Tab {
 				String typeName = returnType.getName();
 				Object[] parameter = null;
 				if (typeName.equals("int"))
-					parameter = new Object[] { new Integer(value) };
+					parameter = new Object[] { Integer.valueOf(value) };
 				else if (typeName.equals("long"))
 					parameter = new Object[] { new Long(value) };
 				else if (typeName.equals("char"))
@@ -1454,12 +1454,12 @@ abstract class Tab {
 					parameter = new Object[] { value };
 				else if (typeName.equals("org.eclipse.swt.graphics.Point")) {
 					String xy[] = split(value, ',');
-					parameter = new Object[] { new Point(new Integer(xy[0]).intValue(), new Integer(xy[1]).intValue()) };
+					parameter = new Object[] { new Point(Integer.valueOf(xy[0]).intValue(), Integer.valueOf(xy[1]).intValue()) };
 				} else if (typeName.equals("[I")) {
 					String strings[] = split(value, ',');
 					int[] ints = new int[strings.length];
 					for (int j = 0; j < strings.length; j++)
-						ints[j] = new Integer(strings[j]).intValue();
+						ints[j] = Integer.valueOf(strings[j]).intValue();
 					parameter = new Object[] { ints };
 				} else if (typeName.equals("[Ljava.lang.String;"))
 					parameter = new Object[] { split(value, ',') };

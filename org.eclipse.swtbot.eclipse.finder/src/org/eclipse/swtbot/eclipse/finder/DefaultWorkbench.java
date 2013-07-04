@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     David Green - initial API and implementation
  *******************************************************************************/
@@ -29,7 +29,7 @@ import org.eclipse.ui.PlatformUI;
  * <p>
  * Do not access directly. Instead use <code>Eclipse.workbench()</code>
  * </p>
- * 
+ *
  * @author David Green
  * @see Eclipse
  */
@@ -40,7 +40,7 @@ class DefaultWorkbench {
 
 	/**
 	 * Creates an instance of the default workbench.
-	 * 
+	 *
 	 * @param bot the bot that can drive the workbench.
 	 */
 	DefaultWorkbench(SWTWorkbenchBot bot) {
@@ -97,17 +97,13 @@ class DefaultWorkbench {
 			}
 		});
 	}
-	
+
 	private Widget getActiveWorkbenchWindowShell() {
 		return getActiveWorkbenchWindow().getShell();
 	}
 
 	private IWorkbenchPage activePage() {
 		return getActiveWorkbenchWindow().getActivePage();
-	}
-
-	private IPerspectiveDescriptor[] perspectives() {
-		return PlatformUI.getWorkbench().getPerspectiveRegistry().getPerspectives();
 	}
 
 }

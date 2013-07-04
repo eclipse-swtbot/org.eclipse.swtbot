@@ -53,7 +53,7 @@ public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
 		List<String> path = new ArrayList<String>();
 		TreeItem currentItem = this.item;
 		while (currentItem != null) {
-			if (currentItem != null && currentItem.getText() != null) {
+			if (currentItem.getText() != null) {
 				path.add(currentItem.getText());
 			}
 			currentItem = currentItem.getParentItem();

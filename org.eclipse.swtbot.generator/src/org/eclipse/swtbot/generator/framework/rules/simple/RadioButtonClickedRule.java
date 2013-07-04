@@ -33,8 +33,10 @@ public class RadioButtonClickedRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.buttonText = ((Button)event.widget).getText().replace("&", "");
-		if (this.buttonText == null) {
+		this.buttonText = ((Button)event.widget).getText();
+		if (this.buttonText != null) {
+			this.buttonText = this.buttonText.replace("&", "");
+		} else {
 			this.index = WidgetUtils.getIndex((Button)event.widget);
 		}
 	}
@@ -42,17 +44,17 @@ public class RadioButtonClickedRule extends GenerationSimpleRule {
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
-		
+
 		StringBuilder code = new StringBuilder();
 		if (this.buttonText != null) {
 			code.append("bot.checkBox(\"" + this.buttonText + "\")");
 		} else {
 			code.append("bot.checkBox(" + this.index + ")");
 		}
-		
+
 		code.append(".click()");
 		actions.add(code.toString());
-		
+
 		return actions;
 	}
 

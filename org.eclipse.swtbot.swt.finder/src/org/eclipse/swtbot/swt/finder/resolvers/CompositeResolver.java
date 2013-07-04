@@ -24,7 +24,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 
 /**
  * Resolves {@link Composite}s and {@link Control}s
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
@@ -44,11 +44,10 @@ public class CompositeResolver implements IChildrenResolver, IParentResolver {
 
 	public Widget getParent(Widget w) {
 		Composite parent = w instanceof Control ? ((Control) w).getParent() : null;
-		if ((w instanceof Composite) && (parent instanceof TabFolder))
-			if (parent instanceof TabFolder) {
-				TabItem[] items = ((TabFolder) parent).getItems();
-				return items[SWTUtils.widgetIndex(w)];
-			}
+		if ((w instanceof Composite) && (parent instanceof TabFolder)) {
+			TabItem[] items = ((TabFolder) parent).getItems();
+			return items[SWTUtils.widgetIndex(w)];
+		}
 		return parent;
 	}
 

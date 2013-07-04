@@ -33,8 +33,10 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.buttonText = ((Button)event.widget).getText().replace("&", "");
-		if (this.buttonText == null) {
+		this.buttonText = ((Button)event.widget).getText();
+		if (this.buttonText != null) {
+			this.buttonText = this.buttonText.replace("&", "");
+		} else {
 			this.index = WidgetUtils.getIndex((Button)event.widget);
 		}
 	}
@@ -44,7 +46,7 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
 		StringBuilder code = new StringBuilder();
-		
+
 		if (this.buttonText != null) {
 			code.append("bot.radio(\"" + this.buttonText + "\")");
 		} else {

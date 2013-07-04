@@ -56,11 +56,18 @@ public abstract class AbstractMatcher<T> extends BaseMatcher<T> {
 				TreePath path = pathGenerator.getPath((Widget) item);
 				int segmentCount = path.getSegmentCount();
 
-				String prefix = ""; //$NON-NLS-1$
-				for (int i = 0; i < segmentCount - 1; i++)
-					prefix += "    "; //$NON-NLS-1$
-				prefix += "+---"; //$NON-NLS-1$
-				log.trace(prefix + "Widget: " + ClassUtils.simpleClassName(item) + "{" + text + "}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				StringBuilder line = new StringBuilder();
+				// Indentation
+				for (int i = 0; i < segmentCount - 1; i++) {
+					line.append("    "); //$NON-NLS-1$
+				}
+				line.append("+---"); //$NON-NLS-1$
+				line.append("Widget: "); //$//$NON-NLS-1$
+				line.append(ClassUtils.simpleClassName(item));
+				line.append("{"); //$NON-NLS-1$
+				line.append(text);
+				line.append("}"); //$NON-NLS-1$
+				log.trace(line.toString());
 			}
 		} catch (Exception e) {
 			log.warn("Matcher threw an exception: ", e); //$NON-NLS-1$

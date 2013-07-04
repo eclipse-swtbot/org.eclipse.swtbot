@@ -130,10 +130,8 @@ class CoolBarTab extends Tab {
 				while (menu != null && !menu.isDisposed() && menu.isVisible())
 					if (!display.readAndDispatch())
 						display.sleep();
-				if (menu != null) {
 					menu.dispose();
 					menu = null;
-				}
 			}
 		}
 	}
@@ -454,7 +452,7 @@ class CoolBarTab extends Tab {
 
 	/**
 	 * Gets the "Example" widget children's items, if any.
-	 * 
+	 *
 	 * @return an array containing the example widget children's items
 	 */
 	Item[] getExampleWidgetItems() {

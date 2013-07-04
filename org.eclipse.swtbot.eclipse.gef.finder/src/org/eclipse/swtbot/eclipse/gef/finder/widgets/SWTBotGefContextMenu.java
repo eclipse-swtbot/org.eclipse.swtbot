@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   MAKE Technologies Inc - initial API and implementation
  *   Mariot Chauvin <mariot.chauvin@obeo.fr> - refactoring
@@ -31,7 +31,7 @@ import org.hamcrest.Matcher;
 /**
  * a context menu implementation that finds the menu and invokes it in one UIRunnable so as to avoid the
  * disposed-before-clicked issue that occurs within Eclipse.
- * 
+ *
  * @author David Green
  *
  */
@@ -44,7 +44,7 @@ public class SWTBotGefContextMenu extends AbstractSWTBot<Control>{
 		this.text = text;
 		this.control = control;
 	}
-	
+
 	public SWTBotGefContextMenu click() throws WidgetNotFoundException {
 		final boolean[] clicked = new boolean[1];
 		// must async exec in case the call opens a dialog
@@ -57,7 +57,7 @@ public class SWTBotGefContextMenu extends AbstractSWTBot<Control>{
 		// use another sync exec to ensure that previous call was processed fully
 		UIThreadRunnable.syncExec(this.display,new VoidResult() {
 			public void run() {
-				// do nothing, just wait for all events to be processed 
+				// do nothing, just wait for all events to be processed
 			}
 		});
 		if (!clicked[0]) {
@@ -65,7 +65,7 @@ public class SWTBotGefContextMenu extends AbstractSWTBot<Control>{
 		}
 		return this;
 	}
-	
+
 
 	private boolean invokeMenuInternal(final Menu bar, final Matcher<? extends Widget> matcher,final boolean[] clickInitiated, final boolean recursive) {
 		if (bar != null) {
@@ -94,11 +94,11 @@ public class SWTBotGefContextMenu extends AbstractSWTBot<Control>{
 		}
 		return false;
 	}
-	
+
 	private void click(MenuItem menuItem) {
 		assertEnabled(menuItem);
 		int style = menuItem.getStyle();
-		if (hasStyle(style, SWT.CHECK) | hasStyle(style, SWT.RADIO)) {
+		if (hasStyle(style, SWT.CHECK) || hasStyle(style, SWT.RADIO)) {
 			menuItem.setSelection(!menuItem.getSelection());
 		}
 		Event event = new Event();
@@ -117,13 +117,13 @@ public class SWTBotGefContextMenu extends AbstractSWTBot<Control>{
 		// FIXED > 20071101 https://bugs.eclipse.org/bugs/show_bug.cgi?id=208188#c2
 		return (menuItem.getStyle() & SWT.SEPARATOR) != 0;
 	}
-	
-	
+
+
 	 private void assertEnabled(MenuItem menuItem) {
 	        Assert.isTrue(isEnabled(menuItem), MessageFormat.format("Widget {0} is not enabled.", this)); //$NON-NLS-1$ //$NON-NLS-2$
 	 }
-	
-	
+
+
 	protected boolean isEnabled(Widget widget) {
 		try {
 			Method method = widget.getClass().getMethod("isEnabled");

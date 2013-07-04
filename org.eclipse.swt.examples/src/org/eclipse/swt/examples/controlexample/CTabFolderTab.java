@@ -286,7 +286,7 @@ class CTabFolderTab extends Tab {
 
 	/**
 	 * Gets the list of custom event names.
-	 * 
+	 *
 	 * @return an array containing custom event names
 	 */
 	String[] getCustomEventNames() {
@@ -295,7 +295,7 @@ class CTabFolderTab extends Tab {
 
 	/**
 	 * Gets the "Example" widget children's items, if any.
-	 * 
+	 *
 	 * @return an array containing the example widget children's items
 	 */
 	Item[] getExampleWidgetItems() {
@@ -320,7 +320,7 @@ class CTabFolderTab extends Tab {
 	 * Hooks the custom listener specified by eventName.
 	 */
 	void hookCustomListener(final String eventName) {
-		if (eventName == "CTabFolderEvent")
+		if (eventName.equals("CTabFolderEvent"))
 			tabFolder1.addCTabFolder2Listener(new CTabFolder2Adapter() {
 				public void close(CTabFolderEvent event) {
 					log(eventName, event);

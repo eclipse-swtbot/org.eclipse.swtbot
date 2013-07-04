@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     MAKE Technologies Inc - initial API and implementation
  *     Mariot Chauvin <mariot.chauvin@obeo.fr> - Improvements and bug fixes
@@ -37,7 +37,7 @@ import org.hamcrest.Matcher;
 
 /**
  * represent an edit part of a graphical viewer.
- * 
+ *
  * @author David Green
  * @see SWTBotGefEditor
  */
@@ -68,7 +68,7 @@ public class SWTBotGefEditPart {
 
 	/**
 	 * Get the children of this edit part.
-	 * 
+	 *
 	 * @return the edit part's children
 	 */
 	@SuppressWarnings("unchecked")
@@ -86,7 +86,7 @@ public class SWTBotGefEditPart {
 
 	/**
 	 * find descendants that match.
-	 * 
+	 *
 	 * @param matcher the matcher that matches against {@link org.eclipse.gef.EditPart}
 	 * @return a list of matches or an empty list if there are none
 	 */
@@ -114,7 +114,7 @@ public class SWTBotGefEditPart {
 
 	/**
 	 * get the underlying wrapped {@link EditPart} instance
-	 * 
+	 *
 	 * @return the wrapped {@link EditPart}.
 	 */
 	public EditPart part() {
@@ -165,7 +165,7 @@ public class SWTBotGefEditPart {
 		return this;
 	}
 
-	
+
 	/* this method is not finished. She will become public when finished, but API is not guaranteed */
 	private void scrollUp() {
 		final IFigure figure = ((GraphicalEditPart) part).getFigure();
@@ -177,7 +177,7 @@ public class SWTBotGefEditPart {
 			}
 		}
 	}
-	
+
 	/* this method is not finished. She will become public when finished, but API is not guaranteed */
 	private Collection<ScrollBar> getScrollBars(final ScrollPane scrollPane) {
 		Set<ScrollBar> scrollbars = new HashSet<ScrollBar>();
@@ -188,11 +188,11 @@ public class SWTBotGefEditPart {
 		}
 		return scrollbars;
 	}
-	
+
 	/**
 	 * Resize the current edit part from the corner orientation to the new size. The direction is specified using using
 	 * {@link PositionConstants#NORTH}, {@link PositionConstants#NORTH_EAST}, etc.
-	 * 
+	 *
 	 * @param direction the direction
 	 * @param width the new width
 	 * @param height the new height
@@ -203,58 +203,58 @@ public class SWTBotGefEditPart {
 		int fromY = 0;
 		int toX = 0;
 		int toY = 0;
-		
+
 		switch(direction) {
 		case PositionConstants.NORTH:
-			fromX = bounds.x + bounds.width / 2; 
+			fromX = bounds.x + bounds.width / 2;
 			fromY = bounds.y;
 			toX=  bounds.x + bounds.width / 2;
 			toY= bounds.y + bounds.height - height;
 			break;
 		case PositionConstants.SOUTH:
-			fromX = bounds.x + bounds.width / 2; 
+			fromX = bounds.x + bounds.width / 2;
 			fromY = bounds.y + bounds.height;
 			toX=bounds.x + bounds.width / 2;
 			toY=bounds.y +height;
 			break;
 		case PositionConstants.EAST:
-			fromX = bounds.x; 
+			fromX = bounds.x;
 			fromY = bounds.y + bounds.height/2;
 			toX = bounds.x + bounds.width - width;
 			toY = bounds.y + bounds.height/2;
 			break;
 		case PositionConstants.WEST:
-			fromX = bounds.x + bounds.width; 
+			fromX = bounds.x + bounds.width;
 			fromY = bounds.y + bounds.height/2;
 			toX = bounds.x + width;
 			toY = bounds.y + bounds.height/2;
 			break;
 		case PositionConstants.NORTH_EAST:
-			fromX = bounds.x; 
+			fromX = bounds.x;
 			fromY = bounds.y;
 			toX = bounds.x + bounds.width - width;
 			toY= bounds.y + bounds.height - height;
 			break;
 		case PositionConstants.NORTH_WEST:
-			fromX = bounds.x + bounds.width; 
+			fromX = bounds.x + bounds.width;
 			fromY = bounds.y;
 			toX = bounds.x + width;
 			toY= bounds.y + bounds.height - height;
 			break;
 		case PositionConstants.SOUTH_EAST:
-			fromX = bounds.x; 
+			fromX = bounds.x;
 			fromY = bounds.y + bounds.height;
 			toX =  bounds.x + bounds.width - width;
 			toY = bounds.y +height;
 			break;
 		case PositionConstants.SOUTH_WEST:
-			fromX = bounds.x + bounds.width; 
+			fromX = bounds.x + bounds.width;
 			fromY = bounds.y + bounds.height;
 			toX = bounds.x + width;
 			toY = bounds.y +height;
 			break;
 			default:
-				new IllegalArgumentException("direction given is not a valid one");
+				throw new IllegalArgumentException("direction given is not a valid one");
 		}
 		viewer.drag(fromX, fromY, toX, toY);
 	}

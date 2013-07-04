@@ -54,7 +54,7 @@ public class AddressBook {
 
 		/**
 		 * Constructs a RowComparator given the column index
-		 * 
+		 *
 		 * @param col
 		 *            The index (starting at zero) of the column
 		 */
@@ -64,7 +64,7 @@ public class AddressBook {
 
 		/**
 		 * Compares two rows (type String[]) using the specified column entry.
-		 * 
+		 *
 		 * @param obj1
 		 *            First row to compare
 		 * @param obj2
@@ -125,7 +125,7 @@ public class AddressBook {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void open(Shell shell) {
 		this.shell = shell;
@@ -193,7 +193,7 @@ public class AddressBook {
 	/**
 	 * Creates all the items located in the Edit submenu and associate all the menu items with their appropriate
 	 * functions.
-	 * 
+	 *
 	 * @param menuBar
 	 *            Menu the <code>Menu</code> that file contain the Edit submenu.
 	 * @see #createSortMenu()
@@ -291,7 +291,7 @@ public class AddressBook {
 	/**
 	 * Creates all the items located in the File submenu and associate all the menu items with their appropriate
 	 * functions.
-	 * 
+	 *
 	 * @param menuBar
 	 *            Menu the <code>Menu</code> that file contain the File submenu.
 	 */
@@ -394,7 +394,7 @@ public class AddressBook {
 	/**
 	 * Creates all the items located in the Help submenu and associate all the menu items with their appropriate
 	 * functions.
-	 * 
+	 *
 	 * @param menuBar
 	 *            Menu the <code>Menu</code> that file contain the Help submenu.
 	 */
@@ -421,7 +421,7 @@ public class AddressBook {
 
 	/**
 	 * Creates the menu at the top of the shell where most of the programs functionality is accessed.
-	 * 
+	 *
 	 * @return The <code>Menu</code> widget that was created
 	 */
 	private Menu createMenuBar() {
@@ -439,7 +439,7 @@ public class AddressBook {
 
 	/**
 	 * Creates all items located in the popup menu and associates all the menu items with their appropriate functions.
-	 * 
+	 *
 	 * @return Menu The created popup menu.
 	 */
 	private Menu createPopUpMenu() {
@@ -541,7 +541,7 @@ public class AddressBook {
 	/**
 	 * Creates all the items located in the Search submenu and associate all the menu items with their appropriate
 	 * functions.
-	 * 
+	 *
 	 * @param menuBar
 	 *            Menu the <code>Menu</code> that file contain the Search submenu.
 	 */
@@ -581,7 +581,7 @@ public class AddressBook {
 	/**
 	 * Creates all the items located in the Sort cascading submenu and associate all the menu items with their
 	 * appropriate functions.
-	 * 
+	 *
 	 * @return Menu The cascading menu with all the sort menu items on it.
 	 */
 	private Menu createSortMenu() {
@@ -648,12 +648,15 @@ public class AddressBook {
 	}
 
 	private String encodeLine(String[] tableItems) {
-		String line = "";
-		for (int i = 0; i < tableItems.length - 1; i++)
-			line += tableItems[i] + AddressBook.DELIMITER;
-		line += tableItems[tableItems.length - 1] + "\n";
+		StringBuilder line = new StringBuilder();
+		for (int i = 0; i < tableItems.length - 1; i++) {
+			line.append(tableItems[i]);
+			line.append(AddressBook.DELIMITER);
+		}
+		line.append(tableItems[tableItems.length - 1]);
+		line.append("\n");
 
-		return line;
+		return line.toString();
 	}
 
 	private boolean findEntry() {

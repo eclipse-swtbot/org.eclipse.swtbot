@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -57,7 +57,7 @@ import org.hamcrest.StringDescription;
 
 /**
  * Helper to find SWT {@link Widget}s and perform operations on them.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @author Joshua Gosse &lt;jlgosse [at] ca [dot] ibm [dot] com&gt;
  * @version $Id$
@@ -77,7 +77,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Constructs a new instance with the given widget.
-	 * 
+	 *
 	 * @param w the widget.
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
 	 */
@@ -87,7 +87,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Constructs a new instance with the given widget.
-	 * 
+	 *
 	 * @param w the widget.
 	 * @param description the description of the widget, this will be reported by {@link #toString()}
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
@@ -111,7 +111,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Sends a non-blocking notification of the specified type to the widget.
-	 * 
+	 *
 	 * @param eventType the event type.
 	 * @see Widget#notifyListeners(int, Event)
 	 */
@@ -121,7 +121,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Sends a non-blocking notification of the specified type to the {@link #widget}.
-	 * 
+	 *
 	 * @param eventType the type of event.
 	 * @param createEvent the event to be sent to the {@link #widget}.
 	 */
@@ -131,7 +131,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Sends a non-blocking notification of the specified type to the widget.
-	 * 
+	 *
 	 * @param eventType the type of event.
 	 * @param createEvent the event to be sent to the {@link #widget}.
 	 * @param widget the widget to send the event to.
@@ -174,7 +174,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Sleeps for millis milliseconds. Delegate to {@link SWTUtils#sleep(long)}
-	 * 
+	 *
 	 * @param millis the time in milli seconds
 	 */
 	protected static void sleep(long millis) {
@@ -183,7 +183,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Creates an event.
-	 * 
+	 *
 	 * @return an event that encapsulates {@link #widget} and {@link #display}. Subclasses may override to set other
 	 *         event properties.
 	 */
@@ -197,7 +197,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Create a mouse event
-	 * 
+	 *
 	 * @param x the x co-ordinate of the mouse event.
 	 * @param y the y co-ordinate of the mouse event.
 	 * @param button the mouse button that was clicked.
@@ -221,7 +221,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Create a selection event with a particular state mask
-	 * 
+	 *
 	 * @param stateMask the state of the keyboard modifier keys.
 	 */
 	protected Event createSelectionEvent(int stateMask) {
@@ -231,22 +231,8 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	}
 
 	/**
-	 * Create a key event
-	 * 
-	 * @param keyCode the key code of the key pressed
-	 * @param character the character representation of the key
-	 * @return an event that encapsulates {@link #widget} and {@link #display}
-	 */
-	private Event createKeyEvent(int keyCode, char character) {
-		Event event = createEvent();
-		event.keyCode = keyCode;
-		event.character = character;
-		return event;
-	}
-
-	/**
 	 * Click on the table at given coordinates
-	 * 
+	 *
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
 	 * @since 2.0
@@ -270,7 +256,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Right click on the widget at given coordinates
-	 * 
+	 *
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
 	 * @since 2.0
@@ -283,7 +269,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		notify(SWT.FocusIn);
 		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.BUTTON3, 1));
 		notify(SWT.MouseUp);
-		notify(SWT.Selection, createSelectionEvent(SWT.BUTTON3));		
+		notify(SWT.Selection, createSelectionEvent(SWT.BUTTON3));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);
@@ -294,7 +280,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Double-click on the table at given coordinates
-	 * 
+	 *
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
 	 * @since 2.0
@@ -371,7 +357,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Gets the text of this object's widget.
-	 * 
+	 *
 	 * @return the text on the widget.
 	 */
 	public String getText() {
@@ -381,7 +367,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	/**
 	 * Gets the value of {@link Widget#getData(String))} for the key {@link SWTBotPreferences#DEFAULT_KEY} of this
 	 * object's widget.
-	 * 
+	 *
 	 * @return the id that SWTBot may use to search this widget.
 	 * @see WithId
 	 */
@@ -395,7 +381,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Gets the tooltip of this object's widget.
-	 * 
+	 *
 	 * @return the tooltip on the widget.
 	 * @since 1.0
 	 */
@@ -409,7 +395,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Check if this widget has a style attribute.
-	 * 
+	 *
 	 * @param w the widget.
 	 * @param style the style bits, one of the constants in {@link SWT}.
 	 * @return <code>true</code> if style is set on the widget.
@@ -420,7 +406,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Gets the context menu matching the text.
-	 * 
+	 *
 	 * @param text the text on the context menu.
 	 * @return the menu that has the given text.
 	 * @throws WidgetNotFoundException if the widget is not found.
@@ -434,7 +420,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Gets the context menu on the given control, matching the text.
-	 * 
+	 *
 	 * @param control the control
 	 * @param text the text on the context menu.
 	 * @return the menu that has the given text.
@@ -462,7 +448,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Gets if the object's widget is enabled.
-	 * 
+	 *
 	 * @return <code>true</code> if the widget is enabled.
 	 * @see Control#isEnabled()
 	 */
@@ -481,7 +467,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * <p>
 	 * This method is not thread safe, and must be called from the UI thread.
 	 * </p>
-	 * 
+	 *
 	 * @return <code>true</code> if the widget is enabled.
 	 * @since 1.0
 	 */
@@ -495,7 +481,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link ArrayResult#run()} on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the array returned by toExecute.
 	 */
@@ -505,7 +491,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link VoidResult#run()} on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 */
 	protected void syncExec(VoidResult toExecute) {
@@ -514,7 +500,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link ListResult#run()} on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the list returned by toExecute
 	 */
@@ -524,7 +510,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link BoolResult#run()} synchronously on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the boolean returned by toExecute
 	 */
@@ -534,7 +520,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link BoolResult#run()} synchronously on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the boolean returned by toExecute
 	 */
@@ -545,7 +531,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link Result#run()} synchronously on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the boolean returned by toExecute
 	 */
@@ -555,7 +541,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link WidgetResult#run()} synchronously on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the Widget returned by toExecute
 	 */
@@ -565,7 +551,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link IntResult#run()} synchronously on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the integer returned by toExecute
 	 */
@@ -576,7 +562,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Invokes {@link BoolResult#run()} asynchronously on the UI thread.
-	 * 
+	 *
 	 * @param toExecute the object to be invoked in the UI thread.
 	 */
 	protected void asyncExec(VoidResult toExecute) {
@@ -585,7 +571,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Gets the foreground color of the widget.
-	 * 
+	 *
 	 * @return the foreground color on the widget, or <code>null</code> if the widget is not an instance of
 	 *         {@link Control}.
 	 * @since 1.0
@@ -602,7 +588,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Gets the background color of the widget.
-	 * 
+	 *
 	 * @return the background color on the widget, or <code>null</code> if the widget is not an instance of
 	 *         {@link Control}.
 	 * @since 1.0
@@ -619,16 +605,16 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Check if the widget is enabled, throws if the widget is disabled.
-	 * 
+	 *
 	 * @since 1.3
 	 */
 	protected void assertEnabled() {
 		Assert.isTrue(isEnabled(), MessageFormat.format("Widget {0} is not enabled.", this)); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
 	/**
 	 * Wait until the widget is enabled.
-	 * 
+	 *
 	 * @since 2.0
 	 */
 	protected void waitForEnabled() {
@@ -637,7 +623,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Checks if the widget is visible.
-	 * 
+	 *
 	 * @return <code>true</code> if the widget is visible, <code>false</code> otherwise.
 	 * @since 1.0
 	 */
@@ -653,7 +639,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Sets the focus on this control.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public void setFocus() {
@@ -711,7 +697,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Clicks on this widget.
-	 * 
+	 *
 	 * @return itself.
 	 */
 	protected AbstractSWTBot<T> click() {
@@ -720,7 +706,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Empty method stub, since it should be overridden by subclass#rightClick
-	 * 
+	 *
 	 * @return itself.
 	 */
 	protected AbstractSWTBot<T> rightClick() {
@@ -729,7 +715,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Perform a click action at the given coordinates
-	 * 
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 * @param post Whether or not {@link Display#post} should be used
@@ -752,7 +738,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Perform a right-click action at the given coordinates
-	 * 
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 * @param post Whether or not {@link Display#post} should be used
@@ -774,7 +760,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Post an SWT.MouseMove event
-	 * 
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
@@ -790,7 +776,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Post an SWT.MouseDown event
-	 * 
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 * @param button the mouse button to be pressed
@@ -807,7 +793,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 	/**
 	 * Post an SWT.MouseUp event.
-	 * 
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 * @param button the mouse button to be pressed

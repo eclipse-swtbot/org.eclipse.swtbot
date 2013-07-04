@@ -68,7 +68,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	private void toggleSelection() {
 		syncExec(new VoidResult() {
 			public void run() {
-				if (hasStyle(widget, SWT.CHECK) | hasStyle(widget, SWT.RADIO))
+				if (hasStyle(widget, SWT.CHECK) || hasStyle(widget, SWT.RADIO))
 					widget.setSelection(!widget.getSelection());
 			}
 		});

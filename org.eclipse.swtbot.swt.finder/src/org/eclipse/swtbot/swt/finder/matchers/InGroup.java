@@ -22,7 +22,7 @@ import org.hamcrest.Matcher;
 
 /**
  * Tells if a particular widget is within a {@link Group} with the specified text.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  * @since 2.0
@@ -36,7 +36,7 @@ public class InGroup<T extends Widget> extends AbstractMatcher<T> {
 
 	/**
 	 * Matches a widget that has the specified Label.
-	 * 
+	 *
 	 * @param labelText the label.
 	 */
 	InGroup(String labelText) {
@@ -45,13 +45,14 @@ public class InGroup<T extends Widget> extends AbstractMatcher<T> {
 
 	/**
 	 * Matches a widget in a group, if the matcher evaluates to true for the group.
-	 * 
+	 *
 	 * @param matcher the matcher.
 	 */
 	InGroup(Matcher matcher) {
 		this.matcher = matcher;
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		Widget previousWidget = SWTUtils.previousWidget((Widget) obj);
 		TreePath path = new PathGenerator().getPath((Widget) obj);
@@ -70,7 +71,7 @@ public class InGroup<T extends Widget> extends AbstractMatcher<T> {
 
 	/**
 	 * Matches a widget that belongs to the specified group
-	 * 
+	 *
 	 * @param labelText the label.
 	 * @return a matcher.
 	 * @since 2.0
@@ -82,7 +83,7 @@ public class InGroup<T extends Widget> extends AbstractMatcher<T> {
 
 	/**
 	 * Matches a widget in a group, if the matcher evaluates to true for the group.
-	 * 
+	 *
 	 * @param matcher the matcher.
 	 * @return a matcher.
 	 * @since 2.0

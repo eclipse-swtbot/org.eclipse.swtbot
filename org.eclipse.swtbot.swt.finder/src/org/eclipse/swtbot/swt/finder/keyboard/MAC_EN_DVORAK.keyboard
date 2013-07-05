@@ -1,0 +1,83 @@
+' Q
+" SHIFT + Q
+, W
+< SHIFT + W
+. E
+> SHIFT + E
+p R
+P SHIFT + R
+y T
+Y SHIFT + T
+f Y
+F SHIFT + Y
+g U
+G SHIFT + U
+c I
+C SHIFT + I
+r O
+R SHIFT + O
+l P
+L SHIFT + P
+/ [
+? SHIFT + [
+= ]
++ SHIFT + ]
+\ \
+| SHIFT + \
+a A
+A SHIFT + A
+o S
+O SHIFT + S
+e D
+E SHIFT + D
+u F
+U SHIFT + F
+i G
+I SHIFT + G
+d H
+D SHIFT + H
+h J
+H SHIFT + J
+t K
+T SHIFT + K
+n L
+N SHIFT + L
+s ;
+S SHIFT + ;
+- '
+_ SHIFT + '
+; Z
+: SHIFT + Z
+q X
+Q SHIFT + X
+j C
+J SHIFT + C
+k V
+K SHIFT + V
+x B
+X SHIFT + B
+b N
+B SHIFT + N
+m M
+M SHIFT + M
+w ,
+W SHIFT + ,
+v .
+V SHIFT + .
+z /
+Z SHIFT + /
+~ SHIFT + `
+! SHIFT + 1
+@ SHIFT + 2
+# SHIFT + 3
+$ SHIFT + 4
+% SHIFT + 5
+^ SHIFT + 6
+& SHIFT + 7
+* SHIFT + 8
+( SHIFT + 9
+) SHIFT + 0
+[ -
+{ SHIFT + -
+] =
+} SHIFT + =

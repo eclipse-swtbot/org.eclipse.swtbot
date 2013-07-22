@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -94,6 +95,8 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 
 	/**
 	 * Gets the columns of this tree.
+	 * <p>
+	 * To interact with one of the columns, use {@link #header(String)}.
 	 *
 	 * @return the list of columns in the tree.
 	 */
@@ -108,6 +111,29 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 			}
 		});
 	}
+
+	/**
+	 * Gets the column matching the given label.
+	 *
+	 * @param label the header text.
+	 * @return the header of the tree.
+	 * @throws WidgetNotFoundException if the header is not found.
+	 * @since 2.1.2
+	 */
+	public SWTBotTreeColumn header(final String label) throws WidgetNotFoundException {
+		TreeColumn column = syncExec(new Result<TreeColumn>() {
+			public TreeColumn run() {
+				TreeColumn[] columns = widget.getColumns();
+				for (TreeColumn column : columns) {
+					if (column.getText().equals(label))
+						return column;
+				}
+				return null;
+			}
+		});
+		return new SWTBotTreeColumn(column, widget);
+	}
+
 
 	/**
 	 * Gets the cell data for the given row/column index.

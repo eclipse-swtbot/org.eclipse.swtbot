@@ -753,4 +753,12 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		});
 	}
 
+	@Override
+	protected Rectangle absoluteLocation() {
+		return UIThreadRunnable.syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return display.map(widget.getParent(), null, widget.getBounds());
+            }
+        });
+    }
 }

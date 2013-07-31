@@ -15,11 +15,16 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMn
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled;
 import static org.hamcrest.Matchers.allOf;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.bindings.keys.KeyStroke;
+import org.eclipse.jface.util.Geometry;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
@@ -870,4 +875,52 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		keyboard().pressShortcut(keys);
 		return this;
 	}
+	
+	public void dragAndDrop(final AbstractSWTBot<? extends Widget> target) {
+		final Rectangle sourceRect = absoluteLocation();
+		final Rectangle destRect = target.absoluteLocation();
+		dragAndDropPointToPoint(Geometry.centerPoint(sourceRect), Geometry.centerPoint(destRect));
+	}
+	
+	private void dragAndDropPointToPoint(final Point source, final Point dest) {
+		try {
+			final Robot robot = new Robot();
+			syncExec(new VoidResult() {
+				public void run() {
+					robot.mouseMove(source.x, source.y);
+					robot.mousePress(InputEvent.BUTTON1_MASK);
+					robot.mouseMove((source.x + 10), source.y);
+				}
+			});
+
+			waitForIdle(robot);
+
+			syncExec(new VoidResult() {
+				public void run() {
+					robot.mouseMove((dest.x + 10), dest.y);
+					robot.mouseMove(dest.x, dest.y);
+				}
+			});
+
+			waitForIdle(robot);
+
+			syncExec(new VoidResult() {
+				public void run() {
+					robot.mouseRelease(InputEvent.BUTTON1_MASK);
+				}
+			});
+		waitForIdle(robot);
+		} catch (final AWTException e) {
+			 log.error(e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private void waitForIdle(final Robot robot) {
+		if (SWT.getPlatform().equals("gtk")) {
+			robot.waitForIdle();
+		}
+	}
 }
+

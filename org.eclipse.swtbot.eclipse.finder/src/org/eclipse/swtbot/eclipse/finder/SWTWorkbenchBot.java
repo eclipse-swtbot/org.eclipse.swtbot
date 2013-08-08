@@ -13,6 +13,7 @@ package org.eclipse.swtbot.eclipse.finder;
 
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPartId;
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPartName;
+import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withTitle;
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPerspectiveId;
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPerspectiveLabel;
 import static org.eclipse.swtbot.eclipse.finder.waits.Conditions.waitForEditor;
@@ -137,8 +138,8 @@ public class SWTWorkbenchBot extends SWTBot {
 	 * @see WidgetMatcherFactory#withPartName(Matcher)
 	 */
 	public SWTBotView viewByTitle(String title) {
-		Matcher<IViewReference> withPartName = withPartName(title);
-		return view(withPartName);
+		Matcher<IViewReference> withTitle = withTitle(title);
+		return view(withTitle);
 	}
 
 	/**

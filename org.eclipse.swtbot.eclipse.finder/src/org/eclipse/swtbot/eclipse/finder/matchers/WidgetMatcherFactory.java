@@ -50,6 +50,28 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
   }
 
   /**
+   * Matches a workbench part (view/editor) with the specified title.
+   * 
+   * @param title the title of the part.
+   * @return a matcher.
+   * @since 2.1.2
+   */
+  public static <T extends org.eclipse.ui.IWorkbenchPartReference> org.hamcrest.Matcher<T> withTitle(java.lang.String title) {
+	  return org.eclipse.swtbot.eclipse.finder.matchers.WithTitle.withTitle(title);
+  }
+  
+  /**
+   * Matches a workbench part (view/editor) with the specified id.
+   * 
+   * @param titleMatcher the part title matcher.
+   * @return a matcher.
+   * @since 2.1.2
+   */
+  public static <T extends org.eclipse.ui.IWorkbenchPartReference> org.hamcrest.Matcher<T> withTitle(org.hamcrest.Matcher<java.lang.String> titleMatcher) {
+	  return org.eclipse.swtbot.eclipse.finder.matchers.WithTitle.withTitle(titleMatcher);
+  }
+
+  /**
    * Matches a perspective with the specified id.
    * 
    * @param id the id of the perspective.
@@ -92,5 +114,6 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
   public static org.hamcrest.Matcher withPerspectiveLabel(org.hamcrest.Matcher<java.lang.String> labelMatcher) {
     return org.eclipse.swtbot.eclipse.finder.matchers.WithPerspectiveLabel.withPerspectiveLabel(labelMatcher);
   }
+  
 
 }

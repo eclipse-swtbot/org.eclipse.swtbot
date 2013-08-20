@@ -129,13 +129,25 @@ public class SWTWorkbenchBot extends SWTBot {
 		waitUntilWidgetAppears(waitForView);
 		return new SWTBotView(waitForView.get(0), this);
 	}
-
+	
 	/**
 	 * Shortcut for view(withPartName(title))
 	 * 
+	 * @param partName the "human readable" part name
+	 * @return the view with the specified part name
+	 * @see WidgetMatcherFactory#withPartName(Matcher)
+	 */
+	public SWTBotView viewByPartName(String partName) {
+		Matcher<IViewReference> withPartName = withPartName(partName);
+		return view(withPartName);
+	}
+
+	/**
+	 * Shortcut for view(withTitle(title))
+	 * 
 	 * @param title the "human readable" title
 	 * @return the view with the specified title
-	 * @see WidgetMatcherFactory#withPartName(Matcher)
+	 * @see WidgetMatcherFactory#withTitle(Matcher)
 	 */
 	public SWTBotView viewByTitle(String title) {
 		Matcher<IViewReference> withTitle = withTitle(title);

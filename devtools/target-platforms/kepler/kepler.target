@@ -13,15 +13,12 @@
 <repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20130724151342/repository/"/>
 <!-- Versions allowed by CQs -->
 <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
 <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
 <unit id="org.junit" version="4.11.0.v201303080030"/>
 <unit id="com.thoughtworks.qdox" version="0.0.0"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20130717184620/repository/"/>
 <!-- We ship hamcrest sources -->
 <unit id="org.hamcrest.library" version="1.3.0.v201305281000"/>
 <unit id="org.hamcrest.library.source" version="1.3.0.v201305281000"/>

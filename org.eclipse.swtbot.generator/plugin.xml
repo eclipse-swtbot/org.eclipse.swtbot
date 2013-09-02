@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="botGeneratorSupport" name="UI Bot Code Generator" schema="schema/generator.exsd"/>
+   <extension-point id="dialogSupport" name="Dialog Extension" schema="schema/dialog.exsd"/>
    <extension
          point="org.eclipse.ui.startup">
       <startup
@@ -13,6 +14,12 @@
       <generator
             class="org.eclipse.swtbot.generator.framework.rules.SWTBotGeneratorRules">
       </generator>
+   </extension>
+   <extension
+         point="org.eclipse.swtbot.generator.dialogSupport">
+      <dialog
+            class="org.eclipse.swtbot.generator.ui.RecorderDialog">
+      </dialog>
    </extension>
 
 </plugin>

@@ -13,10 +13,34 @@ package org.eclipse.swtbot.generator.framework;
 
 import java.util.List;
 
+import org.eclipse.swt.graphics.Image;
+
 public interface Generator {
 
+	/**
+	 * Create simple rules
+	 * @return all simple rules
+	 */
 	public List<GenerationSimpleRule> createSimpleRules();
+	/**
+	 * Create complex rules
+	 * @return all complex rules
+	 */
 	public List<GenerationComplexRule> createComplexRules();
+	/**
+	 * Create annotation rules
+	 * @return all annotation rules
+	 */
+	public List<AnnotationRule> createAnnotationRules();
+	/**
+	 * 
+	 * @return generator name
+	 */
 	public String getLabel();
+	/**
+	 * Image or logo of generator
+	 * @return image representing generator or null if there's no image
+	 */
+	public Image getImage();
 
 }

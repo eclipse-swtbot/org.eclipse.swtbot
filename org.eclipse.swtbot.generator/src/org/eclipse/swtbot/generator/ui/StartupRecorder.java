@@ -17,19 +17,29 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.generator.framework.Generator;
+import org.eclipse.swtbot.generator.framework.IRecorderDialog;
+import org.eclipse.swtbot.generator.listener.WorkbenchListener;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 public class StartupRecorder implements IStartup {
+	
+	public static final String ENABLEMENT_PROPERTY = "org.eclipse.swtbot.generator.enable";
+	public static final String DIALOG_PROPERTY = "org.eclipse.swtbot.generator.dialog";
 
 	private static final class StartRecorderRunnable implements Runnable {
 		private final Display display;
-		private RecorderDialog recorderDialog;
+		private String recorderDialogId;
+		private IRecorderDialog recorderDialog;
 
 		private StartRecorderRunnable(Display display) {
 			this.display = display;
+		}
+		
+		public void setRecorderDialog(String dialog){
+			this.recorderDialogId = dialog;
 		}
 
 		public void run() {
@@ -45,12 +55,34 @@ public class StartupRecorder implements IStartup {
 			this.display.addFilter(SWT.Modify, dispatcher);
 			this.display.addFilter(SWT.MouseDown, dispatcher);
 			this.display.addFilter(SWT.MouseDoubleClick, dispatcher);
+			if(PlatformUI.isWorkbenchRunning()){
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				if(page != null){
+					page.addPartListener(new WorkbenchListener(dispatcher));
+				}
+			}
 
-			Shell recorderShell = new Shell(this.display, SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
-			recorderShell.setText("SWTBot test recorder");
-			dispatcher.ignoreShell(recorderShell);
-			this.recorderDialog = new RecorderDialog(recorderShell, dispatcher, availableGenerators);
+			if(recorderDialogId  == null || recorderDialogId.isEmpty()){
+				final List<IRecorderDialog> dialogs = GeneratorExtensionPointManager.loadDialogs();
+				this.recorderDialog = dialogs.get(0);
+			} else {
+				final List<IRecorderDialog> dialogs = GeneratorExtensionPointManager.loadDialogs();
+				boolean foundRecorderClass = false;
+				int i=0;
+				while(!foundRecorderClass && dialogs.size() > i){
+					if(dialogs.get(i).getId().equals(recorderDialogId)){
+						foundRecorderClass = true;
+						recorderDialog = dialogs.get(i);
+					}
+					i++;
+				}
+			}
+			
+			dispatcher.ignoreShells(recorderDialog.getIgnoredShells());
+			this.recorderDialog.setAvailableGenerators(availableGenerators);
+			this.recorderDialog.setRecorder(dispatcher);
 			this.recorderDialog.open();
+			
 			this.recorderDialog.getShell().addShellListener(new ShellAdapter() {
 				public void shellClosed(ShellEvent e) {
 					StartRecorderRunnable.this.display.removeFilter(SWT.Activate, dispatcher);
@@ -67,24 +99,25 @@ public class StartupRecorder implements IStartup {
 			});
 		}
 
-		public RecorderDialog getRecorderDialog() {
+		public IRecorderDialog getRecorderDialog() {
 			return this.recorderDialog;
 		}
 	}
-
-	private static final String ENABLEMENT_PROPERTY = "org.eclipse.swtbot.generator.enable";
 
 	public void earlyStartup() {
 		if (Boolean.parseBoolean(System.getProperty(ENABLEMENT_PROPERTY)) != true) {
 			return;
 		}
-
-		openRecorder();
+		openRecorder(null);
 	}
 
-	public static RecorderDialog openRecorder() {
+	public static IRecorderDialog openRecorder(String dialog) {
 		final Display display = Display.getDefault();
 		StartRecorderRunnable recorderStarter = new StartRecorderRunnable(display);
+		if(dialog == null && System.getProperty(DIALOG_PROPERTY) != null){
+			dialog = System.getProperty(DIALOG_PROPERTY);
+		}
+		recorderStarter.setRecorderDialog(dialog);
 		display.syncExec(recorderStarter);
 		return recorderStarter.getRecorderDialog();
 	}

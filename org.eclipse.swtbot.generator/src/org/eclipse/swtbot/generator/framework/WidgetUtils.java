@@ -19,6 +19,11 @@ import org.eclipse.swt.widgets.Shell;
 
 public class WidgetUtils {
 
+	/**
+	 * 
+	 * @param control which index should be found
+	 * @return index of control
+	 */
 	public static int getIndex(Control control) {
 		// This is the reverse method of
 		//    Matcher matcher = allOf(widgetOfType(Button.class), withStyle(SWT.PUSH, "SWT.PUSH"));
@@ -41,6 +46,11 @@ public class WidgetUtils {
 		throw new RuntimeException("Could not determine index for widget " + control);
 	}
 	
+	/**
+	 * 
+	 * @param control which group should be found
+	 * @return group text or null if group was not found
+	 */
 	public static String getGroup(Control control){
 		Composite parent = control.getParent();
 		while(parent != null){
@@ -53,6 +63,11 @@ public class WidgetUtils {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param widget which parent shell should be found
+	 * @return shell which contains widget or null
+	 */
 	public static Shell getShell(Control widget) {
 		while (widget != null) {
 			if (widget instanceof Shell) {
@@ -64,6 +79,11 @@ public class WidgetUtils {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param widget widget which label should be found
+	 * @return label text or null if no label was found
+	 */
 	public static String getLabel(Control widget) {
 		Control[] controls = widget.getParent().getChildren();
 		for (int i = 0; i < controls.length; i++) {
@@ -74,6 +94,11 @@ public class WidgetUtils {
 		return null;
 	}
 	
+	/**
+	 * Clean text
+	 * @param text text to clean
+	 * @return cleaned text
+	 */
 	public static String cleanText(String text) {
 		if(text	!= null){
 			return text.replaceAll("&", "").split("\t")[0];

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -39,27 +40,30 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtbot.generator.framework.GenerationRule;
 import org.eclipse.swtbot.generator.framework.Generator;
+import org.eclipse.swtbot.generator.framework.IRecorderDialog;
 import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher.CodeGenerationListener;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.WorkbenchImages;
 
-public class RecorderDialog extends TitleAreaDialog {
+public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 
 	private BotGeneratorEventDispatcher recorder;
 	private List<Generator> availableGenerators;
 	private Text generatedCode;
+	private List<Shell> ignoredShells;
+	public static final String ID = "org.eclipse.swtbot.generator.dialog.basic";
 
 	/**
 	 * Create the dialog.
 	 * @param parentShell
 	 */
-	public RecorderDialog(Shell parentShell, BotGeneratorEventDispatcher recorder, List<Generator> availableGenerators) {
-		super(parentShell);
+	public RecorderDialog() {
+		super(null);
+		Shell recorderShell = new Shell(Display.getDefault(), SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
+		recorderShell.setText("SWTBot test recorder");
+		this.setParentShell(recorderShell);
+		ignoredShells = new ArrayList<Shell>();
+		ignoredShells.add(recorderShell);
 		setShellStyle(SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE | SWT.RESIZE | SWT.MAX);
 		setBlockOnOpen(false);
-		this.recorder = recorder;
-		this.availableGenerators = availableGenerators;
 	}
 
 	/**
@@ -107,21 +111,21 @@ public class RecorderDialog extends TitleAreaDialog {
 		recordPauseButton.setText(this.recorder.isRecording() ? "Pause" : "Start Recording");
 		final Button copyButton = new Button(actionsComposite, SWT.PUSH);
 		copyButton.setToolTipText("Copy");
-		copyButton.setImage(WorkbenchImages.getImage(ISharedImages.IMG_TOOL_COPY));
+		copyButton.setText("Copy");
 
 		recordPauseButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				recorder.switchRecording();
+				recorder.setRecording(!recorder.isRecording());
 				recordPauseButton.setText(recorder.isRecording() ? "Pause" : "Start Recording");
 			}
 		});
 		this.recorder.addListener(new CodeGenerationListener() {
-			
+
 			public void handleCodeGenerated(GenerationRule code) {
 				for(String action: code.getActions())
 				generatedCode.setText(generatedCode.getText() + action + ";\n");
-				
+
 			}
 		});
 		copyButton.addSelectionListener(new SelectionAdapter() {
@@ -156,5 +160,26 @@ public class RecorderDialog extends TitleAreaDialog {
 
 	public BotGeneratorEventDispatcher getRecorderGenerator() {
 		return this.recorder;
+	}
+
+	public void setAvailableGenerators(List<Generator> availableGenerators) {
+		this.availableGenerators = availableGenerators;
+
+	}
+
+	public void setRecorder(BotGeneratorEventDispatcher recorder) {
+		this.recorder = recorder;
+	}
+
+	public List<Shell> getIgnoredShells() {
+		return ignoredShells;
+	}
+
+	public String getName() {
+		return "Basic Dialog";
+	}
+
+	public String getId() {
+		return ID;
 	}
 }

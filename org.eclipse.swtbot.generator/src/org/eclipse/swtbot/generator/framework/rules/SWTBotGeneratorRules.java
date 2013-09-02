@@ -13,9 +13,12 @@ package org.eclipse.swtbot.generator.framework.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swtbot.generator.framework.AnnotationRule;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.Generator;
+import org.eclipse.swtbot.generator.framework.rules.annotation.TestAnnotationRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyComboComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ToolBarMenuComplexRule;
@@ -66,5 +69,16 @@ public class SWTBotGeneratorRules implements Generator {
 		cres.add(new ModifyTextComplexRule());
 		cres.add(new ModifyComboComplexRule());
 		return cres;
+	}
+
+	public List<AnnotationRule> createAnnotationRules() {
+		List<AnnotationRule> ares = new ArrayList<AnnotationRule>();
+		ares.add(new TestAnnotationRule());
+		return ares;
+	}
+
+	public Image getImage() {
+		// TODO SWTBot has no logo ?
+		return null;
 	}
 }

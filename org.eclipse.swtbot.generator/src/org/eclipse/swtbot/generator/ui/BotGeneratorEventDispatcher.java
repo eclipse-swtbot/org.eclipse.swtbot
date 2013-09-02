@@ -1,5 +1,5 @@
 /*******************************************************************************
- 		* Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2012 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,8 +18,12 @@ import java.util.Set;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
@@ -36,7 +40,7 @@ public class BotGeneratorEventDispatcher implements Listener{
 
 	private Generator generator;
 	private List<CodeGenerationListener> listeners = new ArrayList<CodeGenerationListener>();
-	private Shell ignoredShell;
+	private List<Shell> ignoredShells;
 	private boolean recording;
 
 	private List<GenerationSimpleRule> simpleRules = new ArrayList<GenerationSimpleRule>();
@@ -51,16 +55,16 @@ public class BotGeneratorEventDispatcher implements Listener{
 		this.listeners.add(listener);
 	}
 
-	public void ignoreShell(Shell shell) {
-		this.ignoredShell = shell;
+	public void ignoreShells(List<Shell> shells) {
+		this.ignoredShells = shells;
 	}
 
 	public boolean isRecording() {
 		return this.recording;
 	}
 
-	public void switchRecording() {
-		this.recording = !this.recording;
+	public void setRecording(boolean recording){
+		this.recording = recording;
 	}
 
 	public Generator getCurrentGenerator() {
@@ -71,13 +75,8 @@ public class BotGeneratorEventDispatcher implements Listener{
 		if (!this.recording) {
 			return;
 		}
-		if (event.widget instanceof Control) {
-			Shell shell = WidgetUtils.getShell((Control) event.widget);
-			if (shell.getParent() instanceof Shell) {
-				if (this.ignoredShell != null && this.ignoredShell.equals(shell.getParent())) {
-					return;
-				}
-			}
+		if(checkIgnoredShells(event)){
+			return;
 		}
 		if (!(event.widget instanceof Shell) && event.widget instanceof Control
 				&& !(((Control) event.widget).isFocusControl()
@@ -86,6 +85,32 @@ public class BotGeneratorEventDispatcher implements Listener{
 			return;
 		}
 		processRules(event, false);
+	}
+
+	private boolean checkIgnoredShells(Event event){
+		Shell shell = null;
+		if (event.widget instanceof Control) {
+			shell = WidgetUtils.getShell((Control) event.widget);
+		} else if(event.widget instanceof Item){
+			if(event.widget instanceof MenuItem){
+				shell = WidgetUtils.getShell(((MenuItem) event.widget).getParent().getParent());
+			} else if(event.widget instanceof TabItem){
+				shell = WidgetUtils.getShell(((TabItem) event.widget).getParent());
+			} else if(event.widget instanceof ToolItem){
+				shell = WidgetUtils.getShell(((ToolItem) event.widget).getParent());
+			}
+		}
+		if(shell!= null){
+			if (shell.getParent() instanceof Shell) {
+				shell = (Shell)shell.getParent();
+			}
+			for(Shell ignoredShell: ignoredShells){
+				if (ignoredShell != null && ignoredShell.equals(shell)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -138,9 +163,6 @@ public class BotGeneratorEventDispatcher implements Listener{
 		}
 	}
 
-	/**
-	 * @param modifGenerationComplexRules
-	 */
 	private void filterComplexRulesAndUpdateLongest() {
 		for(int i=0; i < this.simpleRules.size(); i++){
 			Set<GenerationComplexRule> notMatchingRules= new HashSet<GenerationComplexRule>();

@@ -19,7 +19,15 @@ import java.util.List;
  */
 public abstract class GenerationRule {
 	
+	/**
+	 * 
+	 * @return list of actions done by this rule
+	 */
 	public abstract List<String> getActions();
 	
+	/**
+	 * 
+	 * @return list of imports needed by this rule
+	 */
 	public abstract List<String> getImports();
 }

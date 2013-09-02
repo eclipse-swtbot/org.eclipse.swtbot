@@ -31,7 +31,7 @@ public abstract class AbstractGeneratorTest {
 
 	@Before
 	public void setUp() {
-		this.recorderDialog = StartupRecorder.openRecorder();
+		this.recorderDialog = (RecorderDialog)StartupRecorder.openRecorder(null);
 		this.bot = new SWTBot();
 		SWTBotShell recorderShell = this.bot.shell("SWTBot Test Recorder");
 		recorderShell.bot().button("Start Recording").click();

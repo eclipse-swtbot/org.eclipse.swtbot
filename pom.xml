@@ -1,7 +1,13 @@
-<!-- Copyright (c) 2011 PetalsLink. All rights reserved. This program and
-	the accompanying materials are made available under the terms of the Eclipse
-	Public License v1.0 which accompanies this distribution, and is available
-	at http://www.eclipse.org/legal/epl-v10.html Authors: * Mickael Istria (PetalsLink) -->
+<!-- Copyright (c) 2011-2013 PetalsLink, Red Hat Inc.
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License
+ v1.0 which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+
+Authors:
+  * Mickael Istria (PetalsLink)
+  * Mickael Istria (Red Hat JBoss)
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -22,6 +28,8 @@
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
+		<!-- Enable this on Hudson CI @Eclipse.org -->
+		<cbi.jarsigner.skip>true</cbi.jarsigner.skip>
 	</properties>
 
 	<modules>
@@ -145,6 +153,7 @@
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
+					<includePackedArtifacts>true</includePackedArtifacts>
 				</configuration>
 			</plugin>
 
@@ -181,12 +190,91 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-source-feature-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>source-feature</id>
+						<goals>
+							<goal>source-feature</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<plugin id="org.apache.log4j"/>
+								<plugin id="org.eclipse.swtbot.ant.junit"/>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Those 4 mojos are for signing and packing -->
+			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-pack200a-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>pack200-normalize</id>
+						<goals>
+							<goal>normalize</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.cbi.maven.plugins</groupId>
+				<artifactId>eclipse-jarsigner-plugin</artifactId>
+				<version>1.0.4</version>
+				<executions>
+					<execution>
+						<id>sign</id>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-pack200b-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>pack200-pack</id>
+						<goals>
+							<goal>pack</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>p2-metadata</id>
+						<goals>
+							<goal>p2-metadata</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<defaultP2Metadata>false</defaultP2Metadata>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings only.
                     It has no influence on the Maven build itself.-->
-                
+
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -216,12 +304,19 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-				
-				
+
+
 			</plugins>
 		</pluginManagement>
-		
+
 	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>cbi-release</id>
+			<url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<profiles>
 		<profile>

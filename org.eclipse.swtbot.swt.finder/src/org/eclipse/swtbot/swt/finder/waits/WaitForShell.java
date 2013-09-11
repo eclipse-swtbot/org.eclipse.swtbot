@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Jan Koehnlein - [bug 416994] filter disposed shells
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.waits;
 
@@ -38,7 +39,7 @@ class WaitForShell extends WaitForObjectCondition<Shell> {
 		Shell[] shells = findShells();
 		ArrayList<Shell> matchingShells = new ArrayList<Shell>();
 		for (Shell shell : shells) {
-			if (matcher.matches(shell)) {
+			if (!shell.isDisposed() && matcher.matches(shell)) {
 				matchingShells.add(shell);
 			}
 		}

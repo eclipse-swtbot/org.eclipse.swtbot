@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Jan Koehnlein - [bug 416994] filter disposed shells
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.finders;
 
@@ -263,7 +264,13 @@ public class ControlFinder {
 	public Shell[] getShells() {
 		return UIThreadRunnable.syncExec(display, new ArrayResult<Shell>() {
 			public Shell[] run() {
-				return display.getShells();
+				Shell[] shells = display.getShells();
+				List<Shell> undisposedShells = new ArrayList<Shell>();
+				for(Shell shell: shells) {
+					if(!shell.isDisposed())
+						undisposedShells.add(shell);
+				}
+				return undisposedShells.toArray(new Shell[undisposedShells.size()]);
 			}
 		});
 	}

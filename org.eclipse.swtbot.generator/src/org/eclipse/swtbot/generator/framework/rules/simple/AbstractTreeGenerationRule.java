@@ -21,9 +21,9 @@ import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
-
-	private Tree tree;
-	private TreeItem item;
+	
+	private int index;
+	private List<String> path;
 
 	/**
 	 * Subclasses should call super.appliesTo first, and then
@@ -38,20 +38,10 @@ public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.tree = (Tree)event.widget;
-		this.item = (TreeItem)event.item;
-	}
-
-	public String getWidgetAccessor() {
-		StringBuilder res = new StringBuilder();
-		res.append("bot.tree(");
-		int index = WidgetUtils.getIndex(this.tree);
-		if (index != 0) {
-			res.append(index);
-		}
-		res.append(")");
-		List<String> path = new ArrayList<String>();
-		TreeItem currentItem = this.item;
+		Tree tree = (Tree)event.widget;
+		path = new ArrayList<String>();
+		index = WidgetUtils.getIndex(tree);
+		TreeItem currentItem = (TreeItem)event.item;
 		while (currentItem != null) {
 			if (currentItem.getText() != null) {
 				path.add(currentItem.getText());
@@ -59,6 +49,15 @@ public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
 			currentItem = currentItem.getParentItem();
 		}
 		Collections.reverse(path);
+	}
+
+	public String getWidgetAccessor() {
+		StringBuilder res = new StringBuilder();
+		res.append("bot.tree(");
+		if (index != 0) {
+			res.append(index);
+		}
+		res.append(")");
 		boolean first = true;
 		for (String text : path) {
 			if (first) {

@@ -35,6 +35,9 @@
    <feature id="org.eclipse.swtbot.generator.feature" version="0.0.0">
       <category name="SWTBot - IDE Integration"/>
    </feature>
+   <feature id="org.eclipse.swtbot.generator.jdt.feature" version="0.0.0">
+      <category name="SWTBot - IDE Integration"/>
+   </feature>
    <feature id="org.eclipse.swtbot.eclipse.test.junit" version="0.0.0">
       <category name="SWTBot - Headless Support"/>
    </feature>

@@ -21,8 +21,8 @@ import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class SingleListSelectionRule extends GenerationSimpleRule {
 
-	private List list;
 	private String newSelectionText = null;
+	private int index;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -32,10 +32,11 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.list = (List)event.widget;
-		if (this.list.getSelectionCount() > 0){
-			this.newSelectionText = this.list.getSelection()[0];
+		List list = (List)event.widget;
+		if (list.getSelectionCount() > 0){
+			this.newSelectionText = list.getSelection()[0];
 		}
+		index = WidgetUtils.getIndex(list);
 	}
 	
 	@Override
@@ -43,7 +44,6 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 		java.util.List<String> actions = new ArrayList<String>();
 		
 		StringBuilder res = new StringBuilder();
-		int index = WidgetUtils.getIndex(this.list);
 		if (index != 0) {
 			res.append("bot.list(" + index + ")");
 		} else {

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SWTBot Code Generator JDT Plug-in (incubation)
+Bundle-SymbolicName: org.eclipse.swtbot.generator.jdt;singleton:=true
+Bundle-Version: 2.1.2.qualifier
+Bundle-Vendor: Eclipse.org - SWTBot
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: .
+Import-Package: org.eclipse.ui.texteditor
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.swtbot.generator;bundle-version="2.1.2",
+ org.eclipse.jdt.ui,
+ org.eclipse.jface,
+ org.eclipse.jface.text
+Export-Package: org.eclipse.swtbot.generator.jdt.editor
+Bundle-Activator: org.eclipse.swtbot.generator.jdt.SWTBotGeneratorJDTPlugin

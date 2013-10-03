@@ -41,7 +41,7 @@ public class BotGeneratorEventDispatcher implements Listener{
 	private Generator generator;
 	private List<CodeGenerationListener> listeners = new ArrayList<CodeGenerationListener>();
 	private List<Shell> ignoredShells;
-	private boolean recording;
+	private boolean recording = false;
 
 	private List<GenerationSimpleRule> simpleRules = new ArrayList<GenerationSimpleRule>();
 	private GenerationComplexRule longestMatchedComplex;
@@ -193,7 +193,7 @@ public class BotGeneratorEventDispatcher implements Listener{
 	}
 
 	private void dispatchCodeGenerated(GenerationRule code) {
-		if (code != null) {
+		if (code != null && code.getActions() != null) {
 			for (CodeGenerationListener listener : this.listeners) {
 				listener.handleCodeGenerated(code);
 			}

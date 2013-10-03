@@ -8,13 +8,14 @@
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.generator.test;
+package org.eclipse.swtbot.generator.jdt.test;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellIsActive;
-
+import static org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.generator.ui.RecorderDialog;
+import org.eclipse.swtbot.generator.jdt.editor.JDTRecorderDialog;
+import org.eclipse.swtbot.generator.test.TestDialog;
 import org.eclipse.swtbot.generator.ui.StartupRecorder;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -23,26 +24,25 @@ import org.junit.Before;
 
 public abstract class AbstractGeneratorTest {
 
-	private Display display;
 	private TestDialog dialog;
 	protected SWTBot bot;
-	protected RecorderDialog recorderDialog;
+	private JDTRecorderDialog recorderDialog;
 
 	@Before
-	public void setUp() {
-		this.recorderDialog = (RecorderDialog)StartupRecorder.openRecorder(null);
-		this.bot = new SWTBot();
-		bot.waitUntil(shellIsActive("SWTBot Test Recorder"),5000);
-		SWTBotShell recorderShell = this.bot.shell("SWTBot Test Recorder");
-		recorderShell.bot().button("Start Recording").click();
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				recorderDialog.getGeneratedCodeText().setText("");
-			}
-		});
+	public void setUp(){
 
-		this.display = Display.getDefault();
-		this.display.syncExec(new Runnable() {
+		recorderDialog = (JDTRecorderDialog)StartupRecorder.openRecorder("org.eclipse.swtbot.generator.dialog.jdt");
+		
+		this.bot = new SWTBot();
+		bot.waitUntil(shellIsActive("SWT Test Recorder"),5000);
+		bot.button("Start Recording").click();
+		bot.waitUntil(shellIsActive("Add new method"),1000);
+
+		SWTBotShell methodShell = new SWTBot().shell("Add new method");
+		methodShell.bot().textWithLabel("Method name:").setText("firstMethod");
+		bot.waitUntil(widgetIsEnabled(bot.button("OK")),1000);
+		methodShell.bot().button("OK").click();
+		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				dialog = new TestDialog(new Shell());
 				dialog.open();
@@ -52,7 +52,7 @@ public abstract class AbstractGeneratorTest {
 
 	@After
 	public void tearDown() {
-		this.display.syncExec(new Runnable() {
+		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				if (!dialog.getShell().isDisposed()) {
 					dialog.close();
@@ -60,7 +60,6 @@ public abstract class AbstractGeneratorTest {
 				dialog = null;
 			}
 		});
-
 	}
 
 	/**
@@ -68,10 +67,11 @@ public abstract class AbstractGeneratorTest {
 	 * to compute generated code.
 	 */
 	public void flushEvents() {
-		this.display.syncExec(new Runnable() {
+		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
-				AbstractGeneratorTest.this.recorderDialog.getRecorder().flushGenerationRules();
+				recorderDialog.getRecorder().flushGenerationRules();
 			}
 		});
+		
 	}
 }

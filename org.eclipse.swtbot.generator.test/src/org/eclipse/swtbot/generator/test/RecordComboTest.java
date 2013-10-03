@@ -1,18 +1,9 @@
 package org.eclipse.swtbot.generator.test;
 
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class RecordComboTest extends AbstractGeneratorTest {
-
-	@Override
-	public void populateTestArea(Composite composite) {
-		new Combo(composite, SWT.DROP_DOWN);
-	}
 
 	@Test
 	public void testModifyCombo() {

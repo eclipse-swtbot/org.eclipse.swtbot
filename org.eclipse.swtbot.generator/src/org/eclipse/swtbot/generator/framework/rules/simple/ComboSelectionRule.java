@@ -21,9 +21,9 @@ import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class ComboSelectionRule extends GenerationSimpleRule {
 
-	private Combo combo;
 	private String newSelection;
 	private int newSelectionIndex;
+	private int index;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -32,16 +32,16 @@ public class ComboSelectionRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.combo = (Combo)event.widget;
-		this.newSelection = this.combo.getText();
-		this.newSelectionIndex = this.combo.getSelectionIndex();
+		Combo combo = (Combo)event.widget;
+		this.newSelection = combo.getText();
+		this.newSelectionIndex = combo.getSelectionIndex();
+		this.index = WidgetUtils.getIndex(combo);
 	}
 
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
 		StringBuilder res = new StringBuilder();
-		int index = WidgetUtils.getIndex(this.combo);
 		if (index != 0) {
 			res.append("bot.comboBox(" + index + ")");
 		} else {

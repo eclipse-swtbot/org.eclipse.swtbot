@@ -79,24 +79,24 @@ public class StartupRecorder implements IStartup {
 			}
 			
 			dispatcher.ignoreShells(recorderDialog.getIgnoredShells());
-			this.recorderDialog.setAvailableGenerators(availableGenerators);
-			this.recorderDialog.setRecorder(dispatcher);
-			this.recorderDialog.open();
-			
-			this.recorderDialog.getShell().addShellListener(new ShellAdapter() {
+			recorderDialog.setAvailableGenerators(availableGenerators);
+			recorderDialog.setRecorder(dispatcher);
+			recorderDialog.open();
+			recorderDialog.getShell().addShellListener(new ShellAdapter() {
 				public void shellClosed(ShellEvent e) {
-					StartRecorderRunnable.this.display.removeFilter(SWT.Activate, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.Close, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.MouseDown, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.MouseDoubleClick, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.MouseUp, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.KeyDown, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.Selection, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.Expand, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.Modify, dispatcher);
-					StartRecorderRunnable.this.display.removeFilter(SWT.DefaultSelection, dispatcher);
+				display.removeFilter(SWT.Activate, dispatcher);
+				display.removeFilter(SWT.Close, dispatcher);
+				display.removeFilter(SWT.MouseDown, dispatcher);
+				display.removeFilter(SWT.MouseDoubleClick, dispatcher);
+				display.removeFilter(SWT.MouseUp, dispatcher);
+				display.removeFilter(SWT.KeyDown, dispatcher);
+				display.removeFilter(SWT.Selection, dispatcher);
+				display.removeFilter(SWT.Expand, dispatcher);
+				display.removeFilter(SWT.Modify, dispatcher);
+				display.removeFilter(SWT.DefaultSelection, dispatcher);
 				}
 			});
+			
 		}
 
 		public IRecorderDialog getRecorderDialog() {

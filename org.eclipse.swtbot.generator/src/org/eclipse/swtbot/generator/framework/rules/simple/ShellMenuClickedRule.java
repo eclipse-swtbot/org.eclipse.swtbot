@@ -19,10 +19,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
+import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class ShellMenuClickedRule extends GenerationSimpleRule {
 
-	private MenuItem item;
+	private List<String> path;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -41,17 +42,10 @@ public class ShellMenuClickedRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.item = (MenuItem)event.widget;
-	}
-
-	@Override
-	public List<String> getActions() {
-		List<String> actions = new ArrayList<String>();
-		
-		StringBuilder code = new StringBuilder();
-		List<String> path = new ArrayList<String>();
-		path.add(this.item.getText());
-		MenuItem currentItem = this.item;
+		MenuItem item = (MenuItem)event.widget;
+		path = new ArrayList<String>();
+		path.add(item.getText());
+		MenuItem currentItem = item;
 		Menu parent = null;
 		while (currentItem != null && (parent = currentItem.getParent()) != null) {
 			currentItem = parent.getParentItem();
@@ -60,10 +54,17 @@ public class ShellMenuClickedRule extends GenerationSimpleRule {
 			}
 		}
 		Collections.reverse(path);
+	}
+
+	@Override
+	public List<String> getActions() {
+		List<String> actions = new ArrayList<String>();
+		
+		StringBuilder code = new StringBuilder();
 		code.append("bot");
 		for (String text : path) {
 			code.append(".menu(\"");
-			code.append(text);
+			code.append(WidgetUtils.cleanText(text));
 			code.append("\")");
 		}
 		

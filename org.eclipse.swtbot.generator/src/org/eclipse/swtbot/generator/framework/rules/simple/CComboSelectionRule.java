@@ -20,10 +20,10 @@ import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class CComboSelectionRule extends GenerationSimpleRule {
-
-	private CCombo combo;
+	
 	private String newSelection;
 	private int newSelectionIndex;
+	private int index;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -32,9 +32,10 @@ public class CComboSelectionRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.combo = (CCombo)event.widget;
-		this.newSelection = this.combo.getText();
-		this.newSelectionIndex = this.combo.getSelectionIndex();
+		CCombo combo = (CCombo)event.widget;
+		this.newSelection = combo.getText();
+		this.newSelectionIndex = combo.getSelectionIndex();
+		index = WidgetUtils.getIndex(combo);
 	}
 
 	@Override
@@ -42,7 +43,6 @@ public class CComboSelectionRule extends GenerationSimpleRule {
 		List<String> actions = new ArrayList<String>();
 		StringBuilder res = new StringBuilder();
 		
-		int index = WidgetUtils.getIndex(this.combo);
 		if (index != 0) {
 			res.append("bot.ccomboBox(" + index + ")");
 		} else {

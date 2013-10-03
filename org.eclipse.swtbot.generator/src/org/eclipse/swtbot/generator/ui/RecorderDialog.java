@@ -58,7 +58,6 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 	public RecorderDialog() {
 		super(null);
 		Shell recorderShell = new Shell(Display.getDefault(), SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
-		recorderShell.setText("SWTBot test recorder");
 		this.setParentShell(recorderShell);
 		ignoredShells = new ArrayList<Shell>();
 		ignoredShells.add(recorderShell);
@@ -158,13 +157,17 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 		return this.generatedCode;
 	}
 
-	public BotGeneratorEventDispatcher getRecorderGenerator() {
+	public BotGeneratorEventDispatcher getRecorder() {
 		return this.recorder;
 	}
 
 	public void setAvailableGenerators(List<Generator> availableGenerators) {
 		this.availableGenerators = availableGenerators;
 
+	}
+	
+	public List<Generator> getAvailableGenerators() {
+		return availableGenerators;
 	}
 
 	public void setRecorder(BotGeneratorEventDispatcher recorder) {

@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -701,6 +702,25 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			}
 		});
 	}
+
+	@Override
+	public Color foregroundColor() {
+		return syncExec(new Result<Color>() {
+			public Color run() {
+				return widget.getForeground();
+			}
+		});
+	}
+
+	@Override
+	public Color backgroundColor() {
+		return syncExec(new Result<Color>() {
+			public Color run() {
+				return widget.getBackground();
+			}
+		});
+	}
+
 
 	/**
 	 * Gets the tree item matching the given name.

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008,2011 Ketan Padegaonkar and others.
+ * Copyright (c) 2008,2011,2013 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,13 +7,14 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Marcel Hoetter - added ToolItemResolver
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.resolvers;
 
 import org.eclipse.swt.widgets.Widget;
 
 /**
- * Finds a resolver that can resolve the parent anc children of a widget.
+ * Finds a resolver that can resolve the parent and children of a widget.
  *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
@@ -37,6 +38,7 @@ public class Resolvable implements IResolvable {
 		resolver.addResolver(new ToolbarResolver());
 		resolver.addResolver(new CompositeResolver());
 		resolver.addResolver(new NullResolver());
+		resolver.addResolver(new ToolItemResolver());
 	}
 
 	/**

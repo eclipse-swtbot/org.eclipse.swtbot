@@ -80,6 +80,16 @@
                </parameter>
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="org.eclipse.swtbot.eclipse.finder.test.toolbar">
+            <control
+                  class="org.eclipse.swtbot.eclipse.finder.test.ui.menucontributions.ToolbarTextContribution">
+            </control>
+         </toolbar>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

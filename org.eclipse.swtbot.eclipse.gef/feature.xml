@@ -4,7 +4,9 @@
       label="SWTBot for GEF Testing"
       version="2.1.2.qualifier"
       provider-name="Eclipse.org"
-      plugin="org.eclipse.swtbot.eclipse.ui">
+      plugin="org.eclipse.swtbot.eclipse.ui"
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://eclipse.org/">
       SWTBot for testing Gef based plugins and applications

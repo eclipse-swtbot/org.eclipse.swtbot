@@ -4,7 +4,9 @@
       label="SWTBot Recorder and Test Generator (Provisional)"
       version="2.1.2.qualifier"
       provider-name="Eclipse.org"
-      plugin="org.eclipse.swtbot.eclipse.ui">
+      plugin="org.eclipse.swtbot.eclipse.ui"
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://eclipse.org/">
       SWTBot Generator: Enable recording of Events and generates code accordingly. APIs are still in a provisional state and are likely to evolve.

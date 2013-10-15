@@ -24,6 +24,10 @@
 <unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
 <unit id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
 </location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<repository location="http://download.eclipse.org/cbi/updates/license"/>
+<unit id="org.eclipse.license.feature.group" version="0.0.0"/>
+</location>
 </locations>
 <launcherArgs>
 <vmArgs>-Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Xms128m -Xmx1024m</vmArgs>

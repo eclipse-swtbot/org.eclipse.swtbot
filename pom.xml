@@ -63,7 +63,6 @@ Authors:
 		<module>org.eclipse.swtbot.ide</module>
 		<module>org.eclipse.swtbot.eclipse.junit.headless</module>
 		<module>org.eclipse.swtbot.generator.feature</module>
-		<module>org.eclipse.swtbot.generator.jdt.feature</module>
 		<!-- Repo -->
 		<module>org.eclipse.swtbot.updatesite</module>
 		<!-- Tests -->

@@ -25,7 +25,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 public class StartupRecorder implements IStartup {
-	
+
 	public static final String ENABLEMENT_PROPERTY = "org.eclipse.swtbot.generator.enable";
 	public static final String DIALOG_PROPERTY = "org.eclipse.swtbot.generator.dialog";
 
@@ -37,7 +37,7 @@ public class StartupRecorder implements IStartup {
 		private StartRecorderRunnable(Display display) {
 			this.display = display;
 		}
-		
+
 		public void setRecorderDialog(String dialog){
 			this.recorderDialogId = dialog;
 		}
@@ -77,7 +77,7 @@ public class StartupRecorder implements IStartup {
 					i++;
 				}
 			}
-			
+
 			dispatcher.ignoreShells(recorderDialog.getIgnoredShells());
 			recorderDialog.setAvailableGenerators(availableGenerators);
 			recorderDialog.setRecorder(dispatcher);
@@ -96,7 +96,7 @@ public class StartupRecorder implements IStartup {
 				display.removeFilter(SWT.DefaultSelection, dispatcher);
 				}
 			});
-			
+
 		}
 
 		public IRecorderDialog getRecorderDialog() {

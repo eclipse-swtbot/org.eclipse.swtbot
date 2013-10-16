@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swtbot.eclipse.ui.Activator;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class NewPluginProjectWizardPage extends WizardPage implements WizardPageSettings {
 
@@ -46,6 +48,7 @@ public class NewPluginProjectWizardPage extends WizardPage implements WizardPage
 	protected NewPluginProjectWizardPage() {
 		super("New SWTBot Test Plugin");
 		setTitle("SWTBot plugin project");
+		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.getDefault().getBundle().getSymbolicName(), "icons/swtbot_plugin64.png")); //$NON-NLS-1$
 	}
 
 	public void createControl(Composite parent) {

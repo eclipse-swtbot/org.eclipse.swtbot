@@ -15,8 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher;
-import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher.CodeGenerationListener;
+import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.jdt.ui.PreferenceConstants;
+import org.eclipse.jdt.ui.text.JavaSourceViewerConfiguration;
+import org.eclipse.jdt.ui.text.JavaTextTools;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.VerticalRuler;
@@ -49,6 +51,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swtbot.generator.SWTBotGeneratorPlugin;
 import org.eclipse.swtbot.generator.framework.GenerationRule;
 import org.eclipse.swtbot.generator.framework.Generator;
 import org.eclipse.swtbot.generator.framework.IRecorderDialog;
@@ -56,10 +59,9 @@ import org.eclipse.swtbot.generator.jdt.editor.document.ClassDocument;
 import org.eclipse.swtbot.generator.jdt.editor.listener.AnnotationSelectionListener;
 import org.eclipse.swtbot.generator.jdt.editor.listener.ClassAnnotationSelectionListener;
 import org.eclipse.swtbot.generator.jdt.editor.listener.MethodSelectionListener;
-import org.eclipse.jdt.ui.text.JavaSourceViewerConfiguration;
-import org.eclipse.jdt.ui.text.JavaTextTools;
-import org.eclipse.jdt.ui.JavaUI;
-import org.eclipse.jdt.ui.PreferenceConstants;
+import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher;
+import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher.CodeGenerationListener;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 
@@ -71,12 +73,14 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 	private Button recordPauseButton;
 	private MethodSelectionListener methodListener;
 	private List<Shell> ignoredShells;
-	public static final String ID = "org.eclipse.swtbot.generator.dialog.jdt";
+	public static final String ID = "org.eclipse.swtbot.generator.dialog.jdt"; //$NON-NLS-1$
+	private Image wizban;
+	private Image icon;
 
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 */
 	public JDTRecorderDialog() {
 		super(null);
@@ -89,17 +93,26 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		setBlockOnOpen(false);
 		this.tabToolBar = new HashMap<CTabItem, ToolBar>();
 	}
-	
+
+	@Override
+	public void create() {
+		this.wizban = AbstractUIPlugin.imageDescriptorFromPlugin(SWTBotGeneratorPlugin.PLUGIN_ID, "icons/swtbot_rec64.png").createImage(); //$NON-NLS-1$
+		this.icon = AbstractUIPlugin.imageDescriptorFromPlugin(SWTBotGeneratorPlugin.PLUGIN_ID, "icons/swtbot_rec16.png").createImage(); //$NON-NLS-1$
+		super.create();
+		getShell().setImage(this.icon);
+		getShell().setText("SWTBot Test Recorder");
+		setMessage("This dialog will track the generated code while you're recording your UI scenario.");
+		setTitle("SWTBot Test Recorder");
+		setTitleImage(this.wizban);
+	}
+
 	/**
 	 * Create contents of the dialog.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		this.getShell().setText("SWT Test Recorder");
-		setTitle("Record test for SWT application");
-		
 		Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -109,7 +122,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		Label selectorLabel = new Label(generatorSelectionContainer, SWT.NONE);
 		selectorLabel.setText("Target Bot API:");
 		selectorLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,false));
-		
+
 		ComboViewer generatorSelectionCombo = new ComboViewer(generatorSelectionContainer);
 		generatorSelectionCombo.setContentProvider(new ArrayContentProvider());
 		generatorSelectionCombo.setLabelProvider(new LabelProvider() {
@@ -120,15 +133,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		});
 		generatorSelectionCombo.setInput(this.availableGenerators);
 		generatorSelectionCombo.setSelection(new StructuredSelection(this.recorder.getCurrentGenerator()));
-		
-		Image image  = this.recorder.getCurrentGenerator().getImage();
-		if(image != null){
-			image = new Image(Display.getDefault(), image.getImageData().scaledTo(80, 80));
-			setTitleImage(image);
-		} else {
-			setTitleImage(null);
-		}
-		
+
 		generatorSelectionCombo.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				Generator newGenerator = (Generator) ((IStructuredSelection) event.getSelection()).getFirstElement();
@@ -141,7 +146,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 				} else {
 					setTitleImage(null);
 				}
-				
+
 			}
 		});
 
@@ -159,8 +164,8 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 				openClassShell();
 			}
 		});
-		
-		
+
+
 		createTabItem(classTabFolder, "FirstClass");
 
 		classTabFolder.addSelectionListener(new SelectionAdapter() {
@@ -245,8 +250,8 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 
 		ToolItem annotationsToolItem = new ToolItem(toolBar, SWT.DROP_DOWN);
 		annotationsToolItem.setText("Method annotation");
-		
-		
+
+
 		ToolItem annotationsClassToolItem = new ToolItem(toolBar, SWT.DROP_DOWN);
 		annotationsClassToolItem.setText("Class annotation");
 
@@ -275,7 +280,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		tabFolder.setSelection(tabItem);
 		tabViewer.put(tabItem, generatedCode);
 		doc.setViewer(generatedCode);
-		
+
 		final AnnotationSelectionListener listenerAnnot = new AnnotationSelectionListener(annotationsToolItem, recorder,tabViewer,classTabFolder);
 		annotationsToolItem.addSelectionListener(listenerAnnot);
 		annotationsToolItem.setData(listenerAnnot);
@@ -284,14 +289,14 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		annotationsClassToolItem.setData(listenerClassAnnot);
 		listenerAnnot.update();
 	}
-	
+
 	private void openClassShell(){
 		Shell s = new Shell();
 		final AddClassDialog d = new AddClassDialog(s);
 		ignoredShells.add(s);
-		
+
 	    this.getShell().getDisplay().asyncExec(new Runnable() {
-				
+
 	    	public void run() {
 				if(Window.OK == d.open()){
 					String classText = d.getClassName();
@@ -301,19 +306,19 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 				}
 	    	}
 	    });
-		
+
 	}
-	
-	
+
+
 	private void openMethodShell(final boolean fromStartButton){
 		Shell s = new Shell();
-		SourceViewer viewer = tabViewer.get(classTabFolder.getSelection()); 
+		SourceViewer viewer = tabViewer.get(classTabFolder.getSelection());
 		final ClassDocument doc = (ClassDocument) viewer.getDocument();
 		final AddMethodDialog d = new AddMethodDialog(s, doc.getMethods());
 		ignoredShells.add(s);
-		
+
 		this.getShell().getDisplay().asyncExec(new Runnable() {
-			
+
 			public void run() {
 				if(Window.OK == d.open()){
 					String methodText = d.getMethodName();
@@ -325,17 +330,16 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 					}
 					updateAnnotationToolBar();
 				}
-				
+
 			}
 		});
-		
 	}
 
 	@Override
 	protected Point getInitialSize() {
 		return new Point(585, 650);
 	}
-	
+
 	@Override
 	public void createButtonsForButtonBar(Composite parent) {
 		// Override to remove default buttons
@@ -348,7 +352,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 	public void setRecorder(BotGeneratorEventDispatcher recorder) {
 		this.recorder = recorder;
 	}
-	
+
 
 	public List<Generator> getAvailableGenerators() {
 		return availableGenerators;
@@ -365,11 +369,11 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 	public String getName() {
 		return "JDT Dialog";
 	}
-	
+
 	public String getId() {
 		return ID;
 	}
-	
+
 	public void setRecording(boolean record){
 		recorder.setRecording(record);
 		if(record){
@@ -378,13 +382,13 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 			recordPauseButton.setText("Start Recording");
 		}
 	}
-	
+
 	public String getGeneratedCodeText(){
 		SourceViewer viewer = tabViewer.get(classTabFolder.getSelection());
 		ClassDocument doc = (ClassDocument) viewer.getDocument();
 		return doc.get();
 	}
-	
+
 	private void updateAnnotationToolBar(){
 		ToolBar activeToolBar = tabToolBar.get(classTabFolder.getSelection());
 		for(ToolItem item: activeToolBar.getItems()){
@@ -397,6 +401,12 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 			}
 		}
 	}
-	
-	
+
+	@Override
+	public boolean close() {
+		this.wizban.dispose();
+		this.icon.dispose();
+		return super.close();
+	}
+
 }

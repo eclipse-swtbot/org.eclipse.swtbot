@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -27,7 +27,7 @@ public class SWTBotProject {
 		SWTBotShell shell = bot.shell("New Project");
 		shell.activate();
 
-		bot.tree().expandNode("Other", "New SWTBot Test Plug-in").select();
+		bot.tree().expandNode("SWTBot", "SWTBot Test Plug-in").select();
 		bot.button("Next >").click();
 
 		bot.textWithLabel("Plug-in Name:").setText(projectId);

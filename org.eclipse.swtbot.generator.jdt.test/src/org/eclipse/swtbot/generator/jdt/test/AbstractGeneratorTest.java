@@ -31,10 +31,10 @@ public abstract class AbstractGeneratorTest {
 	@Before
 	public void setUp(){
 
-		recorderDialog = (JDTRecorderDialog)StartupRecorder.openRecorder("org.eclipse.swtbot.generator.dialog.jdt");
-		
+		recorderDialog = (JDTRecorderDialog)StartupRecorder.openRecorder("org.eclipse.swtbot.generator.dialog.jdt"); //$NON-NLS-1$
+
 		this.bot = new SWTBot();
-		bot.waitUntil(shellIsActive("SWT Test Recorder"),5000);
+		bot.waitUntil(shellIsActive("SWTBot Test Recorder"),5000);
 		bot.button("Start Recording").click();
 		bot.waitUntil(shellIsActive("Add new method"),1000);
 
@@ -72,6 +72,6 @@ public abstract class AbstractGeneratorTest {
 				recorderDialog.getRecorder().flushGenerationRules();
 			}
 		});
-		
+
 	}
 }

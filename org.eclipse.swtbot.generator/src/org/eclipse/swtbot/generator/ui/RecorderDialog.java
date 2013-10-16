@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -25,8 +26,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -38,18 +42,22 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swtbot.generator.SWTBotGeneratorPlugin;
 import org.eclipse.swtbot.generator.framework.GenerationRule;
 import org.eclipse.swtbot.generator.framework.Generator;
 import org.eclipse.swtbot.generator.framework.IRecorderDialog;
 import org.eclipse.swtbot.generator.ui.BotGeneratorEventDispatcher.CodeGenerationListener;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
+public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog {
 
 	private BotGeneratorEventDispatcher recorder;
 	private List<Generator> availableGenerators;
 	private Text generatedCode;
 	private List<Shell> ignoredShells;
 	public static final String ID = "org.eclipse.swtbot.generator.dialog.basic";
+	private Image wizban;
+	private Image icon;
 
 	/**
 	 * Create the dialog.
@@ -65,15 +73,23 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 		setBlockOnOpen(false);
 	}
 
+	@Override
+	public void create() {
+		this.wizban = AbstractUIPlugin.imageDescriptorFromPlugin(SWTBotGeneratorPlugin.PLUGIN_ID, "icons/swtbot_rec64.png").createImage(); //$NON-NLS-1$
+		this.icon = AbstractUIPlugin.imageDescriptorFromPlugin(SWTBotGeneratorPlugin.PLUGIN_ID, "icons/swtbot_rec16.png").createImage(); //$NON-NLS-1$
+		super.create();
+		getShell().setText("SWTBot Test Recorder");
+		setMessage("This dialog will track the generated code while you're recording your UI scenario.");
+		setTitle("SWTBot Test Recorder");
+		setTitleImage(this.wizban);
+	}
+
 	/**
 	 * Create contents of the dialog.
 	 * @param parent
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		getShell().setText("SWTBot Test Recorder");
-		setTitle("SWTBot Test Recorder");
-		setMessage("This dialog will track the generated code while you're recording your UI scenario.");
 		Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		container.setLayout(new GridLayout(1, false));
@@ -141,6 +157,13 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 	}
 
 	@Override
+	public boolean close() {
+		this.wizban.dispose();
+		this.icon.dispose();
+		return super.close();
+	}
+
+	@Override
 	public void createButtonsForButtonBar(Composite parent) {
 		// Override to remove default buttons
 	}
@@ -165,7 +188,7 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 		this.availableGenerators = availableGenerators;
 
 	}
-	
+
 	public List<Generator> getAvailableGenerators() {
 		return availableGenerators;
 	}
@@ -185,4 +208,5 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog{
 	public String getId() {
 		return ID;
 	}
+
 }

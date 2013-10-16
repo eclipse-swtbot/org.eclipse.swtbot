@@ -44,7 +44,7 @@ public class GeneratorExtensionPointManager {
 		List<IRecorderDialog> dialogs = new ArrayList<IRecorderDialog>();
 		for (IConfigurationElement ext : Platform.getExtensionRegistry().getConfigurationElementsFor(DIALOG_EXTENSION_POINT_ID)) {
 			try {
-				IRecorderDialog dialog = (IRecorderDialog)ext.createExecutableExtension("class");
+				IRecorderDialog dialog = (IRecorderDialog)ext.createExecutableExtension("class"); //$NON-NLS-1$
 				dialogs.add(dialog);
 			} catch (CoreException ex) {
 				SWTBotGeneratorPlugin.getDefault().getLog().log(new Status(IStatus.ERROR, SWTBotGeneratorPlugin.PLUGIN_ID, "Could not load dialog", ex)); //$NON-NLS-1$

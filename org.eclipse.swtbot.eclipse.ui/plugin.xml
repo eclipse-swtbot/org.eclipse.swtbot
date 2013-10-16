@@ -36,7 +36,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             configTypeID="org.eclipse.swtbot.eclipse.ui.launcher.JunitLaunchConfig"
-            icon="icons/swtbot_runner.png"
+            icon="icons/swtbot_run16.png"
             id="org.eclipse.swtbot.eclipse.ui.launchConfigurationTypeImage">
       </launchConfigurationTypeImage>
    </extension>
@@ -78,7 +78,7 @@
       <shortcut
             class="org.eclipse.swtbot.eclipse.ui.launcher.SWTBotLaunchShortcut"
             description="Launch an SWTBot Test"
-            icon="icons/swtbot_runner.png"
+            icon="icons/swtbot_debug16.png"
             id="org.eclipse.swtbot.eclipse.ui.junitShortcut"
             label="SWTBot Test"
             modes="run, debug">
@@ -128,13 +128,18 @@
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
+      <category
+          id="org.eclipse.swtbot.wizards"
+          name="SWTBot">
+      </category>
       <wizard
             class="org.eclipse.swtbot.eclipse.ui.wizards.NewSWTBotTestPluginWizard"
-            finalPerspective="org.eclipse.jdt.ui.JavaPerspective"
-            icon="icons/swtbot_runner.png"
+            finalPerspective="org.eclipse.pde.ui.PDEPerspective"
+            icon="icons/swtbot_plugin16.png"
             id="org.eclipse.swtbot.eclipse.ui.wizards.NewSWTBotTestPluginWizard"
-            name="New SWTBot Test Plug-in"
-            project="true">
+            name="SWTBot Test Plug-in"
+            project="true"
+            category="org.eclipse.swtbot.wizards">
       </wizard>
    </extension>
 </plugin>

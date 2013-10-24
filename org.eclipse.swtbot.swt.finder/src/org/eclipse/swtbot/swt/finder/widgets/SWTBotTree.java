@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Kristine Jetzke - Bug 420121
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -222,13 +223,13 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 	public SWTBotTree select(final String... items) {
 		waitForEnabled();
 		setFocus();
+		final List<TreeItem> selection = new ArrayList<TreeItem>();
+		for (String item : items) {
+			SWTBotTreeItem si = getTreeItem(item);
+			selection.add(si.widget);
+		}
 		asyncExec(new VoidResult() {
 			public void run() {
-				List<TreeItem> selection = new ArrayList<TreeItem>();
-				for (String item : items) {
-					SWTBotTreeItem si = getTreeItem(item);
-					selection.add(si.widget);
-				}
 				if (!hasStyle(widget, SWT.MULTI) && items.length > 1)
 					log.warn("Tree does not support SWT.MULTI, cannot make multiple selections"); //$NON-NLS-1$
 				widget.setSelection(selection.toArray(new TreeItem[selection.size()]));

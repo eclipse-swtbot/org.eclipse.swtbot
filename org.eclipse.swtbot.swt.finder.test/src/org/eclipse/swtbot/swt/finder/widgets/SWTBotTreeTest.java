@@ -7,8 +7,9 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
- *     CÃ©dric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
+ *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
  *     Mickael Istria - Updated to support SWT 4.2
+ *     Kristine Jetzke - Bug 420121
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -24,6 +25,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
@@ -119,6 +121,14 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		TableCollection selection = tree.selection();
 		assertEquals("Node 2", selection.get(0, 0));
 		assertEquals("Node 4", selection.get(1, 0));
+	}
+	
+	@Test(expected=WidgetNotFoundException.class)
+	public void setsMultipleSelectionUnknownItem() throws Exception {
+		bot.radio("SWT.MULTI").click();
+		tree = bot.treeInGroup("Tree");
+		tree.select(new String[] { "Node 2", "x", "Node 4" });
+
 	}
 
 	@Test

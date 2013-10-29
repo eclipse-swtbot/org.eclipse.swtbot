@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 http://www.inria.fr/ and others.
+ * Copyright (c) 2008, 2013 http://www.inria.fr/ and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,19 +7,19 @@
  *
  * Contributors:
  *     http://www.inria.fr/ - initial API and implementation
+ *     Kristine Jetzke - Bug 379185
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * @author Vincent MAHE &lt;vmahe [at] free [dot]fr&gt;
@@ -27,6 +27,9 @@ import org.junit.Test;
  */
 public class SWTBotTableItemTest extends AbstractControlExampleTest {
 
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
+	
 	private SWTBotTable	table;
 	private SWTBotText	listeners;
 
@@ -130,5 +133,21 @@ public class SWTBotTableItemTest extends AbstractControlExampleTest {
 		bot.checkBox("Listen").select();
 		table = bot.table();
 		listeners = bot.textInGroup("Listeners");
+	}
+	
+	@Test
+	public void isGrayed() throws Exception {
+		SWTBotTableItem itemGrayed = bot.tableInGroup("Table_Checked").getTableItem(0);
+		assertTrue(itemGrayed.isGrayed());
+		SWTBotTableItem itemNotGrayed = bot.table(2).getTableItem(1);
+		assertFalse(itemNotGrayed.isGrayed());
+	}
+	
+	@Test
+	public void isGrayedTreeNotChecked() throws Exception {
+		expectedException.expect(IllegalArgumentException.class);
+		expectedException.expectMessage("does not have the style SWT.CHECK");
+		
+		table.getTableItem(0).isGrayed();
 	}
 }

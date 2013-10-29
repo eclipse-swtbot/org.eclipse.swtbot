@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2010, 2013 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259720
+ *     Kristine Jetzke - Bug 379185
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -772,6 +773,16 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			}
 		});
 	}
+	
+
+	public boolean isGrayed() {
+		assertIsCheck();
+		return syncExec(new BoolResult() {
+			public Boolean run() {
+				return widget.getGrayed();
+			}
+		});
+	}
 
 	@Override
 	protected Rectangle absoluteLocation() {
@@ -781,4 +792,5 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
             }
         });
     }
+
 }

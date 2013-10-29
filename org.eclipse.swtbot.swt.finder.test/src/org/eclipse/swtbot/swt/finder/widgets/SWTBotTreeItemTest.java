@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2013 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259720
+ *     Kristine Jetzke - Bug 379185
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -22,7 +23,9 @@ import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
@@ -31,6 +34,9 @@ import org.junit.Test;
  */
 public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
+	
 	private SWTBotTree	tree;
 	private SWTBotText	listeners;
 
@@ -259,5 +265,21 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		tree = bot.tree();
 		listeners = bot.textInGroup("Listeners");
 		bot.button("Clear").click();
+	}
+	
+	@Test
+	public void isGrayed() throws Exception {
+		SWTBotTreeItem itemGrayed = bot.treeInGroup("Tree_Checked").getTreeItem("grayed? true");
+		assertTrue(itemGrayed.isGrayed());
+		SWTBotTreeItem itemNotGrayed = bot.treeInGroup("Tree_Checked").getTreeItem("grayed? false");
+		assertFalse(itemNotGrayed.isGrayed());
+	}
+	
+	@Test
+	public void isGrayedTreeNotChecked() throws Exception {
+		expectedException.expect(IllegalArgumentException.class);
+		expectedException.expectMessage("does not have the style SWT.CHECK");
+		
+		tree.getAllItems()[0].isGrayed();
 	}
 }

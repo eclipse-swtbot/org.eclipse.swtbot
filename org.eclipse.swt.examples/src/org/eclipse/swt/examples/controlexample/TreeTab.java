@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2007 IBM Corporation and others.
+ * Copyright (c) 2000, 2007, 2013 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,8 +7,11 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Kristine Jetzke - Bug 379185     
  *******************************************************************************/
 package org.eclipse.swt.examples.controlexample;
+
+import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -72,9 +75,9 @@ class TreeTab extends ScrollableTab {
 	TreeItem			textNode1, imageNode1;
 
 	/* Example widgets and groups that contain them */
-	Tree				tree1, tree2;
+	Tree				tree1, tree2, tree3;
 
-	Group				treeGroup, imageTreeGroup, itemGroup;
+	Group				treeGroup, imageTreeGroup, checkedTreeGroup, itemGroup;
 
 	/**
 	 * Creates the Tab within a given instance of ControlExample.
@@ -255,6 +258,12 @@ class TreeTab extends ScrollableTab {
 		imageTreeGroup.setLayout(new GridLayout());
 		imageTreeGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		imageTreeGroup.setText(ControlExample.getResourceString("Tree_With_Images"));
+
+		/* Create a group for the checked tree */
+		checkedTreeGroup = new Group(exampleGroup, SWT.NONE);
+		checkedTreeGroup.setLayout(new GridLayout());
+		checkedTreeGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		checkedTreeGroup.setText(ControlExample.getResourceString("Tree_Checked"));
 	}
 
 	/**
@@ -358,6 +367,14 @@ class TreeTab extends ScrollableTab {
 			item.setImage(image);
 		imageNode1 = treeRoots[0];
 		packColumns(tree2);
+		
+		tree3 = new Tree(checkedTreeGroup, SWT.CHECK);
+		for (boolean grayed : Arrays.asList(true, false)) {
+			TreeItem checkedItem = new TreeItem(tree3, SWT.NONE);
+			checkedItem.setGrayed(grayed);
+			checkedItem.setText("grayed? " + grayed);
+		}
+		packColumns(tree3);
 	}
 
 	/**

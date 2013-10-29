@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2007 IBM Corporation and others.
+ * Copyright (c) 2000, 2007, 2013 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,8 +7,11 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Kristine Jetzke - Bug 379185
  *******************************************************************************/
 package org.eclipse.swt.examples.controlexample;
+
+import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -71,8 +74,10 @@ class TableTab extends ScrollableTab {
 
 	/* Example widgets and groups that contain them */
 	Table				table1;
-
-	Group				tableGroup;
+	
+	Table				checkedTable;
+	
+	Group				tableGroup, checkTableGroup;
 
 	/**
 	 * Creates the Tab within a given instance of ControlExample.
@@ -247,6 +252,12 @@ class TableTab extends ScrollableTab {
 		tableGroup.setLayout(new GridLayout());
 		tableGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		tableGroup.setText("Table");
+		
+		/* Create a group for the checked table */
+		checkTableGroup = new Group(exampleGroup, SWT.NONE);
+		checkTableGroup.setLayout(new GridLayout());
+		checkTableGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		checkTableGroup.setText("Table_Checked");
 	}
 
 	/**
@@ -296,6 +307,13 @@ class TableTab extends ScrollableTab {
 			else
 				item.setImage(instance.images[i % 3]);
 			setItemText(item, i, ControlExample.getResourceString("Index") + i);
+		}
+		
+		checkedTable = new Table(checkTableGroup, SWT.CHECK);
+		for (boolean grayed : Arrays.asList(true, false)) {
+			TableItem item = new TableItem(checkedTable, SWT.NONE);
+			item.setGrayed(grayed);
+			item.setText("grayed? " + grayed);
 		}
 		packColumns();
 	}

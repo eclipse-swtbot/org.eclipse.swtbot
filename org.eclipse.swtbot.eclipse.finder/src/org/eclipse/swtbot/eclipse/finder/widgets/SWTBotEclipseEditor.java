@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259837
  *     Ralf Ebert www.ralfebert.de - (bug 271630) SWTBot Improved RCP / Workbench support
+ *     Ingo Mohr - Bug 416859
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -35,6 +36,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.exceptions.QuickFixNotFoundException;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
@@ -267,7 +269,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 * @see org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot#contextMenu(java.lang.String)
 	 */
 	public SWTBotMenu contextMenu(String text) throws WidgetNotFoundException {
-		return styledText.contextMenu(text);
+		return new SWTBotMenu(ContextMenuHelper.contextMenu(styledText, text));	
 	}
 
 	/**

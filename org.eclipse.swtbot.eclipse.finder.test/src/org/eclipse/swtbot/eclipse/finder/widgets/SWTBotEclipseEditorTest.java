@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Ingo Mohr - Bug 416859
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -118,4 +119,15 @@ public class SWTBotEclipseEditorTest {
 		assertFalse(bot.editorByTitle("BarClass.java").isActive());
 		assertTrue(bot.editorByTitle("BazClass.java").isActive());
 	}
+	
+	@Test
+	public void contextMenu() {
+		editor.contextMenu("Copy Qualified Name").click();
+	}
+	
+	@Test
+	public void contextMenuWithSubMenu() {
+		editor.contextMenu("Show In");
+	}
+
 }

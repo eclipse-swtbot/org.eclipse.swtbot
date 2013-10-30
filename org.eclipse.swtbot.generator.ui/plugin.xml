@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  	
+  	<extension point="org.eclipse.ui.newWizards">
+    	<wizard name= "%wizardName" class="org.eclipse.swtbot.generator.ui.launcher.TestRecorderWizard" id="org.eclipse.faq.examples.addingWizard"
+				category="org.eclipse.swtbot.wizards" icon="platform:/plugin/org.eclipse.swtbot.generator/icons/swtbot_rec16.png"/>
+	</extension>
+	
+	<extension point="org.eclipse.debug.core.launchConfigurationTypes">
+        <launchConfigurationType
+        	delegate="org.eclipse.swtbot.generator.ui.launcher.TestRecorderLaunchConfiguration"
+           	delegateDescription="description"
+           	delegateName="%recorderDelegateName"
+           	id="org.eclipse.swtbot.generator.ui.launcher.TestRecorderLaunchConfiguration"
+           	migrationDelegate="org.eclipse.pde.internal.launching.launcher.PDEMigrationDelegate"
+           	modes="run"
+           	name="%configurationName"
+           	sourceLocatorId="org.eclipse.pde.ui.launcher.PDESourceLookupDirector"
+           	sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
+    	</launchConfigurationType>
+    </extension>
+    
+    <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+  		<launchConfigurationTypeImage id="org.eclipse.swtbot.generator.ui.launcher.TestRecorderLaunchConfigurationImage"
+     		configTypeID="org.eclipse.swtbot.generator.ui.launcher.TestRecorderLaunchConfiguration"
+     		icon="platform:/plugin/org.eclipse.swtbot.generator/icons/swtbot_rec16.png">
+  		</launchConfigurationTypeImage>
+ 	</extension>
+           
+    <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+    	<launchConfigurationTabGroup
+        	type="org.eclipse.swtbot.generator.ui.launcher.TestRecorderLaunchConfiguration"
+            class="org.eclipse.pde.ui.launcher.EclipseLauncherTabGroup"
+            id="org.eclipse.swtbot.generator.ui.launcher.TestRecorder">
+        	<launchMode
+           		description="%configurationDescription"
+               	mode="run">
+         	</launchMode>
+      	</launchConfigurationTabGroup>
+   	</extension>
+   
+</plugin>

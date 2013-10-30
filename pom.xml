@@ -50,6 +50,7 @@ Authors:
 		<module>org.eclipse.swtbot.forms.finder</module>
 		<module>org.eclipse.swtbot.generator</module>
 		<module>org.eclipse.swtbot.generator.jdt</module>
+		<module>org.eclipse.swtbot.generator.ui</module>
 		<module>org.eclipse.swtbot.go</module>
 		<module>org.eclipse.swtbot.junit4_x</module>
 		<module>org.eclipse.swtbot.swt.demo</module>

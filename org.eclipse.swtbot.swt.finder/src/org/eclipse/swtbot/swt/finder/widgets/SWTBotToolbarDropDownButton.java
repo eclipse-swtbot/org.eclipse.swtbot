@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008-2013 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Ketan Padegaonkar - http://swtbot.org/bugzilla/show_bug.cgi?id=88
+ *     Mickael Istria (Red Hat Inc.) - Bug 422458
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -55,7 +56,7 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 
 	/**
 	 * Constructs an new instance of this item.
-	 * 
+	 *
 	 * @param w the tool item.
 	 * @param description the description of the widget, this will be reported by {@link #toString()}
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
@@ -71,7 +72,7 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 	 * <p>
 	 * <b>NOTE:</b>Invoking this keeps the menu open until you click on it.
 	 * </p>
-	 * 
+	 *
 	 * @param menuItem the submenu to search
 	 * @return the menu item with the specified text
 	 * @since 1.0
@@ -86,7 +87,7 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 	 * <p>
 	 * <b>NOTE:</b>Invoking this keeps the menu open until you click on it.
 	 * </p>
-	 * 
+	 *
 	 * @param matcher the matcher
 	 * @return the menu item with the specified text
 	 */
@@ -99,7 +100,7 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 	 * <p>
 	 * <b>NOTE:</b>Invoking this keeps the menu open until you click on it.
 	 * </p>
-	 * 
+	 *
 	 * @param matcher the matcher
 	 * @return the menu items matching the matcher.
 	 * @throws WidgetNotFoundException if the menuItem could not be found
@@ -150,13 +151,13 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 		}
 
 		if (result.isEmpty())
-			throw new WidgetNotFoundException("Could not find a menu item"); //$NON-NLS-1$
+			throw new WidgetNotFoundException("Could not find a menu item: " + matcher); //$NON-NLS-1$
 		return result;
 	}
 
 	/**
 	 * Gets the arrow event.
-	 * 
+	 *
 	 * @return The event.
 	 */
 	private Event arrowEvent() {

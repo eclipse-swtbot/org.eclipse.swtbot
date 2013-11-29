@@ -1,12 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others.
+ * Copyright (c) 2009-2013 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Toby Weston - initial API and implementation (Bug 259860)
+ *     Mickael Istria (Red Hat Inc.) - Bug 422458
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -23,7 +24,7 @@ import org.hamcrest.Matcher;
 
 /**
  * Represents a tray item.
- * 
+ *
  * @author Toby Weston (Bug 259860)
  * @version $Id$
  */
@@ -31,7 +32,7 @@ public class SWTBotTrayItem extends AbstractSWTBot<TrayItem> {
 
 	/**
 	 * Constructs a new instance with the given widget.
-	 * 
+	 *
 	 * @param widget the tray item.
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
 	 */
@@ -47,7 +48,7 @@ public class SWTBotTrayItem extends AbstractSWTBot<TrayItem> {
 			Matcher<MenuItem> withMnemonic = withMnemonic(label);
 			List<MenuItem> menus = finder.findMenus(withMnemonic);
 			if (menus.isEmpty())
-				throw new WidgetNotFoundException("Could not find a menu item");
+				throw new WidgetNotFoundException("Could not find a menu item with label: " + label);
 			return new SWTBotMenu(menus.get(0));
 		} finally {
 			finder.unregister();

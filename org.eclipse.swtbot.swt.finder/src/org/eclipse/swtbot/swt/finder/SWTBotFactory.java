@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008-2013 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259837
  *     Toby Weston - (Bug 259860)
  *     Ketan Patel - (Bug 259860)
+ *     Mickael Istria (Red Hat Inc.) - Bug 422458
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder;
 
@@ -354,7 +355,11 @@ abstract class SWTBotFactory {
 		try {
 			waitUntil(waitForWidget);
 		} catch (TimeoutException e) {
-			throw new WidgetNotFoundException("Could not find widget.", e); //$NON-NLS-1$
+			String message = "Could not find widget"; //$NON-NLS-1$
+			if (waitForWidget.getFailureMessage() != null) {
+				message = waitForWidget.getFailureMessage();
+			}
+			throw new WidgetNotFoundException(message, e);
 		}
 	}
 

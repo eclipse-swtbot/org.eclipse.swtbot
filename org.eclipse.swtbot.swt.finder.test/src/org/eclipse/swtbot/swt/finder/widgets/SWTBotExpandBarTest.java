@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *******************************************************************************/
@@ -90,7 +90,7 @@ public class SWTBotExpandBarTest extends AbstractControlExampleTest {
 			bot.expandBar().getExpandItem(withText("some text"));
 			fail("Expected WNFE");
 		} catch (WidgetNotFoundException e) {
-			assertEquals("Could not find widget.", e.getMessage());
+			assertEquals("Could not find widget matching: (of type 'ExpandItem' and with text 'some text')", e.getMessage());
 			assertEquals("Timeout after: 5000 ms.: Could not find widget matching: (of type 'ExpandItem' and with text 'some text')", e
 					.getCause().getMessage());
 		}

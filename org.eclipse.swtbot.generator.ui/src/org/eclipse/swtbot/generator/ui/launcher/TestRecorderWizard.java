@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    Rastislav Wagner (Red Hat) - initial API and implementation
+ *    Mickael Istria (Red Hat) - Automatically configure bundles
  *******************************************************************************/
 package org.eclipse.swtbot.generator.ui.launcher;
 
@@ -40,28 +41,29 @@ public class TestRecorderWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		if (firstPage.runNewInstance()) {
+		if (this.firstPage.runNewInstance()) {
 			ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-			ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.swtbot.generator.ui.launcher.TestRecorderLaunchConfiguration");
+			ILaunchConfigurationType type = manager.getLaunchConfigurationType(TestRecorderLaunchConfiguration.class.getName());
 
 			try {
 				ILaunchConfiguration[] lcs = manager.getLaunchConfigurations(type);
 				ILaunchConfigurationWorkingCopy workingCopy = null;
 				for (int i = 0; i < lcs.length; ++i) {
-					if (lcs[i].getName().equals("Test Recorder "+firstPage.getSelectedDialogName())) {
+					if (lcs[i].getName().equals("Test Recorder " + this.firstPage.getSelectedDialogName())) {
 						workingCopy = lcs[i].getWorkingCopy();
 						break;
 					}
 				}
 				if (workingCopy == null) {
-					workingCopy = type.newInstance(null, "Test Recorder "+firstPage.getSelectedDialogName());
-					String recorderDialog = " -D"+StartupRecorder.DIALOG_PROPERTY+"=" +firstPage.getSelectedDialogId();
+					workingCopy = type.newInstance(null, "Test Recorder " + this.firstPage.getSelectedDialogName());
+					String recorderDialog = " -D" + StartupRecorder.DIALOG_PROPERTY + "=" + this.firstPage.getSelectedDialogId(); //$NON-NLS-1$ //$NON-NLS-2$
 					workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, recorderDialog);
-					
+
 				}
 				final ILaunchConfiguration config = workingCopy.doSave();
 				Display.getCurrent().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						DebugUITools.openLaunchConfigurationDialog(PlatformUI
 								.getWorkbench().getActiveWorkbenchWindow()
@@ -75,13 +77,14 @@ public class TestRecorderWizard extends Wizard implements INewWizard {
 				ex.printStackTrace();
 			}
 		} else {
-			StartupRecorder.openRecorder(firstPage.getSelectedDialogId());
+			StartupRecorder.openRecorder(this.firstPage.getSelectedDialogId());
 		}
 		return true;
 	}
 
+	@Override
 	public void init(IWorkbench arg0, IStructuredSelection arg1) {
-
+		// Nothing to do
 	}
 
 }

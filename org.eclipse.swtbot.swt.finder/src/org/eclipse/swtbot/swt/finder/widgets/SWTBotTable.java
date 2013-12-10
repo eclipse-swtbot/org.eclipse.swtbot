@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2013 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
  *     Hans Schwaebli - http://swtbot.org/bugzilla/show_bug.cgi?id=100
  *     http://www.inria.fr/ - http://swtbot.org/bugzilla/show_bug.cgi?id=114
  *     Hans Schwaebli - http://swtbot.org/bugzilla/show_bug.cgi?id=122
+ *     Kristine Jetzke - Bug 259908
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -416,6 +417,32 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 				doubleClickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
 			}
 		});
+	}
+	
+	/**
+	 * Double-click on the table at given coordinates
+	 *
+	 * @param x the x co-ordinate of the click
+	 * @param y the y co-ordinate of the click
+	 */
+	@Override
+	protected void doubleClickXY(int x, int y) {
+		log.debug(MessageFormat.format("Double-clicking on {0}", widget)); //$NON-NLS-1$
+		notify(SWT.MouseEnter);
+		notify(SWT.MouseMove);
+		notify(SWT.Activate);
+		notify(SWT.FocusIn);
+		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
+		notify(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
+		notify(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
+		notify(SWT.DefaultSelection); // super implementation misses this line. Required for notification of double click listeners. 
+		notify(SWT.MouseHover);
+		notify(SWT.MouseMove);
+		notify(SWT.MouseExit);
+		notify(SWT.Deactivate);
+		notify(SWT.FocusOut);
+		log.debug(MessageFormat.format("Double-clicked on {0}", widget)); //$NON-NLS-1$
 	}
 
 	/**

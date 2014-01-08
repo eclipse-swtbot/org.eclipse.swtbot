@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2009, 2014 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Frank Schuerer - https://bugs.eclipse.org/bugs/show_bug.cgi?id=424238
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.test.ui.views;
 
@@ -61,7 +62,8 @@ public class SWTBotTestView extends ViewPart {
 	private Action			iToggleTypeAction;
 	private Action			iRadioTypeAction;
 	private Action			iDropDownTypeAction;
-
+	private Action			iActionTypeActionWithId;
+	
 	/**
 	 * The constructor.
 	 */
@@ -109,6 +111,7 @@ public class SWTBotTestView extends ViewPart {
 
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(iActionTypeAction);
+		manager.add(iActionTypeActionWithId);
 		manager.add(iToggleTypeAction);
 		manager.add(iRadioTypeAction);
 		manager.add(iDropDownTypeAction);
@@ -117,6 +120,7 @@ public class SWTBotTestView extends ViewPart {
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(iActionTypeAction);
+		manager.add(iActionTypeActionWithId);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
@@ -139,7 +143,16 @@ public class SWTBotTestView extends ViewPart {
 		iActionTypeAction.setToolTipText("This represents an IAction command.");
 		iActionTypeAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-
+		
+		iActionTypeActionWithId = new Action() {
+			public void run() {
+				showMessage("iAction executed.");
+			}
+		};
+		iActionTypeActionWithId.setId("myActionId");
+		iActionTypeActionWithId.setText("IAction with ID Type Command");
+		iActionTypeActionWithId.setToolTipText("This represents an IAction with ID command.");
+		
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();

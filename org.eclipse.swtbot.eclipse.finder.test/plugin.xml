@@ -132,5 +132,20 @@
             name="name">
       </perspective>
    </extension>
-
+	<extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="org.eclipse.swtbot.eclipse.finder.test.viewContribution"
+            targetID="org.eclipse.swtbot.eclipse.finder.test.ui.views.SWTBotTestView">
+         <action
+               class="org.eclipse.swtbot.eclipse.finder.test.ui.views.ViewActionWithId"
+               id="org.eclipse.swtbot.eclipse.finder.test.action"
+               label="View Action with ID"
+               menubarPath="additions"
+               style="push"
+               tooltip="Action with ID">
+         </action>
+      </viewContribution>
+   </extension>
+   
 </plugin>

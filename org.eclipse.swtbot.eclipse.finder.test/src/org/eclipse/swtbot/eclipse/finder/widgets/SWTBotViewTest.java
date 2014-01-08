@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2009, 2014 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Frank Schuerer - https://bugs.eclipse.org/bugs/show_bug.cgi?id=424238
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -126,7 +127,11 @@ public class SWTBotViewTest {
 		SWTBotViewMenu pCICMenu = view.menu("Try the Banana");
 		pCICMenu.click();
 		bot.button("OK").click();
-}
+		
+		// Runs an action that is an iAction with ID
+		view.menu("IAction with ID Type Command").click();
+		bot.button("OK").click();
+	}
 
 	@Test
 	public void getToolbarButtons() throws Exception {
@@ -225,4 +230,29 @@ public class SWTBotViewTest {
 		}
 	}
 
+	@Test
+	public void viewActionDelegateWithId() throws Exception {
+		openSWTBotTestView();
+
+		SWTBotView view = bot.viewByTitle("SWTBot Test View");
+		view.menu("View Action with ID").click();
+
+		bot.button("OK").click();
+	}
+	
+	@Test
+	public void breakpointsViewMenuWorkingSets() {
+		this.bot.menu("Window").menu("Show View").menu("Other...").click();
+		this.bot.shell("Show View").activate();
+		SWTBotTree tree = bot.tree();
+		SWTBotTreeItem expandNode = tree.expandNode("Debug");
+		expandNode.select("Breakpoints").click();
+		this.bot.button("OK").click();
+
+		SWTBotView breakpointsView = this.bot.viewByTitle("Breakpoints");
+		breakpointsView.show();
+		breakpointsView.menu("Working Sets...").click();
+	
+		bot.button("OK").click();
+	}
 }

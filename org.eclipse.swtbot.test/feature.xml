@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.swtbot.test"
       label="SWTBot Tests Feature"
-      version="2.2.0.qualifier"
+      version="2.2.1.qualifier"
       provider-name="Eclipse.org"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">

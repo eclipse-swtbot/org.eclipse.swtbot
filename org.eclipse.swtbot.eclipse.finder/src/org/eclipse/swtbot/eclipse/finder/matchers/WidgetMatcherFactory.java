@@ -54,7 +54,7 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
    * 
    * @param title the title of the part.
    * @return a matcher.
-   * @since 2.1.2
+   * @since 2.2
    */
   public static <T extends org.eclipse.ui.IWorkbenchPartReference> org.hamcrest.Matcher<T> withTitle(java.lang.String title) {
 	  return org.eclipse.swtbot.eclipse.finder.matchers.WithTitle.withTitle(title);
@@ -65,7 +65,7 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
    * 
    * @param titleMatcher the part title matcher.
    * @return a matcher.
-   * @since 2.1.2
+   * @since 2.2
    */
   public static <T extends org.eclipse.ui.IWorkbenchPartReference> org.hamcrest.Matcher<T> withTitle(org.hamcrest.Matcher<java.lang.String> titleMatcher) {
 	  return org.eclipse.swtbot.eclipse.finder.matchers.WithTitle.withTitle(titleMatcher);

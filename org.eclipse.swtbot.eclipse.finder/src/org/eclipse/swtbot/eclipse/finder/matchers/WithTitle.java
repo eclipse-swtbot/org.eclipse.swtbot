@@ -11,8 +11,9 @@ import org.hamcrest.Matcher;
 /**
  * @author michal [at] greenpath [dot] pl
  * @author Michal Borek
+ * @author Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  * @version $Id$
- * @since 2.1.2
+ * @since 2.2
  */
 public class WithTitle<T extends IWorkbenchPartReference> extends
 		AbstractMatcher<T> {

@@ -8,6 +8,7 @@
  * Contributors:
  *     Ralf Ebert www.ralfebert.de - (bug 271630) SWTBot Improved RCP / Workbench support
  *     Ketan Padegaonkar - (bug 260088) Support for MultiPageEditorPart
+ *     Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder;
 
@@ -47,6 +48,7 @@ import org.hamcrest.Matchers;
  * perspectives
  * 
  * @author Ralf Ebert www.ralfebert.de (bug 271630)
+ * @author Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  * @version $Id$
  */
 public class SWTWorkbenchBot extends SWTBot {
@@ -136,6 +138,7 @@ public class SWTWorkbenchBot extends SWTBot {
 	 * @param partName the "human readable" part name
 	 * @return the view with the specified part name
 	 * @see WidgetMatcherFactory#withPartName(Matcher)
+	 * @since 2.2
 	 */
 	public SWTBotView viewByPartName(String partName) {
 		Matcher<IViewReference> withPartName = withPartName(partName);

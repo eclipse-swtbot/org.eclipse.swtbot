@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -65,6 +66,7 @@ import org.hamcrest.StringDescription;
  *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @author Joshua Gosse &lt;jlgosse [at] ca [dot] ibm [dot] com&gt;
+ * @author Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  * @version $Id$
  */
 public abstract class AbstractSWTBot<T extends Widget> {
@@ -876,6 +878,9 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		return this;
 	}
 	
+	/**
+	 * @since 2.2
+	 */
 	public void dragAndDrop(final AbstractSWTBot<? extends Widget> target) {
 		final Rectangle sourceRect = absoluteLocation();
 		final Rectangle destRect = target.absoluteLocation();

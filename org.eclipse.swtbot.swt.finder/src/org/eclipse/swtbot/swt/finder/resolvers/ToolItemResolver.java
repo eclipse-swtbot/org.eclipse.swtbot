@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Marcel Hoetter - initial implementation based on TabItemResolver
+ *     Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.resolvers;
 
@@ -20,7 +21,9 @@ import org.eclipse.swt.widgets.Widget;
  * Resolver for ToolItems.
  * 
  * @author Marcel Hoetter &lt;Marcel.Hoetter [at] genuinesoftware [dot] de&gt;
+ * @author Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  * @version $Id$
+ * @since 2.2
  */
 public class ToolItemResolver implements IChildrenResolver, IParentResolver {
 

@@ -12,9 +12,10 @@ package org.eclipse.swtbot.generator.test;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellIsActive;
 
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.generator.ui.RecorderDialog;
+import org.eclipse.swtbot.generator.framework.IRecorderDialog;
 import org.eclipse.swtbot.generator.ui.StartupRecorder;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -23,32 +24,29 @@ import org.junit.Before;
 
 public abstract class AbstractGeneratorTest {
 
-	private Display display;
-	private TestDialog dialog;
+	protected Display display;
+	protected TestDialog dialog;
 	protected SWTBot bot;
-	protected RecorderDialog recorderDialog;
+	protected IRecorderDialog recorderDialog;
 
 	@Before
 	public void setUp() {
-		this.recorderDialog = (RecorderDialog)StartupRecorder.openRecorder(null);
+		this.recorderDialog = StartupRecorder.openRecorder(null);
 		this.bot = new SWTBot();
 		bot.waitUntil(shellIsActive("SWTBot Test Recorder"),5000);
 		SWTBotShell recorderShell = this.bot.shell("SWTBot Test Recorder");
 		recorderShell.bot().button("Start Recording").click();
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				recorderDialog.getGeneratedCodeText().setText("");
-			}
-		});
 
 		this.display = Display.getDefault();
 		this.display.syncExec(new Runnable() {
 			public void run() {
-				dialog = new TestDialog(new Shell());
+				dialog = new TestDialog(new Shell(), AbstractGeneratorTest.this);
 				dialog.open();
 			}
 		});
 	}
+
+	protected abstract void contributeToDialog(Composite container);
 
 	@After
 	public void tearDown() {
@@ -58,6 +56,10 @@ public abstract class AbstractGeneratorTest {
 					dialog.close();
 				}
 				dialog = null;
+				if (!recorderDialog.getShell().isDisposed()) {
+					recorderDialog.getShell().close();
+				}
+				recorderDialog = null;
 			}
 		});
 
@@ -73,5 +75,9 @@ public abstract class AbstractGeneratorTest {
 				AbstractGeneratorTest.this.recorderDialog.getRecorder().flushGenerationRules();
 			}
 		});
+	}
+
+	protected SWTBot recorderShellBot() {
+		return this.bot.shell("SWTBot Test Recorder").bot();
 	}
 }

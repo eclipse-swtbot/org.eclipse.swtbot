@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,6 +32,7 @@ import org.eclipse.swtbot.generator.framework.rules.simple.ExpandTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ModifyTextRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.PushButtonClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.RadioButtonClickedRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.SelectListItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.SelectTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ShellMenuClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarDropDownRule;
@@ -54,6 +55,7 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new ComboTextModifyRule());
 		res.add(new ContextMenuRule());
 		res.add(new ToolBarDropDownRule());
+		res.add(new SelectListItemRule());
 
 		return res;
 

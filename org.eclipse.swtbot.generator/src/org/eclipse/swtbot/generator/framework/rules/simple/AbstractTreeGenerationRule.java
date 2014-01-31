@@ -21,9 +21,10 @@ import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
-	
+
 	private int index;
 	private List<String> path;
+	private Tree tree;
 
 	/**
 	 * Subclasses should call super.appliesTo first, and then
@@ -38,7 +39,7 @@ public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		Tree tree = (Tree)event.widget;
+		this.tree = (Tree)event.widget;
 		path = new ArrayList<String>();
 		index = WidgetUtils.getIndex(tree);
 		TreeItem currentItem = (TreeItem)event.item;
@@ -70,5 +71,10 @@ public abstract class AbstractTreeGenerationRule extends GenerationSimpleRule {
 			res.append("\")");
 		}
 		return res.toString();
+	}
+
+	@Override
+	public Tree getWidget() {
+		return this.tree;
 	}
 }

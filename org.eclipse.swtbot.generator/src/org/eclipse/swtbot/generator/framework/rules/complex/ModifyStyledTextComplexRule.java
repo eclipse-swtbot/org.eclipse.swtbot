@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,15 +15,16 @@ import java.util.List;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
-import org.eclipse.swtbot.generator.framework.rules.simple.ModifyTextRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.ModifyStyledTextRule;
 
-public class ModifyTextComplexRule extends GenerationComplexRule {
+public class ModifyStyledTextComplexRule extends GenerationComplexRule {
+
 
 	private Widget widget;
 
 	@Override
 	public boolean appliesToPartially(GenerationSimpleRule rule, int i) {
-		if (! (rule instanceof ModifyTextRule)) {
+		if (! (rule instanceof ModifyStyledTextRule)) {
 			return false;
 		}
 		if (i == 0) {
@@ -36,7 +37,7 @@ public class ModifyTextComplexRule extends GenerationComplexRule {
 	public boolean appliesTo(List<GenerationSimpleRule> rules) {
 		Widget widget = null;
 		for (GenerationSimpleRule rule : rules) {
-			if (! (rule instanceof ModifyTextRule)) {
+			if (! (rule instanceof ModifyStyledTextRule)) {
 				return false;
 			}
 			if (widget == null) {
@@ -58,5 +59,4 @@ public class ModifyTextComplexRule extends GenerationComplexRule {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

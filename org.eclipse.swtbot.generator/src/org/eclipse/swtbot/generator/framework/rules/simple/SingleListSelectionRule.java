@@ -23,6 +23,7 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 
 	private String newSelectionText = null;
 	private int index;
+	private List widget;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -32,24 +33,24 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		List list = (List)event.widget;
-		if (list.getSelectionCount() > 0){
-			this.newSelectionText = list.getSelection()[0];
+		this.widget = (List)event.widget;
+		if (this.widget.getSelectionCount() > 0){
+			this.newSelectionText = this.widget.getSelection()[0];
 		}
-		index = WidgetUtils.getIndex(list);
+		this.index = WidgetUtils.getIndex(this.widget);
 	}
-	
+
 	@Override
 	public java.util.List<String> getActions() {
 		java.util.List<String> actions = new ArrayList<String>();
-		
+
 		StringBuilder res = new StringBuilder();
 		if (index != 0) {
 			res.append("bot.list(" + index + ")");
 		} else {
 			res.append("bot.list()");
 		}
-	
+
 		if (this.newSelectionText != null){
 			res.append(".select(\"");
 			res.append(this.newSelectionText);
@@ -58,9 +59,9 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 		else {
 			res.append(".unselect()");
 		}
-		
+
 		actions.add(res.toString());
-		
+
 		return actions;
 	}
 
@@ -68,6 +69,11 @@ public class SingleListSelectionRule extends GenerationSimpleRule {
 	public java.util.List<String> getImports() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List getWidget() {
+		return this.widget;
 	}
 
 }

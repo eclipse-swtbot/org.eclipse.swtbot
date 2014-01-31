@@ -23,6 +23,7 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 
 	private String buttonText;
 	private int index;
+	private Button button;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -33,7 +34,8 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.buttonText = ((Button)event.widget).getText();
+		this.button = (Button)event.widget;
+		this.buttonText = this.button.getText();
 		if (this.buttonText != null) {
 			this.buttonText = this.buttonText.replace("&", "");
 		} else {
@@ -61,6 +63,11 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 	public List<String> getImports() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Button getWidget() {
+		return this.button;
 	}
 
 }

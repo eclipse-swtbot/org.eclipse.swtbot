@@ -24,6 +24,7 @@ public class SelectListItemRule extends GenerationSimpleRule {
 	boolean useIndices = false;
 	private String[] selectedItems;
 	private int[] selectedIndices;
+	private org.eclipse.swt.widgets.List list;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -33,13 +34,13 @@ public class SelectListItemRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List)event.widget;
-		this.index = WidgetUtils.getIndex(list);
-		this.selectedIndices = list.getSelectionIndices();
-		this.selectedItems = list.getSelection();
-		for (String selectedItem : list.getSelection()) {
+		this.list = (org.eclipse.swt.widgets.List)event.widget;
+		this.index = WidgetUtils.getIndex(this.list);
+		this.selectedIndices = this.list.getSelectionIndices();
+		this.selectedItems = this.list.getSelection();
+		for (String selectedItem : this.list.getSelection()) {
 			int nbOccurrences = 0;
-			for (String item : list.getItems()) {
+			for (String item : this.list.getItems()) {
 				if (item.equals(selectedItem)) {
 					nbOccurrences++;
 				}
@@ -90,6 +91,11 @@ public class SelectListItemRule extends GenerationSimpleRule {
 	public List<String> getImports() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public org.eclipse.swt.widgets.List getWidget() {
+		return this.list;
 	}
 
 }

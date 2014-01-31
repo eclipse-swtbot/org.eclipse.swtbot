@@ -31,7 +31,7 @@ public class ExpandTreeItemRule extends AbstractTreeGenerationRule {
 		code.append(".expand()");
 		actions.add(code.toString());
 		return actions;
-		
+
 	}
 
 	@Override

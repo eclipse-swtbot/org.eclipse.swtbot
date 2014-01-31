@@ -31,7 +31,7 @@ public class DoubleClickTreeItemRule extends AbstractTreeGenerationRule {
 		code.append(".doubleClick()");
 		actions.add(code.toString());
 		return actions;
-		
+
 	}
 
 	@Override

@@ -12,14 +12,12 @@
 package org.eclipse.swtbot.generator.framework;
 
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Widget;
 /**
  * This class represents very basic simple rule which is being matched to one event
  *
  */
 public abstract class GenerationSimpleRule extends GenerationRule{
-	
-	private String shellTitle;
-	private String viewTitle;
 
 	/**
 	 * Checks whether event applies to this rule
@@ -34,20 +32,11 @@ public abstract class GenerationSimpleRule extends GenerationRule{
 	 */
 	public abstract void initializeForEvent(Event event);
 
-	public String getShellTitle() {
-		return shellTitle;
-	}
+	/**
+	 * @return the widget which triggered the event for this rule
+	 * Widget may be disposed.
+	 * Only applies if appliesTo() == true and after initializeForEvent
+	 */
+	public abstract Widget getWidget();
 
-	public void setShellTitle(String shellTitle) {
-		this.shellTitle = shellTitle;
-	}
-
-	public String getViewTitle() {
-		return viewTitle;
-	}
-
-	public void setViewTitle(String viewTitle) {
-		this.viewTitle = viewTitle;
-	}
-	
 }

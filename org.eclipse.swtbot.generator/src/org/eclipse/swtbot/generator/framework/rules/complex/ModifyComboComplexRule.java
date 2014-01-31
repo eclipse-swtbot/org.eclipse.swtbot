@@ -14,28 +14,29 @@ import java.util.List;
 
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ModifyTextRule;
 
 public class ModifyComboComplexRule extends GenerationComplexRule{
-	
+
 	private int textIndex;
 
 	@Override
 	public boolean appliesToPartially(GenerationSimpleRule rule, int i) {
-		if(i==0 &&  rule instanceof ModifyTextRule){ //first event, so we will store some identifier of text
-			textIndex = ((ModifyTextRule)rule).getTextIndex();
+		if(i==0 &&  rule instanceof ComboTextModifyRule){ //first event, so we will store some identifier of text
+			this.textIndex = ((ComboTextModifyRule)rule).getTextIndex();
 		}
-		//check whether ModifyTextRule happened on the same text as the first one
+		//check whether ComboTextModifyRule happened on the same text as the first one
 		//if not then it should be processed by another ModifyTextComplexRule
-		return rule instanceof ModifyTextRule && ((ModifyTextRule)rule).getTextIndex() == textIndex;
+		return rule instanceof ComboTextModifyRule && ((ComboTextModifyRule)rule).getTextIndex() == textIndex;
 	}
 
 	@Override
 	public boolean appliesTo(List<GenerationSimpleRule> rules) {
 		for(GenerationSimpleRule r: rules){
-			if(!(r instanceof ModifyTextRule)){
+			if (!(r instanceof ComboTextModifyRule)) {
 				return false;
-			} else if(((ModifyTextRule)r).getTextIndex() != textIndex){
+			} else if (((ComboTextModifyRule)r).getTextIndex() != this.textIndex){
 				return false;
 			}
 		}
@@ -44,7 +45,7 @@ public class ModifyComboComplexRule extends GenerationComplexRule{
 
 	@Override
 	public List<String> getActions() {
-		return ((ModifyTextRule)getInitializationRules().get(getInitializationRules().size()-1)).getActions();
+		return ((ComboTextModifyRule)getInitializationRules().get(getInitializationRules().size()-1)).getActions();
 	}
 
 	@Override

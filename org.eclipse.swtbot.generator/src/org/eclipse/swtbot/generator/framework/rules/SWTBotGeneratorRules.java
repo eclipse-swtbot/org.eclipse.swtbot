@@ -20,6 +20,7 @@ import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.Generator;
 import org.eclipse.swtbot.generator.framework.rules.annotation.TestAnnotationRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyComboComplexRule;
+import org.eclipse.swtbot.generator.framework.rules.complex.ModifyStyledTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ToolBarMenuComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CComboSelectionRule;
@@ -29,13 +30,16 @@ import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ContextMenuRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.DoubleClickTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ExpandTreeItemRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.ModifyStyledTextRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ModifyTextRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.PressShortCutRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.PushButtonClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.RadioButtonClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.SelectListItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.SelectTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ShellMenuClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarDropDownRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarItemClickedRule;
 
 public class SWTBotGeneratorRules implements Generator {
 
@@ -52,10 +56,14 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new ShellMenuClickedRule());
 		res.add(new SelectTreeItemRule());
 		res.add(new ModifyTextRule());
+		res.add(new ModifyStyledTextRule());
 		res.add(new ComboTextModifyRule());
 		res.add(new ContextMenuRule());
 		res.add(new ToolBarDropDownRule());
+		res.add(new ToolBarItemClickedRule());
 		res.add(new SelectListItemRule());
+
+		res.add(new PressShortCutRule());
 
 		return res;
 
@@ -69,6 +77,7 @@ public class SWTBotGeneratorRules implements Generator {
 		List<GenerationComplexRule> cres = new ArrayList<GenerationComplexRule>();
 		cres.add(new ToolBarMenuComplexRule());
 		cres.add(new ModifyTextComplexRule());
+		cres.add(new ModifyStyledTextComplexRule());
 		cres.add(new ModifyComboComplexRule());
 		return cres;
 	}

@@ -20,10 +20,11 @@ import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class CComboSelectionRule extends GenerationSimpleRule {
-	
+
 	private String newSelection;
 	private int newSelectionIndex;
 	private int index;
+	private CCombo combo;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -32,23 +33,23 @@ public class CComboSelectionRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		CCombo combo = (CCombo)event.widget;
-		this.newSelection = combo.getText();
-		this.newSelectionIndex = combo.getSelectionIndex();
-		index = WidgetUtils.getIndex(combo);
+		this.combo = (CCombo)event.widget;
+		this.newSelection = this.combo.getText();
+		this.newSelectionIndex = this.combo.getSelectionIndex();
+		index = WidgetUtils.getIndex(this.combo);
 	}
 
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
 		StringBuilder res = new StringBuilder();
-		
+
 		if (index != 0) {
 			res.append("bot.ccomboBox(" + index + ")");
 		} else {
 			res.append("bot.ccomboBox()");
 		}
-		
+
 		res.append(".select(");
 		if (this.newSelection != null) {
 			res.append('"');
@@ -58,7 +59,7 @@ public class CComboSelectionRule extends GenerationSimpleRule {
 			res.append(this.newSelectionIndex);
 			res.append(")");
 		}
-		
+
 		actions.add(res.toString());
 		return actions;
 	}
@@ -67,6 +68,11 @@ public class CComboSelectionRule extends GenerationSimpleRule {
 	public List<String> getImports() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public CCombo getWidget() {
+		return this.combo;
 	}
 
 }

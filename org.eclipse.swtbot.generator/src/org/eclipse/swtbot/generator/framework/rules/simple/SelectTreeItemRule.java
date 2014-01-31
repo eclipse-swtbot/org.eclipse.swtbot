@@ -13,8 +13,8 @@ package org.eclipse.swtbot.generator.framework.rules.simple;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
 
 public class SelectTreeItemRule extends AbstractTreeGenerationRule {
 
@@ -31,7 +31,7 @@ public class SelectTreeItemRule extends AbstractTreeGenerationRule {
 		code.append(".select()");
 		actions.add(code.toString());
 		return actions;
-		
+
 	}
 
 	@Override

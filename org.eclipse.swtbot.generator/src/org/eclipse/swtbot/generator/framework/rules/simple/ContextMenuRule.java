@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat Inc..
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Rastislav Wagner (Red Hat) - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import java.util.ArrayList;
@@ -12,9 +22,10 @@ import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class ContextMenuRule extends GenerationSimpleRule{
-	
+
 	private List<String> path;
 	private String menu;
+	private MenuItem item;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -33,10 +44,10 @@ public class ContextMenuRule extends GenerationSimpleRule{
 
 	@Override
 	public void initializeForEvent(Event event) {
-		MenuItem item = (MenuItem) event.widget;
-		menu = WidgetUtils.cleanText(item.getText());
+		this.item = (MenuItem) event.widget;
+		menu = WidgetUtils.cleanText(this.item.getText());
 		path = new ArrayList<String>();
-		MenuItem currentItem = item;
+		MenuItem currentItem = this.item;
 		Menu parent = null;
 		while (currentItem != null && (parent = currentItem.getParent()) != null) {
 			currentItem = parent.getParentItem();
@@ -46,7 +57,7 @@ public class ContextMenuRule extends GenerationSimpleRule{
 		}
 		Collections.reverse(path);
 	}
-	
+
 	public List<String> getPath() {
 		return path;
 	}
@@ -74,7 +85,10 @@ public class ContextMenuRule extends GenerationSimpleRule{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
+	@Override
+	public MenuItem getWidget() {
+		return this.item;
+	}
 
 }

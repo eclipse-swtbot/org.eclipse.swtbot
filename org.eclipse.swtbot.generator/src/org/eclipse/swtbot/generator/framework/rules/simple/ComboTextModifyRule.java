@@ -23,6 +23,7 @@ public class ComboTextModifyRule extends GenerationSimpleRule {
 
 	private int textIndex;
 	private String newValue;
+	private Combo combo;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -32,8 +33,9 @@ public class ComboTextModifyRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.textIndex = WidgetUtils.getIndex((Combo)event.widget);
-		this.newValue = ((Combo)event.widget).getText();
+		this.combo = (Combo) event.widget;
+		this.textIndex = WidgetUtils.getIndex(this.combo);
+		this.newValue = this.combo.getText();
 	}
 
 	public int getTextIndex() {
@@ -54,7 +56,7 @@ public class ComboTextModifyRule extends GenerationSimpleRule {
 		}
 		res.append(").setText(\"" + this.newValue + "\")");
 		actions.add(res.toString());
-		
+
 		return actions;
 	}
 
@@ -64,6 +66,9 @@ public class ComboTextModifyRule extends GenerationSimpleRule {
 		return null;
 	}
 
-
+	@Override
+	public Combo getWidget() {
+		return this.combo;
+	}
 
 }

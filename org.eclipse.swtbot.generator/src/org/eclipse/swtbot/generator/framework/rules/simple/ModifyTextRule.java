@@ -16,13 +16,15 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
 public class ModifyTextRule extends GenerationSimpleRule {
 
-	private int textIndex;
 	private String newValue;
+	private Text text;
+	private String locator;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -33,27 +35,16 @@ public class ModifyTextRule extends GenerationSimpleRule {
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.textIndex = WidgetUtils.getIndex((Text)event.widget);
-		this.newValue = ((Text)event.widget).getText();
+		this.text = (Text) event.widget;
+		this.locator = WidgetUtils.widgetLocator(this.text);
+		this.newValue = this.text.getText();
 	}
 
-	public int getTextIndex() {
-		return textIndex;
-	}
-
-	public void setTextIndex(int textIndex) {
-		this.textIndex = textIndex;
-	}
-	
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
-		StringBuilder res = new StringBuilder();
-		res.append("bot.text(");
-		if (textIndex != 0) {
-			res.append(textIndex);
-		}
-		res.append(").setText(\"" + this.newValue + "\")");
+		StringBuilder res = new StringBuilder(this.locator);
+		res.append(".setText(\"" + this.newValue + "\")"); //$NON-NLS-1$ //$NON-NLS-2$
 		actions.add(res.toString());
 		return actions;
 	}
@@ -63,7 +54,10 @@ public class ModifyTextRule extends GenerationSimpleRule {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
+	@Override
+	public Widget getWidget() {
+		return this.text;
+	}
 
 }

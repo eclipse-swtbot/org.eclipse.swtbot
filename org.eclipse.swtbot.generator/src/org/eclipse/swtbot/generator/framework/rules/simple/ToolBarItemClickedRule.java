@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,36 +18,48 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 
-public class ToolBarDropDownRule extends GenerationSimpleRule{
+public class ToolBarItemClickedRule extends GenerationSimpleRule{
 
 	private String toolTipText;
+	private String text;
 	private ToolItem widget;
-
 
 	@Override
 	public boolean appliesTo(Event event) {
-		return event.widget instanceof ToolItem && event.type == SWT.Selection &&
-				(((ToolItem)event.widget).getStyle() & SWT.DROP_DOWN)!= 0;
+		if (event.widget instanceof ToolItem && event.type == SWT.Selection) {
+			ToolItem item = (ToolItem)event.widget;
+			int style = item.getStyle();
+			return (style & SWT.DROP_DOWN) == 0 && (style & SWT.PUSH) != 0;
+		}
+		return false;
 	}
 
 	@Override
 	public void initializeForEvent(Event event) {
 		this.widget = (ToolItem)event.widget;
+		this.text = this.widget.getText();
 		this.toolTipText = this.widget.getToolTipText();
-	}
-
-	public String getToolTipText() {
-		return toolTipText;
-	}
-
-	public void setToolTipText(String toolTipText) {
-		this.toolTipText = toolTipText;
 	}
 
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
-		actions.add("bot.toolbarDropDownButtonWithToolTip(\""+toolTipText+"\").click()");
+		StringBuilder res = new StringBuilder("bot.");
+		if (this.text != null && this.text.length() > 0) {
+			res.append("toolbarButton(\""); //$NON-NLS-1$
+			res.append(this.text);
+			res.append("\")"); //$NON-NLS-1$
+		} else if (this.toolTipText != null && this.toolTipText.length() > 0) {
+			res.append("toolbarButtonWithTooltip(\""); //$NON-NLS-1$
+			res.append(this.toolTipText);
+			res.append("\")"); //$NON-NLS-1$
+		} else {
+			res.append("toolbarButton("); //$NON-NLS-1$
+			res.append("TODO index");
+			res.append(')');
+		}
+		res.append(".click()"); //$NON-NLS-1%
+		actions.add(res.toString());
 		return actions;
 	}
 

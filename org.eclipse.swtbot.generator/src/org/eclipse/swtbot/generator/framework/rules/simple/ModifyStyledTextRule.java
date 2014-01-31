@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,50 +14,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
-public class ComboSelectionRule extends GenerationSimpleRule {
+public class ModifyStyledTextRule extends GenerationSimpleRule {
 
-	private String newSelection;
-	private int newSelectionIndex;
-	private int index;
-	private Combo combo;
+	private String newValue;
+	private StyledText text;
+	private String widgetLocator;
 
 	@Override
 	public boolean appliesTo(Event event) {
-		return event.widget instanceof Combo && event.type == SWT.Selection;
+		if (event.widget instanceof StyledText && event.type == SWT.Modify) {
+			StyledText text = (StyledText)event.widget;
+			return !text.getText().isEmpty();
+		}
+		return false;
 	}
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.combo = (Combo)event.widget;
-		this.newSelection = this.combo.getText();
-		this.newSelectionIndex = this.combo.getSelectionIndex();
-		this.index = WidgetUtils.getIndex(this.combo);
+		this.text = (StyledText)event.widget;
+		this.widgetLocator = WidgetUtils.widgetLocator(this.text);
+		this.newValue = this.text.getText();
 	}
 
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
-		StringBuilder res = new StringBuilder();
-		if (index != 0) {
-			res.append("bot.comboBox(" + index + ")");
-		} else {
-			res.append("bot.comboBox()");
-		}
-
-		res.append(".select(");
-		if (this.newSelection != null) {
-			res.append('"');
-			res.append(this.newSelection);
-			res.append("\")");
-		} else {
-			res.append(this.newSelectionIndex);
-			res.append(")");
-		}
+		StringBuilder res = new StringBuilder(this.widgetLocator);
+		res.append(".setText(\"" + this.newValue + "\")"); //$NON-NLS-1$ //$NON-NLS-2$
 		actions.add(res.toString());
 		return actions;
 	}
@@ -69,8 +57,8 @@ public class ComboSelectionRule extends GenerationSimpleRule {
 	}
 
 	@Override
-	public Combo getWidget() {
-		return this.combo;
+	public StyledText getWidget() {
+		return this.text;
 	}
 
 }

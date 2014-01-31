@@ -26,8 +26,17 @@ import org.eclipse.ui.PlatformUI;
 
 public class StartupRecorder implements IStartup {
 
-	public static final String ENABLEMENT_PROPERTY = "org.eclipse.swtbot.generator.enable";
-	public static final String DIALOG_PROPERTY = "org.eclipse.swtbot.generator.dialog";
+	public static final String ENABLEMENT_PROPERTY = "org.eclipse.swtbot.generator.enable"; //$NON-NLS-1$
+	public static final String DIALOG_PROPERTY = "org.eclipse.swtbot.generator.dialog"; //$NON-NLS-1$
+	private static final int[] monitoredEvents = new int[] {
+		SWT.Activate,
+		SWT.Close,
+		SWT.Selection,
+		SWT.Expand,
+		SWT.Modify,
+		SWT.MouseDown,
+		SWT.MouseDoubleClick,
+	};
 
 	private static final class StartRecorderRunnable implements Runnable {
 		private final Display display;
@@ -48,13 +57,9 @@ public class StartupRecorder implements IStartup {
 			final BotGeneratorEventDispatcher dispatcher = new BotGeneratorEventDispatcher();
 			dispatcher.setGenerator(generator);
 
-			this.display.addFilter(SWT.Activate, dispatcher);
-			this.display.addFilter(SWT.Close, dispatcher);
-			this.display.addFilter(SWT.Selection, dispatcher);
-			this.display.addFilter(SWT.Expand, dispatcher);
-			this.display.addFilter(SWT.Modify, dispatcher);
-			this.display.addFilter(SWT.MouseDown, dispatcher);
-			this.display.addFilter(SWT.MouseDoubleClick, dispatcher);
+			for (int monitoredEvent : monitoredEvents) {
+				this.display.addFilter(monitoredEvent, dispatcher);
+			}
 			if(PlatformUI.isWorkbenchRunning()){
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				if(page != null){
@@ -83,17 +88,11 @@ public class StartupRecorder implements IStartup {
 			recorderDialog.setRecorder(dispatcher);
 			recorderDialog.open();
 			recorderDialog.getShell().addShellListener(new ShellAdapter() {
+				@Override
 				public void shellClosed(ShellEvent e) {
-				display.removeFilter(SWT.Activate, dispatcher);
-				display.removeFilter(SWT.Close, dispatcher);
-				display.removeFilter(SWT.MouseDown, dispatcher);
-				display.removeFilter(SWT.MouseDoubleClick, dispatcher);
-				display.removeFilter(SWT.MouseUp, dispatcher);
-				display.removeFilter(SWT.KeyDown, dispatcher);
-				display.removeFilter(SWT.Selection, dispatcher);
-				display.removeFilter(SWT.Expand, dispatcher);
-				display.removeFilter(SWT.Modify, dispatcher);
-				display.removeFilter(SWT.DefaultSelection, dispatcher);
+					for (int monitoredEvent : monitoredEvents) {
+						display.removeFilter(monitoredEvent, dispatcher);
+					}
 				}
 			});
 

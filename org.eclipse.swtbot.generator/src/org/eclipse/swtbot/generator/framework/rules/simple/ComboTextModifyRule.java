@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 Red Hat Inc..
+ * Copyright (c) 2013=2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -27,8 +28,12 @@ public class ComboTextModifyRule extends GenerationSimpleRule {
 
 	@Override
 	public boolean appliesTo(Event event) {
-		return event.widget instanceof Combo && event.type == SWT.Modify &&
-				!((Combo)event.widget).getText().isEmpty();
+		if (! (event.widget instanceof Combo)) {
+			return false;
+		}
+		Combo combo = (Combo)event.widget;
+		return event.type == SWT.Modify &&
+				!Arrays.asList(combo.getItems()).contains(combo.getText());
 	}
 
 	@Override

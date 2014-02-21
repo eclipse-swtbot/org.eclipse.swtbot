@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class ContextMenuRule extends GenerationSimpleRule{
 	private List<String> path;
 	private String menu;
 	private MenuItem item;
+	private String widgetAccessor;
 
 	@Override
 	public boolean appliesTo(Event event) {
@@ -56,8 +58,29 @@ public class ContextMenuRule extends GenerationSimpleRule{
 			}
 		}
 		Collections.reverse(path);
+		this.widgetAccessor = WidgetUtils.widgetLocator(this.item);
 	}
 
+	@Override
+	public List<String> getActions() {
+		StringBuilder res = new StringBuilder();
+		res.append(this.widgetAccessor);
+		res.append(".click()");
+		return Arrays.asList( new String[] { res.toString() });
+	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MenuItem getWidget() {
+		return this.item;
+	}
+	
+	// Methods used by ToolBarMenuComplexRule
 	public List<String> getPath() {
 		return path;
 	}
@@ -72,23 +95,6 @@ public class ContextMenuRule extends GenerationSimpleRule{
 
 	public void setMenu(String menu) {
 		this.menu = menu;
-	}
-
-	@Override
-	public List<String> getActions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getImports() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public MenuItem getWidget() {
-		return this.item;
 	}
 
 }

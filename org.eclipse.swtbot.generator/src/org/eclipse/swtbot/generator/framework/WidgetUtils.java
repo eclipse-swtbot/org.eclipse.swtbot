@@ -11,13 +11,19 @@
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
@@ -124,6 +130,8 @@ public class WidgetUtils {
 			return widgetLocator((Text)widget);
 		} else if (widget instanceof StyledText) {
 			return widgetLocator((StyledText)widget);
+		} else if (widget instanceof MenuItem) {
+			return widgetLocator((MenuItem)widget);
 		}
 		return "Widget not supported: " + widget.getClass().getSimpleName(); //$NON-NLS-1$
 	}
@@ -160,6 +168,34 @@ public class WidgetUtils {
 				res.append(index);
 			}
 			res.append(")"); //$NON-NLS-1$
+		}
+		return res.toString();
+	}
+	
+	public static String widgetLocator(MenuItem menuItem) {
+		StringBuilder res = new StringBuilder("bot"); //$NON-NLS-1$
+		List<String> path = new ArrayList<String>();
+		
+		MenuItem currentItem = menuItem;
+		Menu parent = null;
+		while (currentItem != null && currentItem.getParent() != null) {
+			path.add(WidgetUtils.cleanText(currentItem.getText()));
+			parent = currentItem.getParent();
+			currentItem = parent.getParentItem();
+		}
+		Collections.reverse(path);;
+		
+		boolean isPopup = (parent.getStyle() & SWT.POP_UP) != 0;
+		boolean isFirst = true;
+		for (String text : path) {
+			if (isFirst && isPopup) {
+				isFirst = false;
+				res.append(".contextMenu(\"");
+			} else {
+				res.append(".menu(\"");
+			}
+			res.append(WidgetUtils.cleanText(text));
+			res.append("\")");
 		}
 		return res.toString();
 	}

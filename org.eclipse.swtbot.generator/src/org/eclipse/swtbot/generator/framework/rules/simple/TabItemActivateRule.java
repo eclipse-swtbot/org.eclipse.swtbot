@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013=2014 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,57 +11,40 @@
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
-import org.eclipse.swtbot.generator.framework.WidgetUtils;
 
-public class ComboTextModifyRule extends GenerationSimpleRule {
+public class TabItemActivateRule extends GenerationSimpleRule {
 
-	private int textIndex;
-	private String newValue;
-	private Combo combo;
+	private String newSelection;
+	private TabItem tabItem;
 
 	@Override
 	public boolean appliesTo(Event event) {
-		if (! (event.widget instanceof Combo)) {
-			return false;
-		}
-		Combo combo = (Combo)event.widget;
-		return event.type == SWT.Modify &&
-				!Arrays.asList(combo.getItems()).contains(combo.getText());
+		return event.widget instanceof TabFolder && event.type == SWT.Selection;
 	}
 
 	@Override
 	public void initializeForEvent(Event event) {
-		this.combo = (Combo) event.widget;
-		this.textIndex = WidgetUtils.getIndex(this.combo);
-		this.newValue = this.combo.getText();
-	}
-
-	public int getTextIndex() {
-		return textIndex;
-	}
-
-	public void setTextIndex(int textIndex) {
-		this.textIndex = textIndex;
+		this.tabItem = (TabItem)event.item;
+		this.newSelection = this.tabItem.getText();
 	}
 
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
 		StringBuilder res = new StringBuilder();
-		res.append("bot.comboBox(");
-		if (textIndex != 0) {
-			res.append(textIndex);
-		}
-		res.append(").setText(\"" + this.newValue + "\")");
-		actions.add(res.toString());
 
+		res.append("bot.tabItem(\""); //$NON-NLS-1$
+		res.append(this.newSelection);
+		res.append("\").activate()"); //$NON-NLS-1$
+
+		actions.add(res.toString());
 		return actions;
 	}
 
@@ -72,8 +55,8 @@ public class ComboTextModifyRule extends GenerationSimpleRule {
 	}
 
 	@Override
-	public Combo getWidget() {
-		return this.combo;
+	public TabItem getWidget() {
+		return this.tabItem;
 	}
 
 }

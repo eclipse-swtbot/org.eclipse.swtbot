@@ -13,6 +13,7 @@ package org.eclipse.swtbot.generator.framework.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swtbot.generator.framework.AnnotationRule;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
@@ -24,6 +25,7 @@ import org.eclipse.swtbot.generator.framework.rules.complex.ModifyStyledTextComp
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ToolBarMenuComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CComboSelectionRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.CTabItemActivateRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CheckboxClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboSelectionRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
@@ -38,6 +40,7 @@ import org.eclipse.swtbot.generator.framework.rules.simple.RadioButtonClickedRul
 import org.eclipse.swtbot.generator.framework.rules.simple.SelectListItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.SelectTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ShellMenuClickedRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.TabItemActivateRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarDropDownRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarItemClickedRule;
 
@@ -62,6 +65,8 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new ToolBarDropDownRule());
 		res.add(new ToolBarItemClickedRule());
 		res.add(new SelectListItemRule());
+		res.add(new CTabItemActivateRule());
+		res.add(new TabItemActivateRule());
 
 		res.add(new PressShortCutRule());
 

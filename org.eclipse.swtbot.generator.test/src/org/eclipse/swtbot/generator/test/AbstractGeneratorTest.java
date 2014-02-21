@@ -44,6 +44,7 @@ public abstract class AbstractGeneratorTest {
 				dialog.open();
 			}
 		});
+		recorderShellBot().text().setText("");
 	}
 
 	protected abstract void contributeToDialog(Composite container);

@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="botGeneratorSupport" name="UI Bot Code Generator" schema="schema/generator.exsd"/>
    <extension-point id="dialogSupport" name="Dialog Extension" schema="schema/dialog.exsd"/>
+   <extension-point id="org.eclipse.swtbot.generator.rules.additions" name="Extend the default SWTBot rules set" schema="schema/org.eclipse.swtbot.generator.rules.additions.exsd"/>
    <extension
          point="org.eclipse.ui.startup">
       <startup

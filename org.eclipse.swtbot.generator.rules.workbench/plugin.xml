@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.swtbot.generator.rules.additions">
+      <simpleRule
+            class="org.eclipse.swtbot.generator.rules.workbench.ShowEditorSimpleRule">
+      </simpleRule>
+      <simpleRule
+            class="org.eclipse.swtbot.generator.rules.workbench.ShowViewSimpleRule">
+      </simpleRule>
+      <simpleRule
+            class="org.eclipse.swtbot.generator.rules.workbench.CloseEditorSimpleRule">
+      </simpleRule>
+      <simpleRule
+            class="org.eclipse.swtbot.generator.rules.workbench.CloseViewSimpleRule">
+      </simpleRule>
+   </extension>
+
+</plugin>

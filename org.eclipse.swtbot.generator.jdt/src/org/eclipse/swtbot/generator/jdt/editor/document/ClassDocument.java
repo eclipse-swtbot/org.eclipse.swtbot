@@ -37,8 +37,10 @@ public class ClassDocument extends Document {
 
 	public ClassDocument(String className) {
 		super();
-		set("\npublic class " + className + "{\n\n}");
+		set("import org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase;\n\n" +
+			"public class " + className + " extends SWTBotEclipseTestCase {\n\n}");
 		imports = new HashSet<String>();
+		imports.add("org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase");
 		methods = new ArrayList<Method>();
 		classAnnotations = new ArrayList<AnnotationRule>();
 	}

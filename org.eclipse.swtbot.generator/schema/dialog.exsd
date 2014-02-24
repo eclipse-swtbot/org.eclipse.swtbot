@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.swtbot.generator" id="dialog" name="botDialog"/>
       </appinfo>
       <documentation>
-         [Enter description of this extension point.]
+         Added support for smarter dialogs. Those dialogs can leverage other projects, such as JDT to provide additional functionalities.
       </documentation>
    </annotation>
 
@@ -17,7 +17,7 @@
          </appinfo>
       </annotation>
       <complexType>
-      <sequence>
+         <sequence>
             <element ref="dialog"/>
          </sequence>
          <attribute name="point" type="string" use="required">
@@ -46,12 +46,13 @@
          </attribute>
       </complexType>
    </element>
-   
+
    <element name="dialog">
       <complexType>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
+                  
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.swtbot.generator.framework.IRecorderDialog"/>
@@ -60,14 +61,13 @@
          </attribute>
       </complexType>
    </element>
-   
 
    <annotation>
       <appinfo>
          <meta.section type="since"/>
       </appinfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         2.2.0
       </documentation>
    </annotation>
 

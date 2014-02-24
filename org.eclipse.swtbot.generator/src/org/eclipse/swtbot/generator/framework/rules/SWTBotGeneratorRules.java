@@ -13,8 +13,14 @@ package org.eclipse.swtbot.generator.framework.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.RegistryFactory;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swtbot.generator.SWTBotGeneratorPlugin;
 import org.eclipse.swtbot.generator.framework.AnnotationRule;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
@@ -46,6 +52,8 @@ import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarItemClickedRul
 
 public class SWTBotGeneratorRules implements Generator {
 
+	private static final String RULES_EXTENSION_POINT = "org.eclipse.swtbot.generator.rules.additions"; //$NON-NLS-1$
+	
 	public List<GenerationSimpleRule> createSimpleRules() {
 		List<GenerationSimpleRule> res = new ArrayList<GenerationSimpleRule>();
 
@@ -69,6 +77,25 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new TabItemActivateRule());
 
 		res.add(new PressShortCutRule());
+		
+		IExtensionRegistry registry = RegistryFactory.getRegistry();
+		if (registry != null) {
+			for (IConfigurationElement element : registry.getConfigurationElementsFor(RULES_EXTENSION_POINT)) {
+				if (element.getName().equals("simpleRule")) {
+					try {
+						GenerationSimpleRule rule = (GenerationSimpleRule)element.createExecutableExtension("class");
+						res.add(rule);
+					} catch (CoreException ex) {
+						SWTBotGeneratorPlugin.getDefault().getLog().log(
+							new Status(
+									IStatus.ERROR,
+									element.getContributor().getName(),
+									ex.getMessage(),
+									ex));
+					}
+				}
+			}
+		}
 
 		return res;
 
@@ -84,6 +111,25 @@ public class SWTBotGeneratorRules implements Generator {
 		cres.add(new ModifyTextComplexRule());
 		cres.add(new ModifyStyledTextComplexRule());
 		cres.add(new ModifyComboComplexRule());
+		
+		IExtensionRegistry registry = RegistryFactory.getRegistry();
+		if (registry != null) {
+			for (IConfigurationElement element : registry.getConfigurationElementsFor(RULES_EXTENSION_POINT)) {
+				if (element.getName().equals("complexRule")) {
+					try {
+						GenerationComplexRule rule = (GenerationComplexRule)element.createExecutableExtension("class");
+						cres.add(rule);
+					} catch (CoreException ex) {
+						SWTBotGeneratorPlugin.getDefault().getLog().log(
+							new Status(
+									IStatus.ERROR,
+									element.getContributor().getName(),
+									ex.getMessage(),
+									ex));
+					}
+				}
+			}
+		}
 		return cres;
 	}
 

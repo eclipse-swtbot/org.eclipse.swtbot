@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.swtbot.generator" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.swtbot.generator" id="generator" name="UI Bot Code Generator"/>
+         <meta.schema plugin="org.eclipse.swtbot.generator" id="org.eclipse.swtbot.generator.rules.additions" name="Extend the default SWTBot rules set"/>
       </appinfo>
       <documentation>
-         This extension allows to define new Generator. Generators implement the Generator class that defines a set of GenerationRules.
+         This extension point allows to contribute additional rule to the default set of rules for SWTBot Generator.
       </documentation>
    </annotation>
 
@@ -17,9 +17,10 @@
          </appinfo>
       </annotation>
       <complexType>
-         <sequence>
-            <element ref="generator"/>
-         </sequence>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="complexRule"/>
+            <element ref="simpleRule"/>
+         </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
@@ -47,17 +48,30 @@
       </complexType>
    </element>
 
-   <element name="generator">
+   <element name="simpleRule">
       <complexType>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  Add support for a new Generator class.
-A generator is a class providing a set of rules, to match the UI events and react differently.
-It can be used to plug in the recorder you how framework support, so you can generate soe test for other frameworks than SWTBot (pure-Eclipse, RedDeer, WindowTester...)
+                  
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.swtbot.generator.framework.Generator"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.swtbot.generator.framework.GenerationSimpleRule:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="complexRule">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.swtbot.generator.framework.GenerationComplexRule:"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -69,7 +83,7 @@ It can be used to plug in the recorder you how framework support, so you can gen
          <meta.section type="since"/>
       </appinfo>
       <documentation>
-         2.2.0
+         2.2.1
       </documentation>
    </annotation>
 

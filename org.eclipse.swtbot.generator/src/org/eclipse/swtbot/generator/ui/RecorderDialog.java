@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2012-2014 Red Hat Inc. and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
+ *    Mark Rösler - Bug 412833 fix line break on Windows
  *******************************************************************************/
 package org.eclipse.swtbot.generator.ui;
 
@@ -140,8 +141,14 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog {
 		this.recorder.addListener(new CodeGenerationListener() {
 
 			public void handleCodeGenerated(GenerationRule code) {
-				for(String action: code.getActions())
-				generatedCode.setText(generatedCode.getText() + action + ";\n");
+				String lineSeparator = System.getProperty("line.separator");
+				StringBuilder builder = new StringBuilder(generatedCode.getText());
+				for (String action : code.getActions()) {
+					builder.append(action);
+					builder.append(";");
+					builder.append(lineSeparator);
+				}
+				generatedCode.setText(builder.toString());
 
 			}
 		});

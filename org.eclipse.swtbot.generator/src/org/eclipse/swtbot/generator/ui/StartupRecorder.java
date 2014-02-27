@@ -36,7 +36,8 @@ public class StartupRecorder implements IStartup {
 		SWT.Modify,
 		SWT.MouseDown,
 		SWT.MouseDoubleClick,
-		SWT.KeyDown
+		SWT.KeyDown,
+		SWT.Close
 	};
 
 	private static final class StartRecorderRunnable implements Runnable {

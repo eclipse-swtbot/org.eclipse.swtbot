@@ -63,18 +63,20 @@ public class TestRecorderWizardPage extends WizardPage {
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 2;
+		layout.makeColumnsEqualWidth = false;
 		Label label1 = new Label(container, SWT.NONE);
 		label1.setText(Messages.recorderDialog);
 
 		combo = new ComboViewer(container, SWT.DROP_DOWN | SWT.READ_ONLY);
 		List<IRecorderDialog> dialogs = GeneratorExtensionPointManager.loadDialogs();
 		combo.setContentProvider(new ArrayContentProvider());
-		combo.setInput(dialogs);
+		combo.getControl().setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		combo.setLabelProvider(new LabelProvider() {
 			public String getText(Object element) {
 				return ((IRecorderDialog) element).getName();
 			}
 		});
+		combo.setInput(dialogs);
 		combo.setSelection(new StructuredSelection(dialogs.get(0)));
 
 		Group eclipseGroup = new Group(container, SWT.NONE);

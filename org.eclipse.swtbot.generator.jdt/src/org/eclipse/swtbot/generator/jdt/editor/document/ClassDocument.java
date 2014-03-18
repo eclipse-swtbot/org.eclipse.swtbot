@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc..
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    Rastislav Wagner (Red Hat)
+ *    Mickael Istria (Red Hat Inc.)
  *******************************************************************************/
 package org.eclipse.swtbot.generator.jdt.editor.document;
 
@@ -35,10 +36,16 @@ public class ClassDocument extends Document {
 	private List<AnnotationRule> classAnnotations;
 	private SourceViewer viewer;
 
-	public ClassDocument(String className) {
+	public ClassDocument(String className, String parentClass) {
 		super();
-		set("import org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase;\n\n" +
-			"public class " + className + " extends SWTBotEclipseTestCase {\n\n}");
+		if (parentClass != null) {
+			String[] segments = parentClass.split("\\.");
+			String simpleName = segments[segments.length - 1];
+			set("import " + parentClass + ";\n\n" +
+					"public class " + className + " extends " + simpleName + " {\n\n}");
+		} else {
+			set("public class " + className + " {\n\n}");
+		}
 		imports = new HashSet<String>();
 		imports.add("org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase");
 		methods = new ArrayList<Method>();

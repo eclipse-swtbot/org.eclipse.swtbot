@@ -166,7 +166,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		});
 
 
-		createTabItem(classTabFolder, "FirstClass");
+		createTabItem(classTabFolder, "RecordedTestCase");
 
 		classTabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
@@ -267,7 +267,9 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		});
 
 		// create editor with syntax coloring
-		final ClassDocument doc = new ClassDocument(text);
+		final ClassDocument doc = new ClassDocument(
+			text,
+			this.recorder.getCurrentGenerator().getLabel().toUpperCase().contains("SWTBOT") ? "org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase" : null);
 		final SourceViewer generatedCode = new SourceViewer(composite, new VerticalRuler(0), SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		JavaSourceViewerConfiguration javaConf = new JavaSourceViewerConfiguration(JavaUI.getColorManager(), PreferenceConstants.getPreferenceStore(), null, null);
 		generatedCode.configure(javaConf);

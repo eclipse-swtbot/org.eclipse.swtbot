@@ -12,7 +12,7 @@ public class RecordComboTest extends AbstractJDTGeneratorTest {
 
 	private String combo = "bot.comboBox().setText(\"kikoo\");";
 	private String text = "import org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase;" + 
-	 "public class FirstClass extends SWTBotEclipseTestCase {public void firstMethod() {";
+	 "public class RecordedTestCase extends SWTBotEclipseTestCase {public void firstMethod() {";
 
 
 	@Override

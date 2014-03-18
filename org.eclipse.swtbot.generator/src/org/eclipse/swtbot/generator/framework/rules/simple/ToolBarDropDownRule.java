@@ -47,7 +47,7 @@ public class ToolBarDropDownRule extends GenerationSimpleRule{
 	@Override
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
-		actions.add("bot.toolbarDropDownButtonWithToolTip(\""+toolTipText+"\").click()");
+		actions.add("bot.toolbarDropDownButtonWithTooltip(\""+toolTipText+"\").click()");
 		return actions;
 	}
 

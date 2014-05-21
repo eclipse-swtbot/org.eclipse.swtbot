@@ -10,6 +10,7 @@
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259837
  *     Ralf Ebert www.ralfebert.de - (bug 271630) SWTBot Improved RCP / Workbench support
  *     Ingo Mohr - Bug 416859
+ *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=435390
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -45,6 +46,7 @@ import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.Position;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -779,7 +781,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	private void waitUntil(WaitForObjectCondition<SWTBotTable> table) {
-		bot.waitUntil(table, 10000);
+		bot.waitUntil(table, SWTBotPreferences.TIMEOUT);
 	}
 
 }

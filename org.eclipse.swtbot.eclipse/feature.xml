@@ -59,6 +59,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.swtbot.e4.finder"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.swtbot.go"
          download-size="0"
          install-size="0"

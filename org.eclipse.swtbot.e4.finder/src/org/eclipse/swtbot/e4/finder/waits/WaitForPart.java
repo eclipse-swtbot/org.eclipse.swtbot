@@ -8,16 +8,15 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.waits;
+package org.eclipse.swtbot.e4.finder.waits;
 
 import java.util.List;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.swtbot.e4.finder.widgets.WorkbenchContentsFinder;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.hamcrest.Matcher;
-
-import org.eclipse.swtbot.eclipse.finder.e4.widgets.WorkbenchContentsFinder;
 
 /**
  * Waits until a view part that matches the specified matcher appears.

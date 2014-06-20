@@ -44,6 +44,7 @@ Authors:
 		<module>org.eclipse.swtbot.eclipse.dsl</module>
 		<module>org.eclipse.swtbot.eclipse.finder</module>
 		<module>org.eclipse.swtbot.eclipse.gef.finder</module>
+		<module>org.eclipse.swtbot.e4.finder</module>
 		<module>org.eclipse.swtbot.eclipse.spy</module>
 		<module>org.eclipse.swtbot.eclipse.test.junit</module>
 		<module>org.eclipse.swtbot.eclipse.ui</module>
@@ -363,7 +364,7 @@ Authors:
 		<profile>
 			<id>indigo</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -388,7 +389,7 @@ Authors:
 		<profile>
 			<id>juno</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
 				<plugins>

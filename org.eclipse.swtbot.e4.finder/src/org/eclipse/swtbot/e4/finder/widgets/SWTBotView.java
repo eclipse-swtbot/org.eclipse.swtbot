@@ -8,7 +8,7 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.widgets;
+package org.eclipse.swtbot.e4.finder.widgets;
 
 import java.util.ArrayList;
 import java.util.List;

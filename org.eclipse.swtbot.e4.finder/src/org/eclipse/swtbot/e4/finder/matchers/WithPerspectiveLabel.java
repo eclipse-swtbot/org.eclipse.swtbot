@@ -8,11 +8,11 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.matchers;
+package org.eclipse.swtbot.e4.finder.matchers;
 
 import static org.hamcrest.Matchers.equalTo;
 
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -24,48 +24,52 @@ import org.hamcrest.Matcher;
  * @version $Id$
  * @since 2.2.2
  */
-public class WithPartId<T extends MPart> extends AbstractMatcher<T> {
+public class WithPerspectiveLabel extends AbstractMatcher<MPerspective> {
 
-	private final Matcher<String>	idMatcher;
+	private final Matcher<String>	labelMatcher;
 
-	WithPartId(final Matcher<String> idMatcher) {
-		this.idMatcher = idMatcher;
+	/**
+	 * @param labelMatcher the perspective label matcher.
+	 */
+	WithPerspectiveLabel(final Matcher<String> labelMatcher) {
+		this.labelMatcher = labelMatcher;
 	}
 
 	@Override
 	public boolean doMatch(final Object item) {
-		if (item instanceof MPart) {
-			final MPart part = (MPart) item;
-			return idMatcher.matches(part.getElementId());
+		if (item instanceof MPerspective) {
+			final MPerspective perspective = (MPerspective) item;
+			return labelMatcher.matches(perspective.getLabel());
 		}
 		return false;
 	}
 
 	public void describeTo(final Description description) {
-		description.appendText("with id '").appendDescriptionOf(idMatcher).appendText("'");
+		description.appendText("with label '").appendDescriptionOf(labelMatcher).appendText("'");
 	}
 
 	/**
-	 * Matches a workbench part (view/editor) with the specified id.
+	 * Matches a perspective with the specified label.
 	 *
-	 * @param id the id of the part.
+	 * @param label the label of the perspective.
 	 * @return a matcher.
 	 * @since 2.2.2
 	 */
 	@Factory
-	public static <T extends MPart> Matcher<T> withPartId(final String id) {
-		return withPartId(equalTo(id));
+	public static WithPerspectiveLabel withPerspectiveLabel(final String label) {
+		return withPerspectiveLabel(equalTo(label));
 	}
 
 	/**
-	 * Matches a workbench part (view/editor) with the specified id.
+	 * Matches a perspective with the specified label.
 	 *
-	 * @param idMatcher the part id matcher.
+	 * @param labelMatcher the matcher that matches the perspective label.
 	 * @return a matcher.
 	 * @since 2.2.2
 	 */
 	@Factory
-	public static <T extends MPart> Matcher<T> withPartId(final Matcher<String> idMatcher) {
-		return new WithPartId<T>(idMatcher);
+	public static WithPerspectiveLabel withPerspectiveLabel(final Matcher<String> labelMatcher) {
+		return new WithPerspectiveLabel(labelMatcher);
 	}
 }
+

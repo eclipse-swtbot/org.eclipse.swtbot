@@ -8,7 +8,7 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.waits;
+package org.eclipse.swtbot.e4.finder.waits;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;

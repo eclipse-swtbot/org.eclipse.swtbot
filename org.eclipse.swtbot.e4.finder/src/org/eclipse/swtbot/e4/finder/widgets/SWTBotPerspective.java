@@ -8,7 +8,7 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.widgets;
+package org.eclipse.swtbot.e4.finder.widgets;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;

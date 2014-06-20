@@ -8,7 +8,7 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.finders;
+package org.eclipse.swtbot.e4.finder.finders;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;

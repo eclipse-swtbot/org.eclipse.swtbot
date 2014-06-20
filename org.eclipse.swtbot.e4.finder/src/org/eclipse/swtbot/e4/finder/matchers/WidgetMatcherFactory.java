@@ -1,6 +1,6 @@
 // Generated source. DO NOT MODIFY.
 // To add new new methods, please see README file in the generator plugin.
-package org.eclipse.swtbot.eclipse.finder.e4.matchers;
+package org.eclipse.swtbot.e4.finder.matchers;
 
 @SuppressWarnings("rawtypes")
 public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory {
@@ -13,7 +13,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 * @since 2.2.2
 	 */
 	public static org.hamcrest.Matcher withPerspectiveLabel(final java.lang.String label) {
-		return org.eclipse.swtbot.eclipse.finder.e4.matchers.WithPerspectiveLabel.withPerspectiveLabel(label);
+		return org.eclipse.swtbot.e4.finder.matchers.WithPerspectiveLabel.withPerspectiveLabel(label);
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 * @since 2.2.2
 	 */
 	public static org.hamcrest.Matcher withPerspectiveId(final java.lang.String id) {
-		return  org.eclipse.swtbot.eclipse.finder.e4.matchers.WithPerspectiveId.withPerspectiveId(id);
+		return  org.eclipse.swtbot.e4.finder.matchers.WithPerspectiveId.withPerspectiveId(id);
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 * @since 2.2.2
 	 */
 	public static <T extends org.eclipse.e4.ui.model.application.ui.basic.MPart> org.hamcrest.Matcher<T> withPartName(final java.lang.String text) {
-		return org.eclipse.swtbot.eclipse.finder.e4.matchers.WithPartName.withPartName(text);
+		return org.eclipse.swtbot.e4.finder.matchers.WithPartName.withPartName(text);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 * @since 2.2.2
 	 */
 	public static <T extends org.eclipse.e4.ui.model.application.ui.basic.MPart> org.hamcrest.Matcher<T> withPartId(final java.lang.String id) {
-		return org.eclipse.swtbot.eclipse.finder.e4.matchers.WithPartId.withPartId(id);
+		return org.eclipse.swtbot.e4.finder.matchers.WithPartId.withPartId(id);
 	}
 
 }

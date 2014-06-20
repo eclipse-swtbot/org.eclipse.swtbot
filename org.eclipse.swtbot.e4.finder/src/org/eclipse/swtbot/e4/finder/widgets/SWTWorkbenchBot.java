@@ -8,13 +8,13 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.widgets;
+package org.eclipse.swtbot.e4.finder.widgets;
 
-import static org.eclipse.swtbot.eclipse.finder.e4.matchers.WidgetMatcherFactory.withPartId;
-import static org.eclipse.swtbot.eclipse.finder.e4.matchers.WidgetMatcherFactory.withPartName;
-import static org.eclipse.swtbot.eclipse.finder.e4.matchers.WidgetMatcherFactory.withPerspectiveId;
-import static org.eclipse.swtbot.eclipse.finder.e4.matchers.WidgetMatcherFactory.withPerspectiveLabel;
-import static org.eclipse.swtbot.eclipse.finder.e4.waits.Conditions.waitForPart;
+import static org.eclipse.swtbot.e4.finder.matchers.WidgetMatcherFactory.withPartId;
+import static org.eclipse.swtbot.e4.finder.matchers.WidgetMatcherFactory.withPartName;
+import static org.eclipse.swtbot.e4.finder.matchers.WidgetMatcherFactory.withPerspectiveId;
+import static org.eclipse.swtbot.e4.finder.matchers.WidgetMatcherFactory.withPerspectiveLabel;
+import static org.eclipse.swtbot.e4.finder.waits.Conditions.waitForPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
-import org.eclipse.swtbot.eclipse.finder.e4.matchers.WidgetMatcherFactory;
-import org.eclipse.swtbot.eclipse.finder.e4.waits.WaitForPart;
+import org.eclipse.swtbot.e4.finder.matchers.WidgetMatcherFactory;
+import org.eclipse.swtbot.e4.finder.waits.WaitForPart;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;

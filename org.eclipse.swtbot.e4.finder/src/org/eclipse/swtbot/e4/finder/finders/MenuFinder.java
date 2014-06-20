@@ -9,7 +9,7 @@
  *     Matt Biggs - initial API and implementation
  *     Stef Bolton - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.finders;
+package org.eclipse.swtbot.e4.finder.finders;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

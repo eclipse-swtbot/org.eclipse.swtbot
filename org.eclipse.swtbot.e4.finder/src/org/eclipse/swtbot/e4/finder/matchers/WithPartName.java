@@ -8,7 +8,7 @@
  * Contributors:
  *     Matt Biggs - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtbot.eclipse.finder.e4.matchers;
+package org.eclipse.swtbot.e4.finder.matchers;
 
 import static org.hamcrest.Matchers.equalTo;
 

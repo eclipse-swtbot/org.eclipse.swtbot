@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <category-def name="SWTBot - API" label="SWTBot - API">
-      SWTBot APIs are the core of SWTBot and provide some user-level classes and methods to write efficient UI test mimicking user actions.
-   </category-def>
-   <category-def name="SWTBot - IDE Integration" label="SWTBot - IDE Integration">
-      Those development tools install in your IDE to make it easier for you to write or execute tests.
-   </category-def>
-   <category-def name="SWTBot - Headless Support" label="SWTBot - Headless Support">
-      Headless support provide some way to integrate SWTBot in a PDE Build.
-   </category-def>
-   <category-def name="SWTBot - Sources" label="SWTBot - Sources">
-      Sources are helpful for you to debug your tests or contribute to SWTBot.
-   </category-def>
-   <!-- 2 dashes so it's the last item in the list -->
-   <category-def name="SWTBot -- Dependencies" label="SWTBot -- Dependencies">
-      Those are SWTBot dependencies. You should not install them directly, installing SWTBot will automatically pull them.
-   </category-def>
-
    <feature id="org.eclipse.swtbot" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
@@ -38,8 +21,6 @@
    <feature id="org.eclipse.swtbot.eclipse.test.junit" version="0.0.0">
       <category name="SWTBot - Headless Support"/>
    </feature>
-
-   <!-- Sources -->
    <feature id="org.eclipse.swtbot.source" version="0.0.0">
       <category name="SWTBot - Sources"/>
    </feature>
@@ -58,8 +39,9 @@
    <feature id="org.eclipse.swtbot.generator.feature.source" version="0.0.0">
       <category name="SWTBot - Sources"/>
    </feature>
-
-   <!-- Dependencies -->
+   <feature url="features/org.eclipse.swtbot.nebula.gallery_2.2.2.qualifier.jar" id="org.eclipse.swtbot.nebula.gallery" version="2.2.2.qualifier">
+      <category name="SWTBot - API"/>
+   </feature>
    <bundle id="org.apache.log4j" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
@@ -78,4 +60,9 @@
    <bundle id="org.hamcrest.library.source" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
+   <category-def name="SWTBot - API" label="SWTBot - API"/>
+   <category-def name="SWTBot - IDE Integration" label="SWTBot - IDE Integration"/>
+   <category-def name="SWTBot - Headless Support" label="SWTBot - Headless Support"/>
+   <category-def name="SWTBot - Sources" label="SWTBot - Sources"/>
+   <category-def name="SWTBot -- Dependencies" label="SWTBot -- Dependencies"/>
 </site>

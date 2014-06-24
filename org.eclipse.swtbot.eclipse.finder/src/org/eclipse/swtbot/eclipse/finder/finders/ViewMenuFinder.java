@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2012 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2014 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Mickael Istria (Red Hat Inc.) - Note about bug 437915
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.finders;
 
@@ -113,7 +114,15 @@ public class ViewMenuFinder {
 			CommandContributionItem cmdContribution = (CommandContributionItem) item;
 			if (matcher.matches(new CommandItemWithTextMatcherWrapper(cmdContribution)))
 				menu = new SWTBotViewMenu(cmdContribution.getCommand());
-		}
+		} /* else if (item instanceof HandledContributionItem) {
+			Bug 437915:
+			The HandledContributionItem is used instead of other ones on e4 when using
+			a ParameterizedCommand. It's part of e4 renderer.
+			However, we prefer this bundle to not depend on e4 for that part yet.
+			We should either find a good way to retrive contribution info (commandId)
+			from a simple IContributionItem, or just accept the idea of dropping pure-e3
+			support
+		} */
 		return menu;
 	}
 	

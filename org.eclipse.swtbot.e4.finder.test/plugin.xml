@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            name="org.eclipse.swtbot.e4.finder.test.product"
+            application="org.eclipse.e4.ui.workbench.swt.E4Application">
+         <property
+               name="clearPersistedState"
+               value="true">
+         </property>
+         <property
+               name="applicationCSS"
+               value="platform:/plugin/org.eclipse.swtbot.e4.finder.test/css/default.css">
+         </property>
+         <property
+               name="appName"
+               value="org.eclipse.swtbot.e4.finder.test">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

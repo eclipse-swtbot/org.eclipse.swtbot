@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2014 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Kristine Jetzke - Bug 420121
+ *     Stephane Bouchet (Intel Corporation) - Bug 451547
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -23,6 +24,7 @@ import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
@@ -134,7 +136,6 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 		});
 		return new SWTBotTreeColumn(column, widget);
 	}
-
 
 	/**
 	 * Gets the cell data for the given row/column index.
@@ -332,7 +333,7 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 	 */
 	public SWTBotTreeItem expandNode(String... nodes) throws WidgetNotFoundException {
 		// TODO: this method should be made iterative instead of recursive
-		Assert.isNotEmpty((Object[])nodes);
+		Assert.isNotEmpty((Object[]) nodes);
 
 		log.debug(MessageFormat.format("Expanding nodes {0} in tree {1}", StringUtils.join(nodes, ">"), this));
 
@@ -507,4 +508,9 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 		});
 	}
 
+	@Override
+	public SWTBotMenu contextMenu(String text) {
+		waitForEnabled();
+		return new SWTBotMenu(ContextMenuHelper.contextMenu(this, text));
+	}
 }

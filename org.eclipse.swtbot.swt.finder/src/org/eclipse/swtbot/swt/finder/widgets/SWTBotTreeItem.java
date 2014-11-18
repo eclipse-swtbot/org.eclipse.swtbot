@@ -11,6 +11,7 @@
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259720
  *     Kristine Jetzke - Bug 379185
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 363916
+ *     Stephane Bouchet (Intel Corporation) - Bug 451547
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -19,9 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -461,16 +462,16 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 	/**
 	 * Get the cell bounds. widget should be enabled before calling this method.
+	 * 
 	 * @return the cell bounds
 	 */
 	private Rectangle getCellBounds() {
-		return 	 syncExec(new Result<Rectangle>() {
+		return syncExec(new Result<Rectangle>() {
 			public Rectangle run() {
 				return widget.getBounds();
 			}
 		});
 	}
-
 
 	/**
 	 * Get the center of the given rectangle.
@@ -554,18 +555,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseDown, createMouseEvent(0, 0, 3, 0, 1));
 		notifyTree(SWT.MouseUp, createMouseEvent(0, 0, 3, 0, 1));
 		notifyTree(SWT.MenuDetect);
-		SWTBotMenu contextMenu = null;
-		try {
-			contextMenu = super.contextMenu(tree, text);
-		} catch (WidgetNotFoundException e) {
-			// in e4, if the context menu contains submenus it appears
-			// as disposed after detection, so we use the ContextMenuHelper
-			if (e.getMessage().contains("was disposed")) {
-				return new SWTBotMenu(ContextMenuHelper.contextMenu(swtBotTree, text));
-			} else
-				throw e;
-		}
-		return contextMenu;
+		return new SWTBotMenu(ContextMenuHelper.contextMenu(swtBotTree, text));
 	}
 
 	/**
@@ -722,7 +712,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		});
 	}
 
-
 	/**
 	 * Gets the tree item matching the given name.
 	 *
@@ -773,7 +762,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			}
 		});
 	}
-	
 
 	public boolean isGrayed() {
 		assertIsCheck();
@@ -789,8 +777,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		return UIThreadRunnable.syncExec(new Result<Rectangle>() {
 			public Rectangle run() {
 				return display.map(widget.getParent(), null, widget.getBounds());
-            }
-        });
-    }
+			}
+		});
+	}
 
 }

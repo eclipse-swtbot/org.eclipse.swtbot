@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Lorenzo Bettini.
+ * Copyright (c) 2012, 2014 Lorenzo Bettini and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Lorenzo Bettini - initial API and implementation
+ *     Stephane Bouchet (Intel Corporation) - added testCase for bug 451547
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -95,9 +96,6 @@ public class SWTBotEclipseProjectTest {
 
 	@Test
 	public void canAccessContextMenuWithSubmenus() {
-		// this fails in e4 with current implementation of
-		// SWTBotTreeItem.contextMenu
-		// since "Open With" has submenus
 		javaClassFileTreeItem().contextMenu("Open With");
 	}
 	
@@ -108,11 +106,18 @@ public class SWTBotEclipseProjectTest {
 	
 	@Test
 	public void canAccessContextMenuSubmenu() {
-		// this fails in e4 with current implementation of
-		// SWTBotTreeItem.contextMenu
-		// since "Open With" has submenus
 		SWTBotMenu openWithMenu = javaClassFileTreeItem().contextMenu("Open With");
 		openWithMenu.menu("Text Editor").click();
+	}
+	
+	@Test
+	public void canAccessContextMenuOnMultipleSelection() {
+		NewJavaClass javaClass2 = new NewJavaClass();
+		javaClass2.createClass("org.eclipse.swtbot.eclipse.test.other", CLASS_NAME);
+		SWTBotTreeItem javaClass2item = packageExplorerTree().expandNode(PROJECT_NAME, "src", "org.eclipse.swtbot.eclipse.test.other",
+				CLASS_FILE_NAME);
+		packageExplorerTree().select(javaClassFileTreeItem(), javaClass2item);
+		packageExplorerTree().contextMenu("Compare With").menu("Each Other").click();
 	}
 
 	private SWTBotTreeItem javaClassFileTreeItem() {

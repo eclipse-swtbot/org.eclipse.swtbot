@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2010, 2013 Ketan Padegaonkar and others.
+ * Copyright (c) 2008-2014 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,7 @@
  *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259720
  *     Kristine Jetzke - Bug 379185
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 363916
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -538,7 +539,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseMove);
 		notifyTree(SWT.MouseExit);
 		notifyTree(SWT.Deactivate);
-		notifyTree(SWT.FocusOut);
 	}
 
 	@Override

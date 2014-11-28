@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Frank Schuerer - https://bugs.eclipse.org/bugs/show_bug.cgi?id=424238
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 441095
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -127,6 +128,9 @@ public class SWTBotViewMenu {
 		} else if (action != null)
 			UIThreadRunnable.asyncExec(new VoidResult() {
 				public void run() {
+					if((action.getStyle() == IAction.AS_CHECK_BOX) || (action.getStyle() == IAction.AS_RADIO_BUTTON)) {
+						action.setChecked(!action.isChecked());
+					}
 					action.run();
 				}
 			});
@@ -164,6 +168,20 @@ public class SWTBotViewMenu {
 			return action.isChecked();
 
 		// FIXME This needs to find if a contribution item (Command) has been checked...
+		return false;
+	}
+	
+	/**
+	 * Gets if the menu item is Enabled
+	 * 
+	 * @return <code>true</code> if enabled. Otherwise <code>false</code>.
+	 * 
+	 */
+	public boolean isEnabled() {
+		if (action != null)
+			return action.isEnabled();
+
+		// FIXME This needs to find if a contribution item (Command) has been enabled...
 		return false;
 	}
 }

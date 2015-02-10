@@ -51,6 +51,13 @@ public class SWTBotLabel extends AbstractSWTBotControl<Label> {
 	}
 
 	/**
+	 * Clicks on the label.
+	 */
+	public AbstractSWTBot<Label> click() {
+		return click(true);
+	}
+
+	/**
 	 * Return the Label's image or <code>null</code>.
 	 * 
 	 * @return the image of the label or <code>null</code>.

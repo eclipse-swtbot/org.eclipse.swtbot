@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2003, 2008 IBM Corporation and others.
+ * Copyright (c) 2003, 2015 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Ketan Padegaonkar - modification to run tests on non-ui thread
+ *     Jérôme Joslet - Bug 460403
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.core;
 
@@ -28,6 +29,8 @@ import org.eclipse.ui.testing.TestableObject;
  * so that the tests run in a non-UI thread.
  *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
+ * @author Jérôme Joslet
+ * 
  * @version $Id$
  */
 public class UITestApplication implements IApplication, ITestHarness {
@@ -83,12 +86,9 @@ public class UITestApplication implements IApplication, ITestHarness {
 		// Otherwise, return the application object.
 		IConfigurationElement[] elements = extension.getConfigurationElements();
 		if (elements.length > 0) {
-			IConfigurationElement[] runs = elements[0].getChildren("run"); //$NON-NLS-1$
-			if (runs.length > 0) {
-				Object runnable = runs[0].createExecutableExtension("class"); //$NON-NLS-1$
-				if (runnable instanceof IApplication)
-					return runnable;
-			}
+			Object runnable = elements[0].createExecutableExtension("run"); //$NON-NLS-1$
+			if (runnable instanceof IApplication)
+				return runnable;
 		}
 		return null;
 	}

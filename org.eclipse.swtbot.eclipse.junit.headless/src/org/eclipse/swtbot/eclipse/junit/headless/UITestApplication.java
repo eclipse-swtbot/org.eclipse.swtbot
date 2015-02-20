@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Jérôme Joslet - Bug 460403
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.junit.headless;
 
@@ -28,6 +29,9 @@ import org.eclipse.ui.testing.TestableObject;
  * This is just a copy of org.eclipse.test.UITestApplication from the eclipse test plugin, with {@link #runTests()}
  * overridden to return a custom {@link EclipseTestRunner} that runs in a non-UI thread. A Workbench that runs a test
  * suite specified in the command line arguments.
+ * 
+ * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
+ * @author Jérôme Joslet
  */
 public class UITestApplication implements IApplication, ITestHarness {
 
@@ -81,12 +85,9 @@ public class UITestApplication implements IApplication, ITestHarness {
 		// Otherwise, return the application object.
 		IConfigurationElement[] elements = extension.getConfigurationElements();
 		if (elements.length > 0) {
-			IConfigurationElement[] runs = elements[0].getChildren("run"); //$NON-NLS-1$
-			if (runs.length > 0) {
-				Object runnable = runs[0].createExecutableExtension("class"); //$NON-NLS-1$
-				if (runnable instanceof IApplication)
-					return runnable;
-			}
+			Object runnable = elements[0].createExecutableExtension("run"); //$NON-NLS-1$
+			if (runnable instanceof IApplication)
+				return runnable;
 		}
 		return null;
 	}

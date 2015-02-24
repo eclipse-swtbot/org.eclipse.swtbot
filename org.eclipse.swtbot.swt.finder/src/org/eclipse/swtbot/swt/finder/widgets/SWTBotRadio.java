@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008,2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2008,2010,2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Stephane Bouchet (Intel Corporation) - Bug 344484
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -71,7 +72,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
 
-		final SWTBotRadio otherSelectedButton = otherSelectedButton();
+		final SWTBotRadio otherSelectedButton=otherSelectedButton();
 
 		if (otherSelectedButton != null) {
 			otherSelectedButton.notify(SWT.Deactivate);
@@ -80,8 +81,10 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 					otherSelectedButton.widget.setSelection(false);
 				}
 			});
+			otherSelectedButton.notify(SWT.Selection);
 		}
 
+		setFocus();
 		notify(SWT.Activate);
 		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, 0, 1));
 		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, SWT.BUTTON1, 1));
@@ -91,9 +94,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 			}
 		});
 		notify(SWT.Selection);
-		if (otherSelectedButton != null) {
-			otherSelectedButton.notify(SWT.Selection);
-		}
+
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
 		return this;
 	}

@@ -1,0 +1,77 @@
+/*******************************************************************************
+ * Copyright (c) 2015 Stephane Bouchet (Intel Corporation).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Stephane Bouchet (Intel Corporation) - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.swtbot.eclipse.finder.widgets;
+
+import static org.junit.Assert.assertTrue;
+
+import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * @author Stephane Bouchet &lt;stephane [dot] bouchet [at] intel [dot] com &gt;
+ * @version $Id$
+ */
+@RunWith(SWTBotJunit4ClassRunner.class)
+public class SWTBotEclipsePreferencesTest {
+
+	private static SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
+
+	@BeforeClass
+	public static void beforeClass() {
+		closeWelcomePage();
+	}
+
+	private static void closeWelcomePage() {
+		try {
+			System.setProperty("org.eclipse.swtbot.search.timeout", "0");
+			bot.viewByTitle("Welcome").close();
+		} catch (WidgetNotFoundException e) {
+			// do nothing
+		} finally {
+			System.setProperty("org.eclipse.swtbot.search.timeout", "5000");
+		}
+	}
+
+	@Test
+	public void canSelectMultipleRadioInPreferencesWindow() {
+		// this will simply tries to change two radio in the team preferences at same times
+		bot.menu("Window").menu("Preferences").click();
+		SWTBotShell prefsShell = bot.shell("Preferences");
+		prefsShell.activate();
+		bot.tree().getTreeItem("Team").select().click();
+		bot.radioInGroup("Tree", "Choose the presentation to be used when displaying Workspace projects").click();
+		bot.radioInGroup("Never", "Open the associated perspective when a synchronize operation completes").click();
+		prefsShell.activate();
+		SWTBotButton apply = bot.button("Apply");
+		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled(apply));
+		apply.click();
+		SWTBotButton ok = bot.button("OK");
+		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled(ok));
+		ok.click();
+		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses(prefsShell));
+		bot.menu("Window").menu("Preferences").click();
+		prefsShell = bot.shell("Preferences");
+		prefsShell.activate();
+		bot.tree().getTreeItem("Team").select().click();
+		SWTBotRadio pref1 = bot.radioInGroup("Tree", "Choose the presentation to be used when displaying Workspace projects");
+		SWTBotRadio pref2 = bot.radioInGroup("Never", "Open the associated perspective when a synchronize operation completes");
+		assertTrue("Radio should be selected", pref1.isSelected());
+		assertTrue("Radio should be selected", pref2.isSelected());
+	}
+
+}

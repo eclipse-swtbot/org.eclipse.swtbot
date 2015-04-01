@@ -15,9 +15,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.swtbot.forms.finder.widgets.SWTBotImageHyperlink;
+import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(SWTBotJunit4ClassRunner.class)
 public class SWTBotImageHyperlinkTest extends AbstractSWTBotFormsTest {
 
 	@Test

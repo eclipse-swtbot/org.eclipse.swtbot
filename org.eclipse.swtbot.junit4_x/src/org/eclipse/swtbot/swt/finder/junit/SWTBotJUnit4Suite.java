@@ -29,7 +29,8 @@ import org.junit.runners.model.RunnerBuilder;
  * @version $Id:
  * @noextend This class is not intended to be subclassed by clients.
  * @noinstantiate This class is not intended to be instantiated by clients.
- * @deprecated Please use {@link Suite} instead. <code>@RunWith(Suite.class)</code>
+ * @deprecated Please use {@link Suite} <code>@RunWith(Suite.class)</code> instead and annotate the individual tests 
+ * to run with {@link SWTBotJunit4ClassRunner} <code>@RunWith(SWTBotJunit4ClassRunner.class)</code>. 
  */
 public final class SWTBotJUnit4Suite extends Suite {
 	

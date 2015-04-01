@@ -12,9 +12,9 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
-import static junit.framework.Assert.assertEquals;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;

@@ -12,14 +12,14 @@ package org.eclipse.swtbot.forms.finder.test;
 
 import org.eclipse.swtbot.forms.finder.test.widgets.SWTBotHyperlinkTest;
 import org.eclipse.swtbot.forms.finder.test.widgets.SWTBotImageHyperlinkTest;
-import org.eclipse.swtbot.swt.finder.junit.SWTBotJUnit4Suite;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  */
-@RunWith(SWTBotJUnit4Suite.class)
+@RunWith(Suite.class)
 @SuiteClasses({
 	SWTBotHyperlinkTest.class,
 	SWTBotImageHyperlinkTest.class,

@@ -27,16 +27,23 @@
 					<argLine>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=256m</argLine>
 					<useUIHarness>false</useUIHarness>
 					<useUIThread>true</useUIThread>
-					<dependencies>
-						<dependency>
-							<type>p2-installable-unit</type>
-							<artifactId>org.eclipse.swtbot.swt.finder.test.keyboards</artifactId>
-							<version>0.0.0</version>
-						</dependency>
-					</dependencies>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<configuration>
+					<dependency-resolution>
+						<extraRequirements>
+							<requirement>
+								<type>p2-installable-unit</type>
+								<id>org.eclipse.swtbot.swt.finder.test.keyboards</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+						</extraRequirements>
+					</dependency-resolution>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

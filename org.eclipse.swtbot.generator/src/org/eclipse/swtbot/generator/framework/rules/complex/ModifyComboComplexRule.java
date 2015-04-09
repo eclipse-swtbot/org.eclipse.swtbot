@@ -15,7 +15,6 @@ import java.util.List;
 import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
-import org.eclipse.swtbot.generator.framework.rules.simple.ModifyTextRule;
 
 public class ModifyComboComplexRule extends GenerationComplexRule{
 

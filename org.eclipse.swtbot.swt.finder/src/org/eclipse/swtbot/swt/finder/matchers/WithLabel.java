@@ -24,7 +24,6 @@ import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.core.IsAnything;
 
 /**

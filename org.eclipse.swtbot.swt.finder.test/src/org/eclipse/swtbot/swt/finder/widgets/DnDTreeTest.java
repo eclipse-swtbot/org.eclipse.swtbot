@@ -1,7 +1,5 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
-import java.io.IOException;
-
 import org.eclipse.swt.examples.dnd.DNDExample;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTShellTest;

@@ -39,8 +39,6 @@ public class ControlFinder2Test extends AbstractCustomControlExampleTest {
 		assertEquals(3, tabItems.size());
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void getsControlPath() throws Exception {
 		selectCTabFolder();

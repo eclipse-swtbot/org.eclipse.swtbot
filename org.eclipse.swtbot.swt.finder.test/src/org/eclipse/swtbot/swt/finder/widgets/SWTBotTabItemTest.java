@@ -38,8 +38,6 @@ public class SWTBotTabItemTest extends AbstractControlExampleTest {
 		bot.tabItem("Button").activate();
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void activatesTabItem() throws Exception {
 		bot.shell("SWT Controls").activate();

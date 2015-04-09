@@ -61,8 +61,6 @@ public class ControlFinderTest extends AbstractControlExampleTest {
 		assertEquals(shell, shells.get(0));
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void findsATabItem() throws Exception {
 		Matcher<TabItem> withText = withText("Dialog");
@@ -84,8 +82,6 @@ public class ControlFinderTest extends AbstractControlExampleTest {
 		assertEquals(1, textBoxes.size());
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void findsTwoButtons() throws Exception {
 		Matcher<Button> withText = withText("One");
@@ -95,8 +91,6 @@ public class ControlFinderTest extends AbstractControlExampleTest {
 		assertText("One", buttons.get(1));
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void getsControlPath() throws Exception {
 		Matcher<Button> withText = withText("One");
@@ -106,8 +100,6 @@ public class ControlFinderTest extends AbstractControlExampleTest {
 		assertEquals(7, path.getSegmentCount());
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void getsControlPathToTabItem() throws Exception {
 		Matcher<TabItem> withText = withText("Dialog");
@@ -116,8 +108,6 @@ public class ControlFinderTest extends AbstractControlExampleTest {
 		assertEquals(3, path.getSegmentCount());
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void getsOnlyVisibleControls() throws Exception {
 		// use the default tab

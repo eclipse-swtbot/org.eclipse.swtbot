@@ -31,7 +31,6 @@ import org.junit.Test;
 public class PathGeneratorTest extends AbstractControlExampleTest {
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void generatesStringFromPath() throws Exception {
 		Matcher<TabItem> withText = withText("Dialog");
 		List<TabItem> tabItems = controlFinder.findControls(allOf(widgetOfType(TabItem.class), withText));
@@ -47,7 +46,6 @@ public class PathGeneratorTest extends AbstractControlExampleTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void getsPathFromString() throws Exception {
 		TreePath path = new PathGenerator().getPathFromString("//Shell/0//TabFolder/0//TabItem/5", display);
 		Matcher<TabItem> withText = withText("Dialog");

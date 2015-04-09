@@ -138,7 +138,6 @@ public class ViewMenuFinder {
 		/*
 		 * This method will be called reflectively by a matcher.
 		 */
-		@SuppressWarnings("unused")
 		public String getText() throws Exception {
 				/* label attribute of command contribution item is not available */
 				String label = (String) SWTUtils.getAttribute(wrappedCommandItem, "label"); ////$NON-NLS-1$

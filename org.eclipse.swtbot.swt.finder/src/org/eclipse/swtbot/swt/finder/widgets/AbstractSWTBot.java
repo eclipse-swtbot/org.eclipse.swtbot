@@ -434,8 +434,6 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @throws WidgetNotFoundException if the widget is not found.
 	 * @since 2.0
 	 */
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	protected SWTBotMenu contextMenu(final Control control, final String text) {
 		Matcher<MenuItem> withMnemonic = withMnemonic(text);
 		final Matcher<MenuItem> matcher = allOf(widgetOfType(MenuItem.class), withMnemonic);

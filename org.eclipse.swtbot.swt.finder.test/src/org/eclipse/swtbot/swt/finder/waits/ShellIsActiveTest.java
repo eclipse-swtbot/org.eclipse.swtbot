@@ -25,7 +25,6 @@ import org.junit.Test;
  */
 public class ShellIsActiveTest extends AbstractSWTShellTest {
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void waitsForShellToBecomeActive() throws Exception {
 

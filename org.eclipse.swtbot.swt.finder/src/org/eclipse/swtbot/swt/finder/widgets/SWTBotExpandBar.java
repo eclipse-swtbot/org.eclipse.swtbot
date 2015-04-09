@@ -105,7 +105,6 @@ public class SWTBotExpandBar extends AbstractSWTBot<ExpandBar> {
 	 * @param itemText the text on the item.
 	 * @return the {@link SWTBotExpandItem} with the specified text.
 	 */
-	@SuppressWarnings("unchecked")
 	public SWTBotExpandItem expandItem(final String itemText) {
 		return expandItem(withText(itemText));
 	}
@@ -127,7 +126,6 @@ public class SWTBotExpandBar extends AbstractSWTBot<ExpandBar> {
 	 * @param itemText the text on the item.
 	 * @return the {@link SWTBotExpandItem} with the specified text.
 	 */
-	@SuppressWarnings("unchecked")
 	public SWTBotExpandItem collapseItem(final String itemText) {
 		return collapseItem(withText(itemText));
 	}

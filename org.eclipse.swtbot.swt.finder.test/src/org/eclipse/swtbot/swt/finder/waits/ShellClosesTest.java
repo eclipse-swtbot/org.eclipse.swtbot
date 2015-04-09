@@ -27,7 +27,6 @@ import org.junit.Test;
  */
 public class ShellClosesTest extends AbstractSWTShellTest {
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void waitsForShellClose() throws Exception {
 

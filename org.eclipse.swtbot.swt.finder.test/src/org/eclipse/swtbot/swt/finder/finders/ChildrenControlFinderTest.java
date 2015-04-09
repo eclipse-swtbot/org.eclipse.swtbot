@@ -36,8 +36,6 @@ import org.junit.Test;
  */
 public class ChildrenControlFinderTest extends AbstractControlExampleTest {
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void childrenControlFinder1() throws Exception {
 		Group group = getGroup("Text Buttons");
@@ -53,8 +51,6 @@ public class ChildrenControlFinderTest extends AbstractControlExampleTest {
 		assertNull(getImage(button));
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	@Test
 	public void childrenControlFinder2() throws Exception {
 		Group group = getGroup("Image and Text Buttons");
@@ -69,8 +65,6 @@ public class ChildrenControlFinderTest extends AbstractControlExampleTest {
 		assertNotNull(getImage(button));
 	}
 
-	@SuppressWarnings("unchecked")
-	// varargs and generics doesn't mix well!
 	private Group getGroup(String text) {
 		ControlFinder finder = new ControlFinder();
 		Matcher<Group> withText = withText(text);

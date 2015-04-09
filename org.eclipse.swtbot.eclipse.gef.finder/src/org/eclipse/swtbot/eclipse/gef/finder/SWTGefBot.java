@@ -51,7 +51,6 @@ public class SWTGefBot extends SWTWorkbenchBot {
 	 * @return an editor for the specified fileName.
 	 * @throws WidgetNotFoundException if the editor is not found.
 	 */
-	@SuppressWarnings("unchecked")
 	public SWTBotGefEditor gefEditor(String fileName, int index) throws WidgetNotFoundException {
 		Matcher<IEditorReference> withPartName = withPartName(fileName);
 		Matcher<IEditorReference> matcher = allOf(IsInstanceOf.instanceOf(IEditorReference.class), withPartName);
@@ -92,7 +91,6 @@ public class SWTGefBot extends SWTWorkbenchBot {
 	 * @return a view with the specified name.
 	 * @throws WidgetNotFoundException if the view is not found.
 	 */
-	@SuppressWarnings("unchecked")
 	public SWTBotGefView gefView(String viewName, int index) throws WidgetNotFoundException {
 		Matcher<IViewReference> withPartName = withPartName(viewName);
 		Matcher<IViewReference> matcher = allOf(IsInstanceOf.instanceOf(IViewReference.class), withPartName);

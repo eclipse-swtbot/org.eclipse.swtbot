@@ -39,7 +39,6 @@ public class WaitForShellTest extends AbstractSWTTest {
 		new Display();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void waitsForShellToAppear() throws Exception {
 		createShellAfter(100);

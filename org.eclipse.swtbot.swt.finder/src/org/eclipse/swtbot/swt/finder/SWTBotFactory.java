@@ -14,6 +14,7 @@
  *     Toby Weston - (Bug 259860)
  *     Ketan Patel - (Bug 259860)
  *     Mickael Istria (Red Hat Inc.) - Bug 422458
+ *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder;
 
@@ -210,6 +211,17 @@ abstract class SWTBotFactory {
 	}
 
 	/**
+	 * @param text the text on the menu.
+	 * @param recursive if set to true, will find submenus as well.
+	 * @return a menu item that matches the specified text.
+	 * @since 2.2
+	 */
+	public SWTBotMenu menu(String text, boolean recursive) {
+		Matcher<MenuItem> withMnemonic = withMnemonic(text);
+		return menu(activeShell(), withMnemonic, recursive);
+	}
+
+	/**
 	 * @param value the value of the id.
 	 * @return a wrapper around a @{link Menu} with the specified key/value pair for its id.
 	 */
@@ -257,6 +269,19 @@ abstract class SWTBotFactory {
 		WaitForObjectCondition<MenuItem> waitForMenu = waitForMenu(shell, matcher);
 		waitUntilWidgetAppears(waitForMenu);
 		return new SWTBotMenu(waitForMenu.get(index), matcher);
+	}
+
+	/**
+	 * @param shell the shell to search for the menu.
+	 * @param matcher the matcher used to find the menu.
+	 * @param recursive if set to true, will find submenus as well.
+	 * @return a menu item that matches the specified text.
+	 * @since 2.2
+	 */
+	public SWTBotMenu menu(SWTBotShell shell, Matcher<MenuItem> matcher, boolean recursive) {
+		WaitForObjectCondition<MenuItem> waitForMenu = waitForMenu(shell, matcher, recursive);
+		waitUntilWidgetAppears(waitForMenu);
+		return new SWTBotMenu(waitForMenu.get(0), matcher);
 	}
 
 	/**

@@ -45,7 +45,7 @@ public class MenuFinderTest extends AbstractMenuExampleTest {
 	@Test
 	public void findsAllVisibleMenus() throws Exception {
 		List<MenuItem> findControls = menuFinder.findMenus(anyMenuItem);
-		assertEquals(25, findControls.size());
+		assertEquals(26, findControls.size());
 		assertText("&Find...\tCtrl+F", findControls.get(21));
 	}
 

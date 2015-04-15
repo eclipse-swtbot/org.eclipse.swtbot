@@ -389,6 +389,7 @@ public class AddressBook {
 				shell.close();
 			}
 		});
+		
 	}
 
 	/**
@@ -407,6 +408,10 @@ public class AddressBook {
 		item.setMenu(menu);
 
 		// Help -> About Text Editor
+		createAboutMenu(menu);
+	}
+
+	private void createAboutMenu(Menu menu) {
 		MenuItem subItem = new MenuItem(menu, SWT.NONE);
 		subItem.setText(AddressBook.resAddressBook.getString("About"));
 		subItem.addSelectionListener(new SelectionAdapter() {
@@ -433,6 +438,9 @@ public class AddressBook {
 		createEditMenu(menuBar);
 		createSearchMenu(menuBar);
 		createHelpMenu(menuBar);
+		// add About menu also in the main bar
+		createAboutMenu(menuBar);
+
 
 		return menuBar;
 	}

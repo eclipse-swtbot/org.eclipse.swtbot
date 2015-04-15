@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.waits;
 
@@ -24,17 +25,29 @@ import org.hamcrest.Matcher;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
-class WaitForMenu extends WaitForObjectCondition<MenuItem> {
+public class WaitForMenu extends WaitForObjectCondition<MenuItem> {
 
 	private final SWTBotShell	shell;
+	private final boolean 		recursive;
 
 	/**
 	 * @param shell the shell to search for the menu.
 	 * @param matcher the matcher used for matching the menu items.
 	 */
 	public WaitForMenu(SWTBotShell shell, Matcher<MenuItem> matcher) {
+		this(shell, matcher, true);
+	}
+
+	/**
+	 * @param shell the shell to search for the menu.
+	 * @param matcher the matcher used for matching the menu items.
+	 * @param recursive if set to true, will find submenus as well
+	 * @since 2.2
+	 */
+	public WaitForMenu(SWTBotShell shell, Matcher<MenuItem> matcher, boolean recursive) {
 		super(matcher);
 		this.shell = shell;
+		this.recursive = recursive;
 	}
 
 	public String getFailureMessage() {
@@ -42,7 +55,7 @@ class WaitForMenu extends WaitForObjectCondition<MenuItem> {
 	}
 
 	protected List<MenuItem> findMatches() {
-		return new MenuFinder().findMenus(shell.widget, matcher, true);
+		return new MenuFinder().findMenus(shell.widget, matcher, recursive);
 	}
 
 }

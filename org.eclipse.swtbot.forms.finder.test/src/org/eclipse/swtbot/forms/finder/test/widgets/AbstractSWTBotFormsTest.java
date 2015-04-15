@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
  *******************************************************************************/
 package org.eclipse.swtbot.forms.finder.test.widgets;
 
@@ -35,7 +36,10 @@ public abstract class AbstractSWTBotFormsTest {
 	}
 
 	private static void showFormsView() {
-		bot.menu("Window").menu("Show View").menu("Other...").click();
+		// don't use recursion when searching for "Window" menu
+		// to avoid a bug in ShowInMenu in Luna; "Show In..." is a submenu
+		// of "Navigate" which comes before "Window"
+		bot.menu("Window", false).menu("Show View").menu("Other...").click();
 		SWTBot showViewDialogBot = bot.shell("Show View").bot();
 		showViewDialogBot.tree().getTreeItem("Eclipse Forms Examples").expand().getNode("Eclipse Form").select();
 		showViewDialogBot.button("OK").click();

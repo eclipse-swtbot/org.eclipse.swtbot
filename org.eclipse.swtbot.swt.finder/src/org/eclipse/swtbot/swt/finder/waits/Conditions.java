@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259837
  *     Jesper S Møller - https://bugs.eclipse.org/bugs/show_bug.cgi?id=322668
+ *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
  *******************************************************************************/
 
 package org.eclipse.swtbot.swt.finder.waits;
@@ -127,7 +128,18 @@ public abstract class Conditions {
 	 * @since 2.0
 	 */
 	public static WaitForObjectCondition<MenuItem> waitForMenu(SWTBotShell shell, Matcher<MenuItem> matcher) {
-		return new WaitForMenu(shell, matcher);
+		return waitForMenu(shell, matcher, true);
+	}
+
+	/**
+	 * @param shell the shell to search for the menu.
+	 * @param matcher the matcher.
+	 * @param recursive if set to true, will find submenus as well
+	 * @return a condition that waits until the matcher evaluates to true.
+	 * @since 2.2
+	 */
+	public static WaitForObjectCondition<MenuItem> waitForMenu(SWTBotShell shell, Matcher<MenuItem> matcher, boolean recursive) {
+		return new WaitForMenu(shell, matcher, recursive);
 	}
 
 	/**

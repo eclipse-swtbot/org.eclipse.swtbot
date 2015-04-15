@@ -7,11 +7,13 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.util.List;
 
@@ -25,6 +27,8 @@ import org.junit.Test;
  * @version $Id$
  */
 public class SWTBotMenuTest extends AbstractMenuExampleTest {
+	
+	private static final String ABOUT_MENU_TEXT = "About Address Book...";
 
 	@Test
 	public void findsMenus() throws Exception {
@@ -35,6 +39,22 @@ public class SWTBotMenuTest extends AbstractMenuExampleTest {
 	public void findsSubMenus() throws Exception {
 		SWTBotMenu menu = bot.menu("File").menu("Exit");
 		assertText("E&xit", menu.widget);
+	}
+
+	@Test
+	public void findsMenuRecursive() throws Exception {
+		// "About" is both a submenu of Help and the last menu in the bar
+		// with recursion we find the one in Help
+		assertSame(bot.menu(ABOUT_MENU_TEXT, true).widget,
+				bot.menu("Help").menu(ABOUT_MENU_TEXT).widget);
+	}
+
+	@Test
+	public void findsMenuNotRecursive() throws Exception {
+		// "About" is both a submenu of Help and the last menu in the bar
+		// without recursion we find the one in the bar
+		assertSame(bot.menu(ABOUT_MENU_TEXT, false).widget,
+				bot.menu(ABOUT_MENU_TEXT, 1).widget);
 	}
 
 	@Test

@@ -175,6 +175,7 @@ public class SWTBotViewMenu {
 	 * Gets if the menu item is Enabled
 	 * 
 	 * @return <code>true</code> if enabled. Otherwise <code>false</code>.
+	 * @since 2.3
 	 * 
 	 */
 	public boolean isEnabled() {

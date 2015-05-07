@@ -214,7 +214,7 @@ abstract class SWTBotFactory {
 	 * @param text the text on the menu.
 	 * @param recursive if set to true, will find submenus as well.
 	 * @return a menu item that matches the specified text.
-	 * @since 2.2
+	 * @since 2.3
 	 */
 	public SWTBotMenu menu(String text, boolean recursive) {
 		Matcher<MenuItem> withMnemonic = withMnemonic(text);

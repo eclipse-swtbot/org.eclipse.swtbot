@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Code Generator JDT Plug-in (incubation)
 Bundle-SymbolicName: org.eclipse.swtbot.generator.jdt;singleton:=true
-Bundle-Version: 2.2.2.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: .

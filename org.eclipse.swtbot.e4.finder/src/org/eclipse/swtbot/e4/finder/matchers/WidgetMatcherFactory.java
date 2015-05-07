@@ -10,7 +10,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 *
 	 * @param label the label of the perspective.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	public static org.hamcrest.Matcher withPerspectiveLabel(final java.lang.String label) {
 		return org.eclipse.swtbot.e4.finder.matchers.WithPerspectiveLabel.withPerspectiveLabel(label);
@@ -21,7 +21,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 *
 	 * @param id the id of the perspective.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	public static org.hamcrest.Matcher withPerspectiveId(final java.lang.String id) {
 		return  org.eclipse.swtbot.e4.finder.matchers.WithPerspectiveId.withPerspectiveId(id);
@@ -32,7 +32,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 *
 	 * @param text the label of the part.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	public static <T extends org.eclipse.e4.ui.model.application.ui.basic.MPart> org.hamcrest.Matcher<T> withPartName(final java.lang.String text) {
 		return org.eclipse.swtbot.e4.finder.matchers.WithPartName.withPartName(text);
@@ -43,7 +43,7 @@ public class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers
 	 *
 	 * @param id the id of the part.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	public static <T extends org.eclipse.e4.ui.model.application.ui.basic.MPart> org.hamcrest.Matcher<T> withPartId(final java.lang.String id) {
 		return org.eclipse.swtbot.e4.finder.matchers.WithPartId.withPartId(id);

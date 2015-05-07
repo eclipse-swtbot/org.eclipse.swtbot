@@ -22,7 +22,7 @@ import org.hamcrest.Matcher;
  * @author Ralf Ebert www.ralfebert.de (bug 271630)
  * @author Matt biggs - Converted to E4
  * @version $Id$
- * @since 2.2.2
+ * @since 2.3.0
  */
 public class WithPerspectiveLabel extends AbstractMatcher<MPerspective> {
 
@@ -53,7 +53,7 @@ public class WithPerspectiveLabel extends AbstractMatcher<MPerspective> {
 	 *
 	 * @param label the label of the perspective.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static WithPerspectiveLabel withPerspectiveLabel(final String label) {
@@ -65,7 +65,7 @@ public class WithPerspectiveLabel extends AbstractMatcher<MPerspective> {
 	 *
 	 * @param labelMatcher the matcher that matches the perspective label.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static WithPerspectiveLabel withPerspectiveLabel(final Matcher<String> labelMatcher) {

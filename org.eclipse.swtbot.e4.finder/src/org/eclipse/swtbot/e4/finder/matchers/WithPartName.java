@@ -23,7 +23,7 @@ import org.hamcrest.Matcher;
  * @author Ketan Patel
  * @author Matt biggs - Converted to E4
  * @version $Id$
- * @since 2.2.2
+ * @since 2.3.0
  */
 public class WithPartName<T extends MPart> extends AbstractMatcher<T> {
 
@@ -54,7 +54,7 @@ public class WithPartName<T extends MPart> extends AbstractMatcher<T> {
 	 *
 	 * @param text the label of the part.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static <T extends MPart> Matcher<T> withPartName(final String text) {
@@ -66,7 +66,7 @@ public class WithPartName<T extends MPart> extends AbstractMatcher<T> {
 	 *
 	 * @param nameMatcher the part name matcher.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static <T extends MPart> Matcher<T> withPartName(final Matcher<String> nameMatcher) {

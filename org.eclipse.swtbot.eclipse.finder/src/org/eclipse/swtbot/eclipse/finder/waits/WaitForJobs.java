@@ -18,6 +18,7 @@ import org.eclipse.swtbot.swt.finder.waits.ICondition;
  * Waits until all {@link Job}s of the given family are finished.
  * 
  * @author Xavier Raynaud <xavier.raynaud@kalay.eu>
+ * @since 2.3
  */
 public class WaitForJobs implements ICondition {
 

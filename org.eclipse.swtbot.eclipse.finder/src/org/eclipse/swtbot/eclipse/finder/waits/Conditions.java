@@ -42,6 +42,7 @@ public class Conditions extends org.eclipse.swtbot.swt.finder.waits.Conditions {
 	 * @param a job family (see {@link Job#belongsTo(Object)})
 	 * @param a human readable job family (used only for error message, may be null)
 	 * @return a condition that waits until all jobs of the given family are done.
+	 * @since 2.3
 	 */
 	public static WaitForJobs waitForJobs(Object jobFamily, String humanReadableJobFamily) {
 		return new WaitForJobs(jobFamily, humanReadableJobFamily);

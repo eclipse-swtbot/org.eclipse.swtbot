@@ -22,7 +22,7 @@ import org.hamcrest.Matcher;
  * @author Ralf Ebert www.ralfebert.de (bug 271630)
  * @author Matt biggs - Converted to E4
  * @version $Id$
- * @since 2.2.2
+ * @since 2.3.0
  */
 public class WithPerspectiveId extends AbstractMatcher<MPerspective> {
 
@@ -53,7 +53,7 @@ public class WithPerspectiveId extends AbstractMatcher<MPerspective> {
 	 *
 	 * @param id the id of the perspective.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static WithPerspectiveId withPerspectiveId(final String id) {
@@ -65,7 +65,7 @@ public class WithPerspectiveId extends AbstractMatcher<MPerspective> {
 	 *
 	 * @param idMatcher the matcher that matches the id of the perspective.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static WithPerspectiveId withPerspectiveId(final Matcher<String> idMatcher) {

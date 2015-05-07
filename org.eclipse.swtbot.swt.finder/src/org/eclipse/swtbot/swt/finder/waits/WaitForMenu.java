@@ -24,6 +24,7 @@ import org.hamcrest.Matcher;
  * @see Conditions
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
+ * @since 2.3
  */
 public class WaitForMenu extends WaitForObjectCondition<MenuItem> {
 
@@ -42,7 +43,6 @@ public class WaitForMenu extends WaitForObjectCondition<MenuItem> {
 	 * @param shell the shell to search for the menu.
 	 * @param matcher the matcher used for matching the menu items.
 	 * @param recursive if set to true, will find submenus as well
-	 * @since 2.2
 	 */
 	public WaitForMenu(SWTBotShell shell, Matcher<MenuItem> matcher, boolean recursive) {
 		super(matcher);

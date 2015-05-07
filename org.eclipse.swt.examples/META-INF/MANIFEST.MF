@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse SWT Example plugin (based on Eclipse's SWT Examples) (incubation)
 Bundle-SymbolicName: org.eclipse.swt.examples;singleton:=true
-Bundle-Version: 2.2.2.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Export-Package: org.eclipse.jface.snippets.viewers,

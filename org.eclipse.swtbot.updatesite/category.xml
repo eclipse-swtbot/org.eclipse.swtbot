@@ -39,7 +39,7 @@
    <feature id="org.eclipse.swtbot.generator.feature.source" version="0.0.0">
       <category name="SWTBot - Sources"/>
    </feature>
-   <feature url="features/org.eclipse.swtbot.nebula.gallery_2.2.2.qualifier.jar" id="org.eclipse.swtbot.nebula.gallery" version="2.2.2.qualifier">
+   <feature id="org.eclipse.swtbot.nebula.gallery" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
    <bundle id="org.apache.log4j" version="0.0.0">

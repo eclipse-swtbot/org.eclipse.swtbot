@@ -136,7 +136,7 @@ public abstract class Conditions {
 	 * @param matcher the matcher.
 	 * @param recursive if set to true, will find submenus as well
 	 * @return a condition that waits until the matcher evaluates to true.
-	 * @since 2.2
+	 * @since 2.3
 	 */
 	public static WaitForObjectCondition<MenuItem> waitForMenu(SWTBotShell shell, Matcher<MenuItem> matcher, boolean recursive) {
 		return new WaitForMenu(shell, matcher, recursive);

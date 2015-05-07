@@ -32,7 +32,7 @@ public class SWTBotPerspective {
 	 * @param bot the instance of {@link SWTWorkbenchBot} which will be used to drive operations on behalf of this
 	 *            object.
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	public SWTBotPerspective(final MPerspective perspective, final SWTWorkbenchBot bot) throws WidgetNotFoundException {
 		this.bot = bot;

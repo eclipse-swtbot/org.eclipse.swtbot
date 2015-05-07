@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Workbench support in SWTBot generator
 Bundle-SymbolicName: org.eclipse.swtbot.generator.rules.workbench;singleton:=true
-Bundle-Version: 2.2.2.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.generator.rules.workbench.Activator
 Bundle-Vendor: Eclipse SWTBot
 Require-Bundle: org.eclipse.ui,

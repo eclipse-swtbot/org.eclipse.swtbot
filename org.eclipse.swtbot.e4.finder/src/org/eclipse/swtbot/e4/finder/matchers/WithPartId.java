@@ -22,7 +22,7 @@ import org.hamcrest.Matcher;
  * @author Ralf Ebert www.ralfebert.de (bug 271630)
  * @author Matt biggs - Converted to E4
  * @version $Id$
- * @since 2.2.2
+ * @since 2.3.0
  */
 public class WithPartId<T extends MPart> extends AbstractMatcher<T> {
 
@@ -50,7 +50,7 @@ public class WithPartId<T extends MPart> extends AbstractMatcher<T> {
 	 *
 	 * @param id the id of the part.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static <T extends MPart> Matcher<T> withPartId(final String id) {
@@ -62,7 +62,7 @@ public class WithPartId<T extends MPart> extends AbstractMatcher<T> {
 	 *
 	 * @param idMatcher the part id matcher.
 	 * @return a matcher.
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	@Factory
 	public static <T extends MPart> Matcher<T> withPartId(final Matcher<String> idMatcher) {

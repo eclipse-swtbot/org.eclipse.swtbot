@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,6 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertNotSameWidget;
-import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.pass;
 import static org.junit.Assert.fail;
 
@@ -30,8 +29,8 @@ public class SWTBotToolbarDropDownButtonWithToolTipTest extends AbstractControlE
 
 	@Test
 	public void findsToolBarButtonWithIndex() throws Exception {
-		SWTBotToolbarDropDownButton button0 = bot.toolbarDropDownButton("Drop Down");
-		SWTBotToolbarDropDownButton button1 = bot.toolbarDropDownButton("Drop Down", 1);
+		SWTBotToolbarDropDownButton button0 = bot.toolbarDropDownButtonWithTooltip("SWT.DROP_DOWN");
+		SWTBotToolbarDropDownButton button1 = bot.toolbarDropDownButtonWithTooltip("SWT.DROP_DOWN", 1);
 		assertNotSameWidget(button0.widget, button1.widget);
 	}
 
@@ -39,9 +38,9 @@ public class SWTBotToolbarDropDownButtonWithToolTipTest extends AbstractControlE
 	public void clicksToolBarButton() throws Exception {
 		try {
 			bot.checkBox("Listen").select();
-			SWTBotToolbarDropDownButton button = bot.toolbarDropDownButton("Drop Down");
+			SWTBotToolbarDropDownButton button = bot.toolbarDropDownButtonWithTooltip("SWT.DROP_DOWN");
 			button.click();
-			assertTextContains("Selection [13]: SelectionEvent{ToolItem ", bot.textInGroup("Listeners").widget);
+			assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, button.widget) + " text=null doit=true}");
 		} finally {
 			bot.checkBox("Listen").deselect();
 		}

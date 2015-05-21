@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - support click with modifiers
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -48,22 +49,37 @@ public abstract class SWTBotToolbarButton extends AbstractSWTBot<ToolItem> {
 	 *
 	 * @since 1.0
 	 */
-	public abstract SWTBotToolbarButton click();
+	public SWTBotToolbarButton click() {
+		return click(0);
+	}
+
+	/**
+	 * Click on the tool item with a particular state mask.
+	 *
+	 * @param stateMask the state of the keyboard modifier keys.
+	 *
+	 * @since 2.3
+	 */
+	public abstract SWTBotToolbarButton click(int stateMask);
 
 	protected void sendNotifications() {
+		sendNotifications(0);
+	}
+
+	protected void sendNotifications(int stateMask) {
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.MouseDown);
 		notify(SWT.MouseUp);
-		notify(SWT.Selection);
+		notify(SWT.Selection, createSelectionEvent(stateMask));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);
 		notify(SWT.Deactivate);
 		notify(SWT.FocusOut);
 	}
-	
+
 	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {

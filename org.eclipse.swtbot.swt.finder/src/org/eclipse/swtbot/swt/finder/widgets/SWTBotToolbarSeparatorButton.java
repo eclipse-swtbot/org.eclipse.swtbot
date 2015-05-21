@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Obeo and others.
+ * Copyright (c) 2009, 2015 Obeo and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Mariot Chauvin <mariot.chauvin@obeo.fr> - initial API and implementation
+ *     Patrick Tasse - support click with modifiers
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -55,16 +56,12 @@ public class SWTBotToolbarSeparatorButton extends SWTBotToolbarButton {
 
 	}
 
-	/**
-	 * Click on the tool item.
-	 *
-	 * @since 2.0
-	 */
-	public SWTBotToolbarSeparatorButton click() {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+	@Override
+	public SWTBotToolbarSeparatorButton click(int stateMask) {
+		log.debug(MessageFormat.format("Clicking on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
 		waitForEnabled();
-		sendNotifications();
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		sendNotifications(stateMask);
+		log.debug(MessageFormat.format("Clicked on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
 		return this;
 	}
 }

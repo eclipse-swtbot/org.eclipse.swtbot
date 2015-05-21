@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2013 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Ketan Padegaonkar - http://swtbot.org/bugzilla/show_bug.cgi?id=88
  *     Mickael Istria (Red Hat Inc.) - Bug 422458
+ *     Patrick Tasse - support click with modifiers
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -131,16 +132,12 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 		}
 	}
 
-	/**
-	 * Click on the tool item.
-	 *
-	 * @since 1.0
-	 */
-	public SWTBotToolbarDropDownButton click() {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+	@Override
+	public SWTBotToolbarDropDownButton click(int stateMask) {
+		log.debug(MessageFormat.format("Clicking on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
 		waitForEnabled();
-		sendNotifications();
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		sendNotifications(stateMask);
+		log.debug(MessageFormat.format("Clicked on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
 		return this;
 	}
 

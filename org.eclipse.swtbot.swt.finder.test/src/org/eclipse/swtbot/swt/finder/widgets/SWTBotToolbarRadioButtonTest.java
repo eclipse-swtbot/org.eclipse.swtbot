@@ -7,13 +7,14 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
- *     Patrick Tasse - fix click behavior
+ *     Patrick Tasse - fix click behavior and support click with modifiers
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertNotSameWidget;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,14 @@ public class SWTBotToolbarRadioButtonTest extends AbstractControlExampleTest {
 	public void clicksRadioButton() throws Exception {
 		SWTBotToolbarRadioButton button = bot.toolbarRadioButton("Radio");
 		button.click();
-		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Radio} time=-941780677 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, button.widget) + " text=null doit=true}");
+		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Radio} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, button.widget) + " text=null doit=true}");
+	}
+
+	@Test
+	public void clicksRadioButtonWithModifier() throws Exception {
+		SWTBotToolbarRadioButton button = bot.toolbarRadioButton("Radio");
+		button.click(SWT.SHIFT);
+		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Radio} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(SWT.SHIFT, button.widget) + " text=null doit=true}");
 	}
 
 	@Test

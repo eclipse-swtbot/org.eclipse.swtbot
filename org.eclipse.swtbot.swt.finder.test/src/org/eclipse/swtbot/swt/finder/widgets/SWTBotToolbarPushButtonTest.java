@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,16 +7,17 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - support click with modifiers
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertNotSameWidget;
-import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.pass;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
@@ -81,9 +82,21 @@ public class SWTBotToolbarPushButtonTest extends AbstractControlExampleTest {
 	public void clicksToolBarButton() throws Exception {
 		try {
 			bot.checkBox("Listen").select();
-			SWTBotToolbarButton button = bot.toolbarButtonWithTooltip("SWT.PUSH");
+			final SWTBotToolbarButton button = bot.toolbarButton("Push");
 			button.click();
-			assertTextContains("Selection [13]: SelectionEvent{ToolItem ", bot.textInGroup("Listeners").widget);
+			assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Push} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, button.widget) + " text=null doit=true}");
+		} finally {
+			bot.checkBox("Listen").deselect();
+		}
+	}
+
+	@Test
+	public void clicksToolBarButtonWithModifier() throws Exception {
+		try {
+			bot.checkBox("Listen").select();
+			final SWTBotToolbarButton button = bot.toolbarButton("Push");
+			button.click(SWT.SHIFT);
+			assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Push} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(SWT.SHIFT, button.widget) + " text=null doit=true}");
 		} finally {
 			bot.checkBox("Listen").deselect();
 		}

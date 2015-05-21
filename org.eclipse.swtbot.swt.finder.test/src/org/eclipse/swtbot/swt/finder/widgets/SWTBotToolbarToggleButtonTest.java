@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,12 +7,14 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - support click with modifiers
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertNotSameWidget;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +37,14 @@ public class SWTBotToolbarToggleButtonTest extends AbstractControlExampleTest {
 	public void clicksCheckboxButton() throws Exception {
 		SWTBotToolbarToggleButton button = bot.toolbarToggleButton("Check");
 		button.click();
-		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Check} time=280949700 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, button.widget) + " text=null doit=true}\n");
+		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Check} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, button.widget) + " text=null doit=true}\n");
+	}
+
+	@Test
+	public void clicksCheckboxButtonWithModifier() throws Exception {
+		SWTBotToolbarToggleButton button = bot.toolbarToggleButton("Check");
+		button.click(SWT.SHIFT);
+		assertEventMatches(bot.textInGroup("Listeners"), "Selection [13]: SelectionEvent{ToolItem {Check} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(SWT.SHIFT, button.widget) + " text=null doit=true}\n");
 	}
 
 	@Test

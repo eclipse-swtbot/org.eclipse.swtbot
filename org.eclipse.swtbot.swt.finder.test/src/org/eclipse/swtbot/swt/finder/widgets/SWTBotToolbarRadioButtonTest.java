@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - fix click behavior
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -26,7 +27,7 @@ public class SWTBotToolbarRadioButtonTest extends AbstractControlExampleTest {
 
 	@Test
 	public void findsToolBarButtonWithIndex() throws Exception {
-		SWTBotToolbarRadioButton button0 = bot.toolbarRadioButton("Radio");
+		SWTBotToolbarRadioButton button0 = bot.toolbarRadioButton("Radio", 0);
 		SWTBotToolbarRadioButton button1 = bot.toolbarRadioButton("Radio", 1);
 		assertNotSameWidget(button0.widget, button1.widget);
 	}
@@ -39,36 +40,69 @@ public class SWTBotToolbarRadioButtonTest extends AbstractControlExampleTest {
 	}
 
 	@Test
+	public void clickingRadioButtonDeselectsOther() throws Exception {
+		SWTBotToolbarRadioButton button0 = bot.toolbarRadioButton("Radio", 0);
+		SWTBotToolbarRadioButton button1 = bot.toolbarRadioButton("Radio", 1);
+		button0.click();
+		assertTrue(button0.isChecked());
+		assertTrue(!button1.isChecked());
+		button0.click();
+		assertTrue(button0.isChecked());
+		assertTrue(!button1.isChecked());
+		button1.click();
+		assertTrue(!button0.isChecked());
+		assertTrue(button1.isChecked());
+	}
+
+	@Test
 	public void togglesRadioButton() throws Exception {
 		SWTBotToolbarRadioButton button = bot.toolbarRadioButton("Radio");
 		boolean checked = button.isChecked();
 		button.toggle();
 		assertTrue(checked != button.isChecked());
+		button.toggle();
+		assertTrue(checked == button.isChecked());
 	}
 
 	@Test
-	public void clickingRadioButtonTogglesIt() throws Exception {
-		SWTBotToolbarRadioButton button = bot.toolbarRadioButton("Radio");
-		boolean checked = button.isChecked();
-		button.click();
-		assertTrue(checked != button.isChecked());
+	public void togglingRadioButtonDeselectsOtherConditionally() throws Exception {
+		SWTBotToolbarRadioButton button0 = bot.toolbarRadioButton("Radio", 0);
+		SWTBotToolbarRadioButton button1 = bot.toolbarRadioButton("Radio", 1);
+		button0.deselect();
+		button1.select();
+		assertTrue(!button0.isChecked());
+		assertTrue(button1.isChecked());
+		button0.toggle();
+		assertTrue(button0.isChecked());
+		assertTrue(!button1.isChecked());
+		button0.toggle();
+		assertTrue(!button0.isChecked());
+		assertTrue(!button1.isChecked());
+		button0.toggle();
+		assertTrue(button0.isChecked());
+		assertTrue(!button1.isChecked());
 	}
 
 	@Test
 	public void selectsRadioButton() throws Exception {
 		SWTBotToolbarRadioButton button = bot.toolbarRadioButton("Radio");
-		boolean checked = button.isChecked();
+		button.deselect();
+		assertTrue(!button.isChecked());
 		button.select();
-		assertTrue(checked != button.isChecked());
+		assertTrue(button.isChecked());
+		button.select();
+		assertTrue(button.isChecked());
 	}
 
 	@Test
 	public void deselectsRadioButton() throws Exception {
 		SWTBotToolbarRadioButton button = bot.toolbarRadioButton("Radio");
 		button.select();
-		boolean checked = button.isChecked();
+		assertTrue(button.isChecked());
 		button.deselect();
-		assertTrue(checked != button.isChecked());
+		assertTrue(!button.isChecked());
+		button.deselect();
+		assertTrue(!button.isChecked());
 	}
 
 	@Before

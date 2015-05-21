@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,17 +7,20 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - fix click behavior
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.Style;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
@@ -56,29 +59,77 @@ public class SWTBotToolbarRadioButton extends SWTBotToolbarButton {
 	}
 
 	/**
-	 * Click on the tool item. This will toggle the tool item.
+	 * Toggle the tool item.
 	 *
 	 * @return itself
 	 */
 	public SWTBotToolbarRadioButton toggle() {
+		log.debug(MessageFormat.format("Toggling {0}", this)); //$NON-NLS-1$
+		waitForEnabled();
+		internalSetSelection(!isChecked());
+		sendNotifications();
+		log.debug(MessageFormat.format("Toggled {0}", this)); //$NON-NLS-1$
+		return this;
+	}
+
+	@Override
+	public SWTBotToolbarRadioButton click() {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
 		waitForEnabled();
-		internalToggle();
+		internalSetSelection(true);
 		sendNotifications();
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
 		return this;
 	}
 
-	public SWTBotToolbarRadioButton click() {
-		return toggle();
-	}
-
-	private void internalToggle() {
+	private void internalSetSelection(final boolean selected) {
+		if (selected) {
+			final SWTBotToolbarRadioButton otherSelectedButton = otherSelectedButton();
+			if (otherSelectedButton != null) {
+				otherSelectedButton.notify(SWT.Deactivate);
+				asyncExec(new VoidResult() {
+					public void run() {
+						otherSelectedButton.widget.setSelection(false);
+					}
+				});
+				otherSelectedButton.notify(SWT.Selection);
+			}
+		}
 		syncExec(new VoidResult() {
 			public void run() {
-				widget.setSelection(!widget.getSelection());
+				widget.setSelection(selected);
 			}
 		});
+	}
+
+	private SWTBotToolbarRadioButton otherSelectedButton() {
+		ToolItem other = syncExec(new WidgetResult<ToolItem>() {
+			public ToolItem run() {
+				Widget[] siblings = SWTUtils.siblings(widget);
+				boolean ownGroup = false;
+				ToolItem selected = null;
+				for (Widget sibling : siblings) {
+					if (sibling == widget) {
+						ownGroup = true;
+					} else if (((sibling instanceof ToolItem) && hasStyle(sibling, SWT.RADIO))) {
+						if (((ToolItem) sibling).getSelection()) {
+							selected = (ToolItem) sibling;
+						}
+					} else if ((sibling instanceof ToolItem) && hasStyle(sibling, SWT.SEPARATOR)) {
+						ownGroup = false;
+						selected = null;
+					}
+					if (ownGroup && selected != null) {
+						return selected;
+					}
+				}
+				return null;
+			}
+		});
+
+		if (other != null)
+			return new SWTBotToolbarRadioButton(other);
+		return null;
 	}
 
 	/**

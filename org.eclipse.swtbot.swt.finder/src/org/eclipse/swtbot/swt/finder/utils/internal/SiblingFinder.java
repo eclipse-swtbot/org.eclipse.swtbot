@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - support tool item
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.utils.internal;
 
@@ -14,6 +15,7 @@ package org.eclipse.swtbot.swt.finder.utils.internal;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 
@@ -49,6 +51,8 @@ public final class SiblingFinder implements ArrayResult<Widget> {
 			siblings = children(((Control) w).getParent());
 		else if (isTabItem(w))
 			siblings = ((TabItem) w).getParent().getItems();
+		else if (isToolItem(w))
+			siblings = ((ToolItem) w).getParent().getItems();
 		return siblings;
 	}
 
@@ -83,5 +87,15 @@ public final class SiblingFinder implements ArrayResult<Widget> {
 	 */
 	private boolean isTabItem(Widget w) {
 		return w instanceof TabItem;
+	}
+
+	/**
+	 * Gets if this is a tool item widget.
+	 *
+	 * @param w The widget.
+	 * @return <code>true</code> if it is a tool item. Otherwise <code>false</code>.
+	 */
+	private boolean isToolItem(Widget w) {
+		return w instanceof ToolItem;
 	}
 }

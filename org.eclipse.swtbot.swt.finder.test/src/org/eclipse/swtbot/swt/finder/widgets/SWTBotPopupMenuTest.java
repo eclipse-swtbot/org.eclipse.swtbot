@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Fix radio menu item click behavior (Bug 451126 & Bug 397649)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -16,6 +17,7 @@ import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
@@ -61,6 +63,31 @@ public class SWTBotPopupMenuTest extends AbstractControlExampleTest {
 		String expectedWindows = "Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=";
 		assertThat(text, AnyOf.anyOf(containsString(expectedWindows), containsString(expectedLinux)));
 		assertTextContains("Selection [13]: SelectionEvent{MenuItem {Push} time=", bot.textInGroup("Listeners").widget);
+	}
+
+	@Test
+	public void clicksCheckMenuItem() throws Exception {
+		SWTBotMenu item = popupShell.contextMenu("Check");
+		boolean checked = item.isChecked();
+		item.click();
+		assertTrue(checked != item.isChecked());
+		item.click();
+		assertTrue(checked == item.isChecked());
+	}
+
+	@Test
+	public void clicksRadioMenuItem() throws Exception {
+		SWTBotMenu item1 = popupShell.contextMenu("Radio1");
+		SWTBotMenu item2 = popupShell.contextMenu("Radio2");
+		item1.click();
+		assertTrue(item1.isChecked());
+		assertTrue(!item2.isChecked());
+		item1.click();
+		assertTrue(item1.isChecked());
+		assertTrue(!item2.isChecked());
+		item2.click();
+		assertTrue(!item1.isChecked());
+		assertTrue(item2.isChecked());
 	}
 
 	@Before

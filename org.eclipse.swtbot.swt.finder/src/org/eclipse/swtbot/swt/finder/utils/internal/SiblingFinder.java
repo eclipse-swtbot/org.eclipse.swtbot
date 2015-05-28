@@ -7,13 +7,14 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
- *     Patrick Tasse - support tool item
+ *     Patrick Tasse - support tool item and menu item
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.utils.internal;
 
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
@@ -53,6 +54,8 @@ public final class SiblingFinder implements ArrayResult<Widget> {
 			siblings = ((TabItem) w).getParent().getItems();
 		else if (isToolItem(w))
 			siblings = ((ToolItem) w).getParent().getItems();
+		else if (isMenuItem(w))
+			siblings = ((MenuItem) w).getParent().getItems();
 		return siblings;
 	}
 
@@ -97,5 +100,15 @@ public final class SiblingFinder implements ArrayResult<Widget> {
 	 */
 	private boolean isToolItem(Widget w) {
 		return w instanceof ToolItem;
+	}
+
+	/**
+	 * Gets if this is a menu item widget.
+	 *
+	 * @param w The widget.
+	 * @return <code>true</code> if it is a menu item. Otherwise <code>false</code>.
+	 */
+	private boolean isMenuItem(Widget w) {
+		return w instanceof MenuItem;
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Fix radio menu item click behavior (Bug 451126 & Bug 397649)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -24,6 +25,7 @@ import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
+import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
 
@@ -56,26 +58,83 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	public SWTBotMenu click() {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
 		waitForEnabled();
-		toggleSelection();
+		if (SWTUtils.hasStyle(widget, SWT.CHECK)) {
+			toggleCheckSelection();
+		} else if (SWTUtils.hasStyle(widget, SWT.RADIO)) {
+			setRadioSelection();
+		}
 		notify(SWT.Selection);
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
 		return this;
 	}
 
 	/**
-	 * Toggle the selection of the checkbox if applicable.
+	 * Toggle the selection of the check menu item.
 	 */
-	private void toggleSelection() {
+	private void toggleCheckSelection() {
 		syncExec(new VoidResult() {
 			public void run() {
-				if (hasStyle(widget, SWT.CHECK) || hasStyle(widget, SWT.RADIO))
-					widget.setSelection(!widget.getSelection());
+				widget.setSelection(!widget.getSelection());
 			}
 		});
 	}
 
 	/**
-	 * Gets the menu matching the given name.
+	 * Set the selection of the radio menu item and clear the selection of any
+	 * other radio menu item in the same group.
+	 */
+	private void setRadioSelection() {
+		final SWTBotMenu otherSelectedRadioItem = otherSelectedRadioItem();
+		if (otherSelectedRadioItem != null) {
+			otherSelectedRadioItem.notify(SWT.Deactivate);
+			asyncExec(new VoidResult() {
+				public void run() {
+					otherSelectedRadioItem.widget.setSelection(false);
+				}
+			});
+			otherSelectedRadioItem.notify(SWT.Selection);
+		}
+		syncExec(new VoidResult() {
+			public void run() {
+				widget.setSelection(true);
+			}
+		});
+	}
+
+	private SWTBotMenu otherSelectedRadioItem() {
+		MenuItem other = syncExec(new WidgetResult<MenuItem>() {
+			public MenuItem run() {
+				if (hasStyle(widget.getParent(), SWT.NO_RADIO_GROUP))
+					return null;
+				Widget[] siblings = SWTUtils.siblings(widget);
+				boolean ownGroup = false;
+				MenuItem selected = null;
+				for (Widget sibling : siblings) {
+					if (sibling == widget) {
+						ownGroup = true;
+					} else if (((sibling instanceof MenuItem) && hasStyle(sibling, SWT.RADIO))) {
+						if (((MenuItem) sibling).getSelection()) {
+							selected = (MenuItem) sibling;
+						}
+					} else if ((sibling instanceof MenuItem) && hasStyle(sibling, SWT.SEPARATOR)) {
+						ownGroup = false;
+						selected = null;
+					}
+					if (ownGroup && selected != null) {
+						return selected;
+					}
+				}
+				return null;
+			}
+		});
+
+		if (other != null)
+			return new SWTBotMenu(other);
+		return null;
+	}
+
+	/**
+	 * Gets the menu item matching the given name.
 	 *
 	 * @param menuName the name of the menu item that is to be found
 	 * @return the first menu that matches the menuName

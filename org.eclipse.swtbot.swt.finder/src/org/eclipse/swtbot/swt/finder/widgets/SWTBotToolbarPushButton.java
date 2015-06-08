@@ -51,6 +51,9 @@ public class SWTBotToolbarPushButton extends SWTBotToolbarButton {
 		Assert.isTrue(SWTUtils.hasStyle(w, SWT.PUSH), "Expecting a push button."); //$NON-NLS-1$
 	}
 
+	/**
+	 * @since 2.3
+	 */
 	@Override
 	public SWTBotToolbarPushButton click(int stateMask) {
 		log.debug(MessageFormat.format("Clicking on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$

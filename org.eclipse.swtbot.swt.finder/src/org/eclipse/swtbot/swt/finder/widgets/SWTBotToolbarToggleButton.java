@@ -70,6 +70,9 @@ public class SWTBotToolbarToggleButton extends SWTBotToolbarButton {
 		return this;
 	}
 
+	/**
+	 * @since 2.3
+	 */
 	@Override
 	public SWTBotToolbarToggleButton click(int stateMask) {
 		log.debug(MessageFormat.format("Clicking on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$

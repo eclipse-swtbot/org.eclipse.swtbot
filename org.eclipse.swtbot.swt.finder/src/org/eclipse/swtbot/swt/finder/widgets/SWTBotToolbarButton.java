@@ -66,6 +66,9 @@ public abstract class SWTBotToolbarButton extends AbstractSWTBot<ToolItem> {
 		sendNotifications(0);
 	}
 
+	/**
+	 * @since 2.3
+	 */
 	protected void sendNotifications(int stateMask) {
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);

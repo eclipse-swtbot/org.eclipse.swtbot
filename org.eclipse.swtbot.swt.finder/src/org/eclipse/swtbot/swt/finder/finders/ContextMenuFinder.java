@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,16 +7,19 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Fix ContextMenuFinder returns disposed menu items (Bug 458975)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.finders;
 
-
+import java.util.List;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
+import org.hamcrest.Matcher;
 
 /**
  * Finds context menus for a given control.
@@ -43,13 +46,11 @@ public class ContextMenuFinder extends MenuFinder {
 		this.control = control;
 	}
 
-	/**
-	 * Gets the menubar for the given shell.
-	 *
-	 * @see org.eclipse.swtbot.swt.finder.finders.MenuFinder#menuBar(org.eclipse.swt.widgets.Shell)
-	 * @param shell The shell to find the menu bar for.
-	 * @return The menu bar found.
-	 */
+	@Override
+	public List<MenuItem> findMenus(Matcher<MenuItem> matcher) {
+		return findMenus(menuBar(null), matcher, true);
+	}
+
 	@Override
 	protected Menu menuBar(final Shell shell) {
 		return UIThreadRunnable.syncExec(display, new WidgetResult<Menu>() {

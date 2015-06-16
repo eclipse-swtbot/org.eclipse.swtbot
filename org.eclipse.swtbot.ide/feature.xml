@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.swtbot.ide"
       label="SWTBot IDE Features"
-      version="2.3.0.qualifier"
+      version="2.3.1.qualifier"
       provider-name="Eclipse.org"
       plugin="org.eclipse.swtbot.eclipse.ui"
       license-feature="org.eclipse.license"

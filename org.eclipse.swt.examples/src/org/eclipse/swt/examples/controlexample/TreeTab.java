@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2007, 2013 IBM Corporation and others.
+ * Copyright (c) 2000, 2015 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Kristine Jetzke - Bug 379185     
+ *     Patrick Tasse - Add column header popup menu item
  *******************************************************************************/
 package org.eclipse.swt.examples.controlexample;
 
@@ -87,16 +88,38 @@ class TreeTab extends ScrollableTab {
 	}
 
 	protected void specialPopupMenuItems(Menu menu, Event event) {
-		MenuItem item = new MenuItem(menu, SWT.PUSH);
-		item.setText("getItem(Point) on mouse coordinates");
-		final Tree t = (Tree) event.widget;
-		menuMouseCoords = t.toControl(new Point(event.x, event.y));
-		item.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				eventConsole.append("getItem(Point(" + menuMouseCoords + ")) returned: " + t.getItem(menuMouseCoords));
-				eventConsole.append("\n");
-			};
-		});
+		final Tree tree = (Tree) event.widget;
+		Point p = tree.getParent().toDisplay(tree.getLocation());
+		if (headerVisibleButton.getSelection() && event.y >= p.y &&
+				event.y < p.y + tree.getHeaderHeight()) {
+			int x = p.x;
+			for (int i : tree.getColumnOrder()) {
+				final TreeColumn column = tree.getColumn(i);
+				if (event.x >= x && event.x < x + column.getWidth()) {
+					MenuItem item = new MenuItem(menu, SWT.PUSH);
+					item.setText("Get Column Header Text");
+					item.addSelectionListener(new SelectionAdapter() {
+						public void widgetSelected(SelectionEvent e) {
+							eventConsole.append("Get Column Header Text returned: "
+									+ column.getText());
+							eventConsole.append("\n");
+						};
+					});
+					break;
+				}
+				x += column.getWidth();
+			}
+		} else {
+			MenuItem item = new MenuItem(menu, SWT.PUSH);
+			item.setText("getItem(Point) on mouse coordinates");
+			menuMouseCoords = tree.toControl(new Point(event.x, event.y));
+			item.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent e) {
+					eventConsole.append("getItem(Point(" + menuMouseCoords + ")) returned: " + tree.getItem(menuMouseCoords));
+					eventConsole.append("\n");
+				};
+			});
+		}
 	}
 
 	void changeFontOrColor(int index) {

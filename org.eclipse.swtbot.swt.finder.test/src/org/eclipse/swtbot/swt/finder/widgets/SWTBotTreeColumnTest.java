@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 Robin Stocker and others.
+ * Copyright (c) 2013, 2015 Robin Stocker and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Robin Stocker - initial implementation
+ *     Patrick Tasse - Add column header context menu test
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -43,12 +44,34 @@ public class SWTBotTreeColumnTest extends AbstractControlExampleTest {
 		assertTextContains("data=null button=1 stateMask=" + toStateMask(524288, tree.widget) + " x=0 y=0 count=1}", text);
 	}
 
+	@Test
+	public void clicksHeaderContextMenuItem() throws Exception {
+		Text text = bot.textInGroup("Listeners").widget;
+
+		SWTBotTreeColumn header = tree.header("Name");
+		header.contextMenu("Get Column Header Text").click();
+		assertTextContains("Get Column Header Text returned: Name", text);
+
+		header = tree.header("Type");
+		header.contextMenu("Get Column Header Text").click();
+		assertTextContains("Get Column Header Text returned: Type", text);
+
+		header = tree.header("Size");
+		header.contextMenu("Get Column Header Text").click();
+		assertTextContains("Get Column Header Text returned: Size", text);
+
+		header = tree.header("Modified");
+		header.contextMenu("Get Column Header Text").click();
+		assertTextContains("Get Column Header Text returned: Modified", text);
+	}
+
 	@Before
 	public void prepareExample() throws Exception {
 		bot.tabItem("Tree").activate();
 		bot.radio("SWT.MULTI").click();
 		bot.checkBox("Header Visible").select();
 		bot.checkBox("Multiple Columns").select();
+		bot.checkBox("Popup Menu").select();
 		bot.checkBox("Listen").select();
 		bot.button("Clear").click();
 		tree = bot.treeInGroup("Tree");

@@ -68,6 +68,11 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 		return this;
 	}
 
+	@Override
+	public SWTBotMenu contextMenu(String text) throws WidgetNotFoundException {
+		return menu(text);
+	}
+
 	/**
 	 * Toggle the selection of the check menu item.
 	 */

@@ -31,6 +31,11 @@
     <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Doomph.redirection.swtbot"
+      value="=http://git.eclipse.org/c/swtbot/org.eclipse.swtbot.git/plain/devtools/oomph/SWTBot.setup->${git.clone.location|uri}/devtools/oomph/SWTBot.setup"
+      vm="true"/>
+  <setupTask
       xsi:type="setup:ResourceCreationTask"
       excludedTriggers="STARTUP MANUAL"
       content="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;section name=&quot;Workbench&quot;>&#xD;&#xA;&#x9;&lt;section name=&quot;org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart&quot;>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;true&quot; key=&quot;group_libraries&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;false&quot; key=&quot;linkWithEditor&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;2&quot; key=&quot;layout&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;2&quot; key=&quot;rootMode&quot;/>&#xD;&#xA;&#x9;&#x9;&lt;item value=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;packageExplorer configured=&amp;quot;true&amp;quot; group_libraries=&amp;quot;1&amp;quot; layout=&amp;quot;2&amp;quot; linkWithEditor=&amp;quot;0&amp;quot; rootMode=&amp;quot;2&amp;quot; sortWorkingSets=&amp;quot;false&amp;quot; workingSetName=&amp;quot;&amp;quot;&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;workingSet editPageId=&amp;quot;org.eclipse.jdt.internal.ui.OthersWorkingSet&amp;quot; factoryID=&amp;quot;org.eclipse.ui.internal.WorkingSetFactory&amp;quot; id=&amp;quot;1382792884467_1&amp;quot; label=&amp;quot;Other Projects&amp;quot; name=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;activeWorkingSet workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;allWorkingSets workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/packageExplorer&amp;gt;&quot; key=&quot;memento&quot;/>&#xD;&#xA;&#x9;&lt;/section>&#xD;&#xA;&lt;/section>&#xD;&#xA;"
@@ -44,48 +49,125 @@
       defaultValue="Mars"
       storageURI="scope://Workspace"/>
   <setupTask
-      xsi:type="setup.p2:P2Task"
-      id=""
-      label="${scope.project.label}">
-    <requirement
-        name="org.eclipse.mylyn.ide_feature.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.java_feature.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.pde_feature.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.team_feature.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.gerrit.feature.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn_feature.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.bugzilla_feature.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.git.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.builds.feature.group"/>
-    <requirement
-        name="org.eclipse.mylyn.hudson.feature.group"/>
-    <requirement
-        name="org.eclipse.egit.feature.group"/>
-    <requirement
-        name="org.eclipse.egit.mylyn.feature.group"/>
-    <requirement
-        name="org.eclipse.m2e.feature.feature.group"/>
-    <requirement
-        name="org.sonatype.tycho.m2e.feature.feature.group"/>
-    <requirement
-        name="edu.umd.cs.findbugs.plugin.eclipse.feature.group"
-        optional="true"/>
-    <requirement
-        name="org.eclipse.pde.api.tools.ee.feature.feature.group"
-        optional="true"/>
-    <repository
-        url="http://findbugs.cs.umd.edu/eclipse/"/>
-    <repository
-        url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.8.0/N/LATEST"/>
-    <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
+      xsi:type="setup:CompoundTask"
+      name="Eclipse IDE Plugins">
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="Eclipse SDK">
+      <requirement
+          name="org.eclipse.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.pde.api.tools.ee.feature.feature.group"
+          optional="true"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        id="p2.egit"
+        label="EGit"
+        licenseConfirmationDisabled="true">
+      <requirement
+          name="org.eclipse.egit.feature.group"/>
+      <repository
+          url="http://download.eclipse.org/egit/updates"/>
+      <description>Git connector</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        id="p2.m2e"
+        label="M2E"
+        licenseConfirmationDisabled="true">
+      <requirement
+          name="org.sonatype.tycho.m2e.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.m2e.feature.feature.group"/>
+      <repository
+          url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.8.0/N/LATEST"/>
+      <description>Maven connector</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        id="p2.mylyn"
+        label="Mylyn"
+        licenseConfirmationDisabled="true">
+      <requirement
+          name="org.eclipse.mylyn.bugzilla_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.builds.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.context_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.discovery.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.gerrit.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.git.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.hudson.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.ide_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.java_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.monitor.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.pde_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.tasks.ide.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.team_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.wikitext_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.egit.mylyn.feature.group"/>
+      <repository
+          url="http://download.eclipse.org/mylyn/releases/latest"/>
+      <description>Task and build connector</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="Findbugs">
+      <requirement
+          name="edu.umd.cs.findbugs.plugin.eclipse.feature.group"
+          optional="true"/>
+      <repository
+          url="http://findbugs.cs.umd.edu/eclipse/"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="Oomph Extensions">
+      <requirement
+          name="org.eclipse.oomph.setup.git.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.jdt.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.maven.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.mylyn.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.pde.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.projectset.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.projects.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.targlets.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.ui.ide.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.workbench.feature.group"/>
+      <requirement
+          name="org.eclipse.oomph.setup.workingsets.feature.group"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="Eclemma Jacoco">
+      <requirement
+          name="com.mountainminds.eclemma.feature.feature.group"/>
+      <repository
+          url="http://update.eclemma.org"/>
+    </setupTask>
   </setupTask>
   <setupTask
       xsi:type="setup:CompoundTask"
@@ -223,7 +305,7 @@
             nature="org.eclipse.pde.PluginNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.9/@workingSets.1"/>
+            excludedWorkingSet="//@setupTasks.10/@workingSets.1"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -238,7 +320,7 @@
             nature="org.eclipse.pde.FeatureNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.9/@workingSets.1"/>
+            excludedWorkingSet="//@setupTasks.10/@workingSets.1"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -250,7 +332,7 @@
             project="org.eclipse.swtbot"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.9/@workingSets.1"/>
+            excludedWorkingSet="//@setupTasks.10/@workingSets.1"/>
         <operand
             xsi:type="predicates:OrPredicate">
           <operand

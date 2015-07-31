@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,14 +19,15 @@ import static org.hamcrest.Matchers.allOf;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -56,7 +57,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.Traverse;
 import org.eclipse.swtbot.swt.finder.utils.WidgetTextDescription;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
-import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
 import org.hamcrest.StringDescription;
@@ -438,17 +439,23 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		Matcher<MenuItem> withMnemonic = withMnemonic(text);
 		final Matcher<MenuItem> matcher = allOf(widgetOfType(MenuItem.class), withMnemonic);
 		final ContextMenuFinder menuFinder = new ContextMenuFinder(control);
-
-		new SWTBot().waitUntil(new DefaultCondition() {
+		WaitForObjectCondition<MenuItem> condition = new WaitForObjectCondition<MenuItem>(matcher) {
 			public String getFailureMessage() {
 				return "Could not find context menu with text: " + text; //$NON-NLS-1$
 			}
 
-			public boolean test() throws Exception {
-				return !menuFinder.findMenus(matcher).isEmpty();
+			@Override
+			protected List<MenuItem> findMatches() {
+				for (MenuItem menuItem : menuFinder.findMenus(matcher)) {
+					if (!menuItem.isDisposed()) {
+						return Collections.singletonList(menuItem);
+					}
+				}
+				return Collections.<MenuItem>emptyList();
 			}
-		});
-		return new SWTBotMenu(menuFinder.findMenus(matcher).get(0), matcher);
+		};
+		new SWTBot().waitUntil(condition);
+		return new SWTBotMenu(condition.get(0), matcher);
 	}
 
 	/**

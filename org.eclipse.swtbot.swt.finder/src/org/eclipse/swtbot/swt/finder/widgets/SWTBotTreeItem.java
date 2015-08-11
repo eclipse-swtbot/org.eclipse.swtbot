@@ -554,8 +554,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		select();
 		notifyTree(SWT.MouseDown, createMouseEvent(0, 0, 3, 0, 1));
 		notifyTree(SWT.MouseUp, createMouseEvent(0, 0, 3, 0, 1));
-		notifyTree(SWT.MenuDetect);
-		return new SWTBotMenu(ContextMenuHelper.contextMenu(swtBotTree, text));
+		return new SWTBotMenu(ContextMenuHelper.contextMenu(swtBotTree, widget, text));
 	}
 
 	/**

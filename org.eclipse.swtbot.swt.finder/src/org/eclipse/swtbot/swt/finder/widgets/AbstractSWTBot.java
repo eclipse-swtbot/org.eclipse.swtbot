@@ -33,10 +33,15 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuFinder;
+import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
 import org.eclipse.swtbot.swt.finder.keyboard.KeyboardFactory;
@@ -436,6 +441,8 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @since 2.0
 	 */
 	protected SWTBotMenu contextMenu(final Control control, final String text) {
+		ContextMenuHelper.notifyMenuDetect(control, widget);
+
 		Matcher<MenuItem> withMnemonic = withMnemonic(text);
 		final Matcher<MenuItem> matcher = allOf(widgetOfType(MenuItem.class), withMnemonic);
 		final ContextMenuFinder menuFinder = new ContextMenuFinder(control);

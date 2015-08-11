@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Lorenzo Bettini and others.
+ * Copyright (c) 2012, 2015 Lorenzo Bettini and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,11 +17,20 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.results.Result;
+import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot;
 import org.hamcrest.Matcher;
@@ -37,17 +46,41 @@ import org.hamcrest.Matcher;
  */
 public class ContextMenuHelper {
 
+	/**
+	 * Gets the context menu matching the text.
+	 *
+	 * @param control
+	 *            the control to get the context menu from
+	 * @param texts
+	 *            the text to match. Multiple Strings can be used to match
+	 *            sub-menus.
+	 */
 	public static MenuItem contextMenu(
 			final AbstractSWTBot<? extends Control> bot, final String... texts) {
+		return contextMenu(bot, bot.widget, texts);
+	}
+
+	/**
+	 * Gets the context menu matching the text.
+	 *
+	 * @param control
+	 *            the control to get the context menu from
+	 * @param widget
+	 *            the widget on which the context menu is triggered on. For
+	 *            example, the context menu can be triggered on a TreeItem but
+	 *            the context menu is on the Tree.
+	 * @param texts
+	 *            the text to match. Multiple Strings can be used to match
+	 *            sub-menus.
+	 */
+	public static MenuItem contextMenu(
+			final AbstractSWTBot<? extends Control> bot, final Widget widget, final String... texts) {
 		return UIThreadRunnable.syncExec(new WidgetResult<MenuItem>() {
 			public MenuItem run() {
 				MenuItem menuItem = null;
 				Control control = bot.widget;
 
-				// MenuDetectEvent added by Stefan Schaefer
-				Event event = new Event();
-				control.notifyListeners(SWT.MenuDetect, event);
-				if (!event.doit) {
+				if (!notifyMenuDetect(control, widget)) {
 					return null;
 				}
 
@@ -66,6 +99,118 @@ public class ContextMenuHelper {
 				}
 
 				return menuItem;
+			}
+		});
+	}
+
+	/**
+	 * Notify the control of SWT.MenuDetect when a context menu occurs on a
+	 * widget.
+	 *
+	 * @param control
+	 *            the control that should be notified
+	 * @param widget
+	 *            the widget on which the context menu was triggered on
+	 */
+	public static boolean notifyMenuDetect(final Control control, final Widget widget) {
+		Rectangle bounds = getBounds(widget);
+		if (bounds == null) {
+			return false;
+		}
+
+		final Event event = new Event();
+		event.time = (int) System.currentTimeMillis();
+		event.widget = widget;
+		event.display = control.getDisplay();
+		event.widget = control;
+		event.x = bounds.x + bounds.width / 2;
+		event.y = bounds.y + bounds.height / 2;
+		UIThreadRunnable.syncExec(new VoidResult() {
+			public void run() {
+				control.notifyListeners(SWT.MenuDetect, event);
+			}
+		});
+		return event.doit;
+	}
+
+	/**
+	 * Get the bounds of the widget in display-relative coordinates.
+	 *
+	 * @return the widget bounds or null
+	 */
+	private static Rectangle getBounds(final Widget widget) {
+
+		return UIThreadRunnable.syncExec(widget.getDisplay(), new Result<Rectangle>() {
+			public Rectangle run() {
+				Control parent;
+				Rectangle widgetBounds;
+				// Control, TableItem, TreeItem don't have a common interface for this
+				if (widget instanceof Control) {
+					parent = ((Control) widget).getParent();
+					widgetBounds = ((Control) widget).getBounds();
+				} else if (widget instanceof TableItem) {
+					TableItem tableItem = (TableItem) widget;
+					parent = tableItem.getParent();
+					widgetBounds = getTableItemBounds(tableItem);
+				} else if (widget instanceof TreeItem) {
+					TreeItem treeItem = (TreeItem) widget;
+					parent = treeItem.getParent();
+					widgetBounds = getTreeItemBounds(treeItem);
+				} else {
+					return null;
+				}
+
+				Point location = new Point(widgetBounds.x, widgetBounds.y);
+				if (parent != null) {
+					location = parent.toDisplay(location);
+				}
+
+				return new Rectangle(location.x, location.y, widgetBounds.width, widgetBounds.height);
+			}
+
+			/**
+			 * For both table and tree items, we consider the bounds to be from
+			 * the start of the table to the end of the last column. On some
+			 * platforms, there can be empty space between the last column and
+			 * the end of the table.
+			 */
+			private Rectangle getTableItemBounds(TableItem tableItem) {
+				Table table = tableItem.getParent();
+				int[] columnOrder = table.getColumnOrder();
+				Rectangle itemBounds;
+				if (columnOrder.length > 0) {
+					// Use the bounds of the last column to know where the item really ends
+					int lastColumnIndex = columnOrder[columnOrder.length - 1];
+					itemBounds = tableItem.getBounds(lastColumnIndex);
+					itemBounds.width = itemBounds.x + itemBounds.width;
+				} else {
+					Rectangle tableBounds = table.getBounds();
+					itemBounds = tableItem.getBounds();
+					itemBounds.width = tableBounds.width;
+				}
+				itemBounds.x = 0;
+				return itemBounds;
+			}
+
+			/**
+			 * See {@link #getTableItemBounds}
+			 */
+			private Rectangle getTreeItemBounds(TreeItem treeItem) {
+				Tree tree = treeItem.getParent();
+				int[] columnOrder = tree.getColumnOrder();
+				Rectangle itemBounds;
+				if (columnOrder.length > 0) {
+					// Use the bounds of the last column to know where the item really ends
+					int lastColumnIndex = columnOrder[columnOrder.length - 1];
+					itemBounds = treeItem.getBounds(lastColumnIndex);
+					itemBounds.width = itemBounds.x + itemBounds.width;
+				} else {
+					Rectangle treeBounds = tree.getBounds();
+					itemBounds = treeItem.getBounds();
+					itemBounds.width = treeBounds.width;
+				}
+				itemBounds.x = 0;
+				return itemBounds;
 			}
 		});
 	}

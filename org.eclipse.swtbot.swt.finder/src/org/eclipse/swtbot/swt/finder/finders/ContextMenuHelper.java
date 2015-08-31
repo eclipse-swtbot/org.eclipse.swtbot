@@ -24,8 +24,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -120,7 +122,6 @@ public class ContextMenuHelper {
 
 		final Event event = new Event();
 		event.time = (int) System.currentTimeMillis();
-		event.widget = widget;
 		event.display = control.getDisplay();
 		event.widget = control;
 		event.x = bounds.x + bounds.width / 2;
@@ -144,7 +145,7 @@ public class ContextMenuHelper {
 			public Rectangle run() {
 				Control parent;
 				Rectangle widgetBounds;
-				// Control, TableItem, TreeItem don't have a common interface for this
+				// Control, TableItem, TreeItem, etc don't have a common interface for this
 				if (widget instanceof Control) {
 					parent = ((Control) widget).getParent();
 					widgetBounds = ((Control) widget).getBounds();
@@ -156,16 +157,49 @@ public class ContextMenuHelper {
 					TreeItem treeItem = (TreeItem) widget;
 					parent = treeItem.getParent();
 					widgetBounds = getTreeItemBounds(treeItem);
+				} else if (widget instanceof TableColumn) {
+					TableColumn tableColumn = (TableColumn) widget;
+					parent = tableColumn.getParent();
+					widgetBounds = getTableColumnBounds(tableColumn);
+					// We use the Table's parent coordinate system as it is a
+					// sure way of getting the very top left corner of the Table
+					// widget. The (0, 0) location in Table coordinates is not
+					// consistent across windowing system; sometimes it includes
+					// the header, sometimes not.
+					Rectangle grandParentWidgetBounds = toGrandParentBounds(parent, widgetBounds);
+					return toDisplayBounds(parent.getParent(), grandParentWidgetBounds);
+				} else if (widget instanceof TreeColumn) {
+					TreeColumn treeColumn = (TreeColumn) widget;
+					parent = treeColumn.getParent();
+					widgetBounds = getTreeColumnBounds(treeColumn);
+					Rectangle grandParentWidgetBounds = toGrandParentBounds(parent, widgetBounds);
+					return toDisplayBounds(parent.getParent(), grandParentWidgetBounds);
 				} else {
 					return null;
 				}
 
-				Point location = new Point(widgetBounds.x, widgetBounds.y);
+				return toDisplayBounds(parent, widgetBounds);
+			}
+
+			/**
+			 * Convert the bounds (parent-relative) to the grand-parent-relative
+			 * bounds by using the parent location.
+			 */
+			private Rectangle toGrandParentBounds(Control parent, Rectangle bounds) {
+				Point parentLocation = parent.getLocation();
+				return new Rectangle(parentLocation.x + bounds.x, parentLocation.y + bounds.y, bounds.width, bounds.height);
+			}
+
+			/**
+			 * Convert the bounds (parent-relative) to display-relative bounds.
+			 */
+			private Rectangle toDisplayBounds(Control parent, Rectangle bounds) {
+				Point location = new Point(bounds.x, bounds.y);
 				if (parent != null) {
 					location = parent.toDisplay(location);
 				}
 
-				return new Rectangle(location.x, location.y, widgetBounds.width, widgetBounds.height);
+				return new Rectangle(location.x, location.y, bounds.width, bounds.height);
 			}
 
 			/**
@@ -211,6 +245,34 @@ public class ContextMenuHelper {
 				}
 				itemBounds.x = 0;
 				return itemBounds;
+			}
+
+			private Rectangle getTableColumnBounds(TableColumn tablecolumn) {
+				Table parent = tablecolumn.getParent();
+				Rectangle bounds = new Rectangle(0, 0, tablecolumn.getWidth(), parent.getHeaderHeight());
+				for (int i : parent.getColumnOrder()) {
+					TableColumn column = parent.getColumn(i);
+					if (column.equals(widget)) {
+						break;
+					} else {
+						bounds.x += column.getWidth();
+					}
+				}
+				return bounds;
+			}
+
+			private Rectangle getTreeColumnBounds(TreeColumn treecolumn) {
+				Tree parent = treecolumn.getParent();
+				Rectangle bounds = new Rectangle(0, 0, treecolumn.getWidth(), parent.getHeaderHeight());
+				for (int i : parent.getColumnOrder()) {
+					TreeColumn column = parent.getColumn(i);
+					if (column.equals(widget)) {
+						break;
+					} else {
+						bounds.x += column.getWidth();
+					}
+				}
+				return bounds;
 			}
 		});
 	}

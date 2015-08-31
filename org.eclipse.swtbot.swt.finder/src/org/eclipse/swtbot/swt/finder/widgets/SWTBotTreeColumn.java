@@ -12,15 +12,10 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
-import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.hamcrest.SelfDescribing;
 
@@ -93,35 +88,6 @@ public class SWTBotTreeColumn extends AbstractSWTBot<TreeColumn> {
 	@Override
 	public SWTBotMenu contextMenu(String text) throws WidgetNotFoundException {
 		new SWTBotTree(parent).waitForEnabled();
-		Rectangle bounds = getHeaderBounds();
-		Event event = createEvent();
-		event.widget = parent;
-		event.x = bounds.x + bounds.width / 2;
-		event.y = bounds.y + bounds.height / 2;
-		notify(SWT.MenuDetect, event, (Widget) parent);
 		return super.contextMenu(parent, text);
-	}
-
-	/**
-	 * Get the bounds of this column's header in display-relative coordinates.
-	 *
-	 * @return the column header bounds
-	 */
-	private Rectangle getHeaderBounds() {
-		return syncExec(new Result<Rectangle>() {
-			public Rectangle run() {
-				Point location = parent.getParent().toDisplay(parent.getLocation());
-				Rectangle bounds = new Rectangle(location.x, location.y, widget.getWidth(), parent.getHeaderHeight());
-				for (int i : parent.getColumnOrder()) {
-					TreeColumn column = parent.getColumn(i);
-					if (column.equals(widget)) {
-						break;
-					} else {
-						bounds.x += column.getWidth();
-					}
-				}
-				return bounds;
-			}
-		});
 	}
 }

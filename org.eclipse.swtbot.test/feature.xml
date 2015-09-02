@@ -58,7 +58,6 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.swtbot.eclipse.finder"/>
       <import plugin="org.eclipse.swtbot.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.apache.ant"/>
       <import plugin="org.junit"/>
    </requires>

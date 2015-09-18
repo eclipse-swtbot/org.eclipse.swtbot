@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2005 IBM Corporation and others.
+ * Copyright (c) 2000, 2015 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,18 +7,37 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Patrick Tasse - Support JFace MenuManager
  *******************************************************************************/
 package org.eclipse.swt.examples.controlexample;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -30,11 +49,15 @@ class MenuTab extends Tab {
 	Button	checkButton, cascadeButton, pushButton, radioButton, separatorButton;
 	Button	createButton, closeAllButton;
 	Button	imagesButton, acceleratorsButton, mnemonicsButton, subMenuButton, subSubMenuButton;
+	Button	menuManagerButton, dynamicButton;
 	Group	menuItemStyleGroup;
 
 	/* Variables used to track the open shells */
 	int		shellCount	= 0;
 	Shell[]	shells		= new Shell[4];
+
+	/* Map used to persist actions in dynamic menus */
+	Map<Menu, List<IAction>> actions = new HashMap<Menu, List<IAction>>();
 
 	/**
 	 * Creates the Tab within a given instance of ControlExample.
@@ -73,39 +96,24 @@ class MenuTab extends Tab {
 		Shell shell = new Shell(SWT.SHELL_TRIM | orientation);
 		shells[shellCount] = shell;
 		if (barButton.getSelection()) {
-			/* Create menu bar. */
-			Menu menuBar = new Menu(shell, SWT.BAR | radioBehavior);
-			shell.setMenuBar(menuBar);
-			hookListeners(menuBar);
-
-			if (dropDownButton.getSelection() && cascadeButton.getSelection()) {
-				/* Create cascade button and drop-down menu in menu bar. */
-				MenuItem item = new MenuItem(menuBar, SWT.CASCADE);
-				item.setText(getMenuItemText("Cascade"));
-				if (imagesButton.getSelection())
-					item.setImage(instance.images[ControlExample.ciOpenFolder]);
-				hookListeners(item);
-				Menu dropDownMenu = new Menu(shell, SWT.DROP_DOWN | radioBehavior);
-				item.setMenu(dropDownMenu);
-				hookListeners(dropDownMenu);
-
-				/* Create various menu items, depending on selections. */
-				createMenuItems(dropDownMenu, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+			if (!menuManagerButton.getSelection()) {
+				createMenuBar(shell, radioBehavior);
+			} else {
+				createDynamicMenuBar(shell);
 			}
 		}
 
 		if (popUpButton.getSelection()) {
-			/* Create pop-up menu. */
-			Menu popUpMenu = new Menu(shell, SWT.POP_UP | radioBehavior);
-			shell.setMenu(popUpMenu);
-			hookListeners(popUpMenu);
-
-			/* Create various menu items, depending on selections. */
-			createMenuItems(popUpMenu, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+			if (!menuManagerButton.getSelection()) {
+				createPopupMenu(shell, radioBehavior);
+			} else {
+				createDynamicPopupMenu(shell);
+			}
 		}
 
 		/* Set the size, title and open the shell. */
-		shell.setSize(300, 100);
+		Rectangle trim = shell.computeTrim(SWT.DEFAULT, SWT.DEFAULT, 300, 60);
+		shell.setSize(trim.width, trim.height);
 		shell.setText(ControlExample.getResourceString("Title") + shellCount);
 		shell.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
@@ -201,6 +209,10 @@ class MenuTab extends Tab {
 		subMenuButton.setText(ControlExample.getResourceString("SubMenu"));
 		subSubMenuButton = new Button(otherGroup, SWT.CHECK);
 		subSubMenuButton.setText(ControlExample.getResourceString("SubSubMenu"));
+		menuManagerButton = new Button(otherGroup, SWT.CHECK);
+		menuManagerButton.setText(ControlExample.getResourceString("MenuManager"));
+		dynamicButton = new Button(otherGroup, SWT.CHECK);
+		dynamicButton.setText(ControlExample.getResourceString("Dynamic"));
 
 		/* Create the "create" and "closeAll" buttons (and a 'filler' label to place them) */
 		new Label(controlGroup, SWT.NONE);
@@ -227,6 +239,13 @@ class MenuTab extends Tab {
 				subSubMenuButton.setEnabled(subMenuButton.getSelection());
 			}
 		});
+		menuManagerButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				dynamicButton.setEnabled(menuManagerButton.getSelection());
+				dynamicButton.setSelection(menuManagerButton.getSelection());
+				noRadioGroupButton.setEnabled(!menuManagerButton.getSelection());
+			}
+		});
 
 		/* Set the default state */
 		barButton.setSelection(true);
@@ -238,10 +257,94 @@ class MenuTab extends Tab {
 		radioButton.setSelection(true);
 		separatorButton.setSelection(true);
 		subSubMenuButton.setEnabled(subMenuButton.getSelection());
+		dynamicButton.setEnabled(menuManagerButton.getSelection());
+	}
+
+	/* Create menu bar. */
+	void createMenuBar(Shell shell, int radioBehavior) {
+		Menu menuBar = new Menu(shell, SWT.BAR | radioBehavior);
+		shell.setMenuBar(menuBar);
+		hookListeners(menuBar);
+
+		if (dropDownButton.getSelection() && cascadeButton.getSelection()) {
+			/* Create cascade button and drop-down menu in menu bar. */
+			MenuItem item = new MenuItem(menuBar, SWT.CASCADE);
+			item.setText(getMenuItemText("Cascade"));
+			if (imagesButton.getSelection())
+				item.setImage(instance.images[ControlExample.ciOpenFolder]);
+			hookListeners(item);
+			Menu dropDownMenu = new Menu(shell, SWT.DROP_DOWN | radioBehavior);
+			item.setMenu(dropDownMenu);
+			hookListeners(dropDownMenu);
+
+			/* Create various menu items, depending on selections. */
+			createMenuItems(dropDownMenu, radioBehavior, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+		}
+	}
+
+	/* Create dynamic menu bar using JFace MenuManager. */
+	void createDynamicMenuBar(Shell shell) {
+		MenuManager menuManager = new HookedMenuManager();
+		final Menu menuBar = menuManager.createMenuBar((Decorations) shell);
+		shell.setMenuBar(menuBar);
+		hookListeners(menuBar);
+
+		if (dropDownButton.getSelection() && cascadeButton.getSelection()) {
+			/* Create cascade button and drop-down menu in menu bar. */
+			MenuManager dropDownMenuManager = new HookedMenuManager(getMenuItemText("Cascade"));
+			dropDownMenuManager.setRemoveAllWhenShown(dynamicButton.getSelection());
+			menuManager.add(dropDownMenuManager);
+			if (imagesButton.getSelection()) {
+				dropDownMenuManager.setImageDescriptor(ImageDescriptor.createFromImage(instance.images[ControlExample.ciOpenFolder]));
+			}
+
+			if (dynamicButton.getSelection()) {
+				dropDownMenuManager.addMenuListener(new IMenuListener() {
+					public void menuAboutToShow(IMenuManager manager) {
+						/* Create various menu manager contribution items, depending on selections. */
+						createMenuContributionItems(manager, menuBar, 0, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+					}
+				});
+			} else {
+				createMenuContributionItems(dropDownMenuManager, menuBar, 0, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+			}
+			menuManager.update(false);
+		}
+
+	}
+
+	/* Create pop-up menu. */
+	void createPopupMenu(Shell shell, int radioBehavior) {
+		Menu popUpMenu = new Menu(shell, SWT.POP_UP | radioBehavior);
+		shell.setMenu(popUpMenu);
+		hookListeners(popUpMenu);
+
+		/* Create various menu items, depending on selections. */
+		createMenuItems(popUpMenu, radioBehavior, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+	}
+
+	/* Create dynamic pop-up menu using JFace MenuManager. */
+	void createDynamicPopupMenu(Shell shell) {
+		MenuManager menuManager = new HookedMenuManager();
+		menuManager.setRemoveAllWhenShown(dynamicButton.getSelection());
+		final Menu popupMenu = menuManager.createContextMenu(shell);
+		shell.setMenu(popupMenu);
+		hookListeners(popupMenu);
+
+		if (dynamicButton.getSelection()) {
+			menuManager.addMenuListener(new IMenuListener() {
+				public void menuAboutToShow(IMenuManager manager) {
+					/* Create various menu items, depending on selections. */
+					createMenuContributionItems(manager, popupMenu, 0, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+				}
+			});
+		} else {
+			createMenuContributionItems(menuManager, popupMenu, 0, subMenuButton.getSelection(), subSubMenuButton.getSelection());
+		}
 	}
 
 	/* Create various menu items, depending on selections. */
-	void createMenuItems(Menu menu, boolean createSubMenu, boolean createSubSubMenu) {
+	void createMenuItems(Menu menu, int radioBehavior, boolean createSubMenu, boolean createSubSubMenu) {
 		MenuItem item;
 		if (pushButton.getSelection()) {
 			item = new MenuItem(menu, SWT.PUSH);
@@ -292,12 +395,87 @@ class MenuTab extends Tab {
 			if (imagesButton.getSelection())
 				item.setImage(instance.images[ControlExample.ciOpenFolder]);
 			hookListeners(item);
-			Menu subMenu = new Menu(menu.getShell(), SWT.DROP_DOWN);
+			Menu subMenu = new Menu(menu.getShell(), SWT.DROP_DOWN | radioBehavior);
 			item.setMenu(subMenu);
 			hookListeners(subMenu);
 
-			createMenuItems(subMenu, createSubSubMenu, false);
+			createMenuItems(subMenu, radioBehavior, createSubSubMenu, false);
 		}
+	}
+
+	/* Create various menu manager contribution items, depending on selections. */
+	void createMenuContributionItems(IMenuManager menu, Menu rootMenu, int depth, boolean createSubMenu, boolean createSubSubMenu) {
+		if (pushButton.getSelection()) {
+			IAction action = getAction(rootMenu, depth, getMenuItemText("Push"), IAction.AS_PUSH_BUTTON, false,
+					SWT.MOD1 + SWT.MOD2 + 'P', ImageDescriptor.createFromImage(instance.images[ControlExample.ciClosedFolder]));
+			menu.add(action);
+		}
+
+		if (separatorButton.getSelection())
+			menu.add(new Separator());
+
+		if (checkButton.getSelection()) {
+			IAction action = getAction(rootMenu, depth, getMenuItemText("Check"), IAction.AS_CHECK_BOX, false,
+					SWT.MOD1 + SWT.MOD2 + 'C', ImageDescriptor.createFromImage(instance.images[ControlExample.ciOpenFolder]));
+			menu.add(action);
+		}
+
+		if (radioButton.getSelection()) {
+			IAction action = getAction(rootMenu, depth, getMenuItemText("1Radio"), IAction.AS_RADIO_BUTTON, true,
+					SWT.MOD1 + SWT.MOD2 + '1', ImageDescriptor.createFromImage(instance.images[ControlExample.ciTarget]));
+			menu.add(action);
+
+			action = getAction(rootMenu, depth, getMenuItemText("2Radio"), IAction.AS_RADIO_BUTTON, false,
+					SWT.MOD1 + SWT.MOD2 + '2', ImageDescriptor.createFromImage(instance.images[ControlExample.ciTarget]));
+			menu.add(action);
+		}
+
+		if (createSubMenu && cascadeButton.getSelection()) {
+			/* Create cascade button and drop-down menu for the sub-menu. */
+			MenuManager subMenuManager = new HookedMenuManager(getMenuItemText("Cascade"));
+			menu.add(subMenuManager);
+			if (imagesButton.getSelection())
+				subMenuManager.setImageDescriptor(ImageDescriptor.createFromImage(instance.images[ControlExample.ciOpenFolder]));
+
+			createMenuContributionItems(subMenuManager, rootMenu, depth + 1, createSubSubMenu, false);
+		}
+	}
+
+	/*
+	 * Creates an action and stores it in a map to preserve the action state.
+	 * Returns the stored action if it already exists in the map for the same
+	 * root menu, depth, text, and style.
+	 */
+	private IAction getAction(Menu rootMenu, int depth, String text, int style, boolean checked, int keycode, ImageDescriptor image) {
+		List<IAction> actionList = actions.get(rootMenu);
+		if (actionList == null) {
+			actionList = new ArrayList<IAction>();
+			actions.put(rootMenu, actionList);
+			rootMenu.addDisposeListener(new DisposeListener() {
+				public void widgetDisposed(DisposeEvent e) {
+					actions.remove(e.widget);
+				}
+			});
+		}
+		for (IAction action : actionList) {
+			if (action.getText().equals(text) && action.getStyle() == style) {
+				if (depth-- == 0) {
+					return action;
+				}
+			}
+		}
+		Action action = new Action(text, style) {};
+		actionList.add(action);
+		if (checked) {
+			action.setChecked(checked);
+		}
+		if (acceleratorsButton.getSelection()) {
+			action.setAccelerator(keycode);
+		}
+		if (imagesButton.getSelection()) {
+			action.setImageDescriptor(image);
+		}
+		return action;
 	}
 
 	String getMenuItemText(String item) {
@@ -320,4 +498,30 @@ class MenuTab extends Tab {
 	String getTabText() {
 		return "Menu";
 	}
+
+	/* Menu manager that hooks listeners to its widgets as they are created */
+	private class HookedMenuManager extends MenuManager {
+		public HookedMenuManager() {
+			this(null);
+		}
+
+		public HookedMenuManager(String text) {
+			super(text);
+		}
+
+		@Override
+		protected void doItemFill(IContributionItem ci, int index) {
+			super.doItemFill(ci, index);
+			Item item = getMenuItem(index);
+			hookListeners(item);
+			if (item instanceof MenuItem) {
+				MenuItem menuItem = (MenuItem) item;
+				Menu menu = menuItem.getMenu();
+				if (menu != null) {
+					hookListeners(menu);
+				}
+			}
+		}
+	}
+
 }

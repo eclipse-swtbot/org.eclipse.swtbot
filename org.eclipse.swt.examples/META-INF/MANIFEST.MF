@@ -23,6 +23,8 @@ Export-Package: org.eclipse.jface.snippets.viewers,
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.eclipse.core.commands.common,
+ org.eclipse.jface.action,
+ org.eclipse.jface.resource,
  org.eclipse.jface.viewers,
  org.eclipse.swt,
  org.eclipse.swt.accessibility,

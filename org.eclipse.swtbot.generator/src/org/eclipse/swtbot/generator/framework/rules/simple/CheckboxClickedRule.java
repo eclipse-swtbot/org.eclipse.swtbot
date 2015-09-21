@@ -28,7 +28,7 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 	@Override
 	public boolean appliesTo(Event event) {
 		return event.widget instanceof Button &&
-				(((Button)event.widget).getStyle() & SWT.RADIO) != 0
+				(((Button)event.widget).getStyle() & SWT.CHECK) != 0
 				&& event.type == SWT.Selection;
 	}
 
@@ -50,9 +50,9 @@ public class CheckboxClickedRule extends GenerationSimpleRule {
 		StringBuilder code = new StringBuilder();
 
 		if (this.buttonText != null) {
-			code.append("bot.radio(\"" + this.buttonText + "\")");
+			code.append("bot.checkBox(\"" + this.buttonText + "\")");
 		} else {
-			code.append("bot.radio(" + this.index + ")");
+			code.append("bot.checkBox(" + this.index + ")");
 		}
 		code.append(".click()");
 		actions.add(code.toString());

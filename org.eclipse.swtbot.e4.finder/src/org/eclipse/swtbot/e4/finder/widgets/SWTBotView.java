@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.menu.MToolBar;
 import org.eclipse.e4.ui.model.application.ui.menu.MToolBarElement;
+import org.eclipse.e4.ui.workbench.IPresentationEngine;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
@@ -245,6 +246,31 @@ public class SWTBotView {
 	public String getId() {
 		return this.part.getElementId();
 	}
+	
+	/**
+	 * Maximise the part's part-stack/sash.
+	 * @since 2.4
+	 */
+	public void maximise() {
+		this.part.getParent().getTags().add(IPresentationEngine.MAXIMIZED);
+	}
+	
+	/**
+	 * Minimise the part's part-stack/sash.
+	 * @since 2.4
+	 */
+	public void minimise() {
+		this.part.getParent().getTags().add(IPresentationEngine.MINIMIZED);
+	}
+	
+	/**
+	 * Restore the part's part-stack/sash.
+	 * @since 2.4
+	 */
+	public void restore() {
+		this.part.getParent().getTags().remove(IPresentationEngine.MAXIMIZED);
+		this.part.getParent().getTags().remove(IPresentationEngine.MINIMIZED);
+	}	
 
 	/**
 	 * Returns a SWTBot instance that matches the contents of this workbench part.

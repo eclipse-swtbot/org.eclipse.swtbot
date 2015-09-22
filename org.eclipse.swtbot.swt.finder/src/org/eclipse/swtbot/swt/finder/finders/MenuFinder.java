@@ -160,7 +160,12 @@ public class MenuFinder {
 				if (recursive)
 					result.addAll(findMenusInternal(menuItem.getMenu(), matcher, recursive));
 			}
-			bar.notifyListeners(SWT.Hide, new Event());
+			// Do not close menus which contain the item we're looking for - this destroys dynamic menu contributions
+			// giving us the SWT MenuItem but without a E4 model attached (and therefore cannot be used).
+			// @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=469581
+			if (result.isEmpty()) {
+			    bar.notifyListeners(SWT.Hide, new Event());
+			}
 		}
 		return new ArrayList<MenuItem>(result);
 	}

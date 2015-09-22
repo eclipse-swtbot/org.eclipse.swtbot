@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -145,7 +146,7 @@ public class MenuFinder {
 	private List<MenuItem> findMenusInternal(final Menu bar, final Matcher<MenuItem> matcher, final boolean recursive) {
 		LinkedHashSet<MenuItem> result = new LinkedHashSet<MenuItem>();
 		if (bar != null) {
-//			bar.notifyListeners(SWT.Show, new Event());
+			bar.notifyListeners(SWT.Show, new Event());
 			MenuItem[] items = bar.getItems();
 			for (MenuItem menuItem : items) {
 				if (isSeparator(menuItem)) {
@@ -156,7 +157,12 @@ public class MenuFinder {
 				if (recursive)
 					result.addAll(findMenusInternal(menuItem.getMenu(), matcher, recursive));
 			}
-//			bar.notifyListeners(SWT.Hide, new Event());
+			// Do not close menus which contain the item we're looking for - this destroys dynamic menu contributions
+			// giving us the SWT MenuItem but without a E4 model attached (and therefore cannot be used).
+			// @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=469581
+			if (result.isEmpty()) {
+			    bar.notifyListeners(SWT.Hide, new Event());
+			}
 		}
 		return new ArrayList<MenuItem>(result);
 	}

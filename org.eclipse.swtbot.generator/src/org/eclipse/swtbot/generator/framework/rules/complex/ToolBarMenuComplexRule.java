@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2012-2015 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -60,7 +60,7 @@ public class ToolBarMenuComplexRule extends GenerationComplexRule{
 		StringBuilder builder = new StringBuilder();
 		String toolTip = ((ToolBarDropDownRule)getInitializationRules().get(0)).getToolTipText();
 		
-		builder.append("bot.toolbarDropDownButtonWithToolTip(\""+toolTip+"\")");
+		builder.append("bot.toolbarDropDownButtonWithTooltip(\""+toolTip+"\")");
 		ContextMenuRule cmr = ((ContextMenuRule)getInitializationRules().get(1));
 		for(String s: cmr.getPath()){
 			builder.append(".menuItem(\""+s+"\")");

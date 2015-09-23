@@ -7,7 +7,8 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
- *     Patrick Tasse - Fix radio menu item click behavior (Bug 451126 & Bug 397649)
+ *     Patrick Tasse - Fix radio menu item click behavior (Bug 451126 & Bug 397649),
+ *                     test dynamic menus
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -19,46 +20,83 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.hamcrest.core.AnyOf;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  */
+@RunWith(Parameterized.class)
 public class SWTBotPopupMenuTest extends AbstractControlExampleTest {
 
 	private SWTBotShell	popupShell;
-	private SWTBotShell	activeShell;
+	private MenuType menuType;
+
+	private enum MenuType {
+		StaticMenu, DynamicMenu
+	}
+
+	@Parameters(name = "{0}")
+	public static Collection<MenuType> parameters() {
+		return Arrays.asList(MenuType.values());
+	}
+
+	public SWTBotPopupMenuTest(MenuType menuType) {
+		this.menuType = menuType;
+	}
 
 	@Test
 	public void findsMenus() throws Exception {
 		assertNotNull(popupShell.contextMenu("Push").widget);
-		assertSameWidget(popupShell.contextMenu("Push").widget, popupShell.contextMenu("Push").widget);
+		if (menuType == MenuType.StaticMenu) {
+			assertSameWidget(popupShell.contextMenu("Push").widget, popupShell.contextMenu("Push").widget);
+		} else {
+			/* Dynamic menu manager disposes the old MenuItem */
+			assertNotSameWidget(popupShell.contextMenu("Push").widget, popupShell.contextMenu("Push").widget);
+		}
 	}
 
 	@Test
 	public void findsSubMenus() throws Exception {
-		SWTBotMenu cascade = popupShell.contextMenu("Cascade");
-		assertNotSameWidget(cascade.menu("Push").widget, popupShell.contextMenu("Push").widget);
-		assertNotSameWidget(cascade.menu("Cascade").menu("Push").widget, popupShell.contextMenu("Push").widget);
+		SWTBotMenu push1 = popupShell.contextMenu("Push");
+		SWTBotMenu cascade1 = popupShell.contextMenu("Cascade");
+		SWTBotMenu push2 = cascade1.menu("Push");
+		SWTBotMenu cascade2 = cascade1.menu("Cascade");
+		SWTBotMenu push3 = cascade2.menu("Push");
+		assertNotNull(push1.widget);
+		assertNotNull(push2.widget);
+		assertNotNull(push3.widget);
+		assertNotSameWidget(push2.widget, push1.widget);
+		assertNotSameWidget(push3.widget, push1.widget);
+		assertNotSameWidget(push3.widget, push2.widget);
+		if (menuType == MenuType.StaticMenu) {
+			assertSameWidget(push3.widget, cascade2.menu("Push").widget);
+			assertSameWidget(push3.widget, cascade1.menu("Cascade").menu("Push").widget);
+			assertSameWidget(push3.widget, popupShell.contextMenu("Cascade").menu("Cascade").menu("Push").widget);
+		} else {
+			/* Dynamic menu manager disposes the old MenuItem */
+			assertNotSameWidget(push3.widget, cascade2.menu("Push").widget);
+			assertNotSameWidget(push3.widget, cascade1.menu("Cascade").menu("Push").widget);
+			assertNotSameWidget(push3.widget, popupShell.contextMenu("Cascade").menu("Cascade").menu("Push").widget);
+		}
 	}
 
 	@Test
 	public void clicksMenu() throws Exception {
-		tearDown();
-		activeShell.activate();
-		bot.checkBox("Listen").select();
-		setUp();
+		bot.button("Clear").click();
 		popupShell.contextMenu("Push").click();
-		activeShell.activate();
 		String text = bot.textInGroup("Listeners").getText();
-		// FIXME https://bugs.eclipse.org/bugs/show_bug.cgi?id=209752
-		// FIXED > 071114
 		String expectedLinux = "Show [22]: MenuEvent{Menu {Push, , Check, Radio1, Radio2, Cascade} time=";
 		String expectedWindows = "Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=";
 		assertThat(text, AnyOf.anyOf(containsString(expectedWindows), containsString(expectedLinux)));
@@ -92,8 +130,7 @@ public class SWTBotPopupMenuTest extends AbstractControlExampleTest {
 
 	@Before
 	public void setUp() throws Exception {
-		bot = new SWTBot();
-		activeShell = bot.activeShell();
+		bot = new SWTBot().activeShell().bot();
 		bot.tabItem("Menu").activate();
 
 		bot.checkBox("Listen").select();
@@ -106,29 +143,21 @@ public class SWTBotPopupMenuTest extends AbstractControlExampleTest {
 
 		bot.checkBox("Sub-Menu").select();
 		bot.checkBox("Sub-Sub-Menu").select();
-		bot.checkBox("SWT.BAR").select();
 
-		bot.button("Create Shell").click();
-		popupShell = bot.shell("Title:0");
-		popupShell.activate();
+		if (menuType.equals(MenuType.StaticMenu)) {
+			bot.checkBox("Menu Manager").deselect();
+			bot.button("Create Shell").click();
+			popupShell = bot.shell("Title:0");
+		} else if (menuType.equals(MenuType.DynamicMenu)) {
+			bot.checkBox("Menu Manager").select();
+			bot.checkBox("Dynamic").select();
+			bot.button("Create Shell").click();
+			popupShell = bot.shell("Title:0");
+		}
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		popupShell.close();
 		bot.button("Close All Shells").click();
-		bot.checkBox("Listen").deselect();
-
-		bot.checkBox("Listen").deselect();
-
-		bot.checkBox("SWT.CASCADE").deselect();
-		bot.checkBox("SWT.CHECK").deselect();
-		bot.checkBox("SWT.PUSH").deselect();
-		bot.checkBox("SWT.RADIO").deselect();
-		bot.checkBox("SWT.SEPARATOR").deselect();
-
-		bot.checkBox("Sub-Sub-Menu").deselect();
-		bot.checkBox("Sub-Menu").deselect();
-		bot.checkBox("SWT.BAR").deselect();
 	}
 }

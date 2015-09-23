@@ -31,6 +31,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -94,6 +95,7 @@ class MenuTab extends Tab {
 
 		/* Create the shell and menu(s) */
 		Shell shell = new Shell(SWT.SHELL_TRIM | orientation);
+		hookListeners(shell);
 		shells[shellCount] = shell;
 		if (barButton.getSelection()) {
 			if (!menuManagerButton.getSelection()) {
@@ -291,12 +293,9 @@ class MenuTab extends Tab {
 
 		if (dropDownButton.getSelection() && cascadeButton.getSelection()) {
 			/* Create cascade button and drop-down menu in menu bar. */
-			MenuManager dropDownMenuManager = new HookedMenuManager(getMenuItemText("Cascade"));
+			MenuManager dropDownMenuManager = new HookedMenuManager(getMenuItemText("Cascade"), instance.images[ControlExample.ciOpenFolder]);
 			dropDownMenuManager.setRemoveAllWhenShown(dynamicButton.getSelection());
 			menuManager.add(dropDownMenuManager);
-			if (imagesButton.getSelection()) {
-				dropDownMenuManager.setImageDescriptor(ImageDescriptor.createFromImage(instance.images[ControlExample.ciOpenFolder]));
-			}
 
 			if (dynamicButton.getSelection()) {
 				dropDownMenuManager.addMenuListener(new IMenuListener() {
@@ -404,10 +403,16 @@ class MenuTab extends Tab {
 	}
 
 	/* Create various menu manager contribution items, depending on selections. */
-	void createMenuContributionItems(IMenuManager menu, Menu rootMenu, int depth, boolean createSubMenu, boolean createSubSubMenu) {
+	void createMenuContributionItems(IMenuManager menu, final Menu rootMenu, final int depth, final boolean createSubMenu, final boolean createSubSubMenu) {
 		if (pushButton.getSelection()) {
-			IAction action = getAction(rootMenu, depth, getMenuItemText("Push"), IAction.AS_PUSH_BUTTON, false,
-					SWT.MOD1 + SWT.MOD2 + 'P', ImageDescriptor.createFromImage(instance.images[ControlExample.ciClosedFolder]));
+			/* Creating a new action instance will force the old MenuItem to be disposed */
+			Action action = new Action(getMenuItemText("Push"), IAction.AS_PUSH_BUTTON) {};
+			if (acceleratorsButton.getSelection()) {
+				action.setAccelerator(SWT.MOD1 + SWT.MOD2 + 'P');
+			}
+			if (imagesButton.getSelection()) {
+				action.setImageDescriptor(ImageDescriptor.createFromImage(instance.images[ControlExample.ciClosedFolder]));
+			}
 			menu.add(action);
 		}
 
@@ -432,12 +437,20 @@ class MenuTab extends Tab {
 
 		if (createSubMenu && cascadeButton.getSelection()) {
 			/* Create cascade button and drop-down menu for the sub-menu. */
-			MenuManager subMenuManager = new HookedMenuManager(getMenuItemText("Cascade"));
+			MenuManager subMenuManager = new HookedMenuManager(getMenuItemText("Cascade"), instance.images[ControlExample.ciOpenFolder]);
+			subMenuManager.setRemoveAllWhenShown(dynamicButton.getSelection());
 			menu.add(subMenuManager);
-			if (imagesButton.getSelection())
-				subMenuManager.setImageDescriptor(ImageDescriptor.createFromImage(instance.images[ControlExample.ciOpenFolder]));
 
-			createMenuContributionItems(subMenuManager, rootMenu, depth + 1, createSubSubMenu, false);
+			if (dynamicButton.getSelection()) {
+				subMenuManager.addMenuListener(new IMenuListener() {
+					public void menuAboutToShow(IMenuManager manager) {
+						/* Create various menu items, depending on selections. */
+						createMenuContributionItems(manager, rootMenu, depth + 1, createSubSubMenu, false);
+					}
+				});
+			} else {
+				createMenuContributionItems(subMenuManager, rootMenu, depth + 1, createSubSubMenu, false);
+			}
 		}
 	}
 
@@ -501,18 +514,24 @@ class MenuTab extends Tab {
 
 	/* Menu manager that hooks listeners to its widgets as they are created */
 	private class HookedMenuManager extends MenuManager {
+		private Image image;
+
 		public HookedMenuManager() {
-			this(null);
+			this(null, null);
 		}
 
-		public HookedMenuManager(String text) {
+		public HookedMenuManager(String text, Image image) {
 			super(text);
+			this.image = image;
 		}
 
 		@Override
 		protected void doItemFill(IContributionItem ci, int index) {
 			super.doItemFill(ci, index);
 			Item item = getMenuItem(index);
+			if (imagesButton.getSelection() && ci instanceof HookedMenuManager) {
+				item.setImage(((HookedMenuManager) ci).image);
+			}
 			hookListeners(item);
 			if (item instanceof MenuItem) {
 				MenuItem menuItem = (MenuItem) item;

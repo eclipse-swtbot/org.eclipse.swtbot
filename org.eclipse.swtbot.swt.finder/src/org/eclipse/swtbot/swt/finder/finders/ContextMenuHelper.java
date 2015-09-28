@@ -74,6 +74,7 @@ public class ContextMenuHelper {
 	 * @param texts
 	 *            the text to match. Multiple Strings can be used to match
 	 *            sub-menus.
+	 * @since 2.4
 	 */
 	public static MenuItem contextMenu(
 			final AbstractSWTBot<? extends Control> bot, final Widget widget, final String... texts) {
@@ -113,6 +114,7 @@ public class ContextMenuHelper {
 	 *            the control that should be notified
 	 * @param widget
 	 *            the widget on which the context menu was triggered on
+	 * @since 2.4
 	 */
 	public static boolean notifyMenuDetect(final Control control, final Widget widget) {
 		Rectangle bounds = getBounds(widget);

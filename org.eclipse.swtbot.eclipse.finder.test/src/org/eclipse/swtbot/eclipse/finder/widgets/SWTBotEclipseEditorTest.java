@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Ingo Mohr - Bug 416859
+ *     Patrick Tasse - Speed up SWTBot tests
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -23,11 +24,9 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.helpers.NewJavaClass;
 import org.eclipse.swtbot.eclipse.finder.widgets.helpers.NewJavaProject;
 import org.eclipse.swtbot.eclipse.finder.widgets.helpers.PackageExplorerView;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -36,7 +35,7 @@ import org.junit.runner.RunWith;
  * @version $Id$
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class SWTBotEclipseEditorTest {
+public class SWTBotEclipseEditorTest extends AbstractSWTBotEclipseTest {
 
 	private static final String		PROJECT_NAME		= "FooBarProject";
 	private static final String		PACKAGE_NAME		= "org.eclipse.swtbot.eclipse.test";
@@ -67,11 +66,6 @@ public class SWTBotEclipseEditorTest {
 		assertContains("public static void main", editor.getText());
 	}
 
-	@BeforeClass
-	public static void beforeClass() {
-		closeWelcomePage();
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		javaProject.createProject(PROJECT_NAME);
@@ -81,31 +75,10 @@ public class SWTBotEclipseEditorTest {
 		editor.save();
 	}
 
-	private static void closeWelcomePage() {
-		try {
-			System.setProperty("org.eclipse.swtbot.search.timeout", "0");
-			bot.viewByTitle("Welcome").close();
-		} catch (WidgetNotFoundException e) {
-			// do nothing
-		}finally{
-			System.setProperty("org.eclipse.swtbot.search.timeout", "5000");
-		}
-	}
-
 	@After
 	public void tearDown() throws Exception {
-		saveAndCloseAllEditors();
+		super.tearDown();
 		packageExplorerView.deleteProject(PROJECT_NAME);
-	}
-
-	/**
-	 * @throws WidgetNotFoundException
-	 */
-	private void saveAndCloseAllEditors() {
-		List<? extends SWTBotEditor> editors = bot.editors();
-		for (SWTBotEditor editor : editors) {
-			editor.saveAndClose();
-		}
 	}
 
 	@Test

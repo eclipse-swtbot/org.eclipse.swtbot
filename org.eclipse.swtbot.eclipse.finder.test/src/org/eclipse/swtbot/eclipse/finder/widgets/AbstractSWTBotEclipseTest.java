@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Speed up SWTBot tests
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -14,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.After;
 import org.junit.BeforeClass;
 
@@ -28,13 +28,10 @@ public abstract class AbstractSWTBotEclipseTest {
 	}
 
 	private static void closeWelcomePage() {
-		try {
-			SWTBotPreferences.TIMEOUT = 0;
-			bot.viewByTitle("Welcome").close();
-		} catch (WidgetNotFoundException e) {
-			// do nothing
-		} finally {
-			SWTBotPreferences.TIMEOUT = 5000;
+		for (SWTBotView view : bot.views()) {
+			if (view.getTitle().equals("Welcome")) {
+				view.close();
+			}
 		}
 	}
 

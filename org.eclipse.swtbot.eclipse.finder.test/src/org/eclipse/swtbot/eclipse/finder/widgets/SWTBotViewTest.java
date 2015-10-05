@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009, 2014 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Frank Schuerer - https://bugs.eclipse.org/bugs/show_bug.cgi?id=424238
  *     Mickael Istria (Red Hat Inc.) - Refactoring for bug 437915
+ *     Patrick Tasse - Speed up SWTBot tests
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -31,7 +32,6 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.Assume;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.osgi.framework.Bundle;
@@ -42,19 +42,9 @@ import org.osgi.framework.Version;
  * @version $Id$
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class SWTBotViewTest {
+public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 
 	private SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
-
-	@Before
-	public void setUp() {
-		try {
-			this.bot.viewByTitle("Welcome").close();
-		} catch (Exception ex) {
-			// Welcome view not open
-			// -> continuing
-		}
-	}
 
 	@Test
 	public void findsView() throws Exception {
@@ -84,11 +74,10 @@ public class SWTBotViewTest {
 		SWTBotView view = bot.viewByTitle("Welcome");
 		view.close();
 
-		try {
-			bot.viewByTitle("Welcome");
-			fail("Expecting WidgetNotFoundException");
-		} catch (WidgetNotFoundException expected) {
-			// pass
+		for (SWTBotView aview : bot.views()) {
+			if (aview.getTitle().equals("Welcome")) {
+				fail("Not expecting Welcome view");
+			}
 		}
 	}
 

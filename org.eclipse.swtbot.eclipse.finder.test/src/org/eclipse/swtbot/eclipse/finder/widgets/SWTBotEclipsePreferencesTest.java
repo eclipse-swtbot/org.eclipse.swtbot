@@ -7,18 +7,17 @@
  *
  * Contributors:
  *     Stephane Bouchet (Intel Corporation) - initial API and implementation
+ *     Patrick Tasse - Speed up SWTBot tests
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,25 +26,9 @@ import org.junit.runner.RunWith;
  * @version $Id$
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class SWTBotEclipsePreferencesTest {
+public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 
 	private static SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
-
-	@BeforeClass
-	public static void beforeClass() {
-		closeWelcomePage();
-	}
-
-	private static void closeWelcomePage() {
-		try {
-			System.setProperty("org.eclipse.swtbot.search.timeout", "0");
-			bot.viewByTitle("Welcome").close();
-		} catch (WidgetNotFoundException e) {
-			// do nothing
-		} finally {
-			System.setProperty("org.eclipse.swtbot.search.timeout", "5000");
-		}
-	}
 
 	@Test
 	public void canSelectMultipleRadioInPreferencesWindow() {

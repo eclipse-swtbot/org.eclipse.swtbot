@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Speed up SWTBot tests
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.finders;
 
@@ -18,9 +19,9 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.eclipse.finder.widgets.AbstractSWTBotEclipseTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotCommand;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -31,7 +32,7 @@ import org.junit.runner.RunWith;
  * @version $Id$
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class CommandFinderTest {
+public class CommandFinderTest extends AbstractSWTBotEclipseTest {
 
 	private static SWTWorkbenchBot bot = new SWTWorkbenchBot();
 
@@ -62,14 +63,5 @@ public class CommandFinderTest {
 
 		assertNotNull(l);
 		assertEquals(0, l.size());
-	}
-	
-	@BeforeClass
-	public static void beforeClass(){
-		try {
-			bot.viewByTitle("Welcome").close();
-		} catch (Exception e) {
-			// do nothing, probably closed.
-		}
 	}
 }

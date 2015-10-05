@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Speed up SWTBot tests
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets.helpers;
 
@@ -26,15 +27,13 @@ public class NewJavaClass {
 	private SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
 
 	public void createClass(String packageName, String className) {
-		try {
+		if (!bot.activePerspective().getLabel().equals("Java")) {
 			SWTBotMenu windowMenu = bot.menu("Window");
 			SWTBotMenu perspectiveMenu = windowMenu.menu("Open Perspective");
 			SWTBotMenu javaPerspectiveMenu = perspectiveMenu.menu("Java");
 			if (javaPerspectiveMenu.isVisible() && javaPerspectiveMenu.isEnabled()) { 
 				javaPerspectiveMenu.click();
 			}
-		} catch (Exception ex) {
-			// Java menu not available: already selected
 		}
 		bot.menu("File").menu("New").menu("Class").click();
 		SWTBotShell shell = bot.shell("New Java Class");

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2014 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Kristine Jetzke - Bug 420121
  *     Stephane Bouchet (Intel Corporation) - Bug 451547
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -24,7 +25,6 @@ import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
@@ -506,11 +506,5 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 				return widget.getItemCount() > 0;
 			}
 		});
-	}
-
-	@Override
-	public SWTBotMenu contextMenu(String text) {
-		waitForEnabled();
-		return new SWTBotMenu(ContextMenuHelper.contextMenu(this, text));
 	}
 }

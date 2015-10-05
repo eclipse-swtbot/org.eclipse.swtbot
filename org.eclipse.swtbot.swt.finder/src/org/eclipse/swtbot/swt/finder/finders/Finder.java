@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.finders;
 
@@ -142,10 +143,12 @@ public class Finder {
 	}
 
 	/**
-	 * Finds a menu matching the given item in all available shells. This searches for menus recursively.
+	 * Finds all menu items matching the given matcher in all available shells.
+	 * It will attempt to find the menu items recursively in each of the
+	 * sub-menus that are found.
 	 *
 	 * @param matcher the matcher that can match menus and menu items.
-	 * @return all menus in all shells that match the matcher.
+	 * @return all menu items in all shells that match the matcher.
 	 * @see MenuFinder#findMenus(Matcher)
 	 */
 	public List<MenuItem> findMenus(Matcher<MenuItem> matcher) {
@@ -153,27 +156,29 @@ public class Finder {
 	}
 
 	/**
-	 * Fins all the menus in the given menu bar matching the given matcher. If recursive is set, it will attempt to find
-	 * the controls recursively in each of the menus it that is found.
+	 * Finds all menu items matching the given matcher in the given menu. If
+	 * recursive is set, it will attempt to find the menu items recursively in
+	 * each of the sub-menus that are found.
 	 *
-	 * @param bar the menu bar
+	 * @param menu the menu
 	 * @param matcher the matcher that can match menus and menu items.
-	 * @param recursive if set to true, will find sub-menus as well.
-	 * @return all menus in the specified menubar that match the matcher.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @return all menu items in the specified menu that match the matcher.
 	 * @see MenuFinder#findMenus(Menu, Matcher, boolean)
 	 */
-	public List<MenuItem> findMenus(Menu bar, Matcher<MenuItem> matcher, boolean recursive) {
-		return menuFinder.findMenus(bar, matcher, recursive);
+	public List<MenuItem> findMenus(Menu menu, Matcher<MenuItem> matcher, boolean recursive) {
+		return menuFinder.findMenus(menu, matcher, recursive);
 	}
 
 	/**
-	 * Finds the menus in the given shell using the given matcher. If recursive is set, it will attempt to find the
-	 * controls recursively in each of the menus it that is found.
+	 * Finds all menu items matching the given matcher in the given shell. If
+	 * recursive is set, it will attempt to find the menu items recursively in
+	 * each of the sub-menus that are found.
 	 *
 	 * @param shell the shell to probe for menus.
 	 * @param matcher the matcher that can match menus and menu items.
-	 * @param recursive if set to true, will find sub-menus as well.
-	 * @return all menus in the specified shell that match the matcher.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @return all menu items in the specified shell that match the matcher.
 	 * @see MenuFinder#findMenus(Shell, Matcher, boolean)
 	 */
 	public List<MenuItem> findMenus(Shell shell, Matcher<MenuItem> matcher, boolean recursive) {
@@ -181,13 +186,14 @@ public class Finder {
 	}
 
 	/**
-	 * Finds all the menus using the given matcher in the set of shells provided. If recursive is set, it will attempt
-	 * to find the controls recursively in each of the menus it that is found.
+	 * Finds all menu items matching the given matcher in the set of shells
+	 * provided. If recursive is set, it will attempt to find the menu items
+	 * recursively in each of the sub-menus that are found.
 	 *
 	 * @param shells the shells to probe for menus.
 	 * @param matcher the matcher that can match menus and menu items.
-	 * @param recursive if set to true, will find sub-menus as well.
-	 * @return all menus in the specified shells that match the matcher.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @return all menu items in the specified shells that match the matcher.
 	 * @see MenuFinder#findMenus(Shell[], Matcher, boolean)
 	 */
 	public List<MenuItem> findMenus(Shell[] shells, Matcher<MenuItem> matcher, boolean recursive) {

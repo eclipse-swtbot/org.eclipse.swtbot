@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2013 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@
  *     Ketan Patel - (Bug 259860)
  *     Mickael Istria (Red Hat Inc.) - Bug 422458
  *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder;
 
@@ -22,10 +23,8 @@ import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.allOf;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withId;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withText;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTooltip;
-import static org.eclipse.swtbot.swt.finder.waits.Conditions.waitForMenu;
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.waitForShell;
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.waitForWidget;
 
@@ -34,6 +33,7 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
@@ -48,9 +48,11 @@ import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
+import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.waits.ICondition;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTrayItem;
 import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
@@ -193,95 +195,167 @@ abstract class SWTBotFactory {
 	}
 
 	/**
-	 * @param text the text on the menu.
+	 * Gets the menu bar of the active shell.
+	 *
+	 * @return the menu bar.
+	 */
+	public SWTBotRootMenu menu() {
+		return menu(activeShell());
+	}
+
+	/**
+	 * Gets the menu bar of the given shell.
+	 *
+	 * @param shell the shell.
+	 * @return the menu bar.
+	 */
+	public SWTBotRootMenu menu(SWTBotShell shell) {
+		WaitForObjectCondition<Menu> waitForMenu = Conditions.waitForMenuBar(shell);
+		waitUntilWidgetAppears(waitForMenu);
+		return new SWTBotRootMenu(waitForMenu.get(0));
+	}
+
+	/**
+	 * Gets the menu bar item matching the given text in the active shell. It
+	 * will attempt to find the menu items recursively in each of the sub-menus
+	 * that are found.
+	 * <p>
+	 * This is equivalent to calling menu().menu(text, true, 0).
+	 *
+	 * @param text
+	 *            the text on the menu.
 	 * @return a menu item that matches the specified text.
 	 */
 	public SWTBotMenu menu(String text) {
-		return menu(text, 0);
+		return menu().menu(text, true, 0);
 	}
 
 	/**
+	 * Gets the menu bar item matching the given text in the active shell. It
+	 * will attempt to find the menu items recursively in each of the sub-menus
+	 * that are found.
+	 * <p>
+	 * This is equivalent to calling menu().menu(text, true, index).
+	 *
 	 * @param text the text on the menu.
-	 * @param index the index of the menu, in case there are multiple menus with the same text.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
 	 * @return a menu item that matches the specified text.
 	 */
 	public SWTBotMenu menu(String text, int index) {
-		Matcher<MenuItem> withMnemonic = withMnemonic(text);
-		return menu(activeShell(), withMnemonic, index);
+		return menu().menu(text, true, index);
 	}
 
 	/**
+	 * Gets the menu bar item matching the given text in the active shell. If
+	 * recursive is set, it will attempt to find the menu items recursively in
+	 * each of the sub-menus that are found.
+	 * <p>
+	 * This is equivalent to calling menu().menu(text, recursive, 0).
+	 *
 	 * @param text the text on the menu.
-	 * @param recursive if set to true, will find submenus as well.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
 	 * @return a menu item that matches the specified text.
 	 * @since 2.3
 	 */
 	public SWTBotMenu menu(String text, boolean recursive) {
-		Matcher<MenuItem> withMnemonic = withMnemonic(text);
-		return menu(activeShell(), withMnemonic, recursive);
+		return menu().menu(text, recursive, 0);
 	}
 
 	/**
+	 * Gets the menu bar item with the given id in the active shell. It will
+	 * attempt to find the menu items recursively in each of the sub-menus that
+	 * are found.
+	 * <p>
+	 * This is equivalent to calling
+	 * menu().menuWithId(SWTBotPreferences.DEFAULT_KEY, value, true, 0).
+	 *
 	 * @param value the value of the id.
-	 * @return a wrapper around a @{link Menu} with the specified key/value pair for its id.
+	 * @return a wrapper around a @{link MenuItem} with the specified key/value pair for its id.
+	 * @see SWTBotPreferences#DEFAULT_KEY
 	 */
 	public SWTBotMenu menuWithId(String value) {
-		return menuWithId(value, 0);
+		return menu().menuWithId(SWTBotPreferences.DEFAULT_KEY, value, true, 0);
 	}
 
 	/**
+	 * Gets the menu bar item with the given id in the active shell. It will
+	 * attempt to find the menu items recursively in each of the sub-menus that
+	 * are found.
+	 * <p>
+	 * This is equivalent to calling
+	 * menu().menuWithId(SWTBotPreferences.DEFAULT_KEY, value, true, index).
+	 *
 	 * @param value the value of the id.
-	 * @param index the index of the menu item, in case there are multiple shells with the same text.
-	 * @return a wrapper around a @{link Menu} with the specified key/value pair for its id.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
+	 * @return a wrapper around a @{link MenuItem} with the specified key/value pair for its id.
+	 * @see SWTBotPreferences#DEFAULT_KEY
 	 */
 	public SWTBotMenu menuWithId(String value, int index) {
-		Matcher<MenuItem> withId = withId(value);
-		return menu(activeShell(), withId, index);
+		return menu().menuWithId(SWTBotPreferences.DEFAULT_KEY, value, true, index);
 	}
 
 	/**
+	 * Gets the menu bar item with the given id in the active shell. It will
+	 * attempt to find the menu items recursively in each of the sub-menus that
+	 * are found.
+	 * <p>
+	 * This is equivalent to calling menu().menuWithId(key, value, true, 0).
+	 *
 	 * @param key the key of the id.
 	 * @param value the value of the id.
-	 * @return a wrapper around a @{link Menu} with the specified key/value pair for its id.
+	 * @return a wrapper around a @{link MenuItem} with the specified key/value pair for its id.
 	 */
 	public SWTBotMenu menuWithId(String key, String value) {
-		return menuWithId(key, value, 0);
+		return menu().menuWithId(key, value, true, 0);
 	}
 
 	/**
+	 * Gets the menu bar item with the given id in the active shell. It will
+	 * attempt to find the menu items recursively in each of the sub-menus that
+	 * are found.
+	 * <p>
+	 * This is equivalent to calling menu().menuWithId(key, value, true, index).
+	 *
 	 * @param key the key of the id.
 	 * @param value the value of the id.
-	 * @param index the index of the menu item, in case there are multiple shells with the same text.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
 	 * @return a wrapper around a @{link Menu} with the specified key/value pair for its id.
 	 */
 	public SWTBotMenu menuWithId(String key, String value, int index) {
-		Matcher<MenuItem> withId = withId(key, value);
-		return menu(activeShell(), withId, index);
+		return menu().menuWithId(key, value, true, index);
 	}
 
 	/**
+	 * Gets the menu bar item matching the given matcher in the given shell. It
+	 * will attempt to find the menu items recursively in each of the sub-menus
+	 * that are found.
+	 * <p>
+	 * This is equivalent to calling menu(shell).menu(matcher, true, index).
+	 *
 	 * @param shell the shell to search for the menu.
 	 * @param matcher the matcher used to find the menu.
-	 * @param index the index of the menu, in case there are multiple menus with the same text.
-	 * @return a menu item that matches the specified text.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
+	 * @return a menu item that matches the specified matcher.
 	 */
 	public SWTBotMenu menu(SWTBotShell shell, Matcher<MenuItem> matcher, int index) {
-		WaitForObjectCondition<MenuItem> waitForMenu = waitForMenu(shell, matcher);
-		waitUntilWidgetAppears(waitForMenu);
-		return new SWTBotMenu(waitForMenu.get(index), matcher);
+		return menu(shell).menu(matcher, true, index);
 	}
 
 	/**
+	 * Gets the menu bar item matching the given matcher in the given shell. If
+	 * recursive is set, it will attempt to find the menu items recursively in
+	 * each of the sub-menus that are found.
+	 * <p>
+	 * This is equivalent to calling menu(shell).menu(matcher, recursive, 0).
+	 *
 	 * @param shell the shell to search for the menu.
 	 * @param matcher the matcher used to find the menu.
-	 * @param recursive if set to true, will find submenus as well.
-	 * @return a menu item that matches the specified text.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @return a menu item that matches the specified matcher.
 	 * @since 2.2
 	 */
 	public SWTBotMenu menu(SWTBotShell shell, Matcher<MenuItem> matcher, boolean recursive) {
-		WaitForObjectCondition<MenuItem> waitForMenu = waitForMenu(shell, matcher, recursive);
-		waitUntilWidgetAppears(waitForMenu);
-		return new SWTBotMenu(waitForMenu.get(0), matcher);
+		return menu(shell).menu(matcher, recursive, 0);
 	}
 
 	/**

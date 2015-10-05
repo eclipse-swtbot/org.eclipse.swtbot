@@ -31,6 +31,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -59,6 +60,18 @@ class MenuTab extends Tab {
 
 	/* Map used to persist actions in dynamic menus */
 	Map<Menu, List<IAction>> actions = new HashMap<Menu, List<IAction>>();
+
+	/* Selection listener for menu items */
+	SelectionListener selectionListener = new SelectionAdapter() {
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			if (e.widget instanceof MenuItem) {
+				eventConsole.append("Clicked on menu item: ");
+				eventConsole.append(getMenuItemPath((MenuItem) e.widget));
+				eventConsole.append("\n");
+			}
+		}
+	};
 
 	/**
 	 * Creates the Tab within a given instance of ControlExample.
@@ -353,6 +366,7 @@ class MenuTab extends Tab {
 			if (imagesButton.getSelection())
 				item.setImage(instance.images[ControlExample.ciClosedFolder]);
 			hookListeners(item);
+			item.addSelectionListener(selectionListener);
 		}
 
 		if (separatorButton.getSelection())
@@ -366,6 +380,7 @@ class MenuTab extends Tab {
 			if (imagesButton.getSelection())
 				item.setImage(instance.images[ControlExample.ciOpenFolder]);
 			hookListeners(item);
+			item.addSelectionListener(selectionListener);
 		}
 
 		if (radioButton.getSelection()) {
@@ -377,6 +392,7 @@ class MenuTab extends Tab {
 				item.setImage(instance.images[ControlExample.ciTarget]);
 			item.setSelection(true);
 			hookListeners(item);
+			item.addSelectionListener(selectionListener);
 
 			item = new MenuItem(menu, SWT.RADIO);
 			item.setText(getMenuItemText("2Radio"));
@@ -385,6 +401,7 @@ class MenuTab extends Tab {
 			if (imagesButton.getSelection())
 				item.setImage(instance.images[ControlExample.ciTarget]);
 			hookListeners(item);
+			item.addSelectionListener(selectionListener);
 		}
 
 		if (createSubMenu && cascadeButton.getSelection()) {
@@ -397,6 +414,7 @@ class MenuTab extends Tab {
 			Menu subMenu = new Menu(menu.getShell(), SWT.DROP_DOWN | radioBehavior);
 			item.setMenu(subMenu);
 			hookListeners(subMenu);
+			item.addSelectionListener(selectionListener);
 
 			createMenuItems(subMenu, radioBehavior, createSubSubMenu, false);
 		}
@@ -505,6 +523,26 @@ class MenuTab extends Tab {
 		return ControlExample.getResourceString(item);
 	}
 
+	public String getMenuItemPath(MenuItem menuItem) {
+		StringBuilder sb = new StringBuilder(menuItem.getText());
+		if ((menuItem.getStyle() & SWT.SEPARATOR) != 0) {
+			sb.append("|");
+		}
+		Menu menu = menuItem.getParent();
+		while (menu != null) {
+			MenuItem item = menu.getParentItem();
+			if (item != null) {
+				sb.insert(0, item.getText() + " > ");
+			} else if ((menu.getStyle() & SWT.BAR) != 0) {
+				sb.insert(0, "BAR > ");
+			} else if ((menu.getStyle() & SWT.POP_UP) != 0) {
+				sb.insert(0, "POP_UP > ");
+			}
+			menu = menu.getParentMenu();
+		}
+		return sb.toString();
+	}
+
 	/**
 	 * Gets the text for the tab folder item.
 	 */
@@ -539,6 +577,7 @@ class MenuTab extends Tab {
 				if (menu != null) {
 					hookListeners(menu);
 				}
+				menuItem.addSelectionListener(selectionListener);
 			}
 		}
 	}

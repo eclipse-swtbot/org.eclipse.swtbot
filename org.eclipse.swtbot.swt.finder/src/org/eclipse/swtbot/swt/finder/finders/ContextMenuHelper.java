@@ -9,19 +9,15 @@
  *     Stefan Seelmann (initial)
  *     Stefan Schaefer (extension)
  *     Lorenzo Bettini (extracted method to get the MenuItem)
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.finders;
-
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -30,12 +26,9 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot;
-import org.hamcrest.Matcher;
 
 /**
  * This helper is a workaround for a bug in SWTBot, where the bot can't find a
@@ -49,66 +42,46 @@ import org.hamcrest.Matcher;
 public class ContextMenuHelper {
 
 	/**
-	 * Gets the context menu matching the text.
+	 * Gets the menu item widget matching the given text path in the given
+	 * control's pop up menu. It will attempt to recursively find the menu items
+	 * in sequence in the matching sub-menus that are found.
+	 * <p>
+	 * This is equivalent to bot.contextMenu().menu(texts).widget.
 	 *
-	 * @param control
-	 *            the control to get the context menu from
+	 * @param bot
+	 *            the control to get the context menu from.
 	 * @param texts
-	 *            the text to match. Multiple Strings can be used to match
-	 *            sub-menus.
+	 *            the texts on the menu items that are to be found.
+	 * @return the menu item widget that has the given text.
 	 */
-	public static MenuItem contextMenu(
-			final AbstractSWTBot<? extends Control> bot, final String... texts) {
-		return contextMenu(bot, bot.widget, texts);
+	public static MenuItem contextMenu(final AbstractSWTBot<? extends Control> bot, final String... texts) {
+		return bot.contextMenu().menu(texts).widget;
 	}
 
 	/**
-	 * Gets the context menu matching the text.
+	 * Gets the menu item widget matching the given text path in the given
+	 * control's pop up menu. It will attempt to recursively find the menu items
+	 * in sequence in the matching sub-menus that are found.
+	 * <p>
+	 * This is equivalent to bot.contextMenu().menu(texts).widget.
 	 *
-	 * @param control
-	 *            the control to get the context menu from
+	 * @param bot
+	 *            the control to get the context menu from.
 	 * @param widget
-	 *            the widget on which the context menu is triggered on. For
-	 *            example, the context menu can be triggered on a TreeItem but
-	 *            the context menu is on the Tree.
+	 *            ignored.
 	 * @param texts
-	 *            the text to match. Multiple Strings can be used to match
-	 *            sub-menus.
+	 *            the texts on the menu items that are to be found.
 	 * @since 2.4
+	 * @return the menu item widget that has the given text.
 	 */
-	public static MenuItem contextMenu(
-			final AbstractSWTBot<? extends Control> bot, final Widget widget, final String... texts) {
-		return UIThreadRunnable.syncExec(new WidgetResult<MenuItem>() {
-			public MenuItem run() {
-				MenuItem menuItem = null;
-				Control control = bot.widget;
-
-				if (!notifyMenuDetect(control, widget)) {
-					return null;
-				}
-
-				Menu menu = control.getMenu();
-				for (String text : texts) {
-					Matcher<?> matcher = allOf(instanceOf(MenuItem.class),
-							withMnemonic(text));
-					menuItem = show(menu, matcher);
-					if (menuItem != null) {
-						menu = menuItem.getMenu();
-					} else {
-						hide(menu);
-						throw new WidgetNotFoundException(
-								"Could not find menu: " + text); //$NON-NLS-1$
-					}
-				}
-
-				return menuItem;
-			}
-		});
+	public static MenuItem contextMenu(final AbstractSWTBot<? extends Control> bot, final Widget widget,
+			final String... texts) {
+		return bot.contextMenu().menu(texts).widget;
 	}
 
 	/**
 	 * Notify the control of SWT.MenuDetect when a context menu occurs on a
-	 * widget.
+	 * widget. The event coordinates are set to the center of the widget.
 	 *
 	 * @param control
 	 *            the control that should be notified
@@ -277,26 +250,5 @@ public class ContextMenuHelper {
 				return bounds;
 			}
 		});
-	}
-
-	private static MenuItem show(final Menu menu, final Matcher<?> matcher) {
-		if (menu != null) {
-			menu.notifyListeners(SWT.Show, new Event());
-			MenuItem[] items = menu.getItems();
-			for (final MenuItem menuItem : items) {
-				if (matcher.matches(menuItem)) {
-					return menuItem;
-				}
-			}
-			menu.notifyListeners(SWT.Hide, new Event());
-		}
-		return null;
-	}
-
-	private static void hide(final Menu menu) {
-		menu.notifyListeners(SWT.Hide, new Event());
-		if (menu.getParentMenu() != null) {
-			hide(menu.getParentMenu());
-		}
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008,2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,14 +10,19 @@
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259837
  *     Jesper S Møller - https://bugs.eclipse.org/bugs/show_bug.cgi?id=322668
  *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 
 package org.eclipse.swtbot.swt.finder.waits;
 
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
@@ -119,6 +124,56 @@ public abstract class Conditions {
 	 */
 	public static WaitForObjectCondition<Shell> waitForShell(Matcher<Shell> matcher, Shell parent) {
 		return new WaitForShellInParent(parent, matcher);
+	}
+
+	/**
+	 * Gets the condition to wait for a shell's menu bar.
+	 *
+	 * @param shell the shell.
+	 * @return a condition that waits for the shell's menu bar.
+	 * @since 2.4
+	 */
+	public static WaitForObjectCondition<Menu> waitForMenuBar(SWTBotShell shell) {
+		return new WaitForMenuBar(shell);
+	}
+
+	/**
+	 * Gets the condition to wait for a control's pop up menu.
+	 *
+	 * @param control the control.
+	 * @return a condition that waits for the control's pop up menu.
+	 * @since 2.4
+	 */
+	public static WaitForObjectCondition<Menu> waitForPopupMenu(Control control) {
+		return new WaitForPopupMenu(control);
+	}
+
+	/**
+	 * Gets the condition to wait for a root menu's matching menu item.
+	 *
+	 * @param menu the menu bar or pop up menu.
+	 * @param matcher the matcher that can match menu items.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
+	 * @return a condition that waits for the menu's matching menu item.
+	 * @since 2.4
+	 */
+	public static WaitForObjectCondition<MenuItem> waitForMenuItem(SWTBotRootMenu menu, Matcher<MenuItem> matcher, boolean recursive, int index) {
+		return new WaitForMenuItem(menu, matcher, recursive, index);
+	}
+
+	/**
+	 * Gets the condition to wait for a menu's matching menu item.
+	 *
+	 * @param menu the menu.
+	 * @param matcher the matcher that can match menu items.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
+	 * @return a condition that waits for the menu's matching menu item.
+	 * @since 2.4
+	 */
+	public static WaitForObjectCondition<MenuItem> waitForMenuItem(SWTBotMenu menu, Matcher<MenuItem> matcher, boolean recursive, int index) {
+		return new WaitForMenuItem(menu, matcher, recursive, index);
 	}
 
 	/**

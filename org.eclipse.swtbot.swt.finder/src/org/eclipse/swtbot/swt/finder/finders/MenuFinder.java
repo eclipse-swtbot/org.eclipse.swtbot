@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,8 +7,11 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.finders;
+
+import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.createEvent;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -17,7 +20,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -52,40 +54,61 @@ public class MenuFinder {
 	}
 
 	/**
-	 * Finds a menu matching the given item in all available shells. If recursive is set, it will attempt to find the
-	 * controls recursively in each of the menus it that is found.
+	 * Finds the menu item matching the given matcher in the given shell. If
+	 * recursive is set, it will attempt to find the menu item recursively
+	 * depth-first in each of the sub-menus that are found.
+	 *
+	 * @param shell the shell to probe for menus.
+	 * @param matcher the matcher that can match menu items.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
+	 * @return the menu item in the specified shell that matches the matcher, or null.
+	 * @since 2.4
+	 */
+	public MenuItem findMenuItem(final Shell shell, Matcher<MenuItem> matcher, boolean recursive, int index) {
+		return findMenuItem(menuBar(shell), matcher, recursive, index);
+	}
+
+	/**
+	 * Finds all menu items matching the given matcher in all available shells.
+	 * It will attempt to find the menu items recursively in each of the
+	 * sub-menus that are found.
 	 *
 	 * @param matcher the matcher that can match menus and menu items.
-	 * @return all menus in all shells that match the matcher.
+	 * @return all menu items in all shells that match the matcher.
 	 */
 	public List<MenuItem> findMenus(Matcher<MenuItem> matcher) {
 		return findMenus(getShells(), matcher, true);
 	}
 
 	/**
-	 * Finds all the menus using the given matcher in the set of shells provided. If recursive is set, it will attempt
-	 * to find the controls recursively in each of the menus it that is found.
+	 * Finds all menu items matching the given matcher in the set of shells
+	 * provided. If recursive is set, it will attempt to find the menu items
+	 * recursively in each of the sub-menus that are found.
 	 *
 	 * @param shells the shells to probe for menus.
 	 * @param matcher the matcher that can match menus and menu items.
-	 * @param recursive if set to true, will find sub-menus as well.
-	 * @return all menus in the specified shells that match the matcher.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @return all menu items in the specified shells that match the matcher.
 	 */
 	public List<MenuItem> findMenus(Shell[] shells, Matcher<MenuItem> matcher, boolean recursive) {
 		LinkedHashSet<MenuItem> result = new LinkedHashSet<MenuItem>();
-		for (Shell shell : shells)
-			result.addAll(findMenus(shell, matcher, recursive));
+		for (Shell shell : shells) {
+			List<MenuItem> findMenus = findMenus(shell, matcher, recursive);
+			result.addAll(findMenus);
+		}
 		return new ArrayList<MenuItem>(result);
 	}
 
 	/**
-	 * Finds the menus in the given shell using the given matcher. If recursive is set, it will attempt to find the
-	 * controls recursively in each of the menus it that is found.
+	 * Finds all menu items matching the given matcher in the given shell. If
+	 * recursive is set, it will attempt to find the menu items recursively in
+	 * each of the sub-menus that are found.
 	 *
 	 * @param shell the shell to probe for menus.
 	 * @param matcher the matcher that can match menus and menu items.
-	 * @param recursive if set to true, will find sub-menus as well.
-	 * @return all menus in the specified shell that match the matcher.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @return all menu items in the specified shell that match the matcher.
 	 */
 	public List<MenuItem> findMenus(final Shell shell, Matcher<MenuItem> matcher, boolean recursive) {
 		LinkedHashSet<MenuItem> result = new LinkedHashSet<MenuItem>();
@@ -110,18 +133,39 @@ public class MenuFinder {
 	}
 
 	/**
-	 * Finds all the menus in the given menu bar matching the given matcher. If recursive is set, it will attempt to
-	 * find the controls recursively in each of the menus it that is found.
+	 * Finds the menu item matching the given matcher in the given menu. If
+	 * recursive is set, it will attempt to find the menu item recursively
+	 * depth-first in each of the sub-menus that are found.
 	 *
-	 * @param bar the menu bar
-	 * @param matcher the matcher that can match menus and menu items.
-	 * @param recursive if set to true, will find sub-menus as well.
-	 * @return all menus in the specified menubar that match the matcher.
+	 * @param menu the menu.
+	 * @param matcher the matcher that can match menu items.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
+	 * @return the menu item in the specified shell that matches the matcher, or null.
+	 * @since 2.4
 	 */
-	public List<MenuItem> findMenus(final Menu bar, final Matcher<MenuItem> matcher, final boolean recursive) {
+	public MenuItem findMenuItem(final Menu menu, final Matcher<MenuItem> matcher, final boolean recursive, final int index) {
+		return UIThreadRunnable.syncExec(new WidgetResult<MenuItem>() {
+			public MenuItem run() {
+				return findMenuItemInternal(menu, matcher, recursive, new int[] { index } );
+			}
+		});
+	}
+
+	/**
+	 * Finds all menu items matching the given matcher in the given menu. If
+	 * recursive is set, it will attempt to find the menu items recursively in
+	 * each of the sub-menus that are found.
+	 *
+	 * @param menu the menu.
+	 * @param matcher the matcher that can match menu items.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @return all menu items in the specified menu that match the matcher.
+	 */
+	public List<MenuItem> findMenus(final Menu menu, final Matcher<MenuItem> matcher, final boolean recursive) {
 		return UIThreadRunnable.syncExec(display, new ListResult<MenuItem>() {
 			public List<MenuItem> run() {
-				return findMenusInternal(bar, matcher, recursive);
+				return findMenusInternal(menu, matcher, recursive);
 			}
 		});
 	}
@@ -141,30 +185,89 @@ public class MenuFinder {
 	}
 
 	/**
-	 * @param bar
+	 * @param menu
+	 * @param matcher
+	 * @param recursive
+	 * @param index
+	 * @return
+	 */
+	private MenuItem findMenuItemInternal(final Menu menu, final Matcher<MenuItem> matcher, final boolean recursive, final int[] index) {
+		if (menu == null) {
+			return null;
+		}
+		MenuItem[] items = menu.getItems();
+		for (MenuItem menuItem : items) {
+			if (menuItem.isDisposed() || isSeparator(menuItem)) {
+				continue;
+			}
+			if (matcher.matches(menuItem)) {
+				if (index[0]-- > 0) {
+					continue;
+				}
+				menuItem.notifyListeners(SWT.Arm, createEvent(menuItem));
+				Menu subMenu = menuItem.getMenu();
+				if (subMenu != null) {
+					subMenu.notifyListeners(SWT.Show, createEvent(subMenu));
+				}
+				return menuItem;
+			}
+			if (recursive) {
+				Menu subMenu = menuItem.getMenu();
+				if (subMenu != null) {
+					menuItem.notifyListeners(SWT.Arm, createEvent(menuItem));
+					subMenu.notifyListeners(SWT.Show, createEvent(subMenu));
+					MenuItem subMenuItem = findMenuItemInternal(subMenu, matcher, recursive, index);
+					if (subMenuItem != null) {
+						return subMenuItem;
+					}
+					subMenu.notifyListeners(SWT.Hide, createEvent(subMenu));
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param menu
 	 * @param matcher
 	 * @param recursive
 	 * @return
 	 */
-	private List<MenuItem> findMenusInternal(final Menu bar, final Matcher<MenuItem> matcher, final boolean recursive) {
+	private List<MenuItem> findMenusInternal(final Menu menu, final Matcher<MenuItem> matcher, final boolean recursive) {
 		LinkedHashSet<MenuItem> result = new LinkedHashSet<MenuItem>();
-		if (bar != null) {
-			bar.notifyListeners(SWT.Show, new Event());
-			MenuItem[] items = bar.getItems();
+		if (menu != null) {
+			MenuItem[] items = menu.getItems();
 			for (MenuItem menuItem : items) {
-				if (isSeparator(menuItem)) {
+				if (menuItem.isDisposed() || isSeparator(menuItem)) {
 					continue;
 				}
-				if (matcher.matches(menuItem))
+				boolean matches = matcher.matches(menuItem);
+				if (matches) {
+					menuItem.notifyListeners(SWT.Arm, createEvent(menuItem));
+					Menu subMenu = menuItem.getMenu();
+					if (subMenu != null) {
+						subMenu.notifyListeners(SWT.Show, createEvent(subMenu));
+					}
 					result.add(menuItem);
-				if (recursive)
-					result.addAll(findMenusInternal(menuItem.getMenu(), matcher, recursive));
-			}
-			// Do not close menus which contain the item we're looking for - this destroys dynamic menu contributions
-			// giving us the SWT MenuItem but without a E4 model attached (and therefore cannot be used).
-			// @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=469581
-			if (result.isEmpty()) {
-			    bar.notifyListeners(SWT.Hide, new Event());
+				}
+				if (recursive) {
+					Menu subMenu = menuItem.getMenu();
+					if (subMenu != null) {
+						if (!matches) {
+							menuItem.notifyListeners(SWT.Arm, createEvent(menuItem));
+							menu.notifyListeners(SWT.Show, createEvent(menu));
+						}
+						List<MenuItem> menuItems = findMenusInternal(menuItem.getMenu(), matcher, recursive);
+						if (!menuItems.isEmpty()) {
+							// Do not close menus which contain the item we're looking for - this destroys dynamic menu contributions
+							// giving us the SWT MenuItem but without a E4 model attached (and therefore cannot be used).
+							// @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=469581
+							result.addAll(menuItems);
+						} else {
+							menu.notifyListeners(SWT.Hide, createEvent(menu));
+						}
+					}
+				}
 			}
 		}
 		return new ArrayList<MenuItem>(result);

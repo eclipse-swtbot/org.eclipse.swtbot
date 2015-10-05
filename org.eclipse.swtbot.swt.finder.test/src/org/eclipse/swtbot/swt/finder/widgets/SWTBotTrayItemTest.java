@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others.
+ * Copyright (c) 2009, 2015 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Toby Weston - initial API and implementation (Bug 259860)
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -27,7 +28,6 @@ import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTShellTest;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SWTBotTrayItemTest extends AbstractSWTShellTest {
@@ -74,8 +74,8 @@ public class SWTBotTrayItemTest extends AbstractSWTShellTest {
 	}
 
 	@Test
-	@Ignore
 	public void menuCanBeAccessedOnTrayItem() {
+		menuSelected = false;
 		bot.trayItem(2).menu("Menu").click();
 		assertTrue(menuSelected);
 	}

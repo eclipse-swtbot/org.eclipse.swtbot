@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.ui.functional;
 
@@ -23,7 +24,7 @@ public class SWTBotProject {
 	private final SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
 
 	public void create(String projectId) {
-		bot.menu("File").menu("New").menu("Project...").click();
+		bot.menu().menu("File").menu("New").menu("Project...").click();
 		SWTBotShell shell = bot.shell("New Project");
 		shell.activate();
 

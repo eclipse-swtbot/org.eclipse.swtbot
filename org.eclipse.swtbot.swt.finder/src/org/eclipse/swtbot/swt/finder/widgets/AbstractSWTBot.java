@@ -8,18 +8,15 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled;
-import static org.hamcrest.Matchers.allOf;
 
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -32,15 +29,10 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.ContextMenuFinder;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
@@ -62,8 +54,8 @@ import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.Traverse;
 import org.eclipse.swtbot.swt.finder.utils.WidgetTextDescription;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
+import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
-import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
 import org.hamcrest.StringDescription;
 
@@ -418,51 +410,68 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	}
 
 	/**
-	 * Gets the context menu matching the text.
+	 * Gets the context menu of this widget.
+	 * <p>
+	 * The context menu is invoked at the center of this widget.
 	 *
-	 * @param text the text on the context menu.
-	 * @return the menu that has the given text.
+	 * @return the context menu.
 	 * @throws WidgetNotFoundException if the widget is not found.
+	 * @since 2.4
 	 */
-	public SWTBotMenu contextMenu(final String text) throws WidgetNotFoundException {
+	public SWTBotRootMenu contextMenu() throws WidgetNotFoundException {
 		if (widget instanceof Control) {
-			return contextMenu((Control) widget, text);
+			return contextMenu((Control) widget);
 		}
-		throw new WidgetNotFoundException("Could not find menu: " + text); //$NON-NLS-1$
+		throw new WidgetNotFoundException("Could not find context menu for widget: " + widget); //$NON-NLS-1$
 	}
 
 	/**
-	 * Gets the context menu on the given control, matching the text.
+	 * Gets the context menu of the given control.
+	 * <p>
+	 * The context menu is invoked at the center of this widget.
 	 *
-	 * @param control the control
-	 * @param text the text on the context menu.
-	 * @return the menu that has the given text.
+	 * @param control the control.
+	 * @return the context menu.
+	 * @throws WidgetNotFoundException if the widget is not found.
+	 * @since 2.4
+	 */
+	protected SWTBotRootMenu contextMenu(final Control control) throws WidgetNotFoundException {
+		ContextMenuHelper.notifyMenuDetect(control, widget);
+
+		WaitForObjectCondition<Menu> waitForMenu = Conditions.waitForPopupMenu(control);
+		new SWTBot().waitUntil(waitForMenu);
+		return new SWTBotRootMenu(waitForMenu.get(0));
+	}
+
+	/**
+	 * Gets the context menu item matching the given text. It will attempt to
+	 * find the menu item recursively in each of the sub-menus that are found.
+	 * <p>
+	 * This is equivalent to calling contextMenu().menu(text, true, 0);
+	 *
+	 * @param text the text on the context menu item.
+	 * @return the context menu item that has the given text.
+	 * @throws WidgetNotFoundException if the widget is not found.
+	 */
+	public SWTBotMenu contextMenu(final String text) throws WidgetNotFoundException {
+		return contextMenu().menu(text, true, 0);
+	}
+
+	/**
+	 * Gets the context menu item matching the given text on the given control.
+	 * It will attempt to find the menu item recursively in each of the
+	 * sub-menus that are found.
+	 * <p>
+	 * This is equivalent to calling contextMenu(control).menu(text, true, 0);
+	 *
+	 * @param control the control.
+	 * @param text the text on the context menu item.
+	 * @return the context menu item that has the given text.
 	 * @throws WidgetNotFoundException if the widget is not found.
 	 * @since 2.0
 	 */
 	protected SWTBotMenu contextMenu(final Control control, final String text) {
-		ContextMenuHelper.notifyMenuDetect(control, widget);
-
-		Matcher<MenuItem> withMnemonic = withMnemonic(text);
-		final Matcher<MenuItem> matcher = allOf(widgetOfType(MenuItem.class), withMnemonic);
-		final ContextMenuFinder menuFinder = new ContextMenuFinder(control);
-		WaitForObjectCondition<MenuItem> condition = new WaitForObjectCondition<MenuItem>(matcher) {
-			public String getFailureMessage() {
-				return "Could not find context menu with text: " + text; //$NON-NLS-1$
-			}
-
-			@Override
-			protected List<MenuItem> findMatches() {
-				for (MenuItem menuItem : menuFinder.findMenus(matcher)) {
-					if (!menuItem.isDisposed()) {
-						return Collections.singletonList(menuItem);
-					}
-				}
-				return Collections.<MenuItem>emptyList();
-			}
-		};
-		new SWTBot().waitUntil(condition);
-		return new SWTBotMenu(condition.get(0), matcher);
+		return contextMenu(control).menu(text, true, 0);
 	}
 
 	/**
@@ -504,7 +513,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the array returned by toExecute.
 	 */
-	protected <T> T[] syncExec(ArrayResult<T> toExecute) {
+	protected <E> E[] syncExec(ArrayResult<E> toExecute) {
 		return UIThreadRunnable.syncExec(display, toExecute);
 	}
 
@@ -554,7 +563,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @param toExecute the object to be invoked in the UI thread.
 	 * @return the boolean returned by toExecute
 	 */
-	protected <T> T syncExec(Result<T> toExecute) {
+	protected <E> E syncExec(Result<E> toExecute) {
 		return UIThreadRunnable.syncExec(display, toExecute);
 	}
 

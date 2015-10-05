@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,10 +7,12 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
@@ -18,7 +20,9 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
+import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -147,4 +151,15 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 		return new SWTBot(widget);
 	}
 
+	/**
+	 * Gets the menu bar of this shell.
+	 *
+	 * @return the menu bar.
+	 * @since 2.4
+	 */
+	public SWTBotRootMenu menu() {
+		WaitForObjectCondition<Menu> waitForMenu = Conditions.waitForMenuBar(this);
+		bot().waitUntil(waitForMenu);
+		return new SWTBotRootMenu(waitForMenu.get(0));
+	}
 }

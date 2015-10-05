@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009-2013 SWTBot Committers and others.
+ * Copyright (c) 2009, 2015 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,15 +8,15 @@
  * Contributors:
  *     Toby Weston - initial API and implementation (Bug 259860)
  *     Mickael Istria (Red Hat Inc.) - Bug 422458
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
 
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TrayItem;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.EventContextMenuFinder;
@@ -40,16 +40,18 @@ public class SWTBotTrayItem extends AbstractSWTBot<TrayItem> {
 		super(widget);
 	}
 
+	@Override
 	public SWTBotMenu contextMenu(String label) throws WidgetNotFoundException {
 		EventContextMenuFinder finder = new EventContextMenuFinder();
 		try {
 			finder.register();
 			notify(SWT.MenuDetect);
 			Matcher<MenuItem> withMnemonic = withMnemonic(label);
-			List<MenuItem> menus = finder.findMenus(withMnemonic);
-			if (menus.isEmpty())
+			MenuItem menuItem = finder.findMenuItem((Shell) null, withMnemonic, true, 0);
+			if (menuItem == null) {
 				throw new WidgetNotFoundException("Could not find a menu item with label: " + label);
-			return new SWTBotMenu(menus.get(0));
+			}
+			return new SWTBotMenu(menuItem, withMnemonic);
 		} finally {
 			finder.unregister();
 		}

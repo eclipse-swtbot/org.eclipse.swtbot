@@ -8,11 +8,15 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Patrick Tasse - Fix ContextMenuFinder returns disposed menu items (Bug 458975)
+ *                   - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.finders;
 
+import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.createEvent;
+
 import java.util.List;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -46,6 +50,30 @@ public class ContextMenuFinder extends MenuFinder {
 		this.control = control;
 	}
 
+	/**
+	 * Finds the menu item matching the given matcher in this control's pop up
+	 * menu. If recursive is set, it will attempt to find the menu item
+	 * recursively depth-first in each of the sub-menus that are found.
+	 *
+	 * @param menu the menu.
+	 * @param matcher the matcher that can match menus and menu items.
+	 * @param recursive if set to true, will find depth-first in sub-menus as well.
+	 * @param index the index of the menu item, in case there are multiple matching menu items.
+	 * @return the menu item in the specified shell that matches the matcher, or null.
+	 * @since 2.4
+	 */
+	public MenuItem findMenuItem(Matcher<MenuItem> matcher, boolean recursive, int index) {
+		return findMenuItem(menuBar(null), matcher, recursive, index);
+	}
+
+	/**
+	 * Finds all menu items matching the given matcher in this control's pop up
+	 * menu. It will attempt to find the menu items recursively in each of the
+	 * sub-menus that are found.
+	 *
+	 * @param matcher the matcher that can match menus and menu items.
+	 * @return all menu items in this control's pop up menu that match the matcher.
+	 */
 	@Override
 	public List<MenuItem> findMenus(Matcher<MenuItem> matcher) {
 		return findMenus(menuBar(null), matcher, true);
@@ -55,7 +83,11 @@ public class ContextMenuFinder extends MenuFinder {
 	protected Menu menuBar(final Shell shell) {
 		return UIThreadRunnable.syncExec(display, new WidgetResult<Menu>() {
 			public Menu run() {
-				return control.getMenu();
+				Menu popupMenu = control.getMenu();
+				if (popupMenu != null) {
+					popupMenu.notifyListeners(SWT.Show, createEvent(popupMenu));
+				}
+				return popupMenu;
 			}
 		});
 	}

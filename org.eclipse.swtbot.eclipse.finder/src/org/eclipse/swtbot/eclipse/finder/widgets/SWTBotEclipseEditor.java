@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
  *     Ralf Ebert www.ralfebert.de - (bug 271630) SWTBot Improved RCP / Workbench support
  *     Ingo Mohr - Bug 416859
  *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=435390
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -37,7 +38,6 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.exceptions.QuickFixNotFoundException;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
@@ -263,15 +263,14 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
-	 * Gets the context menu in the editor.
+	 * Gets the context menu item matching the given text in the editor.
 	 *
-	 * @param text the context menu item.
-	 * @return the menu
+	 * @param text the text on the menu item that is to be found.
+	 * @return the menu item that has the given text.
 	 * @throws WidgetNotFoundException if the menu with the specified text could not be found.
-	 * @see org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot#contextMenu(java.lang.String)
 	 */
 	public SWTBotMenu contextMenu(String text) throws WidgetNotFoundException {
-		return new SWTBotMenu(ContextMenuHelper.contextMenu(styledText, text));	
+		return styledText.contextMenu().menu(text);
 	}
 
 	/**

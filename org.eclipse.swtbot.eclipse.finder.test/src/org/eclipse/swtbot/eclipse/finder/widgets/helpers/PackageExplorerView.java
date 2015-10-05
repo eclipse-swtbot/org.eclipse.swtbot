@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets.helpers;
 
@@ -20,6 +21,7 @@ import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 
 /**
  * Screen object that represents the operations that can be performed on the package explorer view.
@@ -34,8 +36,8 @@ public class PackageExplorerView {
 	public void deleteProject(String projectName) throws Exception {
 		SWTBotTree tree = tree();
 		tree.setFocus();
-		tree.select(projectName);
-		bot.menu("Edit").menu("Delete").click();
+		SWTBotTreeItem treeItem = tree.getTreeItem(projectName);
+		treeItem.contextMenu().menu("Delete").click();
 		SWTBotShell shell = bot.shell("Delete Resources");
 		shell.activate();
 		Button button = bot.widget(widgetOfType(Button.class), shell.widget);

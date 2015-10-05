@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2011 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Hans Schwaebli - http://swtbot.org/bugzilla/show_bug.cgi?id=108
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.utils;
 
@@ -16,6 +17,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
@@ -26,10 +29,14 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
@@ -132,6 +139,36 @@ public abstract class SWTUtils {
 			return UIThreadRunnable.syncExec(widget.getDisplay(), new ReflectionInvoker(obj, "getToolTipText")); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * Gets the full path array of text strings starting at the root menu down
+	 * to this menu item. The string at index 0 will be "BAR" for a menu bar and
+	 * "POP_UP" for a pop up menu.
+	 *
+	 * @return the full path array of text strings
+	 * @since 2.4
+	 */
+	public static String[] getTextPath(final MenuItem menuItem) {
+		return UIThreadRunnable.syncExec(new ArrayResult<String>() {
+			public String[] run() {
+				List<String> textPath = new ArrayList<String>();
+				textPath.add(menuItem.getText());
+				Menu menu = menuItem.getParent();
+				while (menu != null) {
+					MenuItem item = menu.getParentItem();
+					if (item != null) {
+						textPath.add(0, item.getText());
+					} else if ((menu.getStyle() & SWT.BAR) != 0) {
+						textPath.add(0, "BAR");
+					} else if ((menu.getStyle() & SWT.POP_UP) != 0) {
+						textPath.add(0, "POP_UP");
+					}
+					menu = menu.getParentMenu();
+				}
+				return textPath.toArray(new String[textPath.size()]);
+			}
+		});
 	}
 
 	/**
@@ -518,4 +555,18 @@ public abstract class SWTUtils {
 		return SWT.getPlatform().equals("carbon");
 	}
 
+	/**
+	 * Creates an event and sets the time, widget and display.
+	 *
+	 * @param widget the widget.
+	 * @return the event.
+	 * @since 2.4
+	 */
+	public static Event createEvent(Widget widget) {
+		Event event = new Event();
+		event.time = (int) System.currentTimeMillis();
+		event.widget = widget;
+		event.display = display();
+		return event;
+	}
 }

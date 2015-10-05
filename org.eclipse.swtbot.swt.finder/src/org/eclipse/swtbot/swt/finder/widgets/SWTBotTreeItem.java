@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2014 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
  *     Kristine Jetzke - Bug 379185
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 363916
  *     Stephane Bouchet (Intel Corporation) - Bug 451547
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -28,7 +29,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
@@ -548,13 +548,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	@Override
-	public SWTBotMenu contextMenu(String text) {
-		SWTBotTree swtBotTree = new SWTBotTree(tree);
-		swtBotTree.waitForEnabled();
+	public SWTBotRootMenu contextMenu() {
+		new SWTBotTree(tree).waitForEnabled();
 		select();
-		notifyTree(SWT.MouseDown, createMouseEvent(0, 0, 3, 0, 1));
-		notifyTree(SWT.MouseUp, createMouseEvent(0, 0, 3, 0, 1));
-		return new SWTBotMenu(ContextMenuHelper.contextMenu(swtBotTree, widget, text));
+		return contextMenu(tree);
 	}
 
 	/**

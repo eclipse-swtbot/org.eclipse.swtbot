@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008,2010 http://www.inria.fr/ and others.
+ * Copyright (c) 2008, 2015 http://www.inria.fr/ and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     http://www.inria.fr/ - initial API and implementation
  *     Cédric Chabanois - bug 269164
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -137,11 +138,12 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 			}
 		});
 	}
-	
-	public SWTBotMenu contextMenu(String text) throws WidgetNotFoundException {
+
+	@Override
+	public SWTBotRootMenu contextMenu() throws WidgetNotFoundException {
 		new SWTBotTable(table).waitForEnabled();
 		select();
-		return super.contextMenu(table, text);
+		return contextMenu(table);
 	}
 
 	/**

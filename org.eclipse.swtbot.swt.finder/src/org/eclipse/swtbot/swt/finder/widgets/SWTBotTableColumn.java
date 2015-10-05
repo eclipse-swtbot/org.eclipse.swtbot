@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Patrick Tasse - Support contextMenu() on table column header
+ *                   - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -84,8 +85,8 @@ public class SWTBotTableColumn extends AbstractSWTBot<TableColumn> {
 	}
 
 	@Override
-	public SWTBotMenu contextMenu(String text) throws WidgetNotFoundException {
+	public SWTBotRootMenu contextMenu() throws WidgetNotFoundException {
 		new SWTBotTable(parent).waitForEnabled();
-		return super.contextMenu(parent, text);
+		return contextMenu(parent);
 	}
 }

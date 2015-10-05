@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2013 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259720
  *     Kristine Jetzke - Bug 379185
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -46,7 +47,6 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		bot.button("Clear").click();
 		node.contextMenu("getItem(Point) on mouse coordinates").click();
 		assertEventMatches(listeners, "MenuDetect [35]: Event {type=35 Tree {} time=175982645 data=null x=148 y=195 width=0 height=0 detail=0}");
-		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=175982645 data=null button=3 stateMask=" + toStateMask(0, tree.widget) + " x=122 y=81 count=1}");
 		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=175985221 data=null item=TreeItem {Node 2.2.1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, tree.widget) + " text=null doit=true}");
 		assertEventMatches(listeners, "getItem(Point(Point {");
 	}

@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Patrick Tasse - Speed up SWTBot tests
+ *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=479317
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets.helpers;
 
@@ -28,8 +29,10 @@ public class NewJavaProject {
 
 	public void createProject(String projectName) throws Exception {
 		if (!bot.activePerspective().getLabel().equals("Java")) {
-			SWTBotMenu windowMenu = bot.menu("Window");
-			SWTBotMenu perspectiveMenu = windowMenu.menu("Open Perspective");
+			// In Mars "Open Perspective" is nested in "Perspective", so use this
+			// method to recursively find "Open Perspective" and don't assume it is
+			// nested in "Window" as it used to be in versions earlier than Mars
+			SWTBotMenu perspectiveMenu = bot.menu("Open Perspective");
 			SWTBotMenu javaPerspectiveMenu = perspectiveMenu.menu("Java");
 			if (javaPerspectiveMenu.isVisible() && javaPerspectiveMenu.isEnabled()) { 
 				javaPerspectiveMenu.click();

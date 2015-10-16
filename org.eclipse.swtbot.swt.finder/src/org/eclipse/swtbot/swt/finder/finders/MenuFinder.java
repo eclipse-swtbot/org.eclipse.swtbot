@@ -255,16 +255,16 @@ public class MenuFinder {
 					if (subMenu != null) {
 						if (!matches) {
 							menuItem.notifyListeners(SWT.Arm, createEvent(menuItem));
-							menu.notifyListeners(SWT.Show, createEvent(menu));
+							subMenu.notifyListeners(SWT.Show, createEvent(subMenu));
 						}
-						List<MenuItem> menuItems = findMenusInternal(menuItem.getMenu(), matcher, recursive);
+						List<MenuItem> menuItems = findMenusInternal(subMenu, matcher, recursive);
 						if (!menuItems.isEmpty()) {
 							// Do not close menus which contain the item we're looking for - this destroys dynamic menu contributions
 							// giving us the SWT MenuItem but without a E4 model attached (and therefore cannot be used).
 							// @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=469581
 							result.addAll(menuItems);
-						} else {
-							menu.notifyListeners(SWT.Hide, createEvent(menu));
+						} else if (!matches) {
+							subMenu.notifyListeners(SWT.Hide, createEvent(subMenu));
 						}
 					}
 				}

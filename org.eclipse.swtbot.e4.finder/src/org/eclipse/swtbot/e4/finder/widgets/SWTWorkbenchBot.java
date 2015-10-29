@@ -135,6 +135,12 @@ public class SWTWorkbenchBot extends SWTBot {
 	 * Switches the active workbench page to this perspective.
 	 */
 	public void switchPerspective(final MPerspective perspective) {
+		/**
+		 * Wait until the IEclipseContext is ready. For some reason if we don't do this as of Kepler SR2 we
+		 * get issues thrown when attempting to do things such as switch perspective.
+		 */
+		this.waitUntil(new IEclipseContextReady());
+		
 		final EPartService partService = context.get(EPartService.class);
 		UIThreadRunnable.syncExec(new VoidResult() {
 			public void run() {
@@ -233,6 +239,12 @@ public class SWTWorkbenchBot extends SWTBot {
 	 * @param part
 	 */
 	public void showPart(final MPart part) {
+		/**
+		 * Wait until the IEclipseContext is ready. For some reason if we don't do this as of Kepler SR2 we
+		 * get issues thrown when attempting to do things such as switch perspective.
+		 */
+		this.waitUntil(new IEclipseContextReady());
+		
 		final EPartService partService = context.get(EPartService.class);		
 		UIThreadRunnable.syncExec(new VoidResult() {
 			public void run() {
@@ -247,6 +259,12 @@ public class SWTWorkbenchBot extends SWTBot {
 	 * @param part
 	 */
 	public void closePart(final MPart part) {
+		/**
+		 * Wait until the IEclipseContext is ready. For some reason if we don't do this as of Kepler SR2 we
+		 * get issues thrown when attempting to do things such as switch perspective.
+		 */
+		this.waitUntil(new IEclipseContextReady());
+		
 		final EPartService partService = context.get(EPartService.class);		
 		UIThreadRunnable.syncExec(new VoidResult() {
 			public void run() {

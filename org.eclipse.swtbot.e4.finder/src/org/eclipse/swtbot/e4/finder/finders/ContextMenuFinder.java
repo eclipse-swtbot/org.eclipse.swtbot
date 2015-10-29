@@ -17,6 +17,10 @@ import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 
+/**
+ * @deprecated Use org.eclipse.swtbot.swt.finder.finders.ContextMenuFinder instead
+ */
+@Deprecated
 public class ContextMenuFinder extends MenuFinder {
 	/**
 	 * The control to find context menus.

@@ -35,7 +35,10 @@ import org.hamcrest.Matcher;
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @author Stef Bolton - This was causing huge menu flicker in e4 so this version suppresses the HIDE/SHOW notifications which were seemingly redundant.
  * @version $Id$
+ * 
+ * @deprecated Use org.eclipse.swtbot.swt.finder.finders.MenuFinder instead.
  */
+@Deprecated
 public class MenuFinder {
 
 	/** The display */

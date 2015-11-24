@@ -42,6 +42,7 @@ import org.eclipse.swtbot.swt.finder.finders.ControlFinder;
 import org.eclipse.swtbot.swt.finder.finders.PathGenerator;
 import org.eclipse.swtbot.swt.finder.resolvers.IChildrenResolver;
 import org.eclipse.swtbot.swt.finder.resolvers.IParentResolver;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.TreePath;
 
@@ -95,10 +96,21 @@ class EclipseWidgetTracker implements Runnable {
 	}
 
 	public void getCompositeInformation(Control control, StringBuffer buf) {
-		List children = childrenResolver.getChildren(control);
+		List<Widget> children = childrenResolver.getChildren(control);
 		buf.append("\nChildren: " + children.size() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		for (Iterator iterator = children.iterator(); iterator.hasNext();)
+		for (Iterator<Widget> iterator = children.iterator(); iterator.hasNext();)
 			buf.append("\t" + iterator.next() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		buf.append("\n"); //$NON-NLS-1$
+	}
+	
+	public void getWidgetId(Control control, StringBuffer buf) {
+		buf.append("Widget's SWTBot ID: "); //$NON-NLS-1$
+		Object widgetId = control.getData(SWTBotPreferences.DEFAULT_KEY);
+		if (widgetId != null) {
+			buf.append(widgetId.toString());
+		} else {
+			buf.append("<no SWTBot ID set>"); //$NON-NLS-1$
+		}
 		buf.append("\n"); //$NON-NLS-1$
 	}
 
@@ -194,6 +206,8 @@ class EclipseWidgetTracker implements Runnable {
 		
 		getLocationInformation(control, buf);
 
+		getWidgetId(control, buf);
+		
 		getLayoutInformation(control, buf);
 
 		getCompositeInformation(control, buf);

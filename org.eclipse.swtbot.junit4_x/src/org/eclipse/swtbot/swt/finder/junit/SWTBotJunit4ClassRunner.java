@@ -17,7 +17,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 
 /**
  * A runner that captures screenshots on test failures. If you wish to launch your application for your tests use
- * {@link SWTBotApplicationLauncherClassRunner}. Clients are supposed to subclass this. Typical usage is:
+ * {@link SWTBotApplicationLauncherClassRunner}. Typical usage is:
  *
  * <pre>
  * &#064;RunWith(SWTBotJunit4ClassRunner.class)

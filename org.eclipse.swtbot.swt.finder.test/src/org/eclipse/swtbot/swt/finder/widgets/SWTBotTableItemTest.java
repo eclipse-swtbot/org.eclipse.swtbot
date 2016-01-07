@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2013 http://www.inria.fr/ and others.
+ * Copyright (c) 2008, 2016 http://www.inria.fr/ and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -115,11 +115,14 @@ public class SWTBotTableItemTest extends AbstractControlExampleTest {
 
 	@Test
 	public void canClickALine() throws Exception {
-		SWTBotTableItem line = table.getTableItem("Index:2");
+		String ITEM_TEXT = "Index:2";
+		SWTBotTableItem line = table.getTableItem(ITEM_TEXT);
 		bot.button("Clear").click();
 		line.click();
 		assertTextContains("MouseDown [3]: MouseEvent{Table {} ", listeners);
 		assertTextContains("Selection [13]: SelectionEvent{Table {} ", listeners);
+		assertEquals(1, table.selectionCount());
+		assertEquals(ITEM_TEXT, table.selection().get(0).get(0));
 	}
 
 	@Before

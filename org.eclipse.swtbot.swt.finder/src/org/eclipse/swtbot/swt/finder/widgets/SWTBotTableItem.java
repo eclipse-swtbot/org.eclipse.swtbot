@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 http://www.inria.fr/ and others.
+ * Copyright (c) 2008, 2016 http://www.inria.fr/ and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -89,6 +89,14 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.Activate);
 		notifyTable(SWT.FocusIn);
 		notifyTable(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		// SWT.Selection doesn't actually select on its own, we need to do it explicitly
+		syncExec(new VoidResult() {
+			public void run() {
+				if (table.getSelectionCount() != 1 || !table.getSelection()[0].equals(widget)) {
+					table.setSelection(widget);
+				}
+			}
+		});
 		notifyTable(SWT.Selection, createEvent());
 		notifyTable(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
 		notifyTable(SWT.MouseHover);

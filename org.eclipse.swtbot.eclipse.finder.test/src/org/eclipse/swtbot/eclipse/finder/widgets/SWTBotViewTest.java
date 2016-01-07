@@ -92,7 +92,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		this.bot.shell("Show View").activate();
 		SWTBotTree tree = bot.tree();
 		SWTBotTreeItem expandNode = tree.expandNode("SWTBot Test Category");
-		expandNode.select("SWTBot Test View").click();
+		expandNode.getNode("SWTBot Test View").click();
 		this.bot.button("OK").click();
 		this.bot.viewByTitle("SWTBot Test View").show();
 	}
@@ -254,7 +254,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		this.bot.shell("Show View").activate();
 		SWTBotTree tree = bot.tree();
 		SWTBotTreeItem expandNode = tree.expandNode("Debug");
-		expandNode.select("Breakpoints").click();
+		expandNode.getNode("Breakpoints").click();
 		this.bot.button("OK").click();
 
 		SWTBotView breakpointsView = this.bot.viewByTitle("Breakpoints");

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -384,6 +384,14 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.FocusIn);
 		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
 		notifyTree(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
+		// SWT.Selection doesn't actually select on its own, we need to do it explicitly
+		syncExec(new VoidResult() {
+			public void run() {
+				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
+					tree.setSelection(widget);
+				}
+			}
+		});
 		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 		notifyTree(SWT.MouseHover);
 		notifyTree(SWT.MouseMove);

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.junit;
 
-import org.junit.runner.notification.RunListener;
+import org.eclipse.swtbot.swt.finder.junit.internal.ScreenshotCaptureNotifier;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.Suite;
 import org.junit.runners.model.RunnerBuilder;
@@ -50,13 +50,11 @@ public final class SWTBotJUnit4Suite extends Suite {
 	 * @see org.junit.runners.Suite#run(RunNotifier)
 	 */
 	public void run(RunNotifier notifier) {
-		RunListener failureSpy = new ScreenshotCaptureListener();
-		notifier.removeListener(failureSpy); // remove existing listeners that could be added by suite or class runners
-		notifier.addListener(failureSpy);
-		try {
+		if (notifier instanceof ScreenshotCaptureNotifier) {
 			super.run(notifier);
-		} finally {
-			notifier.removeListener(failureSpy);
+		} else {
+			RunNotifier wrappedNotifier = new ScreenshotCaptureNotifier(notifier);
+			super.run(wrappedNotifier);
 		}
 	}
 

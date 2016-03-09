@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,32 +10,32 @@
  *     Frank Schuerer - https://bugs.eclipse.org/bugs/show_bug.cgi?id=424238
  *     Mickael Istria (Red Hat Inc.) - Refactoring for bug 437915
  *     Patrick Tasse - Speed up SWTBot tests
+ *                   - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.eclipse.finder.FinderTestIds;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarDropDownButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarRadioButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.Version;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
@@ -103,11 +103,11 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 
 		// Runs an action that is an iAction and doesn't contain a contribution id
-		view.menu("IAction Type Command").click();
+		view.viewMenu().menu("IAction Type Command").click();
 		bot.button("OK").click();
 
 		// Runs an action that is an iAction with ID
-		view.menu("IAction with ID Type Command").click();
+		view.viewMenu().menu("IAction with ID Type Command").click();
 		bot.button("OK").click();
 	};
 
@@ -117,8 +117,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 		
 		// Runs an action that has a contribution ID instead of the action.
-		SWTBotViewMenu cICMenu = view.menu("Contribution Item Command");
-		cICMenu.click();
+		view.viewMenu().menu("Contribution Item Command").click();
 		bot.button("OK").click();
 	}
 	
@@ -129,15 +128,11 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 	 */
 	@Test
 	public void menusExtensionsParameterizedCommand() throws Exception {
-		Bundle org_eclipse_core_runtime = Platform.getBundle("org.eclipse.core.runtime");
-		Assume.assumeTrue("SWTBot doesn't support view menus with parameterized commands on e4. Cf bug 437915",
-				org_eclipse_core_runtime.getVersion().compareTo(new Version(3,8,0)) < 0);
 		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
 		
 		// Runs an action that has a contribution ID instead of the action.
-		SWTBotViewMenu pCICMenu = view.menu("Try the Banana");
-		pCICMenu.click();
+		view.viewMenu().menu("Try the Banana").click();
 		bot.button("OK").click();
 	}
 
@@ -243,11 +238,24 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		openSWTBotTestView();
 
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
-		view.menu("View Action with ID").click();
+		view.viewMenu().menu("View Action with ID").click();
 
 		bot.button("OK").click();
 	}
-	
+
+	@Test
+	public void viewMenuDropDown() throws Exception {
+		openSWTBotTestView();
+
+		SWTBotView view = bot.viewByTitle("SWTBot Test View");
+		SWTBotMenu menu = view.viewMenu().menu("DropDown", "DropDown Toggle");
+		assertFalse(menu.isChecked());
+		menu.click();
+		menu = view.viewMenu().menu("DropDown", "DropDown Toggle");
+		assertTrue(menu.isChecked());
+		menu.hide();
+	}
+
 	@Test
 	public void breakpointsViewMenuWorkingSets() {
 		this.bot.menu("Window").menu("Show View").menu("Other...").click();
@@ -259,7 +267,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 
 		SWTBotView breakpointsView = this.bot.viewByTitle("Breakpoints");
 		breakpointsView.show();
-		breakpointsView.menu("Working Sets...").click();
+		breakpointsView.viewMenu().menu("Working Sets...").click();
 	
 		bot.button("OK").click();
 	}

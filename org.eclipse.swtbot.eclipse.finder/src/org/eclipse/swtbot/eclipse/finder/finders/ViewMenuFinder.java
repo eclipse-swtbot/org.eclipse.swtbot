@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2014 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Mickael Istria (Red Hat Inc.) - Note about bug 437915
+ *     Patrick Tasse - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.finders;
 
@@ -20,11 +21,14 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.SubContributionItem;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotViewMenu;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.menus.CommandContributionItem;
@@ -36,7 +40,11 @@ import org.hamcrest.Matcher;
  * @author @author Stephen Paulin &lt;paulin [at] spextreme [dot] com&gt;
  * @version $Id$
  * @since 1.2
+ * @deprecated Use {@link SWTBotView#viewMenu()} and
+ *             {@link SWTBotRootMenu#menu(String...)} to get a
+ *             {@link SWTBotMenu} instead.
  */
+@Deprecated
 public class ViewMenuFinder {
 	/**
 	 * The logging instance for this class.

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2014 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,10 +8,13 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Xavier Raynaud <xavier.raynaud@kalray.eu> - bug 437588
+ *     Patrick Tasse - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.waits;
 
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewReference;
 import org.hamcrest.Matcher;
@@ -46,6 +49,17 @@ public class Conditions extends org.eclipse.swtbot.swt.finder.waits.Conditions {
 	 */
 	public static WaitForJobs waitForJobs(Object jobFamily, String humanReadableJobFamily) {
 		return new WaitForJobs(jobFamily, humanReadableJobFamily);
+	}
+
+	/**
+	 * Gets the condition to wait for a view's view menu.
+	 *
+	 * @param viewReference the view reference.
+	 * @return a condition that waits for the view's view menu.
+	 * @since 2.4
+	 */
+	public static WaitForObjectCondition<Menu> waitForViewMenu(IViewReference viewReference) {
+		return new WaitForViewMenu(viewReference);
 	}
 
 }

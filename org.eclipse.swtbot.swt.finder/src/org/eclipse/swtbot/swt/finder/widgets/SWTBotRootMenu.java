@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Ericsson
+ * Copyright (c) 2015, 2016 Ericsson
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Patrick Tasse - Initial API and implementation
+ *                   - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -25,7 +26,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
 
 /**
- * SWTBot class representing a shell's menu bar or a control's pop up menu.
+ * SWTBot class representing a shell's menu bar, a control's pop up menu, or a
+ * view's view menu.
  *
  * @author Patrick Tasse
  * @version $Id$
@@ -139,7 +141,8 @@ public class SWTBotRootMenu extends AbstractSWTBot<Menu> {
 	}
 
 	/**
-	 * Hide this menu if it is a pop up menu. Does nothing if it is a menu bar.
+	 * Hide this menu if it is a pop up menu or a view menu. Does nothing if it
+	 * is a menu bar.
 	 *
 	 * @return itself.
 	 */

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Ralf Ebert www.ralfebert.de - (bug 271630) SWTBot Improved RCP / Workbench support
+ *     Patrick Tasse - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -21,14 +22,19 @@ import java.util.List;
 import javax.swing.text.View;
 
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.finders.CommandFinder;
 import org.eclipse.swtbot.eclipse.finder.finders.ViewMenuFinder;
+import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.utils.PartLabelDescription;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -98,10 +104,39 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	}
 
 	/**
+	 * Gets the view menu of this view.
+	 *
+	 * @return the view menu.
+	 * @since 2.4
+	 */
+	public SWTBotRootMenu viewMenu() {
+		WaitForObjectCondition<Menu> waitForMenu = Conditions.waitForViewMenu(partReference);
+		new SWTBot().waitUntil(waitForMenu);
+		return new SWTBotRootMenu(waitForMenu.get(0));
+	}
+
+	/**
+	 * Gets the view menu item matching the given text. It will attempt to
+	 * find the menu item recursively in each of the sub-menus that are found.
+	 * <p>
+	 * This is equivalent to calling viewMenu().menu(text, true, 0);
+	 *
+	 * @param text the text on the view menu item.
+	 * @return the view menu item that has the given text.
+	 * @throws WidgetNotFoundException if the widget is not found.
+	 * @since 2.4
+	 */
+	public SWTBotMenu viewMenu(final String text) throws WidgetNotFoundException {
+		return viewMenu().menu(text, true, 0);
+	}
+
+	/**
 	 * Gets a list of all menus within the partReference. This will also include sub menus.
 	 * 
 	 * @return The list of menus
+	 * @deprecated Use {@link #viewMenu()} and get specific menu items instead.
 	 */
+	@Deprecated
 	public List<SWTBotViewMenu> menus() {
 		return menuFinder.findMenus(partReference, anything(), true);
 	}
@@ -113,7 +148,9 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	 * @return The {@link SWTBotMenu} item.
 	 * @throws WidgetNotFoundException Thrown if the menu can not be found or if the partReference does not contain a
 	 *             menu.
+	 * @deprecated Use {@link #viewMenu(String)} instead.
 	 */
+	@Deprecated
 	public SWTBotViewMenu menu(String label) throws WidgetNotFoundException {
 		return menu(label, 0);
 	}
@@ -126,7 +163,9 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	 * @return The {@link SWTBotMenu} item.
 	 * @throws WidgetNotFoundException Thrown if the menu can not be found or if the partReference does not contain a
 	 *             menu.
+	 * @deprecated Use {@link #viewMenu()}.menu(label, true, index) instead.
 	 */
+	@Deprecated
 	public SWTBotViewMenu menu(String label, int index) throws WidgetNotFoundException {
 		try {
 			List<SWTBotViewMenu> menuItems = menuFinder.findMenus(partReference, withMnemonic(label), true);

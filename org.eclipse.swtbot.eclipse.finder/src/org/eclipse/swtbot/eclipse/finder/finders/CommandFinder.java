@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.finders;
 
@@ -16,8 +17,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.Command;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotCommand;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.hamcrest.Matcher;
@@ -28,7 +32,11 @@ import org.hamcrest.Matcher;
  * @author @author Stephen Paulin &lt;paulin [at] spextreme [dot] com&gt;
  * @version $Id$
  * @since 1.2
+ * @deprecated Use {@link SWTBotView#viewMenu()} and
+ *             {@link SWTBotRootMenu#menu(String...)} to get a
+ *             {@link SWTBotMenu} instead.
  */
+@Deprecated
 public class CommandFinder {
 	/**
 	 * The logging instance for this class.

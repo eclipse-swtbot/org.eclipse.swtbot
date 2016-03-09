@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2014 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Frank Schuerer - https://bugs.eclipse.org/bugs/show_bug.cgi?id=424238
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 441095
+ *     Patrick Tasse - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -22,6 +23,8 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 
@@ -31,7 +34,11 @@ import org.eclipse.ui.handlers.IHandlerService;
  * @author @author Stephen Paulin &lt;paulin [at] spextreme [dot] com&gt;
  * @version $Id$
  * @since 1.2
+ * @deprecated Use {@link SWTBotView#viewMenu()} and
+ *             {@link SWTBotRootMenu#menu(String...)} to get a
+ *             {@link SWTBotMenu} instead.
  */
+@Deprecated
 public class SWTBotViewMenu {
 	private IAction					action			= null;
 	private ActionContributionItem	actionItem		= null;

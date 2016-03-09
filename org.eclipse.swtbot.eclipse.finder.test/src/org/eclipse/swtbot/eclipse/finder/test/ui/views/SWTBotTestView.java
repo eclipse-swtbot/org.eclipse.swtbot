@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009, 2014 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Frank Schuerer - https://bugs.eclipse.org/bugs/show_bug.cgi?id=424238
+ *     Patrick Tasse - SWTBotView does not support dynamic view menus (Bug 489325)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.test.ui.views;
 
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -29,6 +33,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swtbot.eclipse.finder.test.ui.data.internal.SWTBotTestContentProvider;
 import org.eclipse.swtbot.eclipse.finder.test.ui.data.internal.SWTBotTestData;
@@ -114,8 +120,13 @@ public class SWTBotTestView extends ViewPart {
 		manager.add(iActionTypeActionWithId);
 		manager.add(iToggleTypeAction);
 		manager.add(iRadioTypeAction);
-		manager.add(iDropDownTypeAction);
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		manager.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				manager.remove(iDropDownTypeAction.getId());
+				manager.insertBefore(IWorkbenchActionConstants.MB_ADDITIONS, iDropDownTypeAction);
+			}
+		});
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
@@ -180,7 +191,53 @@ public class SWTBotTestView extends ViewPart {
 				showMessage("iAction executed.");
 			}
 		};
+		iDropDownTypeAction.setId("DropDownId");
 		iDropDownTypeAction.setToolTipText("This represents a drop down IAction command.");
+		iDropDownTypeAction.setMenuCreator(new IMenuCreator() {
+			Menu toolBarSubMenu = null;
+			Menu viewSubMenu = null;
+			boolean toolBarChecked = false;
+			public void dispose() {
+				if (toolBarSubMenu != null) {
+					toolBarSubMenu.dispose();
+					toolBarSubMenu = null;
+				}
+				if (viewSubMenu != null) {
+					viewSubMenu.dispose();
+					viewSubMenu = null;
+				}
+			}
+
+			public Menu getMenu(Control parent) {
+				if (toolBarSubMenu != null) {
+					toolBarSubMenu.dispose();
+				}
+				toolBarSubMenu = new Menu(parent);
+				Action action = new Action("DropDown Toggle", IAction.AS_CHECK_BOX) {
+					@Override
+					public void runWithEvent(Event event) {
+						toolBarChecked = !toolBarChecked;
+					}
+				};
+				action.setChecked(toolBarChecked);
+				new ActionContributionItem(action).fill(toolBarSubMenu, -1);
+				return toolBarSubMenu;
+			}
+
+			public Menu getMenu(Menu parent) {
+				if (viewSubMenu != null) {
+					viewSubMenu.dispose();
+				}
+				viewSubMenu = new Menu(parent);
+				Action action = new Action("DropDown Toggle", IAction.AS_CHECK_BOX) {
+					@Override
+					public void runWithEvent(Event event) {
+					}
+				};
+				new ActionContributionItem(action).fill(viewSubMenu, -1);
+				return viewSubMenu;
+			}
+		});
 	}
 
 	private void hookDoubleClickAction() {

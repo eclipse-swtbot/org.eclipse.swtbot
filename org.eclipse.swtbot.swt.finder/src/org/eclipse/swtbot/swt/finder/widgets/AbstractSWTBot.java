@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 489179
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -272,8 +273,8 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
-		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.BUTTON3, 1));
-		notify(SWT.MouseUp);
+		notify(SWT.MouseDown, createMouseEvent(x, y, 3, SWT.NONE, 1));
+		notify(SWT.MouseUp, createMouseEvent(x, y, 3, SWT.BUTTON3, 1));
 		notify(SWT.Selection, createSelectionEvent(SWT.BUTTON3));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);

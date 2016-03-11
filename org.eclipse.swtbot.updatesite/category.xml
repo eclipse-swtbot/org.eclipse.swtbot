@@ -42,6 +42,9 @@
    <feature id="org.eclipse.swtbot.nebula.gallery" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
+   <feature id="org.eclipse.swtbot.nebula.nattable" version="0.0.0">
+      <category name="SWTBot - API"/>
+   </feature>
    <bundle id="org.apache.log4j" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>
    </bundle>

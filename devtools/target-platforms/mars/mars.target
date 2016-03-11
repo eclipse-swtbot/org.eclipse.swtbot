@@ -20,6 +20,7 @@
 <unit id="org.hamcrest.library.source" version="1.3.0.v201505072020"/>
 <unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
 <unit id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
+<unit id="ca.odell.glazedlists" version="0.0.0"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20151221205849/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -29,6 +30,11 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.gallery.feature.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/technology/nebula/snapshot/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="1.3.0.201503261201"/>
+<unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/nattable/releases/1.3.0/repository/"/>
 </location>
 </locations>
 <launcherArgs>

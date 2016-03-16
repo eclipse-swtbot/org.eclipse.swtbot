@@ -1,7 +1,25 @@
-// Generated source. DO NOT MODIFY.
-// To add new widgets, please see README file in the generator plugin.
+/*******************************************************************************
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Add support for SWTBotCanvas
+ *******************************************************************************/
 package org.eclipse.swtbot.swt.finder;
 
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.allOf;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.inGroup;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withId;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMessage;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withStyle;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withText;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTooltip;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -10,6 +28,7 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.ExpandBar;
@@ -37,6 +56,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCCombo;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCLabel;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCanvas;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotDateTime;
@@ -60,15 +80,6 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarRadioButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.hamcrest.Matcher;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.allOf;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.inGroup;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withId;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMessage;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withStyle;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withText;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTooltip;
 
 
 /**
@@ -528,6 +539,146 @@ public class SWTBot extends SWTBotFactory {
 	public SWTBotArrowButton arrowButtonWithTooltipInGroup(String tooltip, String inGroup, int index) {
 		Matcher matcher = allOf(widgetOfType(Button.class), withTooltip(tooltip), inGroup(inGroup), withStyle(SWT.ARROW, "SWT.ARROW"));
 		return new SWTBotArrowButton((Button) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @return a {@link SWTBotCanvas}.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	public SWTBotCanvas canvas() {
+		return canvas(0);
+	}
+
+	/**
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotCanvas}.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	@SuppressWarnings("unchecked")
+	public SWTBotCanvas canvas(int index) {
+		Matcher<Canvas> matcher = allOf(widgetOfType(Canvas.class));
+		return new SWTBotCanvas((Canvas) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @return a {@link SWTBotCanvas} with the specified <code>tooltip</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	public SWTBotCanvas canvasWithTooltip(String tooltip) {
+		return canvasWithTooltip(tooltip, 0);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotCanvas} with the specified <code>tooltip</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public SWTBotCanvas canvasWithTooltip(String tooltip, int index) {
+		Matcher matcher = allOf(widgetOfType(Canvas.class), withTooltip(tooltip));
+		return new SWTBotCanvas((Canvas) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param key the key set on the widget.
+	 * @param value the value for the key.
+	 * @return a {@link SWTBotCanvas} with the specified <code>key/value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	public SWTBotCanvas canvasWithId(String key, String value) {
+		return canvasWithId(key, value, 0);
+	}
+
+	/**
+	 * @param key the key set on the widget.
+	 * @param value the value for the key.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotCanvas} with the specified <code>key/value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public SWTBotCanvas canvasWithId(String key, String value, int index) {
+		Matcher matcher = allOf(widgetOfType(Canvas.class), withId(key, value));
+		return new SWTBotCanvas((Canvas) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param value the value for the key {@link org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences#DEFAULT_KEY}.
+	 * @return a {@link SWTBotCanvas} with the specified <code>value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	public SWTBotCanvas canvasWithId(String value) {
+		return canvasWithId(value, 0);
+	}
+
+	/**
+	 * @param value the value for the key {@link org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences#DEFAULT_KEY}.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotCanvas} with the specified <code>value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public SWTBotCanvas canvasWithId(String value, int index) {
+		Matcher matcher = allOf(widgetOfType(Canvas.class), withId(value));
+		return new SWTBotCanvas((Canvas) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param group the group that the widget belongs to.
+	 * @return a {@link SWTBotCanvas} in the specified <code>group</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	public SWTBotCanvas canvasInGroup(String group) {
+		return canvasInGroup(group, 0);
+	}
+
+	/**
+	 * @param group the group that the widget belongs to.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotCanvas} in the specified <code>group</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public SWTBotCanvas canvasInGroup(String group, int index) {
+		Matcher matcher = allOf(widgetOfType(Canvas.class), inGroup(group));
+		return new SWTBotCanvas((Canvas) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @param group the group that the widget belongs to.
+	 * @return a {@link SWTBotCanvas} with the specified <code>tooltip</code> in the specified <code>group</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	public SWTBotCanvas canvasWithTooltipInGroup(String tooltip, String group) {
+		return canvasWithTooltipInGroup(tooltip, group, 0);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @param group the group that the widget belongs to.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotCanvas} with the specified <code>tooltip</code> in the specified <code>group</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.4
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public SWTBotCanvas canvasWithTooltipInGroup(String tooltip, String group, int index) {
+		Matcher matcher = allOf(widgetOfType(Canvas.class), withTooltip(tooltip), inGroup(group));
+		return new SWTBotCanvas((Canvas) widget(matcher, index), matcher);
 	}
 
 	/**

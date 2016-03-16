@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2007 IBM Corporation and others.
+ * Copyright (c) 2000, 2016 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,12 +7,15 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Patrick Tasse - Add support for SWTBotCanvas
  *******************************************************************************/
 package org.eclipse.swt.examples.controlexample;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -146,6 +149,12 @@ class CanvasTab extends Tab {
 				}
 			});
 		}
+		canvas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				eventConsole.append("Clicked on Canvas: button=" + e.button + " x=" + e.x + " y=" + e.y);
+			}
+		});
 	}
 
 	/**

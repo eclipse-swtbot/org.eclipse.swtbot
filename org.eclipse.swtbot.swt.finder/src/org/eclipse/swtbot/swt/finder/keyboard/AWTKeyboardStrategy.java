@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others.
+ * Copyright (c) 2009, 2016 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Add natural key mapping for SWT.CR (Bug 372170)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.keyboard;
 
@@ -93,6 +94,7 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 		addNaturalKeyMapping(SWT.F12, KeyEvent.VK_F12);
 
 		addNaturalKeyMapping(SWT.BS, KeyEvent.VK_BACK_SPACE);
+		addNaturalKeyMapping(SWT.CR, KeyEvent.VK_ENTER);
 		addNaturalKeyMapping(SWT.DEL, KeyEvent.VK_DELETE);
 
 		/* direction and page navigation keys */

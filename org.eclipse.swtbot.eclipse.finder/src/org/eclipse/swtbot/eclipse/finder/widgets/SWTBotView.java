@@ -107,11 +107,12 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	 * Gets the view menu of this view.
 	 *
 	 * @return the view menu.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 * @since 2.4
 	 */
 	public SWTBotRootMenu viewMenu() {
 		WaitForObjectCondition<Menu> waitForMenu = Conditions.waitForViewMenu(partReference);
-		new SWTBot().waitUntil(waitForMenu);
+		new SWTBot().waitUntilWidgetAppears(waitForMenu);
 		return new SWTBotRootMenu(waitForMenu.get(0));
 	}
 

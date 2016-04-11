@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,7 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Patrick Tasse - Fix radio menu item click behavior (Bug 451126 & Bug 397649)
- *                   - Improve SWTBot menu API and implementation (Bug 479091) 
+ *                   - Improve SWTBot menu API and implementation (Bug 479091)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -256,7 +256,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	 */
 	public SWTBotMenu menu(Matcher<MenuItem> matcher, final boolean recursive, final int index) throws WidgetNotFoundException {
 		WaitForObjectCondition<MenuItem> waitForMenuItem = Conditions.waitForMenuItem(this, matcher, recursive, index);
-		new SWTBot().waitUntil(waitForMenuItem);
+		new SWTBot().waitUntilWidgetAppears(waitForMenuItem);
 		return new SWTBotMenu(waitForMenuItem.get(0), matcher);
 	}
 

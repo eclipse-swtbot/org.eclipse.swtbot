@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,7 +15,7 @@
  *     Ketan Patel - (Bug 259860)
  *     Mickael Istria (Red Hat Inc.) - Bug 422458
  *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=464687
- *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder;
 
@@ -198,6 +198,7 @@ abstract class SWTBotFactory {
 	 * Gets the menu bar of the active shell.
 	 *
 	 * @return the menu bar.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotRootMenu menu() {
 		return menu(activeShell());
@@ -208,6 +209,7 @@ abstract class SWTBotFactory {
 	 *
 	 * @param shell the shell.
 	 * @return the menu bar.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotRootMenu menu(SWTBotShell shell) {
 		WaitForObjectCondition<Menu> waitForMenu = Conditions.waitForMenuBar(shell);
@@ -225,6 +227,7 @@ abstract class SWTBotFactory {
 	 * @param text
 	 *            the text on the menu.
 	 * @return a menu item that matches the specified text.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotMenu menu(String text) {
 		return menu().menu(text, true, 0);
@@ -240,6 +243,7 @@ abstract class SWTBotFactory {
 	 * @param text the text on the menu.
 	 * @param index the index of the menu item, in case there are multiple matching menu items.
 	 * @return a menu item that matches the specified text.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotMenu menu(String text, int index) {
 		return menu().menu(text, true, index);
@@ -255,6 +259,7 @@ abstract class SWTBotFactory {
 	 * @param text the text on the menu.
 	 * @param recursive if set to true, will find depth-first in sub-menus as well.
 	 * @return a menu item that matches the specified text.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 * @since 2.3
 	 */
 	public SWTBotMenu menu(String text, boolean recursive) {
@@ -272,6 +277,7 @@ abstract class SWTBotFactory {
 	 * @param value the value of the id.
 	 * @return a wrapper around a @{link MenuItem} with the specified key/value pair for its id.
 	 * @see SWTBotPreferences#DEFAULT_KEY
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotMenu menuWithId(String value) {
 		return menu().menuWithId(SWTBotPreferences.DEFAULT_KEY, value, true, 0);
@@ -289,6 +295,7 @@ abstract class SWTBotFactory {
 	 * @param index the index of the menu item, in case there are multiple matching menu items.
 	 * @return a wrapper around a @{link MenuItem} with the specified key/value pair for its id.
 	 * @see SWTBotPreferences#DEFAULT_KEY
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotMenu menuWithId(String value, int index) {
 		return menu().menuWithId(SWTBotPreferences.DEFAULT_KEY, value, true, index);
@@ -304,6 +311,7 @@ abstract class SWTBotFactory {
 	 * @param key the key of the id.
 	 * @param value the value of the id.
 	 * @return a wrapper around a @{link MenuItem} with the specified key/value pair for its id.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotMenu menuWithId(String key, String value) {
 		return menu().menuWithId(key, value, true, 0);
@@ -320,6 +328,7 @@ abstract class SWTBotFactory {
 	 * @param value the value of the id.
 	 * @param index the index of the menu item, in case there are multiple matching menu items.
 	 * @return a wrapper around a @{link Menu} with the specified key/value pair for its id.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotMenu menuWithId(String key, String value, int index) {
 		return menu().menuWithId(key, value, true, index);
@@ -336,6 +345,7 @@ abstract class SWTBotFactory {
 	 * @param matcher the matcher used to find the menu.
 	 * @param index the index of the menu item, in case there are multiple matching menu items.
 	 * @return a menu item that matches the specified matcher.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 */
 	public SWTBotMenu menu(SWTBotShell shell, Matcher<MenuItem> matcher, int index) {
 		return menu(shell).menu(matcher, true, index);
@@ -352,6 +362,7 @@ abstract class SWTBotFactory {
 	 * @param matcher the matcher used to find the menu.
 	 * @param recursive if set to true, will find depth-first in sub-menus as well.
 	 * @return a menu item that matches the specified matcher.
+	 * @throws WidgetNotFoundException if the widget is not found.
 	 * @since 2.2
 	 */
 	public SWTBotMenu menu(SWTBotShell shell, Matcher<MenuItem> matcher, boolean recursive) {

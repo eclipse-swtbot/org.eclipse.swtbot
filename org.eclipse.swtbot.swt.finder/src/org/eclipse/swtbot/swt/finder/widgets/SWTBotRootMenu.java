@@ -119,7 +119,7 @@ public class SWTBotRootMenu extends AbstractSWTBot<Menu> {
 	 */
 	public SWTBotMenu menu(final Matcher<MenuItem> matcher, final boolean recursive, final int index) throws WidgetNotFoundException {
 		WaitForObjectCondition<MenuItem> waitForMenuItem = Conditions.waitForMenuItem(this, matcher, recursive, index);
-		new SWTBot().waitUntil(waitForMenuItem);
+		new SWTBot().waitUntilWidgetAppears(waitForMenuItem);
 		return new SWTBotMenu(waitForMenuItem.get(0), matcher);
 	}
 

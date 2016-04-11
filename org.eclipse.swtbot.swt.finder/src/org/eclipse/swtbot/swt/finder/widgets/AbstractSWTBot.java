@@ -8,7 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
- *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 489179
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
@@ -440,7 +440,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		ContextMenuHelper.notifyMenuDetect(control, widget);
 
 		WaitForObjectCondition<Menu> waitForMenu = Conditions.waitForPopupMenu(control);
-		new SWTBot().waitUntil(waitForMenu);
+		new SWTBot().waitUntilWidgetAppears(waitForMenu);
 		return new SWTBotRootMenu(waitForMenu.get(0));
 	}
 

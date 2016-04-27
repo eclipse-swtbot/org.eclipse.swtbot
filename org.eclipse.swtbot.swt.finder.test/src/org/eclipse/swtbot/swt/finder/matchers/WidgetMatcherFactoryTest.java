@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Stephane Bouchet (Intel Corporation) - added tooltip test
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.matchers;
 
@@ -18,6 +19,8 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withLa
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withRegex;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withText;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTextIgnoringCase;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTooltip;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTooltipIgnoringCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -65,6 +68,20 @@ public class WidgetMatcherFactoryTest extends AbstractClipboardExampleTest {
 		List findControls = finder.findControls(withTextIgnoringCase("SOME\n" + "plain\n" + "TeXt"));
 		assertThat(findControls.size(), is(1));
 		assertThat(findControls.get(0), is(instanceOf(Text.class)));
+	}
+	
+	@Test
+	public void matchesControlsWithTooltip() throws Exception {
+		List findControls = finder.findControls(withTooltip("TextTransfer Tooltip"));
+		assertThat(findControls.size(), is(1));
+		assertThat(findControls.get(0), is(instanceOf(Label.class)));
+	}
+
+	@Test
+	public void matchesControlsWithTooltipIgnoringCase() throws Exception {
+		List findControls = finder.findControls(withTooltipIgnoringCase("texttransfer tooltip"));
+		assertThat(findControls.size(), is(1));
+		assertThat(findControls.get(0), is(instanceOf(Label.class)));
 	}
 
 	@Test

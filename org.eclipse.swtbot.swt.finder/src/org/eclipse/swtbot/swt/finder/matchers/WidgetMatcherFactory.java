@@ -72,6 +72,7 @@ public abstract class WidgetMatcherFactory {
     return org.eclipse.swtbot.swt.finder.matchers.WithText.withTextIgnoringCase(text);
   }
 
+  
   /**
    * Matches a widget that has the specified exact message.
    * 
@@ -112,9 +113,22 @@ public abstract class WidgetMatcherFactory {
    * @param text the label.
    * @return a matcher.
    * @since 2.0
+   * @deprecated use {@link WidgetMatcherFactory#withTooltipIgnoringCase(String)} instead
    */
+  @Deprecated
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withTooltipIgoringCase(java.lang.String text) {
-    return org.eclipse.swtbot.swt.finder.matchers.WithTooltip.withTooltipIgoringCase(text);
+    return withTooltipIgnoringCase(text);
+  }
+  
+  /**
+   * Matches a widget that has the specified tooltip, ignoring case considerations.
+   * 
+   * @param text the label.
+   * @return a matcher.
+   * @since 2.5
+   */
+  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withTooltipIgnoringCase(java.lang.String text) {
+    return org.eclipse.swtbot.swt.finder.matchers.WithTooltip.withTooltipIgnoringCase(text);
   }
 
   /**

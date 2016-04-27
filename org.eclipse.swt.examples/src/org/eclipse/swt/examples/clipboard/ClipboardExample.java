@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2004 IBM Corporation and others.
+ * Copyright (c) 2000, 2016 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Stephane Bouchet (Intel Corporation) - added tooltip on some controls
  *******************************************************************************/
 package org.eclipse.swt.examples.clipboard;
 
@@ -415,6 +416,7 @@ public class ClipboardExample {
 		// TextTransfer
 		Label l = new Label(copyParent, SWT.NONE);
 		l.setText("TextTransfer:"); //$NON-NLS-1$
+		l.setToolTipText("TextTransfer Tooltip"); //$NON-NLS-1$
 		copyText = new Text(copyParent, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		copyText.setText("some\nplain\ntext");
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);

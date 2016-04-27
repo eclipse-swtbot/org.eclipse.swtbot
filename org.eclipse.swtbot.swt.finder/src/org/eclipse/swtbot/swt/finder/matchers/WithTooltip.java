@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008-2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Ketan Padegaonkar - http://swtbot.org/bugzilla/show_bug.cgi?id=126
+ *     Stephane Bouchet (Intel Corporation) - Bug #477727 : fix NPE
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.matchers;
 
@@ -79,18 +80,21 @@ public class WithTooltip<T extends Widget> extends AbstractMatcher<T> {
 	}
 
 	/**
-	 * Gets the text of the object using the getText method. If the object doesn't contain a get text method an
-	 * exception is thrown.
+	 * Gets the tooltip text of the object using the getToolTipText method. If the object doesn't contain a get text
+	 * method an exception is thrown.
 	 * 
 	 * @param obj any object to get the text from.
-	 * @return the return value of obj#getText()
+	 * @return the return value of obj#getToolTipText()
 	 * @throws NoSuchMethodException if the method "getToolTipText" does not exist on the object.
 	 * @throws IllegalAccessException if the java access control does not allow invocation.
-	 * @throws InvocationTargetException if the method "getText" throws an exception.
+	 * @throws InvocationTargetException if the method "getToolTipText" throws an exception.
 	 * @see Method#invoke(Object, Object[])
 	 */
 	private static String getToolTip(Object obj) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return ((String) SWTUtils.invokeMethod(obj, "getToolTipText")).replaceAll(Text.DELIMITER, "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		Object tooltipText = SWTUtils.invokeMethod(obj, "getToolTipText"); //$NON-NLS-1$
+		if (tooltipText instanceof String)
+			return ((String) tooltipText).replaceAll(Text.DELIMITER, "\n"); //$NON-NLS-1$
+		return "";
 	}
 
 	public void describeTo(Description description) {
@@ -117,7 +121,7 @@ public class WithTooltip<T extends Widget> extends AbstractMatcher<T> {
 	 * @since 2.0
 	 */
 	@Factory
-	public static <T extends Widget> Matcher<T> withTooltipIgoringCase(String text) {
+	public static <T extends Widget> Matcher<T> withTooltipIgnoringCase(String text) {
 		return new WithTooltip<T>(text, true);
 	}
 

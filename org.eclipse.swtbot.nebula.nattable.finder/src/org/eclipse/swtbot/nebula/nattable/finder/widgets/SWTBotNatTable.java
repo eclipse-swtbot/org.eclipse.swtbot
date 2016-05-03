@@ -18,6 +18,7 @@ import org.eclipse.swtbot.nebula.nattable.finder.finders.NatTableContextMenuFind
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
@@ -159,6 +160,46 @@ public class SWTBotNatTable extends AbstractSWTBot<NatTable> {
 			public void run() {
 				Rectangle cellBounds = widget.getBoundsByPosition(column, row);
 				doubleClickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
+			}
+		});
+		return this;
+	}
+
+	/**
+	 * RightClick on the NatTable on given cell.
+	 *
+	 * @param row
+	 * 	the visible row number in the NatTable
+	 * @param column
+	 * 	the visible column number in the NatTable
+	 * @return itself
+	 */
+	public SWTBotNatTable rightClick(final int row, final int column) {
+		assertIsLegalCell(row, column);
+		setFocus();
+		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				Rectangle cellBounds = widget.getBoundsByPosition(column, row);
+				rightClick(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2), false);
+			}
+		});
+		return this;
+	}
+
+	/**
+	 * RightClick on the NatTable at the center of widget.
+	 *
+	 * @return itself
+	 */
+	@Override
+	public SWTBotNatTable rightClick() {
+		setFocus();
+		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				Rectangle widgetBounds = widget.getBounds();
+				rightClick(widgetBounds.width / 2, widgetBounds.height / 2, false);
 			}
 		});
 		return this;

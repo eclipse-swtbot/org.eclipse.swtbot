@@ -11,13 +11,15 @@
 package org.eclipse.swtbot.nebula.nattable.finder.test;
 
 import org.eclipse.swtbot.nebula.nattable.finder.test1.TestNatTableContextMenu;
+import org.eclipse.swtbot.nebula.nattable.finder.test1.TestRightClickXY;
 import org.eclipse.swtbot.nebula.nattable.finder.test2.TestNatTableOtherFeatures;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestNatTableContextMenu.class, TestNatTableOtherFeatures.class })
+@SuiteClasses({ TestNatTableContextMenu.class, TestNatTableOtherFeatures.class,
+	TestRightClickXY.class })
 public class AllTests {
 
 }

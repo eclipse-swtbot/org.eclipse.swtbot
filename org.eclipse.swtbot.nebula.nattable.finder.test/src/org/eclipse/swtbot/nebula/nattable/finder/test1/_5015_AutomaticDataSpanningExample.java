@@ -55,7 +55,7 @@ public class _5015_AutomaticDataSpanningExample {
 
 	public SWTNatTableBot bot;
 	public static NatTable nattable;
-	private Shell shell;
+	public Shell shell;
 
 	@Before
 	public void setUp() {

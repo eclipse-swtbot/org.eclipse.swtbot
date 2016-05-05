@@ -229,6 +229,10 @@
           name="org.eclipse.sdk.feature.group"/>
       <requirement
           name="org.eclipse.swtbot.nebula.gallery.feature.group"/>
+      <requirement
+          name="org.eclipse.nebula.widgets.nattable.core.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group"/>
       <sourceLocator
           rootFolder="${git.clone.location}"
           locateNestedProjects="true"/>
@@ -240,6 +244,8 @@
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
             url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+        <repository
+            url="http://download.eclipse.org/nattable/releases/1.3.0/repository/"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -249,6 +255,8 @@
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
             url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+        <repository
+            url="http://download.eclipse.org/nattable/releases/1.3.0/repository/"/>
       </repositoryList>
       <repositoryList
           name="Luna">

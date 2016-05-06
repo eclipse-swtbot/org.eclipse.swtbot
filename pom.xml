@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2011, 2015 PetalsLink, Red Hat Inc. and others.
+<!-- Copyright (c) 2011, 2016 PetalsLink, Red Hat Inc. and others.
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License
  v1.0 which accompanies this distribution, and is available at
@@ -344,50 +344,6 @@ Authors:
 	</pluginRepositories>
 
 	<profiles>
-		<profile>
-			<id>helios</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<!-- TODO: Replace by usage of a target definition -->
-			<repositories>
-				<repository>
-					<id>Helios</id>
-					<layout>p2</layout>
-					<url>http://download.eclipse.org/releases/helios</url>
-				</repository>
-				<repository>
-					<id>Orbit-Helios</id>
-					<layout>p2</layout>
-					<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20100519200754/repository</url>
-				</repository>
-			</repositories>
-		</profile>
-		<profile>
-			<id>indigo</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>indigo</artifactId>
-									<version>2.5.0-SNAPSHOT</version>
-								</artifact>
-							</target>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
 		<profile>
 			<id>juno</id>
 			<activation>

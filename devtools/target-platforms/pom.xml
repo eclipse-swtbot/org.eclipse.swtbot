@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2012, 2015 Red Hat Inc. and others.
+<!-- Copyright (c) 2012, 2016 Red Hat Inc. and others.
 All rights reserved.
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License v1.0 which accompanies this distribution,
@@ -17,10 +17,10 @@ Authors:
   <artifactId>target-platforms</artifactId>
   <packaging>pom</packaging>
   <parent>
-  	<groupId>org.eclipse.swtbot</groupId>
-  	<artifactId>parent</artifactId>
-  	<version>2.5.0-SNAPSHOT</version>
-  	<relativePath>../../pom.xml</relativePath>
+    <groupId>org.eclipse.swtbot</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.5.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <modules>
@@ -29,6 +29,5 @@ Authors:
     <module>luna</module>
     <module>kepler</module>
     <module>juno</module>
-    <module>indigo</module>
   </modules>
 </project>

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTBot Eclipse Control Finder Plug-in (incubation)
+Bundle-Name: SWTBot Eclipse Control Finder Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.finder;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-ActivationPolicy: lazy

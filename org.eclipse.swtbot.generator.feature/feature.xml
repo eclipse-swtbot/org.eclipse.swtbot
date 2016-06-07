@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.swtbot.generator.feature"
-      label="SWTBot Recorder and Test Generator (Provisional)"
+      label="SWTBot Test Recorder and Code Generator"
       version="2.5.0.qualifier"
-      provider-name="Eclipse.org"
+      provider-name="Eclipse.org - SWTBot"
       plugin="org.eclipse.swtbot.eclipse.ui"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
@@ -41,7 +41,7 @@
          version="0.0.0"
          unpack="false"/>
 
- <plugin
+   <plugin
          id="org.eclipse.swtbot.generator.ui"
          download-size="0"
          install-size="0"

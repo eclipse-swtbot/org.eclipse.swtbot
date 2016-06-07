@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTBot Eclipse UI Plug-in (incubation)
+Bundle-Name: SWTBot Eclipse UI Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.ui;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.eclipse.ui.Activator

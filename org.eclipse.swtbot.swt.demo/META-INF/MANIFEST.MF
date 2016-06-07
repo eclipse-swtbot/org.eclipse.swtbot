@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTBot Demo Plug-in (incubation)
+Bundle-Name: SWTBot Demo Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.swt.demo;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.swt.demo.Activator

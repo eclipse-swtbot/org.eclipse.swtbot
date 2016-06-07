@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Nebula Gallery - SWTBot
+Bundle-Name: SWTBot Nebula Gallery Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.nebula.gallery.finder
 Bundle-Version: 2.5.0.qualifier
 Require-Bundle: org.eclipse.swtbot.swt.finder;bundle-version="2.0.0",
@@ -17,4 +17,4 @@ Import-Package: org.apache.log4j;version="1.2.15",
  org.junit;version="4.8.1"
 Export-Package: org.eclipse.swtbot.nebula.gallery.finder,
  org.eclipse.swtbot.nebula.gallery.finder.widgets
-Bundle-Vendor: Bonitasoft S.A.
+Bundle-Vendor: Eclipse-org - SWTBot

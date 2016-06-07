@@ -3,7 +3,7 @@
       id="org.eclipse.swtbot.test"
       label="SWTBot Tests Feature"
       version="2.5.0.qualifier"
-      provider-name="Eclipse.org"
+      provider-name="Eclipse.org - SWTBot"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 

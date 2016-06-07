@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Eclipse SWT Example plugin (based on Eclipse's SWT Examples) (incubation)
+Bundle-Name: SWTBot SWT Example Plug-in
 Bundle-SymbolicName: org.eclipse.swt.examples;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-ActivationPolicy: lazy

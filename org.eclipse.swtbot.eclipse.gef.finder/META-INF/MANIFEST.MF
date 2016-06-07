@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTBot Gef Plug-in (incubation)
+Bundle-Name: SWTBot Graphical Editing Framework Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.gef.finder;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

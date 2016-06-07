@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Test
+Bundle-Name: SWTBot Eclipse E4 Control Finder Tests Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.e4.finder.test;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.e4.finder.test.Activator
@@ -25,3 +25,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: javax.annotation;version="1.0.0",
  org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org - SWTBot

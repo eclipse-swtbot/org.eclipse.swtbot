@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTBot Headless JUnit4 Launch Plug-in (incubation)
+Bundle-Name: SWTBot Headless JUnit4 Launch Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.junit.headless;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot

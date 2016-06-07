@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTBot Dsl for Eclipse IDE (incubation)
+Bundle-Name: SWTBot DSL for Eclipse IDE Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.dsl
 Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.eclipse.dsl.Activator

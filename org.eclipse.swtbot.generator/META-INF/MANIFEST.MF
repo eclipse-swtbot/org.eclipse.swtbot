@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTBot Code Generator Plug-in (incubation)
+Bundle-Name: SWTBot Test Recorder & Code Generator Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.generator;singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot

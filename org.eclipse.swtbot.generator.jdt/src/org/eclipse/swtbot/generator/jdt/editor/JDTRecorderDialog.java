@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2012, 2016 Red Hat Inc. and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    Rastislav Wagner (Red Hat)
+ *    Patrick Tasse - Remove dialog parent shell
  *******************************************************************************/
 package org.eclipse.swtbot.generator.jdt.editor;
 
@@ -85,9 +86,6 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 	public JDTRecorderDialog() {
 		super(null);
 		ignoredShells = new ArrayList<Shell>();
-		Shell recorderShell = new Shell(Display.getDefault(), SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
-		ignoredShells.add(recorderShell);
-		setParentShell(recorderShell);
 		this.tabViewer = new HashMap<CTabItem, SourceViewer>();
 		setShellStyle(SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE | SWT.RESIZE | SWT.MAX);
 		setBlockOnOpen(false);
@@ -104,6 +102,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		setMessage("This dialog will track the generated code while you're recording your UI scenario.");
 		setTitle("SWTBot Test Recorder");
 		setTitleImage(this.wizban);
+		ignoredShells.add(getShell());
 	}
 
 	/**
@@ -293,9 +292,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 	}
 
 	private void openClassShell(){
-		Shell s = new Shell();
-		final AddClassDialog d = new AddClassDialog(s);
-		ignoredShells.add(s);
+		final AddClassDialog d = new AddClassDialog(getShell());
 
 	    this.getShell().getDisplay().asyncExec(new Runnable() {
 
@@ -313,11 +310,9 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 
 
 	private void openMethodShell(final boolean fromStartButton){
-		Shell s = new Shell();
 		SourceViewer viewer = tabViewer.get(classTabFolder.getSelection());
 		final ClassDocument doc = (ClassDocument) viewer.getDocument();
-		final AddMethodDialog d = new AddMethodDialog(s, doc.getMethods());
-		ignoredShells.add(s);
+		final AddMethodDialog d = new AddMethodDialog(getShell(), doc.getMethods());
 
 		this.getShell().getDisplay().asyncExec(new Runnable() {
 

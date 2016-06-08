@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012-2014 Red Hat Inc. and others
+ * Copyright (c) 2012, 2016 Red Hat Inc. and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,8 @@
  *
  * Contributors:
  *    Mickael Istria (Red Hat) - initial API and implementation
- *    Mark R�sler - Bug 412833 fix line break on Windows
+ *    Mark Rösler - Bug 412833 fix line break on Windows
+ *    Patrick Tasse - Remove dialog parent shell
  *******************************************************************************/
 package org.eclipse.swtbot.generator.ui;
 
@@ -63,10 +64,7 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog {
 	 */
 	public RecorderDialog() {
 		super(null);
-		Shell recorderShell = new Shell(Display.getDefault(), SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
-		this.setParentShell(recorderShell);
 		ignoredShells = new ArrayList<Shell>();
-		ignoredShells.add(recorderShell);
 		setShellStyle(SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE | SWT.RESIZE | SWT.MAX);
 		setBlockOnOpen(false);
 	}
@@ -80,6 +78,7 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog {
 		setMessage("This dialog will track the generated code while you're recording your UI scenario.");
 		setTitle("SWTBot Test Recorder");
 		setTitleImage(this.wizban);
+		ignoredShells.add(getShell());
 	}
 
 	/**

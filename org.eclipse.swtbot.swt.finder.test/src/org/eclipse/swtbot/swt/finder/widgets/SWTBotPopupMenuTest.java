@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Patrick Tasse - Fix radio menu item click behavior (Bug 451126 & Bug 397649)
  *                   - Test dynamic menus
- *                   - Improve SWTBot menu API and implementation (Bug 479091) 
+ *                   - Improve SWTBot menu API and implementation (Bug 479091)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -17,6 +17,7 @@ import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.getTextPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -179,6 +180,19 @@ public class SWTBotPopupMenuTest extends AbstractControlExampleTest {
 		popupShell.contextMenu("Radio2").click();
 		assertTrue(!item1.isChecked());
 		assertTrue(item2.isChecked());
+	}
+
+
+	@Test
+	public void testMenuItems() {
+		SWTBotRootMenu popupMenu = popupShell.contextMenu();
+		assertEquals(Arrays.asList("Push", "", "Check", "Radio1", "Radio2", "Cascade"), popupMenu.menuItems());
+
+		SWTBotMenu cascade = popupMenu.menu("Cascade");
+		assertEquals(Arrays.asList("Push", "", "Check", "Radio1", "Radio2", "Cascade"), cascade.menuItems());
+
+		SWTBotMenu push = cascade.menu("Push");
+		assertEquals(Arrays.asList(), push.menuItems());
 	}
 
 	@Before

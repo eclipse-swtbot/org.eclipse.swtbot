@@ -15,6 +15,9 @@ package org.eclipse.swtbot.swt.finder.widgets;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withId;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
@@ -23,6 +26,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
+import org.eclipse.swtbot.swt.finder.results.ListResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
@@ -312,6 +316,30 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 		return syncExec(new BoolResult() {
 			public Boolean run() {
 				return widget.getSelection();
+			}
+		});
+	}
+
+	/**
+	 * Returns the list of texts of this menu item's menu items, or an empty
+	 * list if this menu item does not have a menu. The mnemonic character
+	 * '&amp' and accelerator text are removed from each menu item's text.
+	 * Separators are represented by empty strings.
+	 *
+	 * @return the list of menu item texts
+	 * @since 2.5
+	 */
+	public List<String> menuItems() {
+		return syncExec(new ListResult<String>() {
+			public List<String> run() {
+				List<String> items = new ArrayList<String>();
+				Menu menu = widget.getMenu();
+				if (menu != null) {
+					for (MenuItem menuItem : menu.getItems()) {
+						items.add(menuItem.getText().replaceAll("&", "").split("\t")[0]);
+					}
+				}
+				return items;
 			}
 		});
 	}

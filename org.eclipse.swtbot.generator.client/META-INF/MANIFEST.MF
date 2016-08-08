@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SWTBot Generator Client
+Bundle-SymbolicName: org.eclipse.swtbot.generator.client;singleton:=true
+Bundle-Version: 2.6.0.qualifier
+Bundle-Activator: org.eclipse.swtbot.generator.client.SWTBotRecorderClientPlugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.console,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.ui,
+ org.eclipse.jdt.launching,
+ org.eclipse.debug.ui,
+ org.eclipse.pde.ui,
+ org.eclipse.swtbot.generator,
+ org.eclipse.jface.text,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.editors,
+ org.eclipse.jdt
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.eclipse.swtbot.generator.client.launcher.RecorderServerLaunchConfiguration"
+            id="org.eclipse.swtbot.generator.client.launcher.SWTBotServerRecorderType"
+            name="SWTBot Recorder Server"
+            modes="run, debug">
+      </launchConfigurationType>
+   </extension>
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+		<launchConfigurationTabGroup
+            type="org.eclipse.swtbot.generator.client.launcher.SWTBotServerRecorderType"
+            class="org.eclipse.swtbot.generator.client.launcher.RecorderServerLauncherTabGroup"
+            id="org.eclipse.swtbot.generator.client.launcher.SWTBotServerRecorderTabGroup">
+        	<launchMode
+                description="Launch a SWTBot recorder server"
+               	mode="run">
+         	</launchMode>
+         <launchMode
+               description="Launch a SWTBot recorder server"
+               mode="debug">
+         </launchMode>
+      	</launchConfigurationTabGroup>
+   	</extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="org.eclipse.swtbot.generator.client.launcher.SWTBotServerRecorderType"
+            icon="icons/swtbot_rec16.png"
+            id="org.eclipse.swtbot.generator.client.launcher.SWTBotServerRecorderTypeImage">
+      </launchConfigurationTypeImage>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.swtbot.generator.client.views.RecorderClientView"
+            icon="icons/swtbot_rec16.png"
+            id="org.eclipse.swtbot.generator.client.view.recorder.client"
+            name="SWTBot Recorder "
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Imports code to editor and removes it from the client recorder view"
+            id="org.eclipse.swtbot.generator.client.commands.import.code"
+            name="Import SWTBot code">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:#AbstractTextEditorContext?after=additions">
+         <command
+               commandId="org.eclipse.swtbot.generator.client.commands.import.code"
+               label="Import SWTBot code"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="org.eclipse.swtbot.generator.client.commands.import.code"
+            icon="icons/swtbot_rec64.png">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.eclipse.swtbot.generator.client.commands.ImportClientCodeHandler"
+            commandId="org.eclipse.swtbot.generator.client.commands.import.code">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.eclipse.swtbot.generator.client.commands.import.code"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+Alt+Y">
+      </key>
+   </extension>
+</plugin>

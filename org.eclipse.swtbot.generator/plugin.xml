@@ -9,6 +9,9 @@
       <startup
             class="org.eclipse.swtbot.generator.ui.StartupRecorder">
       </startup>
+      <startup
+            class="org.eclipse.swtbot.generator.server.StartupRecorderServer">
+      </startup>
    </extension>
    <extension
          point="org.eclipse.swtbot.generator.botGeneratorSupport">

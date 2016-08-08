@@ -9,6 +9,7 @@ Bundle-ClassPath: .
 Export-Package: org.eclipse.swtbot.generator,
  org.eclipse.swtbot.generator.framework,
  org.eclipse.swtbot.generator.listener,
+ org.eclipse.swtbot.generator.server,
  org.eclipse.swtbot.generator.ui
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

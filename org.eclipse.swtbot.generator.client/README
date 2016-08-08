@@ -1,0 +1,54 @@
+# General information about the SWTBot server/client recorder plugin
+
+This plugin makes it possible to record and edit SWTBot tests at the
+same time. By recording tests in a separate Eclipse instance the
+original editor can be used to write tests in the regular Java editing
+environment while being able to change perspective, open new views,
+etc. in the test instance.
+
+The main parts of this plugin is the client view which displays
+generated code and the recorder server which generates code. The
+server generates code using the SWTBot code generator and then sends
+it to the client view. The server code is part of the
+'org.eclipse.swtbot.generator' plugin.
+
+## First time launching
+Create a new 'SWTBot Recorder Server' launch configuration. This
+configuration is similar to a regular Eclipse Application but contains
+a VM argument for specifying that the recorder server should be
+started. By default the server will use port 8000 but this can be
+changed by changing the port number in the VM arguments. It is
+possible to use a regular Eclipse Application launch configuration but
+then one has to supply the VM argument manually and the client view
+will not start connecting automatically when launched.
+
+The default VM argument for the server is
+"-Dorg.eclipse.swtbot.generator.server.enable=8000". The integer at
+the end of the string is the selected port number and can be
+changed. When launching the edited configuration the client view will
+update the port number before starting to connect.
+
+Make sure that the Eclipse application being launched has the
+'org.eclipse.swtbot.generator.*' plugins included.
+
+## Launching
+Launch the SWTBot Recorder Server launch configuration. This will
+start a second Eclipse instance for recording tests. While launching,
+the client view will also start trying to connect to the recorder
+server. When the client view displays that it is connected you are
+ready to record tests!
+
+## Recording
+Toggle the record button to decide if code generated on the server
+side should be recorded in the view.
+
+To insert code directly in a Java method, open a Java editor, click
+"Add to method" in the client view and select the method to add the
+code to. If you are recording, the code should now be inserted last in
+the method.
+
+It is also possible to quickly move text from the client view and the
+editor by right clicking in the editor and selecting "Import SWTBot
+code" in the context menu. This moves the code from the client view to
+the selection within the editor. The shortcut for this action is
+"Ctrl+Alt+Y".

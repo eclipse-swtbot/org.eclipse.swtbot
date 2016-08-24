@@ -26,7 +26,6 @@ public class CloseViewSimpleRule extends GenerationSimpleRule {
 
 	@Override
 	public boolean appliesTo(Event event) {
-		System.err.println(event);
 		return event.widget == null && event.type == SWT.Selection && event.data instanceof IViewReference && event.detail == 0; 
 	}
 

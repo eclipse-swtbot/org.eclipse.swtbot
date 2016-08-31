@@ -369,7 +369,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
-	 * Click on the table at given coordinates
+	 * Click on the tree at given coordinates
 	 *
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
@@ -378,26 +378,25 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	protected void clickXY(int x, int y) {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
-		notifyTree(SWT.MouseEnter);
-		notifyTree(SWT.MouseMove);
-		notifyTree(SWT.Activate);
-		notifyTree(SWT.FocusIn);
-		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
-		notifyTree(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
-		// SWT.Selection doesn't actually select on its own, we need to do it explicitly
+		notifyTree(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notifyTree(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
 			public void run() {
 				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
 					tree.setSelection(widget);
 				}
+				if (!tree.isFocusControl()) {
+					tree.setFocus();
+				}
 			}
 		});
-		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
-		notifyTree(SWT.MouseHover);
-		notifyTree(SWT.MouseMove);
-		notifyTree(SWT.MouseExit);
-		notifyTree(SWT.Deactivate);
-		notifyTree(SWT.FocusOut);
+		notifyTree(SWT.FocusIn, super.createEvent());
+		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		notifyTree(SWT.Selection);
+		notifyTree(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
+		notifyTree(SWT.MouseExit, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notifyTree(SWT.Deactivate, super.createEvent());
+		notifyTree(SWT.FocusOut, super.createEvent());
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
 	}
 
@@ -438,19 +437,32 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 		final Point center = getCenter(getCellBounds());
 
-		asyncExec(new VoidResult() {
+		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		notifyTree(SWT.MouseEnter, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTree(SWT.Activate, super.createEvent());
+		syncExec(new VoidResult() {
 			public void run() {
-				tree.setSelection(widget);
+				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
+					tree.setSelection(widget);
+				}
+				if (!tree.isFocusControl()) {
+					tree.setFocus();
+				}
 			}
 		});
-		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
-		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
+		notifyTree(SWT.FocusIn, super.createEvent());
+		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 1));
+		notifyTree(SWT.Selection);
 		notifyTree(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
-		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
-		notifyTree(SWT.MouseDoubleClick, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
-
+		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
+		notifyTree(SWT.Selection);
+		notifyTree(SWT.MouseDoubleClick, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
 		notifyTree(SWT.DefaultSelection);
-		notifyTree(SWT.MouseUp);
+		notifyTree(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 2));
+		notifyTree(SWT.MouseExit, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTree(SWT.Deactivate, super.createEvent());
+		notifyTree(SWT.FocusOut, super.createEvent());
+		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
 		return this;
 	}
 

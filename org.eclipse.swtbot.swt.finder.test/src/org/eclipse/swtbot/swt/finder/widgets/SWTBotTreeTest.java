@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
- *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
+ *     CÃ©dric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
  *     Mickael Istria - Updated to support SWT 4.2
  *     Kristine Jetzke - Bug 420121
  *******************************************************************************/
@@ -235,9 +235,9 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		bot.button("Clear").click();
 		node.click();
 		SWTBotText listener = bot.textInGroup("Listeners");
-		assertEventMatches(listener, "MouseDown [3]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=" + toStateMask(0, tree.widget) + " x=104 y=54 count=1}");
-		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=174577490 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(524288, tree.widget) + " text=null doit=true}");
-		assertEventMatches(listener, "MouseUp [4]: MouseEvent{Tree {} time=174577490 data=null button=1 stateMask=" + toStateMask(524288, tree.widget) + " x=104 y=54 count=1}");
+		assertEventMatches(listener, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
+		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listener, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 	}
 	
 

@@ -8,11 +8,13 @@
  * Contributors:
  *     http://www.inria.fr/ - initial API and implementation
  *     Cédric Chabanois - bug 269164
- *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
+ *                   - Add support for click(int) and doubleClick()
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
@@ -61,7 +63,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	/**
 	 * Selects the current table item.
-	 * 
+	 *
 	 * @return the current node.
 	 */
 	public SWTBotTableItem select() {
@@ -78,32 +80,31 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	/**
 	 * Click on the table at given coordinates
-	 * 
+	 *
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
 	 */
 	protected void clickXY(int x, int y) {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
-		notifyTable(SWT.MouseEnter);
-		notifyTable(SWT.MouseMove);
-		notifyTable(SWT.Activate);
-		notifyTable(SWT.FocusIn);
-		notifyTable(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
-		// SWT.Selection doesn't actually select on its own, we need to do it explicitly
+		notifyTable(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notifyTable(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
 			public void run() {
 				if (table.getSelectionCount() != 1 || !table.getSelection()[0].equals(widget)) {
 					table.setSelection(widget);
 				}
+				if (!table.isFocusControl()) {
+					table.setFocus();
+				}
 			}
 		});
-		notifyTable(SWT.Selection, createEvent());
+		notifyTable(SWT.FocusIn, super.createEvent());
+		notifyTable(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		notifyTable(SWT.Selection);
 		notifyTable(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
-		notifyTable(SWT.MouseHover);
-		notifyTable(SWT.MouseMove);
-		notifyTable(SWT.MouseExit);
-		notifyTable(SWT.Deactivate);
-		notifyTable(SWT.FocusOut);
+		notifyTable(SWT.MouseExit, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notifyTable(SWT.Deactivate, super.createEvent());
+		notifyTable(SWT.FocusOut, super.createEvent());
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
 	}
 
@@ -117,18 +118,104 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	/**
 	 * Clicks on this node.
-	 * 
+	 *
 	 * @return the current node.
 	 */
 	public SWTBotTableItem click() {
 		assertEnabled();
-		Rectangle cellBounds = syncExec(new Result<Rectangle>() {
+		Point center = getCenter(getCellBounds());
+		clickXY(center.x, center.y);
+		return this;
+	}
+
+	/**
+	 * Clicks on this node at the given column index.
+	 *
+	 * @return the current node.
+	 * @since 2.5
+	 */
+	public SWTBotTableItem click(final int column) {
+		assertEnabled();
+		Point center = getCenter(getCellBounds(column));
+		clickXY(center.x, center.y);
+		return this;
+	}
+
+	/**
+	 * Double clicks on this node.
+	 *
+	 * @return the current node.
+	 * @since 2.5
+	 */
+	public SWTBotTableItem doubleClick() {
+		assertEnabled();
+
+		final Point center = getCenter(getCellBounds());
+
+		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		notifyTable(SWT.MouseEnter, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTable(SWT.Activate, super.createEvent());
+		syncExec(new VoidResult() {
+			public void run() {
+				if (table.getSelectionCount() != 1 || !table.getSelection()[0].equals(widget)) {
+					table.setSelection(widget);
+				}
+				if (!table.isFocusControl()) {
+					table.setFocus();
+				}
+			}
+		});
+		notifyTable(SWT.FocusIn, super.createEvent());
+		notifyTable(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 1));
+		notifyTable(SWT.Selection);
+		notifyTable(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
+		notifyTable(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
+		notifyTable(SWT.Selection);
+		notifyTable(SWT.MouseDoubleClick, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
+		notifyTable(SWT.DefaultSelection);
+		notifyTable(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 2));
+		notifyTable(SWT.MouseExit, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTable(SWT.Deactivate, super.createEvent());
+		notifyTable(SWT.FocusOut, super.createEvent());
+		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+		return this;
+	}
+
+	/**
+	 * Get the cell bounds. widget should be enabled before calling this method.
+	 *
+	 * @param column the table column index
+	 * @return the cell bounds
+	 */
+	private Rectangle getCellBounds(final int column) {
+		return syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return widget.getBounds(column);
+			}
+		});
+	}
+
+	/**
+	 * Get the cell bounds. widget should be enabled before calling this method.
+	 *
+	 * @return the cell bounds
+	 */
+	private Rectangle getCellBounds() {
+		return syncExec(new Result<Rectangle>() {
 			public Rectangle run() {
 				return widget.getBounds();
 			}
 		});
-		clickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
-		return this;
+	}
+
+	/**
+	 * Get the center of the given rectangle.
+	 *
+	 * @param bounds the rectangle
+	 * @return the center.
+	 */
+	private Point getCenter(Rectangle bounds) {
+		return new Point(bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));
 	}
 
 	public String getText() {
@@ -177,7 +264,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	/**
 	 * Gets if the checkbox button is checked.
-	 * 
+	 *
 	 * @return <code>true</code> if the checkbox is checked. Otherwise <code>false</code>.
 	 */
 	public boolean isChecked() {
@@ -191,7 +278,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	/**
 	 * Gets if the checkbox button is grayed.
-	 * 
+	 *
 	 * @return <code>true</code> if the checkbox is grayed, <code>false</code> otherwise.
 	 */
 	public boolean isGrayed() {
@@ -205,7 +292,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	/**
 	 * Creates an event for CheckboxTableItem case.
-	 * 
+	 *
 	 * @return an event that encapsulates {@link #widget} and {@link #display}.
 	 */
 	private Event createCheckEvent() {
@@ -240,7 +327,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	/**
 	 * notify listeners about checkbox state change.
-	 * 
+	 *
 	 * @since 1.3
 	 */
 	private void notifyCheck() {
@@ -278,56 +365,4 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		});
 	}
 
-//	protected Rectangle absoluteLocation() {
-//		return syncExec(new Result<Rectangle>() {
-//			public Rectangle run() {
-//				return display.map(widget.getParent(), null, widget.getBounds());
-//			}
-//		});
-//	}
-//	
-//	/**
-//	 * Click on the center of the widget.
-//	 * 
-//	 * @param post
-//	 * 				Whether or not {@link Display#post} should be used
-//	 */
-//	private SWTBotTableItem click(final boolean post) {
-//		if (post) {
-//			Rectangle location = absoluteLocation();
-//			click(location.x, location.y, true);
-//		}
-//		else
-//			click();
-//		return this;
-//	}
-//	
-//	/**
-//	 * Right click on the center of the widget.
-//	 * 
-//	 * @param post
-//	 * 				Whether or not {@link Display#post} should be used
-//	 */
-//	private SWTBotTableItem rightClick(final boolean post) {
-//		if (post) {
-//			Rectangle location = absoluteLocation();
-//			rightClick(location.x, location.y, true);
-//		}
-//		else
-//			rightClick();
-//		return this;
-//	}
-//
-//	/**
-//	 * Moves the cursor to the center of the widget
-//	 */
-//	private SWTBotTableItem moveMouseToWidget() {
-//		syncExec(new VoidResult() {
-//			public void run() {
-//				Rectangle location = absoluteLocation();
-//				moveMouse(location.x, location.y);
-//			}
-//		});
-//		return this;
-//	}
 }

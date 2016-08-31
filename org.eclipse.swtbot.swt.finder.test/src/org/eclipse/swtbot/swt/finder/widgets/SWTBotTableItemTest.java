@@ -8,13 +8,21 @@
  * Contributors:
  *     http://www.inria.fr/ - initial API and implementation
  *     Kristine Jetzke - Bug 379185
+ *     Patrick Tasse - Add test for doubleClick()
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.junit.Before;
 import org.junit.Rule;
@@ -119,8 +127,60 @@ public class SWTBotTableItemTest extends AbstractControlExampleTest {
 		SWTBotTableItem line = table.getTableItem(ITEM_TEXT);
 		bot.button("Clear").click();
 		line.click();
-		assertTextContains("MouseDown [3]: MouseEvent{Table {} ", listeners);
-		assertTextContains("Selection [13]: SelectionEvent{Table {} ", listeners);
+		assertEventMatches(listeners, "MouseEnter [6]: MouseEvent{Table {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Activate [26]: ShellEvent{Table {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusIn [15]: FocusEvent{Table {} time=0 data=null}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Table {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Table {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusOut [16]: FocusEvent{Table {} time=0 data=null}");
+		assertEquals(1, table.selectionCount());
+		assertEquals(ITEM_TEXT, table.selection().get(0).get(0));
+	}
+
+	@Test
+	public void canClickALineInAColumn() throws Exception {
+		String ITEM_TEXT = "Index:2";
+		SWTBotTableItem line = table.getTableItem(ITEM_TEXT);
+		bot.button("Clear").click();
+		line.click(2);
+		assertEventMatches(listeners, "MouseEnter [6]: MouseEvent{Table {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Activate [26]: ShellEvent{Table {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusIn [15]: FocusEvent{Table {} time=0 data=null}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Table {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Table {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusOut [16]: FocusEvent{Table {} time=0 data=null}");
+		Point p = getCellCenter(line, 2);
+		assertTextContains(" x=" + p.x + " y=" + p.y + " ", listeners);
+		assertEquals(1, table.selectionCount());
+		assertEquals(ITEM_TEXT, table.selection().get(0).get(0));
+	}
+
+	@Test
+	public void canDoubleClickALine() throws Exception {
+		String ITEM_TEXT = "Index:2";
+		SWTBotTableItem line = table.getTableItem(ITEM_TEXT);
+		bot.button("Clear").click();
+		line.doubleClick();
+		assertEventMatches(listeners, "MouseEnter [6]: MouseEvent{Table {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Activate [26]: ShellEvent{Table {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusIn [15]: FocusEvent{Table {} time=0 data=null}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=2}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "MouseDoubleClick [8]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=2}");
+		assertEventMatches(listeners, "DefaultSelection [14]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=2}");
+		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Table {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Table {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusOut [16]: FocusEvent{Table {} time=0 data=null}");
 		assertEquals(1, table.selectionCount());
 		assertEquals(ITEM_TEXT, table.selection().get(0).get(0));
 	}
@@ -147,10 +207,19 @@ public class SWTBotTableItemTest extends AbstractControlExampleTest {
 	}
 	
 	@Test
-	public void isGrayedTreeNotChecked() throws Exception {
+	public void isGrayedTableNotChecked() throws Exception {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage("does not have the style SWT.CHECK");
 		
 		table.getTableItem(0).isGrayed();
+	}
+
+	private Point getCellCenter(final SWTBotTableItem node, final int columnIndex) {
+		 return UIThreadRunnable.syncExec(new Result<Point>() {
+				public Point run() {
+					Rectangle bounds = node.widget.getBounds(columnIndex);
+					return new Point(bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));
+				}
+			});
 	}
 }

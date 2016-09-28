@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.swtbot.forms"
       label="SWTBot for Eclipse Forms Testing"
-      version="2.5.0.qualifier"
+      version="2.6.0.qualifier"
       provider-name="Eclipse.org - SWTBot"
       plugin="org.eclipse.swtbot.eclipse.ui"
       license-feature="org.eclipse.license"

@@ -366,9 +366,9 @@
   <setupTask
       xsi:type="pde:APIBaselineTask"
       name="swtbot-latest"
-      version="2.4.0"
-      location="${installation.location}/api/v2.4/"
-      remoteURI="http://download.eclipse.org/technology/swtbot/releases/2.4.0/repository.zip"/>
+      version="2.5.0"
+      location="${installation.location}/api/v2.5/"
+      remoteURI="http://download.eclipse.org/technology/swtbot/releases/2.5.0/repository.zip"/>
   <setupTask
       xsi:type="projects:ProjectsImportTask">
     <sourceLocator

@@ -102,7 +102,7 @@ public class _801_VerticalCompositionWithFeaturesExample {
 	protected Shell createShell(final Display display, final String text) {
 		Shell shell = new Shell(display);
 		shell.setText(text);
-		shell.setSize(600, 500);
+		shell.setSize(400, 500);
 		shell.setLayout(new FillLayout());
 		return shell;
 	}
@@ -126,12 +126,15 @@ public class _801_VerticalCompositionWithFeaturesExample {
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(buttonPanel);
 
 		// property names of the Person class
-		String[] propertyNames = { "firstName", "lastName" };
+		String[] propertyNames = { "firstName", "lastName", "gender", "married", "birthday" };
 
 		// mapping from property to label, needed for column header labels
 		Map<String, String> propertyToLabelMap = new HashMap<String, String>();
 		propertyToLabelMap.put("firstName", "Firstname");
 		propertyToLabelMap.put("lastName", "Lastname");
+		propertyToLabelMap.put("gender", "Gender");
+		propertyToLabelMap.put("married", "Married");
+		propertyToLabelMap.put("birthday", "Birthday");
 
 		IColumnPropertyAccessor<Person> columnPropertyAccessor = new ExtendedReflectiveColumnPropertyAccessor<Person>(
 				propertyNames);

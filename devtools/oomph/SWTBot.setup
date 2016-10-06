@@ -245,7 +245,7 @@
         <repository
             url="http://download.eclipse.org/technology/nebula/snapshot/"/>
         <repository
-            url="http://download.eclipse.org/nattable/releases/1.3.0/repository/"/>
+            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
       <repositoryList
           name="Mars">
@@ -256,7 +256,7 @@
         <repository
             url="http://download.eclipse.org/technology/nebula/snapshot/"/>
         <repository
-            url="http://download.eclipse.org/nattable/releases/1.3.0/repository/"/>
+            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
       <repositoryList
           name="Luna">

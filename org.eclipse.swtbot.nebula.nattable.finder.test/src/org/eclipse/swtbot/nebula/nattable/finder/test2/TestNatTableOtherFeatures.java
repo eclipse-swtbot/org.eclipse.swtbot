@@ -7,22 +7,25 @@
  *
  * Contributors:
  *     Aparna Argade(Cadence Design Systems, Inc.) - initial API and implementation
+ *     Patrick Tasse - Test viewport scrolling (Bug 504483)
  *******************************************************************************/
 package org.eclipse.swtbot.nebula.nattable.finder.test2;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.swtbot.nebula.nattable.finder.widgets.Position;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestNatTableOtherFeatures extends _801_VerticalCompositionWithFeaturesExample {
 
 	/* Tests counts of visible and total counts */
@@ -36,7 +39,7 @@ public class TestNatTableOtherFeatures extends _801_VerticalCompositionWithFeatu
 		int totalColumnCount = nattable.preferredColumnCount();
 		assertThat(columnCount, lessThanOrEqualTo(totalColumnCount));
 		assertEquals("Total thirty two rows are created", 32, totalRowCount);
-		assertEquals("Total two columns are created", 2, nattable.preferredColumnCount());
+		assertEquals("Total five columns are created", 5, nattable.preferredColumnCount());
 	}
 
 	/* Edits nattable cell */
@@ -82,4 +85,50 @@ public class TestNatTableOtherFeatures extends _801_VerticalCompositionWithFeatu
 		assertEquals("Cell data of 10,0", "ghi", nattable.getCellDataValueByPosition(10, col));
 		assertEquals("Cell data of 14,0", "jkl", nattable.getCellDataValueByPosition(14, col));
 	}
+
+	/**
+	 * Tests scrolling up and down.
+	 */
+	@Test
+	public void testScrollAndReadCellData() {
+		SWTBotNatTable nattable = bot.nattable();
+		// viewport position is any cell below the header and filter rows
+		Position position = new Position(2, 0);
+
+		// scroll down
+		assertEquals("Cell data after scrolling down", "ghi",
+				nattable.getCellDataValueByPosition(nattable.scrollViewport(position, 20, 0)));
+
+		// scroll up
+		assertEquals("Cell data after scrolling up", "mno",
+				nattable.getCellDataValueByPosition(nattable.scrollViewport(position, 7, 0)));
+
+		//scroll to header
+		assertEquals("Column Cell data after scrolling", "Birthday",
+				nattable.getCellDataValueByPosition(nattable.scrollToColumnHeader(position, 0, 4)));
+	}
+
+	/**
+	 * Tests scrolling with position that is not a viewport.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testScrollNotViewport() {
+		SWTBotNatTable nattable = bot.nattable();
+		// row 1 is filter row, not a viewport
+		Position position = new Position(1, 0);
+		nattable.scrollViewport(position, 0, 0);
+	}
+
+	/**
+	 * Tests scrolling with scrollable layer position that is out of range.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testScrollOutOfRange() {
+		SWTBotNatTable nattable = bot.nattable();
+		// viewport position is any cell below the header and filter rows
+		Position position = new Position(2, 0);
+		// scrollable layer has 30 rows
+		nattable.scrollViewport(position, 0, 30);
+	}
+
 }

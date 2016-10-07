@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008-2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,19 +9,22 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Hans Schwaebli - http://swtbot.org/bugzilla/show_bug.cgi?id=108
  *     Hans Schwaebli - http://swtbot.org/bugzilla/show_bug.cgi?id=112
+ *     Mickael Istria (Red Hat Inc.) - warn if in UI Thread
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.Logger;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.utils.ClassUtils;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot;
+import org.junit.Before;
+
+import junit.framework.TestCase;
 
 /**
  * The SWTBotTestCase extends the JUnit TestCase to provide extra capabilities for comparing widgets and other UI items.
@@ -45,6 +48,14 @@ public abstract class SWTBotTestCase extends TestCase {
 
 	/** Counts the screenshots to determine if maximum number is reached. */
 	private static int		screenshotCounter	= 0;
+	
+	@Before
+	public void setUp() {
+		if (Display.getCurrent() != null) {
+			log.warn("SWTBot test needs to run in a non-UI thread.\n" +
+                                 "Make sure that \"Run in UI thread\" is unchecked in your launch configuration or that useUIThread is set to false in the pom.xml");
+		}
+	}
 
 	/**
 	 * Asserts that two widgets do not refer to the same object.

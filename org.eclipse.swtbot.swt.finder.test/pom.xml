@@ -29,9 +29,14 @@ Authors:
 				<version>${tycho-version}</version>
 				<configuration>
 					<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
-					<argLine>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=256m</argLine>
+					<argLine>${uitest.vmparams}</argLine>
 					<useUIHarness>false</useUIHarness>
 					<useUIThread>true</useUIThread>
+					<environmentVariables>
+						<!-- Ubuntu overlay scrollbars cause different crashes in GTK2 so disable them -->
+						<LIBOVERLAY_SCROLLBAR>0</LIBOVERLAY_SCROLLBAR>
+						<SWT_GTK3>${SWT_GTK3}</SWT_GTK3>
+					</environmentVariables>
 				</configuration>
 			</plugin>
 			<plugin>

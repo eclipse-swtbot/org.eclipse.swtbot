@@ -22,10 +22,6 @@ Authors:
   	<version>2.6.0-SNAPSHOT</version>
   	<relativePath>../pom.xml</relativePath>
   </parent>
-  	<properties>
-		<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
-		<uitest.vmparams>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=256m</uitest.vmparams>
-	</properties>
 	<build>
 		<plugins>
 			<plugin>
@@ -33,11 +29,16 @@ Authors:
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-					<argLine>${ui.test.vmargs}</argLine>
+					<argLine>${uitest.vmparams}</argLine>
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>false</useUIThread>
 					<testSuite>org.eclipse.swtbot.nebula.gallery.finder.test</testSuite>
 					<testClass>org.eclipse.swtbot.nebula.gallery.finder.test.AllTests</testClass>
+					<environmentVariables>
+						<!-- Ubuntu overlay scrollbars cause different crashes in GTK2 so disable them -->
+						<LIBOVERLAY_SCROLLBAR>0</LIBOVERLAY_SCROLLBAR>
+						<SWT_GTK3>${SWT_GTK3}</SWT_GTK3>
+					</environmentVariables>
 				</configuration>
 			</plugin>
 		</plugins>

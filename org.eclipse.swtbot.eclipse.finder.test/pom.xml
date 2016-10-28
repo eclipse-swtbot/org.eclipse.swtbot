@@ -21,10 +21,6 @@ Authors:
 		<version>2.6.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<properties>
-		<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
-		<uitest.vmparams>${tycho.testArgLine} -Xms64m -Xmx1024m -XX:MaxPermSize=128m</uitest.vmparams>
-	</properties>
 	<profiles>
 		<profile>
 			<id>skip-ui-tests</id>
@@ -75,6 +71,11 @@ Authors:
 					<application>org.eclipse.ui.ide.workbench</application>
 					<testSuite>org.eclipse.swtbot.eclipse.finder.test</testSuite>
 					<testClass>org.eclipse.swtbot.eclipse.finder.AllTests</testClass>
+					<environmentVariables>
+						<!-- Ubuntu overlay scrollbars cause different crashes in GTK2 so disable them -->
+						<LIBOVERLAY_SCROLLBAR>0</LIBOVERLAY_SCROLLBAR>
+						<SWT_GTK3>${SWT_GTK3}</SWT_GTK3>
+					</environmentVariables>
 				</configuration>
 			</plugin>
 

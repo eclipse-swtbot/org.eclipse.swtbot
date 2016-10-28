@@ -74,4 +74,40 @@ public class SWTBotCanvas extends AbstractSWTBotControl<Canvas> {
 		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
 	}
+
+	/**
+	 * Double-clicks on this widget.
+	 *
+	 * @since 2.6
+	 */
+	public void doubleClick() {
+		Point size = syncExec(new Result<Point>() {
+			public Point run() {
+				return widget.getSize();
+			}
+		});
+		doubleClick(size.x / 2, size.y / 2);
+	}
+
+	/**
+	 * Double-Click on the widget at the given position in the widget's coordinates
+	 *
+	 * @param x the x-coordinate of the double-click
+	 * @param y the y-coordinate of the double-click
+	 *
+	 * @since 2.6
+	 */
+	public void doubleClick(int x, int y) {
+		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		notify(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notify(SWT.MouseMove, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notify(SWT.Activate);
+		notify(SWT.FocusIn);
+		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
+		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 2));
+		notify(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.NONE, 2));
+		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
+		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+	}
 }

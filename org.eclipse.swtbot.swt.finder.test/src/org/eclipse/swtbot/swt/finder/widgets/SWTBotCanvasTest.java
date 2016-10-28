@@ -52,6 +52,20 @@ public class SWTBotCanvasTest extends AbstractControlExampleTest {
 		assertThat(listeners.getText(), containsString("Clicked on Canvas: button=1 x=10 y=20"));
 	}
 
+	@Test
+	public void doubleClick() throws Exception {
+		final SWTBotCanvas canvas = bot.canvasInGroup("Canvas");
+		canvas.doubleClick();
+		assertThat(listeners.getText(), containsString("Double-clicked on Canvas: button=1 "));
+	}
+
+	@Test
+	public void doubleClickXY() throws Exception {
+		final SWTBotCanvas canvas = bot.canvasInGroup("Canvas");
+		canvas.doubleClick(10, 20);
+		assertThat(listeners.getText(), containsString("Double-clicked on Canvas: button=1 x=10 y=20"));
+	}
+
 	@Before
 	public void prepareExample() throws Exception {
 		bot.tabItem("Canvas").activate();

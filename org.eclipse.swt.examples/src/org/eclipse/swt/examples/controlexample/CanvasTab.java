@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 class CanvasTab extends Tab {
@@ -152,7 +153,12 @@ class CanvasTab extends Tab {
 		canvas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				eventConsole.append("Clicked on Canvas: button=" + e.button + " x=" + e.x + " y=" + e.y);
+				eventConsole.append("Clicked on Canvas: button=" + e.button + " x=" + e.x + " y=" + e.y + Text.DELIMITER);
+			}
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				eventConsole.append("Double-clicked on Canvas: button=" + e.button + " x=" + e.x + " y=" + e.y + Text.DELIMITER);
 			}
 		});
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,7 +22,6 @@ import org.eclipse.swtbot.swt.finder.utils.ClassUtils;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot;
-import org.junit.Before;
 
 import junit.framework.TestCase;
 
@@ -48,12 +47,12 @@ public abstract class SWTBotTestCase extends TestCase {
 
 	/** Counts the screenshots to determine if maximum number is reached. */
 	private static int		screenshotCounter	= 0;
-	
-	@Before
-	public void setUp() {
+
+	@Override
+	protected void setUp() throws Exception {
 		if (Display.getCurrent() != null) {
-			log.warn("SWTBot test needs to run in a non-UI thread.\n" +
-                                 "Make sure that \"Run in UI thread\" is unchecked in your launch configuration or that useUIThread is set to false in the pom.xml");
+			fail("SWTBot test needs to run in a non-UI thread.\n" +
+					"Make sure that \"Run in UI thread\" is unchecked in your launch configuration or that useUIThread is set to false in the pom.xml");
 		}
 	}
 

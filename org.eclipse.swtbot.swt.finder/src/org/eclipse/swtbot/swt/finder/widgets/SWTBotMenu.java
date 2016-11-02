@@ -124,6 +124,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 				while (menu instanceof Menu && ((menu.getStyle() & SWT.BAR) == 0)) {
 					Event event = createEvent();
 					event.widget = menu;
+					menu.setVisible(false);
 					menu.notifyListeners(SWT.Hide, event);
 					menu = menu.getParentMenu();
 				}

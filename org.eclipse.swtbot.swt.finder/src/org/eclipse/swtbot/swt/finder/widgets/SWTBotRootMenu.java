@@ -154,6 +154,7 @@ public class SWTBotRootMenu extends AbstractSWTBot<Menu> {
 		syncExec(new VoidResult() {
 			public void run() {
 				if ((widget.getStyle() & SWT.POP_UP) != 0) {
+					widget.setVisible(false);
 					widget.notifyListeners(SWT.Hide, createEvent());
 				}
 			}

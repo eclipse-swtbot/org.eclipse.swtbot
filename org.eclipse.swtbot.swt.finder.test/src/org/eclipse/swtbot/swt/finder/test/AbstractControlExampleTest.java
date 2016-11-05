@@ -25,6 +25,7 @@ public abstract class AbstractControlExampleTest extends AbstractSWTShellTest {
 	protected final void createUI(Composite parent) {
 		shell.setText(ControlExample.getResourceString("window.title"));
 		controlExample = new ControlExample(parent);
+		ControlExample.setShellSize(controlExample, parent.getShell());
 	}
 	
 }

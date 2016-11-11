@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2016 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,9 +7,11 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Patrick Tasse - Fix SWTBotLink.click() (Bug 337548)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
+import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,8 +54,46 @@ public class SWTBotLink extends AbstractSWTBotControl<Link> {
 		super(w, description);
 	}
 
+	/**
+	 * Clicks on this widget. The first hyperlink is selected, if there is any
+	 * in the receiver's text.
+	 *
+	 * @return itself.
+	 */
 	public AbstractSWTBot<Link> click() {
-		return click(true);
+		return click(0);
+	}
+
+	/**
+	 * Clicks on this widget. The hyperlink with the specified index is
+	 * selected, if there is one with this index in the receiver's text.
+	 *
+	 * @param linkIndex
+	 *            the link index
+	 * @return itself.
+	 * @since 2.6
+	 */
+	public AbstractSWTBot<Link> click(int linkIndex) {
+		String hyperlinkText = null;
+		try {
+			Field idsField = widget.getClass().getDeclaredField("ids");
+			idsField.setAccessible(true);
+			String[] ids = (String[]) idsField.get(widget);
+			if (linkIndex >= 0 && linkIndex < ids.length) {
+				hyperlinkText = ids[linkIndex];
+			}
+		} catch (ReflectiveOperationException e) {
+			throw new UnsupportedOperationException(e);
+		}
+		notify(SWT.MouseEnter, createMouseEvent(0, 0, 0, SWT.NONE, 0));
+		notify(SWT.Activate, createEvent());
+		notify(SWT.FocusIn, createEvent());
+		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, SWT.NONE, 1));
+		if (hyperlinkText != null) {
+			notify(SWT.Selection, createHyperlinkEvent(hyperlinkText));
+		}
+		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, SWT.BUTTON1, 1));
+		return this;
 	}
 
 	/**
@@ -68,6 +108,9 @@ public class SWTBotLink extends AbstractSWTBotControl<Link> {
 		Assert.isLegal(isText, "Link does not contain text (" + hyperlinkText + "). It contains (" + text + ")");
 
 		hyperlinkText = extractHyperlinkTextOrHREF(hyperlinkText, text);
+		notify(SWT.MouseEnter, createMouseEvent(0, 0, 0, SWT.NONE, 0));
+		notify(SWT.Activate, createEvent());
+		notify(SWT.FocusIn, createEvent());
 		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, SWT.NONE, 1));
 		notify(SWT.Selection, createHyperlinkEvent(hyperlinkText));
 		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, SWT.BUTTON1, 1));

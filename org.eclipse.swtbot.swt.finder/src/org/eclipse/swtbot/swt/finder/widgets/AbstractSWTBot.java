@@ -752,14 +752,15 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	protected AbstractSWTBot<T> click(final int x, final int y, final boolean post) {
 		if (post) {
-			asyncExec(new VoidResult() {
+			syncExec(new VoidResult() {
 				public void run() {
+					Point cursorLocation = display.getCursorLocation();
 					moveMouse(x, y);
 					mouseDown(x, y, 1);
 					mouseUp(x, y, 1);
+					moveMouse(cursorLocation.x, cursorLocation.y);
 				}
 			});
-			sleep(500);
 		} else
 			clickXY(x, y);
 		return this;
@@ -777,9 +778,11 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		if (post) {
 			syncExec(new VoidResult() {
 				public void run() {
+					Point cursorLocation = display.getCursorLocation();
 					moveMouse(x, y);
 					mouseDown(x, y, 3);
 					mouseUp(x, y, 3);
+					moveMouse(cursorLocation.x, cursorLocation.y);
 				}
 			});
 		} else

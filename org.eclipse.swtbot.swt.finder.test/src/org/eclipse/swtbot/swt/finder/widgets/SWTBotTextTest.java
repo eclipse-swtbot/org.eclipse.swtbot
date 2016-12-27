@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,11 +8,15 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Paulin - http://swtbot.org/bugzilla/show_bug.cgi?id=36
+ *     Aparna Argade - Bug 509723
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.junit.Before;
@@ -53,6 +57,33 @@ public class SWTBotTextTest extends AbstractControlExampleTest {
 
 		text.typeText("Type This 123");
 		assertTextContains("Type This 123", text.widget);
+	}
+
+	@Test
+	public void setsTextInReadOnly() throws Exception {
+		bot.checkBox("SWT.READ_ONLY").select();
+		final SWTBotText text = bot.textInGroup("Text");
+		assertTrue(text.isReadOnly());
+		try
+		{
+			text.setText("");
+			fail("Expecting an exception");
+		} catch (Exception e) {
+			assertEquals("TextBox is read-only", e.getMessage());
+		}
+	}
+
+	@Test
+	public void typesTextInReadOnly() throws Exception {
+		bot.checkBox("SWT.READ_ONLY").select();
+		final SWTBotText text = bot.textInGroup("Text");
+		assertTrue(text.isReadOnly());
+		try {
+			text.typeText("");
+			fail("Expecting an exception");
+		} catch (Exception e) {
+			assertEquals("TextBox is read-only", e.getMessage());
+		}
 	}
 
 	@Before

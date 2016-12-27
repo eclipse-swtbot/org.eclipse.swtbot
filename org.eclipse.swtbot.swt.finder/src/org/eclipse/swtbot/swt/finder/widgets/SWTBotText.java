@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,17 +8,21 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Paulin - http://swtbot.org/bugzilla/show_bug.cgi?id=36
+ *     Aparna Argade - Bug 509723
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
+import org.eclipse.swtbot.swt.finder.SWTBotAssert;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -59,6 +63,7 @@ public class SWTBotText extends AbstractSWTBot<Text> {
 	 */
 	public SWTBotText setText(final String text) {
 		waitForEnabled();
+		assertWritable();
 		asyncExec(new VoidResult() {
 			public void run() {
 				widget.setText(text);
@@ -88,6 +93,7 @@ public class SWTBotText extends AbstractSWTBot<Text> {
 	 */
 	public SWTBotText typeText(final String text, int interval) {
 		log.debug(MessageFormat.format("Inserting text:{0} into text {1}", text, this)); //$NON-NLS-1$
+		assertWritable();
 		setFocus();
 		keyboard().typeText(text, interval);
 		return this;
@@ -137,6 +143,22 @@ public class SWTBotText extends AbstractSWTBot<Text> {
 			}
 		});
 		return this;
+	}
+
+	private void assertWritable() {
+		assertEnabled();
+		SWTBotAssert.assertVisible(this);
+		Assert.isLegal(!hasStyle(widget, SWT.READ_ONLY), "TextBox is read-only"); //$NON-NLS-1$
+	}
+
+	/**
+	 * Returns true if the TextBox is read-only.
+	 *
+	 * @return <code>true</code> if the TextBox is read-only. Otherwise <code>false</code>.
+	 * @since 2.6
+	 */
+	public boolean isReadOnly() {
+		return hasStyle(widget, SWT.READ_ONLY);
 	}
 
 }

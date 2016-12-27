@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,7 @@
  *     Cédric Chabanois - http://swtbot.org/bugzilla/show_bug.cgi?id=10
  *     Mickael Istria - Updated to support SWT 4.2
  *     Kristine Jetzke - Bug 420121
+ *     Aparna Argade - Bug 508710
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -17,6 +18,7 @@ import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertSameWidget;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 
 	private SWTBot		bot;
 	private SWTBotTree	tree;
-	
+
 	@Test
 	public void findsTable() throws Exception {
 		assertEquals(Tree.class, tree.widget.getClass());
@@ -122,7 +124,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		assertEquals("Node 2", selection.get(0, 0));
 		assertEquals("Node 4", selection.get(1, 0));
 	}
-	
+
 	@Test(expected=WidgetNotFoundException.class)
 	public void setsMultipleSelectionUnknownItem() throws Exception {
 		bot.radio("SWT.MULTI").click();
@@ -133,7 +135,33 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 
 	@Test
 	public void unselectsSelection() throws Exception {
+		bot.radio("SWT.MULTI").click();
+		bot.checkBox("Listen").select();
+		bot.button("Clear").click();
+		tree = bot.treeInGroup("Tree");
+		tree.select(new int[] { 1 });
+		SWTBotText text = bot.textInGroup("Listeners");
+		bot.button("Clear").click();
 		tree.unselect();
+		assertEquals(0, tree.selectionCount());
+		//event.item should contain the item getting unselected, stateMask should reflect CTRL key
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
+	}
+
+	@Test
+	public void setEmptySelection() throws Exception {
+		bot.radio("SWT.MULTI").click();
+		tree = bot.treeInGroup("Tree");
+		tree.select(new int[] { 1, 2 });
+		assertEquals(2, tree.selectionCount());
+		tree.select(new int[] {});
+		assertEquals(0, tree.selectionCount());
+
+		tree.select(new String[] { "Node 2", "Node 4" });
+		assertEquals(2, tree.selectionCount());
+		tree.select(new String[] {});
 		assertEquals(0, tree.selectionCount());
 	}
 
@@ -149,6 +177,22 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 	}
 
 	@Test
+	public void selectsMultipleOnSingleSelectTree() throws Exception {
+		try {
+			tree.select(1, 2, 3);
+			fail("Expecting an exception");
+		} catch (Exception e) {
+			assertEquals("Tree does not support SWT.MULTI, cannot make multiple selections.", e.getMessage());
+		}
+		try {
+			tree.select("Node 2", "Node 4");
+			fail("Expecting an exception");
+		} catch (Exception e) {
+			assertEquals("Tree does not support SWT.MULTI, cannot make multiple selections.", e.getMessage());
+		}
+	}
+
+	@Test
 	public void findsAnyTree() throws Exception {
 		assertSameWidget(tree.widget, bot.tree().widget);
 	}
@@ -157,6 +201,8 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 	public void getsMultipleSingleSelection() throws Exception {
 		bot.radio("SWT.MULTI").click();
 		bot.checkBox("Multiple Columns").select();
+		bot.checkBox("Listen").select();
+		bot.button("Clear").click();
 		tree = bot.treeInGroup("Tree");
 		tree.select(new int[] { 1, 2 });
 
@@ -167,6 +213,20 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		assertEquals("tomorrow", selection.get(0, 3));
 
 		assertEquals(new TableRow(new String[] { "Node 3", "images", "91571", "yesterday" }), selection.get(1));
+
+		SWTBotText text = bot.textInGroup("Listeners");
+
+		// first selection: event.item should contain the first selected item,
+		// stateMask should not reflect CTRL key
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
+
+		// subsequent selection: event.item should contain the second selected item,
+		// stateMask should reflect CTRL key
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 3} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
 	}
 
 	@Test
@@ -219,15 +279,15 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		assertTextContains("x=" + targetX +" y=" + targetY, listener);
 		assertTextContains("MouseUp [4]: MouseEvent{Tree {}", listener);
 	}
-	
+
 	private Rectangle getColumnBounds(final SWTBotTreeItem node, final int columnIndex) {
-		 return UIThreadRunnable.syncExec(new Result<Rectangle>() {
-				public Rectangle run() {
-					return node.widget.getBounds(2);
-				}
-			});
+		return UIThreadRunnable.syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return node.widget.getBounds(2);
+			}
+		});
 	}
-	
+
 	@Test
 	public void clicksOnANode() throws Exception {
 		bot.checkBox("Listen").select();
@@ -239,7 +299,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
 		assertEventMatches(listener, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 	}
-	
+
 
 	@Test
 	public void doubleClicksOnANode() throws Exception {
@@ -269,7 +329,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 	public void expandEmptyPath() throws Exception {
 		bot.tree().expandNode();
 	}
-	
+
 	@Before
 	public void setUp() throws Exception {
 		bot = new SWTBot();
@@ -281,6 +341,6 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		bot.checkBox("Header Visible").select();
 		bot.checkBox("Multiple Columns").deselect();
 		tree = bot.treeInGroup("Tree");
-		
+
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2013 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
  *     http://www.inria.fr/ - http://swtbot.org/bugzilla/show_bug.cgi?id=114
  *     Hans Schwaebli - http://swtbot.org/bugzilla/show_bug.cgi?id=122
  *     Kristine Jetzke - Bug 259908
+ *     Aparna Argade - Bug 508710
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -224,9 +225,12 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 	}
 
 	/**
-	 * Sets the selection to the given items.
+	 * Sets the selection to the given items. Replaces the current selection. If
+	 * there is more than one item to select, the table must have the SWT.MULTI
+	 * style.
 	 *
-	 * @param items the items to select in the table.
+	 * @param items
+	 *            the items to select in the table.
 	 * @since 1.0
 	 */
 	public void select(final String... items) {
@@ -238,12 +242,11 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 			Assert.isLegal(itemIndicies[i] >= 0, "Could not find item:" + items[i] + " in table"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		select(itemIndicies);
-		notifySelect();
 	}
 
 	/**
 	 * Gets the index of the item matching the given item.
-	 * 
+	 *
 	 * @param item the item in the table.
 	 * @return the index of the specified item in the table, or -1 if the item does not exist in the table.
 	 * @since 1.0
@@ -272,7 +275,7 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 
 	/**
 	 * Gets the index of the item matching the given item and the given column.
-	 * 
+	 *
 	 * @param item the index of the item in the table, or -1 if the item does not exist in the table.
 	 * @param column the column for which to get the index of.
 	 * @return the index of the specified item and of the specified column in the table.
@@ -313,40 +316,70 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 		asyncExec(new VoidResult() {
 			public void run() {
 				log.debug(MessageFormat.format("Unselecting all in {0}", widget)); //$NON-NLS-1$
-				widget.deselectAll();
+				int[] selectedIndices = widget.getSelectionIndices();
+				for (int i = 0; i < selectedIndices.length; i++) {
+					unselect(selectedIndices[i]);
+				}
 			}
 		});
-		notifySelect();
 	}
 
 	/**
-	 * Selects the given index items.
+	 * Unselects the given row.
+	 * @param row index of the row to unselect
+	 */
+	private void unselect(final int row) {
+		waitForEnabled();
+		setFocus();
+		asyncExec(new VoidResult() {
+			public void run() {
+				if (widget.isSelected(row)) {
+					log.debug(MessageFormat.format("Unselecting row {0} in {1}", row, widget)); //$NON-NLS-1$
+					widget.deselect(row);
+					lastSelectionItem = widget.getItem(row);
+					notifySelect(true);
+				} else {
+					log.debug(MessageFormat.format("Nothing to unselect in {0}", widget)); //$NON-NLS-1$
+				}
+			}
+		});
+	}
+
+	/**
+	 * Selects the given index items. Replaces the current selection. If there
+	 * is more than one item to select, the table must have the SWT.MULTI style.
 	 *
-	 * @param indices the row indices to select in the table.
+	 * @param indices
+	 *            the row indices to select in the table.
 	 */
 	public void select(final int... indices) {
 		waitForEnabled();
-		if (indices.length > 1)
+		if (indices.length > 1) {
 			assertMultiSelect();
+		} else if (indices.length == 0) {
+			unselect();
+			return;
+		}
 		setFocus();
 		log.debug(MessageFormat.format("Selecting rows {0} in table {1}", StringUtils.join(indices, ", "), this)); //$NON-NLS-1$ //$NON-NLS-2$
-		unselect();
-		for (int i = 0; i < indices.length; i++)
-			additionalSelectAndNotify(indices[i]);
-	}
-
-	/**
-	 * Does not clear previous selections.
-	 */
-	private void additionalSelectAndNotify(final int j) {
-		assertIsLegalRowIndex(j);
+		for (int i = 0; i < indices.length; i++) {
+			assertIsLegalRowIndex(indices[i]);
+		}
 		asyncExec(new VoidResult() {
 			public void run() {
-				lastSelectionItem = widget.getItem(j);
-				widget.select(j);
+				for (int i = 0; i < indices.length; i++) {
+					lastSelectionItem = widget.getItem(indices[i]);
+					if (i == 0) {
+						// removes earlier selection
+						widget.setSelection(indices[0]);
+						notifySelect();
+					} else {
+						widget.select(indices[i]);
+						notifySelect(true);
+					}
+				}
 			}
 		});
-		notifySelect();
 	}
 
 	private void assertMultiSelect() {
@@ -357,13 +390,27 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 	 * Notifies the selection.
 	 */
 	protected void notifySelect() {
+		notifySelect(false);
+	}
+
+	/**
+	 * Notifies the selection.
+	 *
+	 * @param ctrl
+	 *            true if CTRL key should be pressed while sending the event,
+	 *            false otherwise.
+	 * @since 2.6
+	 */
+	private void notifySelect(boolean ctrl) {
+		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
+		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
-		notify(SWT.MouseDown);
-		notify(SWT.Selection, selectionEvent());
-		notify(SWT.MouseUp);
+		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, stateMask1, 1));
+		notify(SWT.Selection, selectionEvent(stateMask2));
+		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, stateMask2, 1));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);
@@ -371,9 +418,10 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 		notify(SWT.FocusOut);
 	}
 
-	private Event selectionEvent() {
+	private Event selectionEvent(int stateMask) {
 		Event createEvent = createEvent();
 		createEvent.item = lastSelectionItem;
+		createEvent.stateMask = stateMask;
 		return createEvent;
 	}
 
@@ -418,7 +466,7 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 			}
 		});
 	}
-	
+
 	/**
 	 * Double-click on the table at given coordinates
 	 *
@@ -436,7 +484,7 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
 		notify(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 		notify(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
-		notify(SWT.DefaultSelection); // super implementation misses this line. Required for notification of double click listeners. 
+		notify(SWT.DefaultSelection); // super implementation misses this line. Required for notification of double click listeners.
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);

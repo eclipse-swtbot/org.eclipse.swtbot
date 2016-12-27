@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Aparna Argade - Bug 508710
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -116,7 +117,37 @@ public class SWTBotTableTest extends AbstractControlExampleTest {
 
 	@Test
 	public void unselectsSelection() throws Exception {
+		bot.radio("SWT.MULTI").click();
+		bot.checkBox("Listen").select();
+		bot.button("Clear").click();
+		table = bot.tableInGroup("Table");
+		table.select(new int[] { 1, 2, 3 });
+		SWTBotText text = bot.textInGroup("Listeners");
+		bot.button("Clear").click();
+
 		table.unselect();
+		assertEquals(0, table.selectionCount());
+		//event.item should contain the item getting unselected, stateMask should reflect CTRL key
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:1} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
+
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:3} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
+	}
+
+	@Test
+	public void setEmptySelection() throws Exception {
+		bot.radio("SWT.MULTI").click();
+		table = bot.tableInGroup("Table");
+		table.select(new int[] { 1, 2, 3 });
+		assertEquals(3, table.selectionCount());
+		table.select(new int[] {});
+		assertEquals(0, table.selectionCount());
+
+		table.select(new String[] { "Index:5", "Index:6" });
+		assertEquals(2, table.selectionCount());
+		table.select(new String[] {});
 		assertEquals(0, table.selectionCount());
 	}
 
@@ -137,7 +168,10 @@ public class SWTBotTableTest extends AbstractControlExampleTest {
 	@Test
 	public void getsMultipleSingleSelection() throws Exception {
 		bot.radio("SWT.MULTI").click();
+		bot.checkBox("Listen").select();
+		bot.button("Clear").click();
 		table = bot.tableInGroup("Table");
+
 		table.select(new int[] { 5, 10 });
 
 		TableCollection selection = table.selection();
@@ -147,6 +181,20 @@ public class SWTBotTableTest extends AbstractControlExampleTest {
 		assertEquals("yesterday", selection.get(0, 3));
 
 		assertEquals(new TableRow(new String[] { "Index:10", "databases", "2556", "tomorrow" }), selection.get(1));
+
+		SWTBotText text = bot.textInGroup("Listeners");
+
+		// first selection: event.item should contain the first selected item,
+		// stateMask should not reflect CTRL key
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:5} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
+
+		// subsequent selection: event.item should contain the second selected item,
+		//stateMask should reflect CTRL key
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:10} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
 	}
 
 	@Test
@@ -189,6 +237,16 @@ public class SWTBotTableTest extends AbstractControlExampleTest {
 			fail("Was expecting an exception");
 		} catch (Exception e) {
 			assertEquals("The column number (100) is more than the number of column(4) in the table.", e.getMessage());
+		}
+	}
+
+	@Test
+	public void throwsExceptionIfMultipleIndicesOnSingleSelect() throws Exception {
+		try {
+			table.select(new int[] {1,2,3});
+			fail("Was expecting an exception");
+		} catch (Exception e) {
+			assertEquals("Table does not support multi selection.", e.getMessage());
 		}
 	}
 

@@ -353,7 +353,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
-	 * Selects the current tree item.
+	 * Selects the current tree item. Replaces the current selection.
 	 *
 	 * @return the current node.
 	 * @since 1.0
@@ -506,9 +506,11 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
-	 * Selects the items matching the array provided.
+	 * Selects the items matching the array provided. Replaces the current
+	 * selection.
 	 *
-	 * @param items the items to select.
+	 * @param items
+	 *            the items to select.
 	 * @return the current node.
 	 * @since 1.0
 	 */
@@ -538,7 +540,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
-	 * Selects the indices provided.
+	 * Selects the indices provided. Replaces the current selection.
 	 *
 	 * @param indices
 	 *            the indices to select.
@@ -569,9 +571,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
-	 * Selects the item matching the given name.
+	 * Selects the item matching the given name. Replaces the current selection.
 	 *
-	 * @param item the items to select.
+	 * @param item
+	 *            the items to select.
 	 * @return the current node.
 	 * @since 1.0
 	 */

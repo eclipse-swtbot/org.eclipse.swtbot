@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,8 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Kristine Jetzke - Bug 420121
  *     Stephane Bouchet (Intel Corporation) - Bug 451547
- *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
+ *     Aparna Argade - Bug 508710
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -48,6 +50,9 @@ import org.hamcrest.SelfDescribing;
  */
 @SWTBotWidget(clasz = Tree.class, preferredName = "tree", referenceBy = { ReferenceBy.LABEL })
 public class SWTBotTree extends AbstractSWTBot<Tree> {
+
+	/** The last selected item */
+	private TreeItem	lastSelectionItem;
 
 	/**
 	 * Constructs an instance of this object with the given tree.
@@ -216,14 +221,22 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 	}
 
 	/**
-	 * Selects the items matching the array list.
+	 * Selects the items matching the array list. Replaces the current
+	 * selection. If there is more than one item to select, the tree must have
+	 * the SWT.MULTI style.
 	 *
-	 * @param items the items to select.
+	 * @param items
+	 *            the items to select.
 	 * @return this same instance.
 	 */
 	public SWTBotTree select(final String... items) {
 		waitForEnabled();
 		setFocus();
+		if (items.length > 1) {
+			assertMultiSelect();
+		} else if (items.length == 0) {
+			return unselect();
+		}
 		final List<TreeItem> selection = new ArrayList<TreeItem>();
 		for (String item : items) {
 			SWTBotTreeItem si = getTreeItem(item);
@@ -231,37 +244,41 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 		}
 		asyncExec(new VoidResult() {
 			public void run() {
-				if (!hasStyle(widget, SWT.MULTI) && items.length > 1)
-					log.warn("Tree does not support SWT.MULTI, cannot make multiple selections"); //$NON-NLS-1$
-				widget.setSelection(selection.toArray(new TreeItem[selection.size()]));
+				for (int i = 0; i < items.length; i++) {
+					lastSelectionItem = selection.get(i);
+					processSelection(i);
+				}
 			}
 		});
-		notifySelect();
 		return this;
 	}
 
 	/**
-	 * Selects the items in the array. Useful for cases where you're selecting items whose names are not unique, or
-	 * items you've exposed one at a time while traversing the tree.
+	 * Selects the items in the array. Useful for cases where you're selecting
+	 * items whose names are not unique, or items you've exposed one at a time
+	 * while traversing the tree. Replaces the current selection. If there is
+	 * more than one item to select, the tree must have the SWT.MULTI style.
 	 *
-	 * @param items the items to select.
+	 * @param items
+	 *            the items to select.
 	 * @return this same instance.
 	 */
 	public SWTBotTree select(final SWTBotTreeItem... items) {
 		assertEnabled();
 		setFocus();
+		if (items.length > 1) {
+			assertMultiSelect();
+		} else if (items.length == 0) {
+			return unselect();
+		}
 		asyncExec(new VoidResult() {
 			public void run() {
-				List<TreeItem> selection = new ArrayList<TreeItem>();
-				for (SWTBotTreeItem treeItem : items) {
-					selection.add(treeItem.widget);
+				for (int i = 0; i < items.length; i++) {
+					lastSelectionItem = items[i].widget;
+					processSelection(i);
 				}
-				if (!hasStyle(widget, SWT.MULTI) && items.length > 1)
-					log.warn("Tree does not support SWT.MULTI, cannot make multiple selections"); //$NON-NLS-1$
-				widget.setSelection(selection.toArray(new TreeItem[] {}));
 			}
 		});
-		notifySelect();
 		return this;
 	}
 
@@ -275,53 +292,99 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 		asyncExec(new VoidResult() {
 			public void run() {
 				log.debug(MessageFormat.format("Unselecting all in {0}", widget)); //$NON-NLS-1$
-				widget.deselectAll();
+				TreeItem[] items = widget.getSelection();
+				for (TreeItem item : items) {
+					widget.deselect(item);
+					lastSelectionItem = item;
+					notifySelect(true);
+				}
 			}
 		});
-		notifySelect();
 		return this;
 	}
 
 	/**
-	 * Select the indexes provided.
+	 * Selects the indices provided. Replaces the current selection. If there is
+	 * more than one item to select, the tree must have the SWT.MULTI style.
 	 *
-	 * @param indices the indices to select.
+	 * @param indices
+	 *            the indices to select.
 	 * @return this same instance.
 	 */
 	public SWTBotTree select(final int... indices) {
 		waitForEnabled();
 		setFocus();
+		if (indices.length > 1) {
+			assertMultiSelect();
+		} else if (indices.length == 0) {
+			return unselect();
+		}
 		asyncExec(new VoidResult() {
 			public void run() {
 				log.debug(MessageFormat.format("Selecting rows [{0}] in tree{1}", StringUtils.join(indices, ", "), this)); //$NON-NLS-1$ //$NON-NLS-2$
-				if (!hasStyle(widget, SWT.MULTI) && indices.length > 1)
-					log.warn("Tree does not support SWT.MULTI, cannot make multiple selections"); //$NON-NLS-1$
-				TreeItem items[] = new TreeItem[indices.length];
-				for (int i = 0; i < indices.length; i++)
-					items[i] = widget.getItem(indices[i]);
-				widget.setSelection(items);
+				for (int i = 0; i < indices.length; i++) {
+					lastSelectionItem = widget.getItem(indices[i]);
+					processSelection(i);
+				}
 			}
 		});
-		notifySelect();
 		return this;
+	}
+
+	/**
+	 * Selects widget and notifies selection
+	 *
+	 * @param i
+	 *            index of item getting selected
+	 */
+	private void processSelection(int i)
+	{
+		if (i == 0) {
+			// removes earlier selection
+			widget.setSelection(lastSelectionItem);
+			notifySelect();
+		} else {
+			widget.select(lastSelectionItem);
+			notifySelect(true);
+		}
 	}
 
 	/**
 	 * Notifies the tree widget about selection changes
 	 */
 	protected void notifySelect() {
+		notifySelect(false);
+	}
+
+	/**
+	 * Notifies the selection.
+	 *
+	 * @param ctrl
+	 *            true if CTRL key should be pressed while sending the event,
+	 *            false otherwise.
+	 */
+	private void notifySelect(boolean ctrl) {
+		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
+		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
-		notify(SWT.MouseDown);
-		notify(SWT.Selection);
-		notify(SWT.MouseUp);
+		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, stateMask1, 1));
+		notify(SWT.Selection, selectionEvent(stateMask2));
+		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, stateMask2, 1));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);
 		notify(SWT.Deactivate);
 		notify(SWT.FocusOut);
+	}
+
+	private Event selectionEvent(int stateMask) {
+		Event createEvent = createEvent();
+		createEvent.item = lastSelectionItem;
+		createEvent.stateMask = stateMask;
+		return createEvent;
 	}
 
 	/**
@@ -507,4 +570,9 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 			}
 		});
 	}
+
+	private void assertMultiSelect() {
+		Assert.isLegal(hasStyle(widget, SWT.MULTI), "Tree does not support SWT.MULTI, cannot make multiple selections."); //$NON-NLS-1$
+	}
+
 }

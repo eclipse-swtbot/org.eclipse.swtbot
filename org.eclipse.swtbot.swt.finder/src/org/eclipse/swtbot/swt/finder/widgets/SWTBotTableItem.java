@@ -63,7 +63,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	}
 
 	/**
-	 * Selects the current table item.
+	 * Selects the current table item. Replaces the current selection.
 	 *
 	 * @return the current node.
 	 */

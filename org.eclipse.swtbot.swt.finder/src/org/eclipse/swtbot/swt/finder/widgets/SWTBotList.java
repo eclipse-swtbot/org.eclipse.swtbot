@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Aparna Argade - Bug 510835
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -34,7 +35,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Constructs an isntance of this with the given list widget.
-	 * 
+	 *
 	 * @param list the list.
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
 	 */
@@ -44,7 +45,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Constructs an isntance of this with the given list widget.
-	 * 
+	 *
 	 * @param list the list.
 	 * @param description the description of the widget, this will be reported by {@link #toString()}
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
@@ -55,14 +56,13 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Selects the item matching the given text.
-	 * 
+	 *
 	 * @param item the item to select in the list.
 	 */
 	public void select(final String item) {
 		log.debug(MessageFormat.format("Set selection {0} to text {1}", this, item)); //$NON-NLS-1$
 		waitForEnabled();
-		final int indexOf = indexOf(item);
-		Assert.isTrue(indexOf != -1, "Item `" + item + "' not found in list."); //$NON-NLS-1$ //$NON-NLS-2$
+		final int indexOf = indexOfChecked(item);
 		asyncExec(new VoidResult() {
 			public void run() {
 				widget.setSelection(indexOf);
@@ -73,15 +73,13 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Selects the given index.
-	 * 
+	 *
 	 * @param index the selection index.
 	 */
 	public void select(final int index) {
 		log.debug(MessageFormat.format("Set selection {0} to index {1}", this, index)); //$NON-NLS-1$
 		waitForEnabled();
-		int itemCount = itemCount();
-		Assert.isTrue(index <= itemCount, java.text.MessageFormat.format(
-				"The index ({0}) is more than the number of items ({1}) in the list.", index, itemCount)); //$NON-NLS-1$
+		assertIsLegalIndex(index);
 		asyncExec(new VoidResult() {
 			public void run() {
 				widget.setSelection(index);
@@ -92,7 +90,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Gets the item count in the list
-	 * 
+	 *
 	 * @return the number of items in the list.
 	 */
 	public int itemCount() {
@@ -105,7 +103,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Gets the selection count.
-	 * 
+	 *
 	 * @return the number of selected items in the list.
 	 */
 	public int selectionCount() {
@@ -117,8 +115,8 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	}
 
 	/**
-	 * Gets the arrray of selected items.
-	 * 
+	 * Gets the array of selected items.
+	 *
 	 * @return the selected items in the list.
 	 */
 	public String[] selection() {
@@ -131,66 +129,141 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Selects the indexes provided.
-	 * 
+	 *
 	 * @param indices the indices to select in the list.
 	 */
 	public void select(final int... indices) {
 		log.debug(MessageFormat.format("Set selection {0} to indices {1}]", this, StringUtils.join(indices, ", "))); //$NON-NLS-1$ //$NON-NLS-2$
 		waitForEnabled();
+		if (indices.length > 1)
+			assertMultiSelect("multiple selections");
+		for (int i = 0; i < indices.length; i++) {
+			assertIsLegalIndex(indices[i]);
+		}
 		asyncExec(new VoidResult() {
 			public void run() {
-				widget.setSelection(indices);
+				for (int i = 0; i < indices.length; i++) {
+					if (i == 0) {
+						// removes earlier selection
+						widget.setSelection(indices[0]);
+						notifySelect(true);
+					} else {
+						widget.select(indices[i]);
+						notifySelect(false);
+					}
+				}
 			}
-
 		});
-		notifySelect();
 	}
 
 	/**
 	 * Sets the selection to the given list of items.
-	 * 
+	 *
 	 * @param items the items to select in the list.
 	 */
 	public void select(final String... items) {
 		log.debug(MessageFormat.format("Set selection {0} to items [{1}]", this, StringUtils.join(items, ", "))); //$NON-NLS-1$ //$NON-NLS-2$
 		waitForEnabled();
-		asyncExec(new VoidResult() {
-			public void run() {
-				widget.deselectAll();
-				for (String item : items) {
-					int index = widget.indexOf(item);
-					if (index != -1)
-						widget.select(index);
-				}
-			}
-		});
-		notifySelect();
+		if (items.length > 1)
+			assertMultiSelect("multiple selections");
+		final int[] indices = new int[items.length];
+		for (int i=0; i<items.length; i++) {
+			indices[i] = indexOfChecked(items[i]);
+		}
+		select(indices);
+	}
+
+	private void assertMultiSelect(String msg) {
+		Assert.isLegal(hasStyle(widget, SWT.MULTI), "Single Select List does not support " + msg); //$NON-NLS-1$
+	}
+
+	private void assertIsLegalIndex(final int index) {
+		int totalCount = itemCount();
+		Assert.isTrue(index < totalCount && index >= 0, java.text.MessageFormat.format(
+				"The index ({0}) is more than the number of items ({1}) in the list.", index, totalCount)); //$NON-NLS-1$
+	}
+
+	/**
+	 * @param item
+	 * @return index of the String item
+	 */
+	private int indexOfChecked(final String item) {
+		final int indexOf = indexOf(item);
+		Assert.isTrue(indexOf != -1, "Item `" + item + "' not found in list."); //$NON-NLS-1$ //$NON-NLS-2$
+		return indexOf;
 	}
 
 	/**
 	 * Notifies of a selection.
 	 */
 	protected void notifySelect() {
+		notifySelect(true);
+	}
+
+	/**
+	 * Notifies of multiple selections.
+	 * @param first true for the first selection; false otherwise
+	 * @since 2.6
+	 */
+	protected void notifySelect(boolean first) {
+		if (first) {
+			notify(SWT.MouseEnter);
+			notify(SWT.Activate);
+			notify(SWT.FocusIn);
+		}
+		notify(SWT.MouseMove);
 		notify(SWT.MouseDown);
 		notify(SWT.Selection);
 		notify(SWT.MouseUp);
 	}
 
 	/**
-	 * Unselects everything.
+	 * Unselects the selected items.
+	 * The List must have the SWT.MULTI style.
 	 */
 	public void unselect() {
+		assertMultiSelect("unselect");
 		asyncExec(new VoidResult() {
 			public void run() {
-				widget.deselectAll();
+				int[] selectionIndices = widget.getSelectionIndices();
+				for (int i = 0; i < selectionIndices.length; i++) {
+					widget.deselect(selectionIndices[i]);
+					if (i == 0) {
+						notifySelect(true);
+					} else {
+						notifySelect(false);
+					}
+				}
 			}
 		});
-		notifySelect();
+	}
+
+	/**
+	 * Unselects the given row.
+	 * The List must have the SWT.MULTI style.
+	 * @param row index of the row to unselect
+	 * @since 2.6
+	 */
+	public void unselect(final int row) {
+		assertMultiSelect("unselect");
+		waitForEnabled();
+		setFocus();
+		asyncExec(new VoidResult() {
+			public void run() {
+				if (widget.isSelected(row)) {
+					log.debug(MessageFormat.format("Unselecting row {0} in {1}", row, widget)); //$NON-NLS-1$
+					widget.deselect(row);
+					notifySelect();
+				} else {
+					log.debug(MessageFormat.format("Row {0} is already unselected in {1}", row, widget)); //$NON-NLS-1$
+				}
+			}
+		});
 	}
 
 	/**
 	 * Gets the index of the given item.
-	 * 
+	 *
 	 * @param item the search item.
 	 * @return the index of the item, or -1 if the item does not exist.
 	 */
@@ -204,7 +277,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Gets the item at the given index.
-	 * 
+	 *
 	 * @param index the zero based index.
 	 * @return the item at the specified index.
 	 */
@@ -218,7 +291,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	/**
 	 * Gets the array of Strings from the List
-	 * 
+	 *
 	 * @return an array of Strings
 	 */
 	public String[] getItems() {

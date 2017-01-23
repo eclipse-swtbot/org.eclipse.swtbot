@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Red Hat Inc..
+ * Copyright (c) 2014, 2017 Red Hat Inc.  and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    Mickael Istria (Red Hat Inc.) - initial API and implementation
+ *    Aparna Argade - Bug 510835
  *******************************************************************************/
 package org.eclipse.swtbot.generator.test;
 
@@ -32,8 +33,8 @@ public class RecordListSelectionTest extends AbstractGeneratorTest {
 		this.bot.list().select("item2"); //$NON-NLS-1$
 		flushEvents();
 		Assert.assertEquals(
-			"bot.list().select(\"item2\");", //$NON-NLS-1$
-			recorderShellBot().text().getText().trim());
+				"bot.list().select(\"item2\");", //$NON-NLS-1$
+				recorderShellBot().text().getText().trim());
 	}
 
 	@Test
@@ -41,8 +42,8 @@ public class RecordListSelectionTest extends AbstractGeneratorTest {
 		this.bot.list().select("item1", "item2"); //$NON-NLS-1$ //$NON-NLS-2$
 		flushEvents();
 		Assert.assertEquals(
-			"bot.list().select(\"item1\", \"item2\");", //$NON-NLS-1$
-			recorderShellBot().text().getText().trim());
+				"bot.list().select(\"item1\");\nbot.list().select(\"item1\", \"item2\");", //$NON-NLS-1$
+				recorderShellBot().text().getText().trim());
 	}
 
 	@Test
@@ -50,8 +51,8 @@ public class RecordListSelectionTest extends AbstractGeneratorTest {
 		this.bot.list().select(2, 3);
 		flushEvents();
 		Assert.assertEquals(
-			"bot.list().select(2, 3);", //$NON-NLS-1$
-			recorderShellBot().text().getText().trim());
+				"bot.list().select(2);\nbot.list().select(2, 3);", //$NON-NLS-1$
+				recorderShellBot().text().getText().trim());
 	}
 
 	@Test
@@ -59,9 +60,8 @@ public class RecordListSelectionTest extends AbstractGeneratorTest {
 		this.bot.list().select("item1", "item3"); //$NON-NLS-1$ //$NON-NLS-2$
 		flushEvents();
 		Assert.assertEquals(
-			"bot.list().select(0, 2);", //$NON-NLS-1$
-			recorderShellBot().text().getText().trim());
+				"bot.list().select(\"item1\");\nbot.list().select(0, 2);", //$NON-NLS-1$
+				recorderShellBot().text().getText().trim());
 	}
-
 
 }

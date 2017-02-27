@@ -12,6 +12,12 @@
    <feature id="org.eclipse.swtbot.forms" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
+   <feature id="org.eclipse.swtbot.nebula.gallery" version="0.0.0">
+      <category name="SWTBot - API"/>
+   </feature>
+   <feature id="org.eclipse.swtbot.nebula.nattable" version="0.0.0">
+      <category name="SWTBot - API"/>
+   </feature>
    <feature id="org.eclipse.swtbot.ide" version="0.0.0">
       <category name="SWTBot - IDE Integration"/>
    </feature>
@@ -39,11 +45,11 @@
    <feature id="org.eclipse.swtbot.generator.feature.source" version="0.0.0">
       <category name="SWTBot - Sources"/>
    </feature>
-   <feature id="org.eclipse.swtbot.nebula.gallery" version="0.0.0">
-      <category name="SWTBot - API"/>
+   <feature id="org.eclipse.swtbot.nebula.gallery.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
    </feature>
-   <feature id="org.eclipse.swtbot.nebula.nattable" version="0.0.0">
-      <category name="SWTBot - API"/>
+   <feature id="org.eclipse.swtbot.nebula.nattable.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
    </feature>
    <bundle id="org.apache.log4j" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>

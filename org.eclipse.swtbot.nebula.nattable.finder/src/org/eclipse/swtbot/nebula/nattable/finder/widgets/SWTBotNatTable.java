@@ -8,6 +8,7 @@
  * Contributors:
  *     Aparna Argade(Cadence Design Systems, Inc.) - initial API and implementation
  *     Patrick Tasse - Support viewport scrolling (Bug 504483)
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 512815
  *******************************************************************************/
 package org.eclipse.swtbot.nebula.nattable.finder.widgets;
 
@@ -15,6 +16,7 @@ import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.coordinate.PixelCoordinate;
 import org.eclipse.nebula.widgets.nattable.edit.editor.ICellEditor;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
 import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
@@ -495,6 +497,27 @@ public class SWTBotNatTable extends AbstractSWTBot<NatTable> {
 
 		int column = scrollViewport(position, scrollableRow, scrollableColumn).column;
 		return new Position(headerRow, column);
+	}
+
+	/**
+	 * Returns <code>true</code> if the given label is associated with the cell;
+	 * <code>false</code> otherwise.
+	 *
+	 * @param row
+	 *            the visible row position in the NatTable
+	 * @param column
+	 *            the visible column position in the NatTable
+	 * @param label
+	 *            the config label
+	 *
+	 * @return <code>true</code> if the cell has label; <code>false</code>
+	 *         otherwise
+	 * @since 2.6
+	 */
+	public boolean hasConfigLabel(int row, int column, String label) {
+		assertIsLegalCell(row, column);
+		LabelStack labels = widget.getConfigLabelsByPosition(column, row);
+		return labels.hasLabel(label);
 	}
 
 }

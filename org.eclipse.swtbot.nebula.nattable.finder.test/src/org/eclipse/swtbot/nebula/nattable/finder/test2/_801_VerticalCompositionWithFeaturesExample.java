@@ -8,6 +8,7 @@
  * Contributors:
  *    Dirk Fauth <dirk.fauth@gmail.com> - initial API and implementation
  *    Aparna Argade (Cadence Design Systems, Inc.) - Simplification for SWTBotNatTable tests
+ *    Aparna Argade(Cadence Design Systems, Inc.) - Bug 512815
  *******************************************************************************/
 package org.eclipse.swtbot.nebula.nattable.finder.test2;
 
@@ -44,11 +45,16 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.ColumnHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.layer.CompositeLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ColumnLabelAccumulator;
+import org.eclipse.nebula.widgets.nattable.layer.cell.IConfigLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
+import org.eclipse.nebula.widgets.nattable.style.CellStyleAttributes;
 import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
+import org.eclipse.nebula.widgets.nattable.style.Style;
+import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -106,6 +112,8 @@ public class _801_VerticalCompositionWithFeaturesExample {
 		shell.setLayout(new FillLayout());
 		return shell;
 	}
+
+	private static final String FOO_LABEL = "FOO";
 
 	private Control createNatTable(final Shell shell) {
 		ConfigRegistry configRegistry = new ConfigRegistry();
@@ -180,6 +188,20 @@ public class _801_VerticalCompositionWithFeaturesExample {
 		compositeLayer.addConfiguration(new DefaultEditConfiguration());
 		compositeLayer.addConfiguration(new DefaultEditBindings());
 
+		// Reference:_001_Custom_styling_of_specific_cells from NatTableExamples
+		// Custom label "FOO" for cell at column, row index (1, 5)
+		IConfigLabelAccumulator cellLabelAccumulator = new IConfigLabelAccumulator() {
+			@Override
+			public void accumulateConfigLabels(LabelStack configLabels, int columnPosition, int rowPosition) {
+				int columnIndex = bodyDataLayer.getColumnIndexByPosition(columnPosition);
+				int rowIndex = bodyDataLayer.getRowIndexByPosition(rowPosition);
+				if (columnIndex == 1 && rowIndex == 5) {
+					configLabels.addLabel(FOO_LABEL);
+				}
+			}
+		};
+		bodyDataLayer.setConfigLabelAccumulator(cellLabelAccumulator);
+
 		final NatTable natTable = new NatTable(gridPanel, compositeLayer, false);
 
 		natTable.setConfigRegistry(configRegistry);
@@ -208,6 +230,11 @@ public class _801_VerticalCompositionWithFeaturesExample {
 				configRegistry.registerConfigAttribute(CellConfigAttributes.DISPLAY_CONVERTER,
 						new DefaultBooleanDisplayConverter(), DisplayMode.NORMAL,
 						ColumnLabelAccumulator.COLUMN_LABEL_PREFIX + 3);
+
+				Style cellStyle = new Style();
+				cellStyle.setAttributeValue(CellStyleAttributes.BACKGROUND_COLOR, GUIHelper.COLOR_GREEN);
+				configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE, cellStyle, DisplayMode.NORMAL,
+						FOO_LABEL);
 
 			}
 		});

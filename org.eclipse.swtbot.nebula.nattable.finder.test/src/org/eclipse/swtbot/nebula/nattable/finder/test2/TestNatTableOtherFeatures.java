@@ -8,12 +8,15 @@
  * Contributors:
  *     Aparna Argade(Cadence Design Systems, Inc.) - initial API and implementation
  *     Patrick Tasse - Test viewport scrolling (Bug 504483)
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 512815
  *******************************************************************************/
 package org.eclipse.swtbot.nebula.nattable.finder.test2;
 
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.Position;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
@@ -129,6 +132,18 @@ public class TestNatTableOtherFeatures extends _801_VerticalCompositionWithFeatu
 		Position position = new Position(2, 0);
 		// scrollable layer has 30 rows
 		nattable.scrollViewport(position, 0, 30);
+	}
+
+	/**
+	 * Tests labels used for custom style.
+	 */
+	@Test
+	public void testCellLabel() {
+		SWTBotNatTable nattable = bot.nattable();
+
+		// Only the specific cell has the label and any other cell doesn't have it
+		assertTrue(nattable.hasConfigLabel(7, 1, "FOO"));
+		assertFalse(nattable.hasConfigLabel(7, 0, "FOO"));
 	}
 
 }

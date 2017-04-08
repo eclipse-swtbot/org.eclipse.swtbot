@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 http://www.inria.fr/ and others.
+ * Copyright (c) 2008, 2017 http://www.inria.fr/ and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,7 @@
  *     Cédric Chabanois - bug 269164
  *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
  *                   - Add support for click(int) and doubleClick()
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 496519
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -67,7 +68,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 * @return the current node.
 	 */
 	public SWTBotTableItem select() {
-		assertEnabled();
+		waitForEnabled();
 		syncExec(new VoidResult() {
 			public void run() {
 				table.setFocus();
@@ -122,7 +123,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 * @return the current node.
 	 */
 	public SWTBotTableItem click() {
-		assertEnabled();
+		waitForEnabled();
 		Point center = getCenter(getCellBounds());
 		clickXY(center.x, center.y);
 		return this;
@@ -135,7 +136,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 * @since 2.5
 	 */
 	public SWTBotTableItem click(final int column) {
-		assertEnabled();
+		waitForEnabled();
 		Point center = getCenter(getCellBounds(column));
 		clickXY(center.x, center.y);
 		return this;
@@ -148,7 +149,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 * @since 2.5
 	 */
 	public SWTBotTableItem doubleClick() {
-		assertEnabled();
+		waitForEnabled();
 
 		final Point center = getCenter(getCellBounds());
 
@@ -236,7 +237,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	@Override
 	public SWTBotRootMenu contextMenu() throws WidgetNotFoundException {
-		new SWTBotTable(table).waitForEnabled();
+		waitForEnabled();
 		select();
 		return contextMenu(table);
 	}
@@ -309,7 +310,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	}
 
 	private void setChecked(final boolean checked) {
-		assertEnabled();
+		waitForEnabled();
 		assertIsCheck();
 		syncExec(new VoidResult() {
 			public void run() {
@@ -346,8 +347,9 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		});
 	}
 
-	protected void assertEnabled() {
-		new SWTBotTable(table).assertEnabled();
+	@Override
+	protected void waitForEnabled() {
+		new SWTBotTable(table).waitForEnabled();
 	}
 
 	private Event createSelectionEvent() {
@@ -356,7 +358,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		event.widget = table;
 		return event;
 	}
-	
+
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
 			public Boolean run() {

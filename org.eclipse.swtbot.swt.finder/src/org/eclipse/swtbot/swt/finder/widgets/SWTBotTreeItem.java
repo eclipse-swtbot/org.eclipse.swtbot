@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,8 @@
  *     Kristine Jetzke - Bug 379185
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 363916
  *     Stephane Bouchet (Intel Corporation) - Bug 451547
- *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 496519
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -40,6 +41,7 @@ import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
+import org.eclipse.swtbot.swt.finder.utils.StringUtils;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.eclipse.swtbot.swt.finder.utils.TextDescription;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
@@ -170,7 +172,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @return the tree item, after expanding it.
 	 */
 	public SWTBotTreeItem expand() {
-		assertEnabled();
+		waitForEnabled();
 
 		if (isExpanded()) {
 			log.warn(MessageFormat.format("Tree item {0} is already expanded. Won''t expand it again.", this));
@@ -193,7 +195,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @return the tree item, after collapsing it.
 	 */
 	public SWTBotTreeItem collapse() {
-		assertEnabled();
+		waitForEnabled();
 
 		if (!isExpanded()) {
 			log.warn(MessageFormat.format("Tree item {0} is already collapsed. Won''t collapse it again.", this));
@@ -280,7 +282,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem expandNode(final String... nodes) {
 		Assert.isNotEmpty((Object[]) nodes);
-		assertEnabled();
+		waitForEnabled();
 
 		SWTBotTreeItem item = this;
 		for (String node : nodes)
@@ -296,7 +298,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @return the node that was collapsed or <code>null</code> if not match exists.
 	 */
 	public SWTBotTreeItem collapseNode(final String nodeText) {
-		assertEnabled();
+		waitForEnabled();
 		return getNode(nodeText).collapse();
 	}
 
@@ -357,7 +359,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @since 1.0
 	 */
 	public SWTBotTreeItem select() {
-		assertEnabled();
+		waitForEnabled();
 		syncExec(new VoidResult() {
 			public void run() {
 				tree.setFocus();
@@ -407,7 +409,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @since 1.2
 	 */
 	public SWTBotTreeItem click() {
-		assertEnabled();
+		waitForEnabled();
 		Point center = getCenter(getCellBounds());
 		clickXY(center.x, center.y);
 		return this;
@@ -420,7 +422,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @since 2.0
 	 */
 	public SWTBotTreeItem click(final int column) {
-		assertEnabled();
+		waitForEnabled();
 		Point center = getCenter(getCellBounds(column));
 		clickXY(center.x, center.y);
 		return this;
@@ -433,7 +435,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @since 1.2
 	 */
 	public SWTBotTreeItem doubleClick() {
-		assertEnabled();
+		waitForEnabled();
 
 		final Point center = getCenter(getCellBounds());
 
@@ -482,7 +484,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 	/**
 	 * Get the cell bounds. widget should be enabled before calling this method.
-	 * 
+	 *
 	 * @return the cell bounds
 	 */
 	private Rectangle getCellBounds() {
@@ -511,7 +513,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @since 1.0
 	 */
 	public SWTBotTreeItem select(final String... items) {
-		assertEnabled();
+		waitForEnabled();
+		if (items.length > 1) {
+			assertMultiSelect();
+		}
 		final List<String> nodes = Arrays.asList(items);
 		Assert.isTrue(getNodes().containsAll(nodes));
 
@@ -528,6 +533,37 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			}
 		});
 
+		notifySelect();
+		return this;
+	}
+
+	/**
+	 * Selects the indices provided.
+	 *
+	 * @param indices
+	 *            the indices to select.
+	 * @return the current node.
+	 * @since 2.6
+	 */
+	public SWTBotTreeItem select(final int... indices) {
+		waitForEnabled();
+		if (indices.length > 1) {
+			assertMultiSelect();
+		}
+		for (int i = 0; i < indices.length; i++) {
+			assertIsLegalRowIndex(indices[i]);
+		}
+
+		asyncExec(new VoidResult() {
+			public void run() {
+				log.debug(MessageFormat.format("Selecting rows [{0}] in {1}", StringUtils.join(indices, ", "), this)); //$NON-NLS-1$ //$NON-NLS-2$
+				TreeItem items[] = new TreeItem[indices.length];
+				for (int i = 0; i < indices.length; i++)
+					items[i] = widget.getItem(indices[i]);
+				tree.setFocus();
+				tree.setSelection(items);
+			}
+		});
 		notifySelect();
 		return this;
 	}
@@ -569,7 +605,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 	@Override
 	public SWTBotRootMenu contextMenu() {
-		new SWTBotTree(tree).waitForEnabled();
+		waitForEnabled();
 		select();
 		return contextMenu(tree);
 	}
@@ -631,7 +667,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	private void setChecked(final boolean checked) {
-		assertEnabled();
+		waitForEnabled();
 		assertIsCheck();
 		syncExec(new VoidResult() {
 			public void run() {
@@ -659,8 +695,17 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		});
 	}
 
-	protected void assertEnabled() {
-		new SWTBotTree(tree).assertEnabled();
+	@Override
+	protected void waitForEnabled() {
+		new SWTBotTree(tree).waitForEnabled();
+	}
+
+	private void assertMultiSelect() {
+		Assert.isLegal(hasStyle(tree, SWT.MULTI), "Tree does not support multi selection."); //$NON-NLS-1$
+	}
+
+	private void assertIsLegalRowIndex(final int rowIndex) {
+		Assert.isLegal(rowIndex < rowCount(), "The row number: " + rowIndex + " does not exist."); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -682,7 +727,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @since 2.0
 	 */
 	public boolean isExpanded() {
-		assertEnabled();
+		waitForEnabled();
 		return UIThreadRunnable.syncExec(new BoolResult() {
 			public Boolean run() {
 				return widget.getExpanded();

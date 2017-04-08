@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,7 @@
  *     Ketan Patel - https://bugs.eclipse.org/bugs/show_bug.cgi?id=259720
  *     Kristine Jetzke - Bug 379185
  *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 496519
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -41,7 +42,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
-	
+
 	private SWTBotTree	tree;
 	private SWTBotText	listeners;
 
@@ -99,7 +100,51 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		node2.select("Node 2.1", "Node 2.2");
 		assertTrue(node2.getNode("Node 2.1").isSelected());
 		assertTrue(node2.getNode("Node 2.2").isSelected());
+		tree.unselect();
+		node2 = tree.getTreeItem("Node 2").expand();
+		bot.button("Clear").click();
+		node2.select(0, 1);
+		assertTrue(node2.getNode("Node 2.1").isSelected());
+		assertTrue(node2.getNode("Node 2.2").isSelected());
 	}
+
+	@Test
+	public void throwsExceptionIfMultipleIndicesOnSingleSelect() throws Exception {
+		try {
+			tree.getTreeItem("Node 2").expand().select(0, 1);
+			fail("Was expecting an exception");
+		} catch (Exception e) {
+			assertEquals("Tree does not support multi selection.", e.getMessage());
+		}
+
+		try {
+			tree.getTreeItem("Node 2").expand().select("Node 2.1", "Node 2.2");
+			fail("Was expecting an exception");
+		} catch (Exception e) {
+			assertEquals("Tree does not support multi selection.", e.getMessage());
+		}
+	}
+
+	@Test
+	public void throwsExceptionIfTheRowNumberIsIllegal() throws Exception {
+		try {
+			tree.getTreeItem("Node 2").expand().select(100);
+			fail("Was expecting an exception");
+		} catch (Exception e) {
+			assertEquals("The row number: 100 does not exist.", e.getMessage());
+		}
+	}
+
+	@Test
+	public void throwsExceptionIfNodeNameIsIllegal() throws Exception {
+		try {
+			tree.getTreeItem("Node 2").expand().select("NonExisting");
+			fail("Was expecting an exception");
+		} catch (Exception e) {
+			assertEquals("assertion failed: ", e.getMessage());
+		}
+	}
+
 
 	@Test
 	public void canCheckANode() throws Exception {
@@ -232,7 +277,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		assertEquals(0, tree.columnCount());
 		runCellOutOfRangeTest(tree.getTreeItem("Node 1"), 1);
 	}
-	
+
 	@Test
 	public void canClickOnANode() throws Exception {
 		final String ITEM_TEXT = "Node 2";
@@ -299,7 +344,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		assertEquals(1, tree.selectionCount());
 		assertEquals(ITEM_TEXT, tree.selection().get(0).get(0));
 	}
-	
+
 	@Test
 	public void canExpandANodeUsingVarArgs() throws Exception {
 		SWTBotTreeItem node = tree.getTreeItem("Node 2").expand();
@@ -322,7 +367,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		listeners = bot.textInGroup("Listeners");
 		bot.button("Clear").click();
 	}
-	
+
 	@Test
 	public void isGrayed() throws Exception {
 		SWTBotTreeItem itemGrayed = bot.treeInGroup("Tree_Checked").getTreeItem("grayed? true");
@@ -330,12 +375,12 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		SWTBotTreeItem itemNotGrayed = bot.treeInGroup("Tree_Checked").getTreeItem("grayed? false");
 		assertFalse(itemNotGrayed.isGrayed());
 	}
-	
+
 	@Test
 	public void isGrayedTreeNotChecked() throws Exception {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage("does not have the style SWT.CHECK");
-		
+
 		tree.getAllItems()[0].isGrayed();
 	}
 

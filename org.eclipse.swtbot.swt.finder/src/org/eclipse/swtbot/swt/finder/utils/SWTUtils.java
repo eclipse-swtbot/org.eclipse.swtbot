@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -274,7 +274,7 @@ public abstract class SWTUtils {
 	 * 
 	 * @return the display.
 	 */
-	public static Display display() {
+	public static synchronized Display display() {
 		if ((display == null) || display.isDisposed()) {
 			display = null;
 			Thread[] allThreads = allThreads();
@@ -418,7 +418,7 @@ public abstract class SWTUtils {
 	 * @return <code>true</code> if the screenshot was created and saved, <code>false</code> otherwise.
 	 */
 	private static boolean captureScreenshotInternal(final String fileName) {
-		return captureScreenshotInternal(fileName, display.getBounds());
+		return captureScreenshotInternal(fileName, display().getBounds());
 	}
 
 	/**
@@ -432,6 +432,7 @@ public abstract class SWTUtils {
 	 * @return <code>true</code> if the screenshot was created and saved, <code>false</code> otherwise.
 	 */
 	private static boolean captureScreenshotInternal(final String fileName, Rectangle bounds) {
+		Display display = display();
 		GC gc = new GC(display);
 		Image image = null;
 		File file = new File(fileName);
@@ -530,7 +531,7 @@ public abstract class SWTUtils {
 	 * @return <code>true</code> if this instance is running in the UI thread, <code>false</code> otherwise.
 	 */
 	public static boolean isUIThread() {
-		return isUIThread(display);
+		return isUIThread(display());
 	}
 
 

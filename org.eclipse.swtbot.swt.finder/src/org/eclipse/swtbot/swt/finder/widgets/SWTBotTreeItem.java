@@ -41,7 +41,6 @@ import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
-import org.eclipse.swtbot.swt.finder.utils.StringUtils;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.eclipse.swtbot.swt.finder.utils.TextDescription;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
@@ -55,9 +54,12 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
-	// private static final int expandKey = SWT.getPlatform().equals("gtk") ? SWT.KEYPAD_ADD : SWT.ARROW_RIGHT;
-	// private static final int collapseKey = SWT.getPlatform().equals("gtk") ? SWT.KEYPAD_SUBTRACT : SWT.ARROW_LEFT;
+
+	/** The parent tree */
 	private Tree	tree;
+
+	/** The last selected item */
+	private TreeItem	lastSelectionItem;
 
 	/**
 	 * @param treeItem the widget.
@@ -248,6 +250,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notify(eventType, event, tree);
 	}
 
+	@Override
 	protected Event createEvent() {
 		Event event = super.createEvent();
 		event.widget = tree;
@@ -364,6 +367,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			public void run() {
 				tree.setFocus();
 				tree.setSelection(widget);
+				lastSelectionItem = widget;
 			}
 		});
 		notifySelect();
@@ -408,6 +412,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @return the current node.
 	 * @since 1.2
 	 */
+	@Override
 	public SWTBotTreeItem click() {
 		waitForEnabled();
 		Point center = getCenter(getCellBounds());
@@ -516,26 +521,20 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem select(final String... items) {
 		waitForEnabled();
+		setFocus();
 		if (items.length > 1) {
 			assertMultiSelect();
 		}
-		final List<String> nodes = Arrays.asList(items);
-		Assert.isTrue(getNodes().containsAll(nodes));
-
-		syncExec(new VoidResult() {
-			public void run() {
-				ArrayList<TreeItem> selection = new ArrayList<TreeItem>();
-
-				for (String item : items) {
-					SWTBotTreeItem si = getTreeItem(item);
-					selection.add(si.widget);
-				}
-				tree.setFocus();
-				tree.setSelection(selection.toArray(new TreeItem[selection.size()]));
-			}
-		});
-
-		notifySelect();
+		final List<TreeItem> selection = new ArrayList<TreeItem>();
+		for (String item : items) {
+			SWTBotTreeItem si = getTreeItem(item);
+			selection.add(si.widget);
+		}
+		for (int i = 0; i < selection.size(); i++) {
+			boolean add = (i != 0);
+			processSelection(selection.get(i), add);
+			notifySelect(add);
+		}
 		return this;
 	}
 
@@ -549,24 +548,23 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem select(final int... indices) {
 		waitForEnabled();
+		setFocus();
 		if (indices.length > 1) {
 			assertMultiSelect();
 		}
 		for (int i = 0; i < indices.length; i++) {
 			assertIsLegalRowIndex(indices[i]);
 		}
-
-		asyncExec(new VoidResult() {
-			public void run() {
-				log.debug(MessageFormat.format("Selecting rows [{0}] in {1}", StringUtils.join(indices, ", "), this)); //$NON-NLS-1$ //$NON-NLS-2$
-				TreeItem items[] = new TreeItem[indices.length];
-				for (int i = 0; i < indices.length; i++)
-					items[i] = widget.getItem(indices[i]);
-				tree.setFocus();
-				tree.setSelection(items);
-			}
-		});
-		notifySelect();
+		final List<TreeItem> selection = new ArrayList<TreeItem>();
+		for (int index : indices) {
+			selection.add(getItem(index));
+		}
+		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
+		for (int i = 0; i < selection.size(); i++) {
+			boolean add = (i != 0);
+			processSelection(selection.get(i), add);
+			notifySelect(add);
+		}
 		return this;
 	}
 
@@ -583,22 +581,63 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
-	 * notifies the tree widget about selection changes.
+	 * Selects a tree item
 	 *
-	 * @since 1.0
+	 * @param item
+	 *            the tree item to select
+	 * @param add
+	 *            true to add to current selection
+	 */
+	private void processSelection(final TreeItem item, final boolean add) {
+		syncExec(new VoidResult() {
+			public void run() {
+				if (add) {
+					tree.select(item);
+				} else {
+					// removes earlier selection
+					tree.setSelection(item);
+				}
+				lastSelectionItem = item;
+			}
+		});
+	}
+
+	/**
+	 * Notifies the tree widget about selection changes
 	 */
 	private void notifySelect() {
+		notifySelect(false);
+	}
+
+	/**
+	 * Notifies the selection.
+	 *
+	 * @param ctrl
+	 *            true if CTRL key should be pressed while sending the event,
+	 *            false otherwise.
+	 */
+	private void notifySelect(boolean ctrl) {
+		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
+		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
 		notifyTree(SWT.MouseEnter);
 		notifyTree(SWT.MouseMove);
 		notifyTree(SWT.Activate);
 		notifyTree(SWT.FocusIn);
-		notifyTree(SWT.MouseDown);
-		notifyTree(SWT.Selection);
-		notifyTree(SWT.MouseUp);
+		notifyTree(SWT.MouseDown, createMouseEvent(0, 0, 1, stateMask1, 1));
+		notifyTree(SWT.Selection, selectionEvent(stateMask2));
+		notifyTree(SWT.MouseUp, createMouseEvent(0, 0, 1, stateMask2, 1));
 		notifyTree(SWT.MouseHover);
 		notifyTree(SWT.MouseMove);
 		notifyTree(SWT.MouseExit);
 		notifyTree(SWT.Deactivate);
+		notifyTree(SWT.FocusOut);
+	}
+
+	private Event selectionEvent(int stateMask) {
+		Event createEvent = createEvent();
+		createEvent.item = lastSelectionItem;
+		createEvent.stateMask = stateMask;
+		return createEvent;
 	}
 
 	@Override
@@ -801,6 +840,20 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
+	 * Gets the item at the given index.
+	 *
+	 * @param index the index of the item to return
+	 * @return the item at the given index.
+	 */
+	private TreeItem getItem(final int index) {
+		return syncExec(new WidgetResult<TreeItem>() {
+			public TreeItem run() {
+				return widget.getItem(index);
+			}
+		});
+	}
+
+	/**
 	 * Gets the item matching the given name.
 	 *
 	 * @param nodeText the text on the node.
@@ -819,6 +872,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		});
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
 			public Boolean run() {

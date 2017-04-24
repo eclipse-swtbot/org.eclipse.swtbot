@@ -242,14 +242,11 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 			SWTBotTreeItem si = getTreeItem(item);
 			selection.add(si.widget);
 		}
-		asyncExec(new VoidResult() {
-			public void run() {
-				for (int i = 0; i < items.length; i++) {
-					lastSelectionItem = selection.get(i);
-					processSelection(i);
-				}
-			}
-		});
+		for (int i = 0; i < selection.size(); i++) {
+			boolean add = (i != 0);
+			processSelection(selection.get(i), add);
+			notifySelect(add);
+		}
 		return this;
 	}
 
@@ -271,14 +268,11 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 		} else if (items.length == 0) {
 			return unselect();
 		}
-		asyncExec(new VoidResult() {
-			public void run() {
-				for (int i = 0; i < items.length; i++) {
-					lastSelectionItem = items[i].widget;
-					processSelection(i);
-				}
-			}
-		});
+		for (int i = 0; i < items.length; i++) {
+			boolean add = (i != 0);
+			processSelection(items[i].widget, add);
+			notifySelect(add);
+		}
 		return this;
 	}
 
@@ -289,18 +283,32 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 	 */
 	public SWTBotTree unselect() {
 		waitForEnabled();
-		asyncExec(new VoidResult() {
-			public void run() {
-				log.debug(MessageFormat.format("Unselecting all in {0}", widget)); //$NON-NLS-1$
-				TreeItem[] items = widget.getSelection();
-				for (TreeItem item : items) {
-					widget.deselect(item);
-					lastSelectionItem = item;
-					notifySelect(true);
-				}
+		log.debug(MessageFormat.format("Unselecting all in {0}", this)); //$NON-NLS-1$
+		TreeItem[] selection = syncExec(new ArrayResult<TreeItem>() {
+			public TreeItem[] run() {
+				return widget.getSelection();
 			}
 		});
+		for (TreeItem item : selection) {
+			unselect(item);
+			notifySelect(true);
+		}
 		return this;
+	}
+
+	/**
+	 * Unselects the given tree item.
+	 *
+	 * @param item
+	 *            tree item to unselect
+	 */
+	private void unselect(final TreeItem item) {
+		asyncExec(new VoidResult() {
+			public void run() {
+				widget.deselect(item);
+				lastSelectionItem = item;
+			}
+		});
 	}
 
 	/**
@@ -319,34 +327,39 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 		} else if (indices.length == 0) {
 			return unselect();
 		}
-		asyncExec(new VoidResult() {
-			public void run() {
-				log.debug(MessageFormat.format("Selecting rows [{0}] in tree{1}", StringUtils.join(indices, ", "), this)); //$NON-NLS-1$ //$NON-NLS-2$
-				for (int i = 0; i < indices.length; i++) {
-					lastSelectionItem = widget.getItem(indices[i]);
-					processSelection(i);
-				}
-			}
-		});
+		final List<TreeItem> selection = new ArrayList<TreeItem>();
+		for (int index : indices) {
+			selection.add(getItem(index));
+		}
+		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
+		for (int i = 0; i < selection.size(); i++) {
+			boolean add = (i != 0);
+			processSelection(selection.get(i), add);
+			notifySelect(add);
+		}
 		return this;
 	}
 
 	/**
-	 * Selects widget and notifies selection
+	 * Selects a tree item
 	 *
-	 * @param i
-	 *            index of item getting selected
+	 * @param item
+	 *            the tree item to select
+	 * @param add
+	 *            true to add to current selection
 	 */
-	private void processSelection(int i)
-	{
-		if (i == 0) {
-			// removes earlier selection
-			widget.setSelection(lastSelectionItem);
-			notifySelect();
-		} else {
-			widget.select(lastSelectionItem);
-			notifySelect(true);
-		}
+	private void processSelection(final TreeItem item, final boolean add) {
+		syncExec(new VoidResult() {
+			public void run() {
+				if (add) {
+					widget.select(item);
+				} else {
+					// removes earlier selection
+					widget.setSelection(item);
+				}
+				lastSelectionItem = item;
+			}
+		});
 	}
 
 	/**
@@ -513,6 +526,20 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 			throw new WidgetNotFoundException("Timed out waiting for tree item " + nodeText, e); //$NON-NLS-1$
 		}
 		return new SWTBotTreeItem(getItem(nodeText));
+	}
+
+	/**
+	 * Gets the item at the given index.
+	 *
+	 * @param index the index of the item to return
+	 * @return the item at the given index.
+	 */
+	private TreeItem getItem(final int index) {
+		return syncExec(new WidgetResult<TreeItem>() {
+			public TreeItem run() {
+				return widget.getItem(index);
+			}
+		});
 	}
 
 	/**

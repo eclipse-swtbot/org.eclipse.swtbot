@@ -17,6 +17,7 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -29,6 +30,7 @@ import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
@@ -36,7 +38,6 @@ import org.eclipse.swtbot.swt.finder.results.StringResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
-import org.eclipse.swtbot.swt.finder.utils.StringUtils;
 import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
@@ -313,34 +314,29 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 	public void unselect() {
 		waitForEnabled();
 		setFocus();
-		asyncExec(new VoidResult() {
-			public void run() {
-				log.debug(MessageFormat.format("Unselecting all in {0}", widget)); //$NON-NLS-1$
-				int[] selectedIndices = widget.getSelectionIndices();
-				for (int i = 0; i < selectedIndices.length; i++) {
-					unselect(selectedIndices[i]);
-				}
+		log.debug(MessageFormat.format("Unselecting all in {0}", this)); //$NON-NLS-1$
+		TableItem[] selection = syncExec(new ArrayResult<TableItem>() {
+			public TableItem[] run() {
+				return widget.getSelection();
 			}
 		});
+		for (TableItem item : selection) {
+			unselect(item);
+			notifySelect(true);
+		}
 	}
 
 	/**
-	 * Unselects the given row.
-	 * @param row index of the row to unselect
+	 * Unselects the given table item.
+	 *
+	 * @param item
+	 *            table item to unselect
 	 */
-	private void unselect(final int row) {
-		waitForEnabled();
-		setFocus();
+	private void unselect(final TableItem item) {
 		asyncExec(new VoidResult() {
 			public void run() {
-				if (widget.isSelected(row)) {
-					log.debug(MessageFormat.format("Unselecting row {0} in {1}", row, widget)); //$NON-NLS-1$
-					widget.deselect(row);
-					lastSelectionItem = widget.getItem(row);
-					notifySelect(true);
-				} else {
-					log.debug(MessageFormat.format("Nothing to unselect in {0}", widget)); //$NON-NLS-1$
-				}
+				widget.deselect(widget.indexOf(item));
+				lastSelectionItem = item;
 			}
 		});
 	}
@@ -361,29 +357,45 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 			return;
 		}
 		setFocus();
-		log.debug(MessageFormat.format("Selecting rows {0} in table {1}", StringUtils.join(indices, ", "), this)); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
 		for (int i = 0; i < indices.length; i++) {
 			assertIsLegalRowIndex(indices[i]);
 		}
-		asyncExec(new VoidResult() {
-			public void run() {
-				for (int i = 0; i < indices.length; i++) {
-					lastSelectionItem = widget.getItem(indices[i]);
-					if (i == 0) {
-						// removes earlier selection
-						widget.setSelection(indices[0]);
-						notifySelect();
-					} else {
-						widget.select(indices[i]);
-						notifySelect(true);
-					}
-				}
-			}
-		});
+		final List<TableItem> selection = new ArrayList<TableItem>();
+		for (int index : indices) {
+			selection.add(getItem(index));
+		}
+		for (int i = 0; i < selection.size(); i++) {
+			boolean add = (i != 0);
+			processSelection(selection.get(i), add);
+			notifySelect(add);
+		}
 	}
 
 	private void assertMultiSelect() {
 		Assert.isLegal(hasStyle(widget, SWT.MULTI), "Table does not support multi selection."); //$NON-NLS-1$
+	}
+
+	/**
+	 * Selects a table item
+	 *
+	 * @param item
+	 *            the table item to select
+	 * @param add
+	 *            true to add to current selection
+	 */
+	private void processSelection(final TableItem item, final boolean add) {
+		syncExec(new VoidResult() {
+			public void run() {
+				if (add) {
+					widget.select(widget.indexOf(item));
+				} else {
+					// removes earlier selection
+					widget.setSelection(item);
+				}
+				lastSelectionItem = item;
+			}
+		});
 	}
 
 	/**

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
@@ -51,8 +52,8 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		SWTBotTreeItem node = tree.expandNode("Node 2").expandNode("Node 2.2").expandNode("Node 2.2.1");
 		bot.button("Clear").click();
 		node.contextMenu("getItem(Point) on mouse coordinates").click();
-		assertEventMatches(listeners, "MenuDetect [35]: Event {type=35 Tree {} time=175982645 data=null x=148 y=195 width=0 height=0 detail=0}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=175985221 data=null item=TreeItem {Node 2.2.1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, tree.widget) + " text=null doit=true}");
+		assertEventMatches(listeners, "MenuDetect [35]: Event {type=35 Tree {} time=0 data=null x=0 y=0 width=0 height=0 detail=0}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2.2.1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(SWT.BUTTON1, tree.widget) + " text=null doit=true}");
 		assertEventMatches(listeners, "getItem(Point(Point {");
 	}
 
@@ -141,7 +142,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 			tree.getTreeItem("Node 2").expand().select("NonExisting");
 			fail("Was expecting an exception");
 		} catch (Exception e) {
-			assertEquals("assertion failed: ", e.getMessage());
+			assertEquals("Timed out waiting for tree item NonExisting", e.getMessage());
 		}
 	}
 

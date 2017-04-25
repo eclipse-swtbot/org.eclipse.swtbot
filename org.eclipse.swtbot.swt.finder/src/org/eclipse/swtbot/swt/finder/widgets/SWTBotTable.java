@@ -49,7 +49,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 @SWTBotWidget(clasz = Table.class, preferredName = "table", referenceBy = { ReferenceBy.LABEL })
-public class SWTBotTable extends AbstractSWTBot<Table> {
+public class SWTBotTable extends AbstractSWTBotControl<Table> {
 
 	/** The last selected item */
 	private TableItem	lastSelectionItem;
@@ -416,13 +416,14 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 	private void notifySelect(boolean ctrl) {
 		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
 		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
+		SWTBotTableItem item = new SWTBotTableItem(lastSelectionItem);
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
-		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, stateMask1, 1));
-		notify(SWT.Selection, selectionEvent(stateMask2));
-		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, stateMask2, 1));
+		notify(SWT.MouseDown, item.createMouseEvent(1, stateMask1, 1));
+		notify(SWT.Selection, item.createSelectionEvent(stateMask2));
+		notify(SWT.MouseUp, item.createMouseEvent(1, stateMask2, 1));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);
@@ -430,11 +431,11 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 		notify(SWT.FocusOut);
 	}
 
-	private Event selectionEvent(int stateMask) {
-		Event createEvent = createEvent();
-		createEvent.item = lastSelectionItem;
-		createEvent.stateMask = stateMask;
-		return createEvent;
+	@Override
+	protected Event createSelectionEvent(int stateMask) {
+		Event event = super.createSelectionEvent(stateMask);
+		event.item = lastSelectionItem;
+		return event;
 	}
 
 	/**
@@ -468,41 +469,17 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 	public void doubleClick(final int row, final int column) {
 		assertIsLegalCell(row, column);
 		setFocus();
-		asyncExec(new VoidResult() {
-			public void run() {
+		Rectangle cellBounds = syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
 				TableItem item = widget.getItem(row);
 				Rectangle cellBounds = item.getBounds(column);
 				// for some reason, it does not work without setting selection first
 				widget.setSelection(row);
-				doubleClickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
+				lastSelectionItem = item;
+				return cellBounds;
 			}
 		});
-	}
-
-	/**
-	 * Double-click on the table at given coordinates
-	 *
-	 * @param x the x co-ordinate of the click
-	 * @param y the y co-ordinate of the click
-	 */
-	@Override
-	protected void doubleClickXY(int x, int y) {
-		log.debug(MessageFormat.format("Double-clicking on {0}", widget)); //$NON-NLS-1$
-		notify(SWT.MouseEnter);
-		notify(SWT.MouseMove);
-		notify(SWT.Activate);
-		notify(SWT.FocusIn);
-		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
-		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
-		notify(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
-		notify(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
-		notify(SWT.DefaultSelection); // super implementation misses this line. Required for notification of double click listeners.
-		notify(SWT.MouseHover);
-		notify(SWT.MouseMove);
-		notify(SWT.MouseExit);
-		notify(SWT.Deactivate);
-		notify(SWT.FocusOut);
-		log.debug(MessageFormat.format("Double-clicked on {0}", widget)); //$NON-NLS-1$
+		doubleClickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,7 +33,7 @@ import org.hamcrest.SelfDescribing;
  * @see SWTBotCheckBox
  */
 @SWTBotWidget(clasz = Button.class, style = @Style(name = "SWT.TOGGLE", value = SWT.TOGGLE), preferredName = "toggleButton", referenceBy = { ReferenceBy.LABEL, ReferenceBy.MNEMONIC, ReferenceBy.TOOLTIP })//$NON-NLS-1$
-public class SWTBotToggleButton extends AbstractSWTBot<Button> {
+public class SWTBotToggleButton extends AbstractSWTBotControl<Button> {
 
 	/**
 	 * Constructs an instance of this object with the given button (Toggle)

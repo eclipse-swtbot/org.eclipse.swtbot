@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008,2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -39,7 +39,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 @SWTBotWidget(clasz = StyledText.class, preferredName = "styledText", referenceBy = { ReferenceBy.LABEL, ReferenceBy.TEXT })
-public class SWTBotStyledText extends AbstractSWTBot<StyledText> {
+public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 
 	/**
 	 * Constructs a new instance of this object.

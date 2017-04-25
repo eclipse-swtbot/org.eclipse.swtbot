@@ -202,6 +202,22 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	}
 
 	/**
+	 * Create a mouse event at the center of this widget
+	 *
+	 * @param button the mouse button that was clicked.
+	 * @param stateMask the state of the keyboard modifier keys.
+	 * @param count the number of times the mouse was clicked.
+	 * @return an event that encapsulates {@link #widget} and {@link #display}
+	 * @since 2.6
+	 */
+	protected Event createMouseEvent(int button, int stateMask, int count) {
+		Rectangle bounds = getBounds();
+		int x = bounds.x + (bounds.width / 2);
+		int y = bounds.y + (bounds.height / 2);
+		return createMouseEvent(x, y, button, stateMask, count);
+	}
+
+	/**
 	 * Create a mouse event
 	 *
 	 * @param x the x co-ordinate of the mouse event.
@@ -237,7 +253,16 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	}
 
 	/**
-	 * Click on the table at given coordinates
+	 * Get the bounds of this widget relative to its parent
+	 *
+	 * @since 2.6
+	 */
+	protected Rectangle getBounds() {
+		throw new UnsupportedOperationException("This operation is not supported by this widget.");
+	}
+
+	/**
+	 * Click on the widget at given coordinates
 	 *
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
@@ -285,7 +310,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	}
 
 	/**
-	 * Double-click on the table at given coordinates
+	 * Double-click on the widget at given coordinates
 	 *
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
@@ -298,9 +323,13 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
 		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		notify(SWT.Selection, createSelectionEvent(SWT.NONE));
 		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
-		notify(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
-		notify(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
+		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 2));
+		notify(SWT.Selection, createSelectionEvent(SWT.NONE));
+		notify(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.NONE, 2));
+		notify(SWT.DefaultSelection);
+		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);

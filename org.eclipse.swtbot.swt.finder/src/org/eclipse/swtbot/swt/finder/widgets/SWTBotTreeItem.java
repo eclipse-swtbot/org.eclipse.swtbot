@@ -81,6 +81,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 				return treeItem.getParent();
 			}
 		});
+		lastSelectionItem = treeItem;
 	}
 
 	/**
@@ -415,7 +416,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	public SWTBotTreeItem click() {
 		waitForEnabled();
-		Point center = getCenter(getCellBounds());
+		Point center = getCenter(getBounds());
 		clickXY(center.x, center.y);
 		return this;
 	}
@@ -442,10 +443,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public SWTBotTreeItem doubleClick() {
 		waitForEnabled();
 
-		final Point center = getCenter(getCellBounds());
-
 		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
-		notifyTree(SWT.MouseEnter, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTree(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
 			public void run() {
@@ -458,19 +457,28 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			}
 		});
 		notifyTree(SWT.FocusIn, super.createEvent());
-		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 1));
+		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 		notifyTree(SWT.Selection);
-		notifyTree(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
-		notifyTree(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
+		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
+		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 2));
 		notifyTree(SWT.Selection);
-		notifyTree(SWT.MouseDoubleClick, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
+		notifyTree(SWT.MouseDoubleClick, createMouseEvent(1, SWT.NONE, 2));
 		notifyTree(SWT.DefaultSelection);
-		notifyTree(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 2));
-		notifyTree(SWT.MouseExit, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 2));
+		notifyTree(SWT.MouseExit, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Deactivate, super.createEvent());
 		notifyTree(SWT.FocusOut, super.createEvent());
 		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
 		return this;
+	}
+
+	@Override
+	protected Rectangle getBounds() {
+		return syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return widget.getBounds();
+			}
+		});
 	}
 
 	/**
@@ -483,19 +491,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		return syncExec(new Result<Rectangle>() {
 			public Rectangle run() {
 				return widget.getBounds(column);
-			}
-		});
-	}
-
-	/**
-	 * Get the cell bounds. widget should be enabled before calling this method.
-	 *
-	 * @return the cell bounds
-	 */
-	private Rectangle getCellBounds() {
-		return syncExec(new Result<Rectangle>() {
-			public Rectangle run() {
-				return widget.getBounds();
 			}
 		});
 	}
@@ -619,13 +614,14 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	private void notifySelect(boolean ctrl) {
 		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
 		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
+		SWTBotTreeItem item = new SWTBotTreeItem(lastSelectionItem);
 		notifyTree(SWT.MouseEnter);
 		notifyTree(SWT.MouseMove);
 		notifyTree(SWT.Activate);
 		notifyTree(SWT.FocusIn);
-		notifyTree(SWT.MouseDown, createMouseEvent(0, 0, 1, stateMask1, 1));
-		notifyTree(SWT.Selection, selectionEvent(stateMask2));
-		notifyTree(SWT.MouseUp, createMouseEvent(0, 0, 1, stateMask2, 1));
+		notifyTree(SWT.MouseDown, item.createMouseEvent(1, stateMask1, 1));
+		notifyTree(SWT.Selection, item.createSelectionEvent(stateMask2));
+		notifyTree(SWT.MouseUp, item.createMouseEvent(1, stateMask2, 1));
 		notifyTree(SWT.MouseHover);
 		notifyTree(SWT.MouseMove);
 		notifyTree(SWT.MouseExit);
@@ -633,11 +629,11 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.FocusOut);
 	}
 
-	private Event selectionEvent(int stateMask) {
-		Event createEvent = createEvent();
-		createEvent.item = lastSelectionItem;
-		createEvent.stateMask = stateMask;
-		return createEvent;
+	@Override
+	protected Event createSelectionEvent(int stateMask) {
+		Event event = super.createSelectionEvent(stateMask);
+		event.item = lastSelectionItem;
+		return event;
 	}
 
 	@Override

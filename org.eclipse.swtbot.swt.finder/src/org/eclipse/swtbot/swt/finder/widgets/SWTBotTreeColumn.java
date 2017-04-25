@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013, 2015 Robin Stocker and others.
+ * Copyright (c) 2013, 2017 Robin Stocker and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,10 +13,13 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.hamcrest.SelfDescribing;
 
@@ -44,6 +47,26 @@ public class SWTBotTreeColumn extends AbstractSWTBot<TreeColumn> {
 				return w.getParent();
 			}
 		}));
+	}
+
+	@Override
+	protected Rectangle getBounds() {
+		return syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				Tree tree = widget.getParent();
+				Point location = widget.getDisplay().map(tree.getParent(), tree, tree.getLocation());
+				Rectangle bounds = new Rectangle(location.x, location.y, widget.getWidth(), tree.getHeaderHeight());
+				for (int i : tree.getColumnOrder()) {
+					TreeColumn column = tree.getColumn(i);
+					if (column.equals(widget)) {
+						break;
+					} else {
+						bounds.x += column.getWidth();
+					}
+				}
+				return bounds;
+			}
+		});
 	}
 
 	/**
@@ -77,7 +100,8 @@ public class SWTBotTreeColumn extends AbstractSWTBot<TreeColumn> {
 	public SWTBotTreeColumn click() {
 		waitForEnabled();
 		notify(SWT.Selection);
-		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, SWT.BUTTON1, 1), parent);
+		// Mouse event doesn't seem to be sent by the real SWT?
+		notify(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1), parent);
 		return this;
 	}
 

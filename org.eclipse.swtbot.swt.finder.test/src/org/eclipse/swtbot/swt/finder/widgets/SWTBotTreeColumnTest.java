@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013, 2015 Robin Stocker and others.
+ * Copyright (c) 2013, 2017 Robin Stocker and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
@@ -37,11 +38,10 @@ public class SWTBotTreeColumnTest extends AbstractControlExampleTest {
 		SWTBotTreeColumn header = tree.header("Name");
 		header.click();
 
-		Text text = bot.textInGroup("Listeners").widget;
+		SWTBotText text = bot.textInGroup("Listeners");
 
 		assertTextContains("Selection [13]: SelectionEvent{TreeColumn {Name}", text);
-		assertTextContains("MouseUp [4]: MouseEvent{Tree {}", text);
-		assertTextContains("data=null button=1 stateMask=" + toStateMask(524288, tree.widget) + " x=0 y=0 count=1}", text);
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=" + toStateMask(SWT.BUTTON1, tree.widget) + " x=0 y=0 count=1}");
 	}
 
 	@Test

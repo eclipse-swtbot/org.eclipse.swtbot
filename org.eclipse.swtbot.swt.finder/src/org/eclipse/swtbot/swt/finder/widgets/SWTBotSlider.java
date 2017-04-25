@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others.
+ * Copyright (c) 2009, 2017 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 @SWTBotWidget(clasz = Slider.class, preferredName = "slider", referenceBy = { ReferenceBy.LABEL, ReferenceBy.TEXT, ReferenceBy.TOOLTIP })
-public class SWTBotSlider extends AbstractSWTBot<Slider> {
+public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 
 	/**
 	 * Constructs a new instance with the given widget.

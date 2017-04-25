@@ -49,7 +49,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 @SWTBotWidget(clasz = Tree.class, preferredName = "tree", referenceBy = { ReferenceBy.LABEL })
-public class SWTBotTree extends AbstractSWTBot<Tree> {
+public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 
 	/** The last selected item */
 	private TreeItem	lastSelectionItem;
@@ -379,13 +379,14 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 	private void notifySelect(boolean ctrl) {
 		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
 		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
+		SWTBotTreeItem item = new SWTBotTreeItem(lastSelectionItem);
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
-		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, stateMask1, 1));
-		notify(SWT.Selection, selectionEvent(stateMask2));
-		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, stateMask2, 1));
+		notify(SWT.MouseDown, item.createMouseEvent(1, stateMask1, 1));
+		notify(SWT.Selection, item.createSelectionEvent(stateMask2));
+		notify(SWT.MouseUp, item.createMouseEvent(1, stateMask2, 1));
 		notify(SWT.MouseHover);
 		notify(SWT.MouseMove);
 		notify(SWT.MouseExit);
@@ -393,11 +394,11 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 		notify(SWT.FocusOut);
 	}
 
-	private Event selectionEvent(int stateMask) {
-		Event createEvent = createEvent();
-		createEvent.item = lastSelectionItem;
-		createEvent.stateMask = stateMask;
-		return createEvent;
+	@Override
+	protected Event createSelectionEvent(int stateMask) {
+		Event event = super.createSelectionEvent(stateMask);
+		event.item = lastSelectionItem;
+		return event;
 	}
 
 	/**

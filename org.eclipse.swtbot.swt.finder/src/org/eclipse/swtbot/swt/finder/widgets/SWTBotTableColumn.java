@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,10 +13,13 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.hamcrest.SelfDescribing;
 
@@ -69,13 +72,35 @@ public class SWTBotTableColumn extends AbstractSWTBot<TableColumn> {
 		this.parent = parent;
 	}
 
+	@Override
+	protected Rectangle getBounds() {
+		return syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				Table table = widget.getParent();
+				Point location = widget.getDisplay().map(table.getParent(), table, table.getLocation());
+				Rectangle bounds = new Rectangle(location.x, location.y, widget.getWidth(), table.getHeaderHeight());
+				for (int i : table.getColumnOrder()) {
+					TableColumn column = table.getColumn(i);
+					if (column.equals(widget)) {
+						break;
+					} else {
+						bounds.x += column.getWidth();
+					}
+				}
+				return bounds;
+			}
+		});
+	}
+
 	/**
 	 * Clicks the item.
 	 */
+	@Override
 	public SWTBotTableColumn click() {
 		waitForEnabled();
 		notify(SWT.Selection);
-		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, SWT.BUTTON1, 1), parent);
+		// Mouse event doesn't seem to be sent by the real SWT?
+		notify(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1), parent);
 		return this;
 	}
 

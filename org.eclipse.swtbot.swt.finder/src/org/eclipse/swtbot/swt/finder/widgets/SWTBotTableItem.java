@@ -124,7 +124,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 */
 	public SWTBotTableItem click() {
 		waitForEnabled();
-		Point center = getCenter(getCellBounds());
+		Point center = getCenter(getBounds());
 		clickXY(center.x, center.y);
 		return this;
 	}
@@ -151,10 +151,8 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	public SWTBotTableItem doubleClick() {
 		waitForEnabled();
 
-		final Point center = getCenter(getCellBounds());
-
 		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
-		notifyTable(SWT.MouseEnter, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTable(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTable(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
 			public void run() {
@@ -167,19 +165,28 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 			}
 		});
 		notifyTable(SWT.FocusIn, super.createEvent());
-		notifyTable(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 1));
+		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 		notifyTable(SWT.Selection);
-		notifyTable(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 1));
-		notifyTable(SWT.MouseDown, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
+		notifyTable(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
+		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 2));
 		notifyTable(SWT.Selection);
-		notifyTable(SWT.MouseDoubleClick, createMouseEvent(center.x, center.y, 1, SWT.NONE, 2));
+		notifyTable(SWT.MouseDoubleClick, createMouseEvent(1, SWT.NONE, 2));
 		notifyTable(SWT.DefaultSelection);
-		notifyTable(SWT.MouseUp, createMouseEvent(center.x, center.y, 1, SWT.BUTTON1, 2));
-		notifyTable(SWT.MouseExit, createMouseEvent(center.x, center.y, 0, SWT.NONE, 0));
+		notifyTable(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 2));
+		notifyTable(SWT.MouseExit, createMouseEvent(0, SWT.NONE, 0));
 		notifyTable(SWT.Deactivate, super.createEvent());
 		notifyTable(SWT.FocusOut, super.createEvent());
 		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
 		return this;
+	}
+
+	@Override
+	protected Rectangle getBounds() {
+		return syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return widget.getBounds();
+			}
+		});
 	}
 
 	/**
@@ -192,19 +199,6 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		return syncExec(new Result<Rectangle>() {
 			public Rectangle run() {
 				return widget.getBounds(column);
-			}
-		});
-	}
-
-	/**
-	 * Get the cell bounds. widget should be enabled before calling this method.
-	 *
-	 * @return the cell bounds
-	 */
-	private Rectangle getCellBounds() {
-		return syncExec(new Result<Rectangle>() {
-			public Rectangle run() {
-				return widget.getBounds();
 			}
 		});
 	}
@@ -340,11 +334,18 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	}
 
 	private void notifySelect() {
-		syncExec(new VoidResult() {
-			public void run() {
-				table.notifyListeners(SWT.Selection, createSelectionEvent());
-			}
-		});
+		notifyTable(SWT.MouseEnter);
+		notifyTable(SWT.MouseMove);
+		notifyTable(SWT.Activate);
+		notifyTable(SWT.FocusIn);
+		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
+		notifyTable(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
+		notifyTable(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
+		notifyTable(SWT.MouseHover);
+		notifyTable(SWT.MouseMove);
+		notifyTable(SWT.MouseExit);
+		notifyTable(SWT.Deactivate);
+		notifyTable(SWT.FocusOut);
 	}
 
 	@Override
@@ -352,10 +353,10 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		new SWTBotTable(table).waitForEnabled();
 	}
 
-	private Event createSelectionEvent() {
-		Event event = createEvent();
+	@Override
+	protected Event createSelectionEvent(int stateMask) {
+		Event event = super.createSelectionEvent(stateMask);
 		event.item = widget;
-		event.widget = table;
 		return event;
 	}
 

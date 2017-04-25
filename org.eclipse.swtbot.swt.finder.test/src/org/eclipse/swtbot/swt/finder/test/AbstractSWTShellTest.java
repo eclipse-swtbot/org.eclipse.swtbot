@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -54,7 +54,7 @@ public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 
 	//TODO: move into some Assert class
 	protected void assertEventMatches(final SWTBotText listeners, String expected) {
-		expected = expected.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=\\d+", "x=X_CO_ORDINATE").replaceAll("y=\\d+", "y=Y_CO_ORDINATE");
+		expected = expected.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=-?\\d+", "x=X_CO_ORDINATE").replaceAll("y=-?\\d+", "y=Y_CO_ORDINATE");
 		final Matcher<String> matcher = containsString(expected);
 		bot.waitUntil(new DefaultCondition() {
 
@@ -63,7 +63,7 @@ public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 			public boolean test() throws Exception {
 				text = listeners.getText();
 				// keyLocation was added in 3.6, we don't care about it for the tests
-				String listenersText = text.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=\\d+", "x=X_CO_ORDINATE").replaceAll("y=\\d+", "y=Y_CO_ORDINATE").replaceAll("keyLocation=(0x)?[0-9a-f]+ ", "");
+				String listenersText = text.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=-?\\d+", "x=X_CO_ORDINATE").replaceAll("y=-?\\d+", "y=Y_CO_ORDINATE").replaceAll("keyLocation=(0x)?[0-9a-f]+ ", "");
 				return matcher.matches(listenersText);
 			}
 

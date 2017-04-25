@@ -32,7 +32,7 @@ import org.hamcrest.SelfDescribing;
  * @version $Id$
  */
 @SWTBotWidget(clasz = Text.class, preferredName = "text", referenceBy = { ReferenceBy.LABEL, ReferenceBy.TEXT, ReferenceBy.TOOLTIP, ReferenceBy.MESSAGE })
-public class SWTBotText extends AbstractSWTBot<Text> {
+public class SWTBotText extends AbstractSWTBotControl<Text> {
 
 	/**
 	 * Constructs a new instance of this object.

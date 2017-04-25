@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SWTBot Committers and others.
+ * Copyright (c) 2011, 2017 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -38,7 +38,7 @@ import org.hamcrest.SelfDescribing;
  * @author Toby Weston
  */
 @SWTBotWidget(clasz = ExpandBar.class, preferredName = "expandBar", referenceBy = { ReferenceBy.LABEL })
-public class SWTBotExpandBar extends AbstractSWTBot<ExpandBar> {
+public class SWTBotExpandBar extends AbstractSWTBotControl<ExpandBar> {
 
 	/**
 	 * Constructs a new instance with the given widget.

@@ -449,14 +449,16 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 		assertIsLegalCell(row, column);
 		// for some reason, it does not work without setting selection first
 		setFocus();
-		select(row);
-		asyncExec(new VoidResult() {
-			public void run() {
+		Rectangle cellBounds = syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
 				TableItem item = widget.getItem(row);
 				Rectangle cellBounds = item.getBounds(column);
-				clickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
+				widget.setSelection(row);
+				lastSelectionItem = item;
+				return cellBounds;
 			}
 		});
+		clickXY(cellBounds.x + (cellBounds.width / 2), cellBounds.y + (cellBounds.height / 2));
 	}
 
 	/**
@@ -473,7 +475,6 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 			public Rectangle run() {
 				TableItem item = widget.getItem(row);
 				Rectangle cellBounds = item.getBounds(column);
-				// for some reason, it does not work without setting selection first
 				widget.setSelection(row);
 				lastSelectionItem = item;
 				return cellBounds;

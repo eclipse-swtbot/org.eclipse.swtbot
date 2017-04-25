@@ -303,7 +303,7 @@ public class SWTBotTree extends AbstractSWTBot<Tree> {
 	 *            tree item to unselect
 	 */
 	private void unselect(final TreeItem item) {
-		asyncExec(new VoidResult() {
+		syncExec(new VoidResult() {
 			public void run() {
 				widget.deselect(item);
 				lastSelectionItem = item;

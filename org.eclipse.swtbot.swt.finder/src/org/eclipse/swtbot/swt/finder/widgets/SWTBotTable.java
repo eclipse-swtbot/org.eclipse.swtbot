@@ -333,7 +333,7 @@ public class SWTBotTable extends AbstractSWTBot<Table> {
 	 *            table item to unselect
 	 */
 	private void unselect(final TableItem item) {
-		asyncExec(new VoidResult() {
+		syncExec(new VoidResult() {
 			public void run() {
 				widget.deselect(widget.indexOf(item));
 				lastSelectionItem = item;

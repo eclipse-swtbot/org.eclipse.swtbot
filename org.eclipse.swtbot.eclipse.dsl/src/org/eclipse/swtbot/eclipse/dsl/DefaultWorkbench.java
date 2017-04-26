@@ -51,6 +51,7 @@ public class DefaultWorkbench extends Workbench {
 		this.bot = bot;
 	}
 
+	@Override
 	public Workbench switchToPerspective(final String perspectiveName) {
 		Boolean result = UIThreadRunnable.syncExec(new Result<Boolean>() {
 			public Boolean run() {
@@ -77,6 +78,7 @@ public class DefaultWorkbench extends Workbench {
 				perspectiveName, availablePerspectives));
 	}
 
+	@Override
 	public Workbench resetPerspective() {
 		UIThreadRunnable.syncExec(new VoidResult() {
 			public void run() {
@@ -86,10 +88,12 @@ public class DefaultWorkbench extends Workbench {
 		return this;
 	}
 
+	@Override
 	public Workbench resetWorkbench() {
 		return closeAllShells().saveAllEditors().closeAllEditors();
 	}
 
+	@Override
 	public Workbench closeAllShells() {
 		SWTBotShell[] shells = bot.shells();
 		for (SWTBotShell shell : shells) {
@@ -100,6 +104,7 @@ public class DefaultWorkbench extends Workbench {
 		return this;
 	}
 
+	@Override
 	public Workbench saveAllEditors() {
 		List<? extends SWTBotEditor> editors = bot.editors();
 		for (SWTBotEditor editor : editors) {
@@ -108,6 +113,7 @@ public class DefaultWorkbench extends Workbench {
 		return this;
 	}
 
+	@Override
 	public Workbench closeAllEditors() {
 		List<? extends SWTBotEditor> editors = bot.editors();
 		for (SWTBotEditor editor : editors) {

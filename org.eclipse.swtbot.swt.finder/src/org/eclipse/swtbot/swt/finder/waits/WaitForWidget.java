@@ -31,6 +31,7 @@ class WaitForWidget<T extends Widget> extends WaitForObjectCondition<T> {
 		return "Could not find widget matching: " + matcher; //$NON-NLS-1$
 	}
 
+	@Override
 	protected List<T> findMatches() {
 		return bot.getFinder().findControls(matcher);
 	}

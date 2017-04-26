@@ -119,6 +119,7 @@ public class SWTEclipseBot extends SWTWorkbenchBot {
 	 * @throws WidgetNotFoundException if there are errors finding editors.
 	 * @deprecated use {@link SWTWorkbenchBot#editors()}
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<SWTBotEclipseEditor> editors() throws WidgetNotFoundException {
 		Matcher matcher = allOf(instanceOf(IEditorReference.class));
@@ -141,6 +142,7 @@ public class SWTEclipseBot extends SWTWorkbenchBot {
 	 * @throws WidgetNotFoundException if the views are not found.
 	 * @deprecated use {@link SWTWorkbenchBot#views()}
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<SWTBotView> views() throws WidgetNotFoundException {
 		Matcher matcher = allOf(instanceOf(IViewReference.class));
@@ -164,6 +166,7 @@ public class SWTEclipseBot extends SWTWorkbenchBot {
 	 * @since 1.1
 	 * @deprecated use {@link SWTWorkbenchBot#activeEditor()}
 	 */
+	@Override
 	public SWTBotEclipseEditor activeEditor() throws WidgetNotFoundException {
 		return super.activeEditor().toTextEditor();
 	}

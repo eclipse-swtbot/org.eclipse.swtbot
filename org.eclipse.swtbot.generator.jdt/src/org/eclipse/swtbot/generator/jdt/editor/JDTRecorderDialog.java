@@ -168,6 +168,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		createTabItem(classTabFolder, "RecordedTestCase");
 
 		classTabFolder.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
 				SourceViewer viewer = tabViewer.get(classTabFolder.getSelection());
 				ClassDocument doc = (ClassDocument) viewer.getDocument();
@@ -296,7 +297,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 
 	    this.getShell().getDisplay().asyncExec(new Runnable() {
 
-	    	public void run() {
+			public void run() {
 				if(Window.OK == d.open()){
 					String classText = d.getClassName();
 					createTabItem(classTabFolder, classText);

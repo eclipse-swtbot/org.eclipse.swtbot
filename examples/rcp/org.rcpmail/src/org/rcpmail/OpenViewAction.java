@@ -34,6 +34,7 @@ public class OpenViewAction extends Action {
 		setImageDescriptor(org.rcpmail.Activator.getImageDescriptor("/icons/sample2.gif"));
 	}
 	
+	@Override
 	public void run() {
 		if(window != null) {	
 			try {

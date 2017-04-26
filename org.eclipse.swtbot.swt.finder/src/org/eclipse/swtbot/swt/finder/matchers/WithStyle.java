@@ -41,6 +41,7 @@ public class WithStyle<T extends Widget> extends AbstractMatcher<T> {
 		this.styleDescription = styleDescription;
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		return SWTUtils.hasStyle((Widget) obj, style);
 	}

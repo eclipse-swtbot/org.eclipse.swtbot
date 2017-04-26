@@ -62,6 +62,7 @@ public class WaitForViewMenu extends WaitForObjectCondition<Menu> {
 		return "Could not find view menu for view: " + viewReference; //$NON-NLS-1$
 	}
 
+	@Override
 	protected List<Menu> findMatches() {
 		List<Menu> emptyList = Collections.<Menu>emptyList();
 

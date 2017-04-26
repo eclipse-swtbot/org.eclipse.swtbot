@@ -28,6 +28,7 @@ public class WithTitle<T extends IWorkbenchPartReference> extends
 		this.titleMatcher = titleMatcher;
 	}
 
+	@Override
 	public boolean doMatch(Object item) {
 		if (item instanceof IWorkbenchPartReference) {
 			IWorkbenchPartReference part = (IWorkbenchPartReference) item;

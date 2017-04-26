@@ -48,6 +48,7 @@ public class SaveHandler {
 		ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
 		dialog.open();
 		dialog.run(true, true, new IRunnableWithProgress() {
+			@Override
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				pmContext.set(IProgressMonitor.class.getName(), monitor);

@@ -48,6 +48,7 @@ public class SWTBotEclipseProjectTest extends AbstractSWTBotEclipseTest {
 		javaClass.createClass(PACKAGE_NAME, CLASS_NAME);
 	}
 
+	@Override
 	@After
 	public void tearDown() throws Exception {
 		super.tearDown();

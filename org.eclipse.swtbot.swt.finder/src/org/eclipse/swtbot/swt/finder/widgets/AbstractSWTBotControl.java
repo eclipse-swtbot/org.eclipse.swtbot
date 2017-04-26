@@ -61,6 +61,7 @@ public class AbstractSWTBotControl<T extends Control> extends AbstractSWTBot<T> 
 	 * 
 	 * @return the bounds of the Widget in relation to Display
 	 */
+	@Override
 	protected Rectangle absoluteLocation() {
 		return syncExec(new Result<Rectangle>() {
 			public Rectangle run() {

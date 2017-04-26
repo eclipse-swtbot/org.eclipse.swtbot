@@ -166,6 +166,7 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 		SWTBotPreferences.TIMEOUT = currentTimeout;
 	}
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		bot = new SWTBot();

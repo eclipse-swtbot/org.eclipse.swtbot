@@ -41,10 +41,12 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 		}
 	}
 
+	@Override
 	public void pressKey(KeyStroke key) {
 		robot.keyPress(key(key));
 	}
 
+	@Override
 	public void releaseKey(KeyStroke key) {
 		robot.keyRelease(key(key));
 

@@ -135,6 +135,7 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 		notify(eventType, createEvent(), expandBar);
 	}
 
+	@Override
 	protected Event createEvent() {
 		Event e = super.createEvent();
 		e.widget = expandBar;

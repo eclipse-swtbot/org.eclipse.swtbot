@@ -134,6 +134,7 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 	 *
 	 * @return <code>true</code> if the shell is active, <code>false</code> otherwise.
 	 */
+	@Override
 	public boolean isActive() {
 		return syncExec(new BoolResult() {
 			public Boolean run() {

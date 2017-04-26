@@ -30,6 +30,7 @@ public class AnyOf<T> extends AbstractMatcher<T> {
 		this.matchers = matchers;
 	}
 
+	@Override
 	protected boolean doMatch(Object o) {
 		for (Matcher<? extends T> matcher : matchers) {
 			if (matcher.matches(o)) {

@@ -60,6 +60,7 @@ public class SWTBotLink extends AbstractSWTBotControl<Link> {
 	 *
 	 * @return itself.
 	 */
+	@Override
 	public AbstractSWTBot<Link> click() {
 		return click(0);
 	}

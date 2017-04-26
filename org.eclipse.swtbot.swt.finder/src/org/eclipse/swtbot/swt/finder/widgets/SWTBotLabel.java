@@ -53,6 +53,7 @@ public class SWTBotLabel extends AbstractSWTBotControl<Label> {
 	/**
 	 * Clicks on the label.
 	 */
+	@Override
 	public AbstractSWTBot<Label> click() {
 		return click(true);
 	}

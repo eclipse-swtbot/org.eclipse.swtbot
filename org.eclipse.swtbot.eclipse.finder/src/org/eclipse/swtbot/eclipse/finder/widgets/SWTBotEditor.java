@@ -58,10 +58,12 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 		super(editorReference, bot, description);
 	}
 
+	@Override
 	public boolean isActive() {
 		return bot.activeEditor().partReference == partReference;
 	}
 
+	@Override
 	public void setFocus() {
 		syncExec(new VoidResult() {
 			public void run() {
@@ -79,6 +81,7 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 		close();
 	}
 
+	@Override
 	public void close() {
 		UIThreadRunnable.syncExec(new VoidResult() {
 			public void run() {
@@ -102,6 +105,7 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 	/**
 	 * Shows the editor if it is visible.
 	 */
+	@Override
 	public void show() {
 		UIThreadRunnable.syncExec(new VoidResult() {
 			public void run() {

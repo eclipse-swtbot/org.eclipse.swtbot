@@ -75,6 +75,7 @@ public class SWTBotPerspective {
 		return this.perspectiveDescriptor.getLabel();
 	}
 	
+	@Override
 	public String toString() {
 		return "SWTBotEclipsePerspective[id=\"" + perspectiveDescriptor.getLabel() + "\", label=\"" + perspectiveDescriptor.getLabel()
 				+ "\"]";

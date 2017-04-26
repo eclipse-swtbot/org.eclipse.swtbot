@@ -39,6 +39,7 @@ public class WithRegex<T extends Widget> extends AbstractMatcher<T> {
 		pattern = Pattern.compile("([\r\n]|.)*" + regex + "([\r\n]|.)*");
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		try {
 			return pattern.matcher(WithText.getText(obj)).matches();

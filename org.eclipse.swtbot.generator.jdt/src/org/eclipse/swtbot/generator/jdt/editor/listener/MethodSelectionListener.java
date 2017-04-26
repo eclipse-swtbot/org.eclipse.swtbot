@@ -64,6 +64,7 @@ public class MethodSelectionListener extends SelectionAdapter {
 		((AnnotationSelectionListener)annotationsToolItem.getData()).update();
 
 	}
+	@Override
 	public void widgetSelected(SelectionEvent event) {
 		if (event.detail == SWT.ARROW) {
 			ToolItem item = (ToolItem) event.widget;

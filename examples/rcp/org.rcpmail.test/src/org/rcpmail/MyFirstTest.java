@@ -22,10 +22,12 @@ import junit.framework.AssertionFailedError;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class MyFirstTest extends SWTBotEclipseTestCase {
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 	}
 
+	@Override
 	@After
 	public void tearDown() throws Exception {
 	}

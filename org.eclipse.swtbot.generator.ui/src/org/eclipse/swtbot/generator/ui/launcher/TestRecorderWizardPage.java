@@ -57,6 +57,7 @@ public class TestRecorderWizardPage extends WizardPage {
 		}
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 
@@ -72,6 +73,7 @@ public class TestRecorderWizardPage extends WizardPage {
 		combo.setContentProvider(new ArrayContentProvider());
 		combo.getControl().setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		combo.setLabelProvider(new LabelProvider() {
+			@Override
 			public String getText(Object element) {
 				return ((IRecorderDialog) element).getName();
 			}
@@ -105,6 +107,7 @@ public class TestRecorderWizardPage extends WizardPage {
 
 		combo.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent arg0) {
 				IStructuredSelection selection = (IStructuredSelection) arg0.getSelection();
 				if (!selection.isEmpty()) {

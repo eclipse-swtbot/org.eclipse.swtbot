@@ -56,6 +56,7 @@ public class SWTBotHyperlink extends AbstractSWTBotControl<Hyperlink> {
 		super(w, description);
 	}
 
+	@Override
 	public AbstractSWTBot<Hyperlink> click() {
 		return click(true);
 	}

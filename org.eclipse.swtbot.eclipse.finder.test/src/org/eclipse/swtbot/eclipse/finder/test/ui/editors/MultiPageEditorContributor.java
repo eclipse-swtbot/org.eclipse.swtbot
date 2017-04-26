@@ -58,6 +58,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	 * (non-JavaDoc) Method declared in AbstractMultiPageEditorActionBarContributor.
 	 */
 
+	@Override
 	public void setActivePage(IEditorPart part) {
 		if (activeEditorPart == part)
 			return;
@@ -102,6 +103,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 
 	private void createActions() {
 		sampleAction = new Action() {
+			@Override
 			public void run() {
 				MessageDialog.openInformation(null, "SWTBot Eclipse Control Finder Plug-in Test (incubation)", "Sample Action Executed");
 			}
@@ -112,12 +114,14 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
 	}
 
+	@Override
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager menu = new MenuManager("Editor &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
 		menu.add(sampleAction);
 	}
 
+	@Override
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
 		manager.add(sampleAction);

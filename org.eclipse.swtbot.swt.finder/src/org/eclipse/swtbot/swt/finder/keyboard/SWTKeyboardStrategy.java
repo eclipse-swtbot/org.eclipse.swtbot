@@ -46,11 +46,13 @@ public class SWTKeyboardStrategy extends AbstractKeyboardStrategy {
 		this.widget = widget;
 	}
 	
+	@Override
 	public void pressKey(KeyStroke key) {
 		Assert.isTrue(display.post(keyEvent(key, SWT.KeyDown)), "Could not post keyevent.");
 		display.wake();
 	}
 
+	@Override
 	public void releaseKey(KeyStroke key) {
 		Assert.isTrue(display.post(keyEvent(key, SWT.KeyUp)), "Could not post keyevent.");
 		display.wake();

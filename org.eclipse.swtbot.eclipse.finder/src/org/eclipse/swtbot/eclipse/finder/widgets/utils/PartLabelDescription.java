@@ -34,6 +34,7 @@ public class PartLabelDescription<T extends IWorkbenchPartReference> implements 
 		description.appendText(ClassUtils.simpleClassName(partReference) + " with label {" + partReference.getPartName() + "}"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Override
 	public String toString() {
 		return StringDescription.asString(this);
 	}

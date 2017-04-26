@@ -77,6 +77,7 @@ public class SWTBotTestView extends ViewPart {
 		// Do nothing.
 	}
 
+	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new SWTBotTestContentProvider());
@@ -146,6 +147,7 @@ public class SWTBotTestView extends ViewPart {
 
 	private void makeActions() {
 		iActionTypeAction = new Action() {
+			@Override
 			public void run() {
 				showMessage("iAction executed.");
 			}
@@ -156,6 +158,7 @@ public class SWTBotTestView extends ViewPart {
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 		
 		iActionTypeActionWithId = new Action() {
+			@Override
 			public void run() {
 				showMessage("iAction executed.");
 			}
@@ -165,6 +168,7 @@ public class SWTBotTestView extends ViewPart {
 		iActionTypeActionWithId.setToolTipText("This represents an IAction with ID command.");
 		
 		doubleClickAction = new Action() {
+			@Override
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection) selection).getFirstElement();
@@ -173,6 +177,7 @@ public class SWTBotTestView extends ViewPart {
 		};
 		
 		iToggleTypeAction = new Action("Toggle", Action.AS_CHECK_BOX) {
+			@Override
 			public void run() {
 				showMessage("iAction executed.");
 			}
@@ -180,6 +185,7 @@ public class SWTBotTestView extends ViewPart {
 		iToggleTypeAction.setToolTipText("This represents a toggle IAction command.");
 		
 		iRadioTypeAction = new Action("Radio", Action.AS_RADIO_BUTTON) {
+			@Override
 			public void run() {
 				showMessage("iAction executed.");
 			}
@@ -187,6 +193,7 @@ public class SWTBotTestView extends ViewPart {
 		iRadioTypeAction.setToolTipText("This represents a radio IAction command.");
 		
 		iDropDownTypeAction = new Action("DropDown", Action.AS_DROP_DOWN_MENU) {
+			@Override
 			public void run() {
 				showMessage("iAction executed.");
 			}
@@ -252,6 +259,7 @@ public class SWTBotTestView extends ViewPart {
 		MessageDialog.openInformation(viewer.getControl().getShell(), "Sample View", message);
 	}
 
+	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}

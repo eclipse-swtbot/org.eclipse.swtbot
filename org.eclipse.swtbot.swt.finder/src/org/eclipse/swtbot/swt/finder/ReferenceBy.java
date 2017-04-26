@@ -23,138 +23,170 @@ import org.eclipse.swtbot.swt.finder.utils.StringUtils;
  */
 public enum ReferenceBy {
 	TEXT(100) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return other != LABEL && other != TOOLTIP && other != MNEMONIC && other != MESSAGE;
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "withText(" + argumentName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
+		@Override
 		public String methodNameSuffix() {
 			return ""; //$NON-NLS-1$
 		}
 	},
 	MNEMONIC(100) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return other != LABEL && other != TOOLTIP && other != TEXT && other != MESSAGE;
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "withMnemonic(" + argumentName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
+		@Override
 		public String methodNameSuffix() {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public String argumentName() {
 			return "mnemonicText"; //$NON-NLS-1$
 		}
 	},
 	LABEL(100) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return other != TEXT && other != TOOLTIP && other != MNEMONIC && other != MESSAGE;
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "withLabel(" + argumentName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	},
 	TOOLTIP(90) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return other != TEXT && other != LABEL && other != MNEMONIC  && other != MESSAGE;
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "withTooltip(" + argumentName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	},
 	MESSAGE(90) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return other != TEXT && other != LABEL && other != MNEMONIC && other != TOOLTIP && other != IN_GROUP;
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "withMessage(" + argumentName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	},
 	ID_KEY_VALUE(100) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return false;
 		}
 
+		@Override
 		public String methodArgument() {
 			return "String key, String value"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "withId(key, value)"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String paramJavaDoc() {
 			return "@param key the key set on the widget.\n" + "@param value the value for the key.\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
+		@Override
 		public String methodNameSuffix() {
 			return "WithId"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String argumentName() {
 			return "key/value"; //$NON-NLS-1$
 		}
 	},
 	ID_VALUE(100) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return false;
 		}
 
+		@Override
 		public String methodArgument() {
 			return "String value"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "withId(value)"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String paramJavaDoc() {
 			return "@param value the value for the key {@link " + SWTBotPreferences.class.getName() + "#DEFAULT_KEY}.\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
+		@Override
 		public String methodNameSuffix() {
 			return "WithId"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String argumentName() {
 			return "value"; //$NON-NLS-1$
 		}
 	},
 	NONE(100) {
+		@Override
 		public boolean isCompatibleWith(ReferenceBy other) {
 			return false;
 		}
 
+		@Override
 		public String methodArgument() {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public String methodNameSuffix() {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public String matcherMethod() {
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public String paramJavaDoc() {
 			return ""; //$NON-NLS-1$
 		}
 	},
 	IN_GROUP(80) {
+		@Override
 		public String methodNameSuffix() {
 			return "InGroup"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String matcherMethod() {
 			return "inGroup(inGroup)"; //$NON-NLS-1$
 		}

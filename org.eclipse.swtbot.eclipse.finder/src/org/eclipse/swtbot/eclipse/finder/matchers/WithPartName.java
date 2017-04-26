@@ -39,6 +39,7 @@ public class WithPartName<T extends IWorkbenchPartReference> extends
 		this.nameMatcher = nameMatcher;
 	}
 
+	@Override
 	public boolean doMatch(Object item) {
 		if (item instanceof IWorkbenchPartReference) {
 			IWorkbenchPartReference part = (IWorkbenchPartReference) item;

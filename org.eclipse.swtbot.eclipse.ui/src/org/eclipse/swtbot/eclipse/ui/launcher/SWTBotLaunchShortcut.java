@@ -21,6 +21,7 @@ import org.eclipse.swtbot.eclipse.ui.SWTBotLaunchConfigurationDelegate;
  */
 public class SWTBotLaunchShortcut extends JUnitWorkbenchLaunchShortcut {
 
+	@Override
 	protected String getLaunchConfigurationTypeId() {
 		return SWTBotLaunchConfigurationDelegate.LAUNCH_CONFIG_ID;
 	}

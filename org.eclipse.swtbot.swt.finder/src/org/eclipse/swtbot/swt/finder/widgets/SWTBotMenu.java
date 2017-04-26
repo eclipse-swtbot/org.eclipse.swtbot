@@ -64,6 +64,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	/**
 	 * Clicks on this menu item. Does nothing if this menu item has a menu.
 	 */
+	@Override
 	public SWTBotMenu click() {
 		if (hasMenu()) {
 			return this;

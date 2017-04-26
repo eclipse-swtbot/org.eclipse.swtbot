@@ -54,6 +54,7 @@ public abstract class SWTBotAssert {
 			this.pattern = pattern;
 		}
 
+		@Override
 		public boolean matchesSafely(String item) {
 			return pattern.matcher(item).matches();
 		}

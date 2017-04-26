@@ -43,6 +43,7 @@ public class WidgetTextDescription implements SelfDescribing {
 		description.appendText(ClassUtils.simpleClassName(widget) + " with text {" + text + "}"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
+	@Override
 	public String toString() {
 		return StringDescription.asString(this);
 	}

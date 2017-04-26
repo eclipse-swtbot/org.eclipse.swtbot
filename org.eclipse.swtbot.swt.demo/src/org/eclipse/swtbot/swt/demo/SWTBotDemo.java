@@ -38,6 +38,7 @@ public class SWTBotDemo {
 
 	private void start(final String[] args) throws Exception {
 		Thread applicationThread = new Thread() {
+			@Override
 			public void run() {
 				try {
 					mainClass.getMethod("main", new Class[] { String[].class }).invoke(null, new Object[] { args }); //$NON-NLS-1$

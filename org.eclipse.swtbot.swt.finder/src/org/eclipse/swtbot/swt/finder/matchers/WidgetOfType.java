@@ -39,6 +39,7 @@ public class WidgetOfType<T extends Widget> extends AbstractMatcher<T> {
 		this.type = type;
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		return type.isInstance(obj);
 	}

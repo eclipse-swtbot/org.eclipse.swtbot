@@ -49,6 +49,7 @@ public abstract class SWTBotToolbarButton extends AbstractSWTBot<ToolItem> {
 	 *
 	 * @since 1.0
 	 */
+	@Override
 	public SWTBotToolbarButton click() {
 		return click(0);
 	}

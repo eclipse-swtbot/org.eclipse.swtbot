@@ -34,6 +34,7 @@ public class MessageFormat {
 	private final String													pattern;
 	private final Object[]													args;
 	private static final ThreadLocal<Map<String, java.text.MessageFormat>>	threadLocal	= new ThreadLocal<Map<String, java.text.MessageFormat>>() {
+																							@Override
 																							protected java.util.Map<String, java.text.MessageFormat> initialValue() {
 																								return new LRUMap<String, java.text.MessageFormat>();
 																							};
@@ -48,6 +49,7 @@ public class MessageFormat {
 		return new MessageFormat(s, args);
 	}
 
+	@Override
 	public String toString() {
 		try {
 			java.text.MessageFormat formatter = formatter(pattern);
@@ -69,6 +71,7 @@ public class MessageFormat {
 	private static final class LRUMap<K, V> extends LinkedHashMap<K, V> {
 		private static final int	MAX_SIZE	= 512;
 
+		@Override
 		protected boolean removeEldestEntry(Entry<K, V> eldest) {
 			return size() > MAX_SIZE;
 		}

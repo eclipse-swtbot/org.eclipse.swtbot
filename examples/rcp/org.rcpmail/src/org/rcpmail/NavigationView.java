@@ -44,6 +44,7 @@ public class NavigationView extends ViewPart {
 		public TreeParent getParent() {
 			return parent;
 		}
+		@Override
 		public String toString() {
 			return getName();
 		}
@@ -107,9 +108,11 @@ public class NavigationView extends ViewPart {
 	
 	class ViewLabelProvider extends LabelProvider {
 
+		@Override
 		public String getText(Object obj) {
 			return obj.toString();
 		}
+		@Override
 		public Image getImage(Object obj) {
 			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 			if (obj instanceof TreeParent)
@@ -145,6 +148,7 @@ public class NavigationView extends ViewPart {
      * This is a callback that will allow us to create the viewer and initialize
      * it.
      */
+	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		viewer.setContentProvider(new ViewContentProvider());
@@ -155,6 +159,7 @@ public class NavigationView extends ViewPart {
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}

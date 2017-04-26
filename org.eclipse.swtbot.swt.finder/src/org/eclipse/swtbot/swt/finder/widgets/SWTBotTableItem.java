@@ -85,6 +85,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 * @param x the x co-ordinate of the click
 	 * @param y the y co-ordinate of the click
 	 */
+	@Override
 	protected void clickXY(int x, int y) {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
 		notifyTable(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
@@ -122,6 +123,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 *
 	 * @return the current node.
 	 */
+	@Override
 	public SWTBotTableItem click() {
 		waitForEnabled();
 		Point center = getCenter(getBounds());
@@ -213,6 +215,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		return new Point(bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));
 	}
 
+	@Override
 	public String getText() {
 		return syncExec(new StringResult() {
 			public String run() {
@@ -296,6 +299,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		return event;
 	}
 
+	@Override
 	protected Event createEvent() {
 		Event event = super.createEvent();
 		event.widget = table;
@@ -360,6 +364,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		return event;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
 			public Boolean run() {

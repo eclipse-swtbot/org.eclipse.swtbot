@@ -136,6 +136,7 @@ public abstract class UIThreadRunnable implements Runnable {
 	public static <T> T syncExec(Display display, final Result<T> toExecute) {
 		final ArrayList<T> arrayList = new ArrayList<T>();
 		new UIThreadRunnable(display) {
+			@Override
 			protected void doRun() {
 				arrayList.add(toExecute.run());
 			}
@@ -165,6 +166,7 @@ public abstract class UIThreadRunnable implements Runnable {
 	public static <T> T[] syncExec(Display display, final ArrayResult<T> toExecute) {
 		final ArrayList<T[]> arrayList = new ArrayList<T[]>();
 		new UIThreadRunnable(display) {
+			@Override
 			protected void doRun() {
 				T[] run = toExecute.run();
 				arrayList.add(run);

@@ -51,6 +51,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	/**
 	 * @return The text of the gallery item.
 	 */
+	@Override
 	public String getText(){
 		//TODO: check that we really want to override 
 		return syncExec(new StringResult() {	

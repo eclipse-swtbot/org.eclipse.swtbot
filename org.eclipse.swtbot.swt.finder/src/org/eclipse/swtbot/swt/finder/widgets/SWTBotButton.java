@@ -60,6 +60,7 @@ public class SWTBotButton extends AbstractSWTBotControl<Button> {
 	/**
 	 * Click on the button.
 	 */
+	@Override
 	public SWTBotButton click() {
 		log.debug(MessageFormat.format("Clicking on {0}", SWTUtils.getText(widget))); //$NON-NLS-1$
 		waitForEnabled();

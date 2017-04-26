@@ -20,10 +20,12 @@ public class EclipseSpyView extends ViewPart {
 
 	private EclipseSpy	swtSpy;
 
+	@Override
 	public void createPartControl(Composite parent) {
 		swtSpy = new EclipseSpy(parent, new DefaultChildrenResolver(), new DefaultParentResolver());
 	}
 
+	@Override
 	public void setFocus() {
 
 	}

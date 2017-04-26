@@ -48,6 +48,7 @@ public class WaitForPopupMenu extends WaitForObjectCondition<Menu> {
 		return "Could not find pop up menu for control: " + control; //$NON-NLS-1$
 	}
 
+	@Override
 	protected List<Menu> findMatches() {
 		Menu popupMenu = UIThreadRunnable.syncExec(new WidgetResult<Menu>() {
 			public Menu run() {

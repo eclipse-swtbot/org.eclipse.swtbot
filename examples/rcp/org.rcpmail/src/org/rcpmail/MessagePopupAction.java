@@ -29,7 +29,8 @@ public class MessagePopupAction extends Action {
         setImageDescriptor(org.rcpmail.Activator.getImageDescriptor("/icons/sample3.gif"));
     }
 
-    public void run() {
+    @Override
+	public void run() {
         MessageDialog.openInformation(window.getShell(), "Open", "Open Message Dialog!");
     }
 }

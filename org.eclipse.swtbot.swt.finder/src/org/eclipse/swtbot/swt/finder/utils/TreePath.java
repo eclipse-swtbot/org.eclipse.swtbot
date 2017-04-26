@@ -69,6 +69,7 @@ public final class TreePath {
 		return segments[segments.length - 1];
 	}
 
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -77,6 +78,7 @@ public final class TreePath {
 		return result;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

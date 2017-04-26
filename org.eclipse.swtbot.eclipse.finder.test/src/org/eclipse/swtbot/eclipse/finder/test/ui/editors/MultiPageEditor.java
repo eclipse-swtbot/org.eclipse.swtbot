@@ -106,6 +106,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		fontButton.setText("Change Font...");
 
 		fontButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				setFont();
 			}
@@ -132,6 +133,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	/**
 	 * Creates the pages of the multi-page editor.
 	 */
+	@Override
 	protected void createPages() {
 		createPage0();
 		createPage1();
@@ -142,6 +144,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * The <code>MultiPageEditorPart</code> implementation of this <code>IWorkbenchPart</code> method disposes all
 	 * nested editors. Subclasses may extend.
 	 */
+	@Override
 	public void dispose() {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 		super.dispose();
@@ -150,6 +153,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	/**
 	 * Saves the multi-page editor's document.
 	 */
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		getEditor(0).doSave(monitor);
 	}
@@ -158,6 +162,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * Saves the multi-page editor's document as another file. Also updates the text for page 0's tab, and updates this
 	 * multi-page editor's input to correspond to the nested editor's.
 	 */
+	@Override
 	public void doSaveAs() {
 		IEditorPart editor = getEditor(0);
 		editor.doSaveAs();
@@ -177,6 +182,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * The <code>MultiPageEditorExample</code> implementation of this method checks that the input is an instance of
 	 * <code>IFileEditorInput</code>.
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput editorInput)
 			throws PartInitException {
 		// if (!(editorInput instanceof IFileEditorInput))
@@ -187,6 +193,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	/*
 	 * (non-Javadoc) Method declared on IEditorPart.
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
@@ -194,6 +201,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	/**
 	 * Calculates the contents of page 2 when the it is activated.
 	 */
+	@Override
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
 		if (newPageIndex == 2) {

@@ -123,6 +123,7 @@ public class RecorderClientView extends ViewPart implements RecorderClientStatus
 	 * This is a callback that will allow us to create the viewer and initialize
 	 * it.
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		Group group = new Group(parent, SWT.NONE);
 		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -288,6 +289,7 @@ public class RecorderClientView extends ViewPart implements RecorderClientStatus
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}

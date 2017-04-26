@@ -60,6 +60,7 @@ public class SWTBotTableTest2 extends AbstractMenuExampleTest {
 		assertEquals("first1", table.cell(2, FIRST_NAME));
 	}
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		populateData();

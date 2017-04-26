@@ -75,6 +75,7 @@ public class SWTBotEclipseEditorTest extends AbstractSWTBotEclipseTest {
 		editor.save();
 	}
 
+	@Override
 	@After
 	public void tearDown() throws Exception {
 		super.tearDown();

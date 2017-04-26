@@ -48,7 +48,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         super(configurer);
     }
     
-    protected void makeActions(final IWorkbenchWindow window) {
+    @Override
+	protected void makeActions(final IWorkbenchWindow window) {
         // Creates the actions and registers them.
         // Registering is needed to ensure that key bindings work.
         // The corresponding commands keybindings are defined in the plugin.xml file.
@@ -71,7 +72,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         register(messagePopupAction);
     }
     
-    protected void fillMenuBar(IMenuManager menuBar) {
+    @Override
+	protected void fillMenuBar(IMenuManager menuBar) {
         MenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
         MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
         
@@ -92,7 +94,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         helpMenu.add(aboutAction);
     }
     
-    protected void fillCoolBar(ICoolBarManager coolBar) {
+    @Override
+	protected void fillCoolBar(ICoolBarManager coolBar) {
         IToolBarManager toolbar = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
         coolBar.add(new ToolBarContributionItem(toolbar, "main"));   
         toolbar.add(openViewAction);

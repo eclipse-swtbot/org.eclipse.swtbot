@@ -72,6 +72,7 @@ public class WaitForMenuItem extends WaitForObjectCondition<MenuItem> {
 		return "Could not find menu item matching: " + matcher; //$NON-NLS-1$
 	}
 
+	@Override
 	protected List<MenuItem> findMatches() {
 		MenuItem menuItem = UIThreadRunnable.syncExec(new WidgetResult<MenuItem>() {
 			public MenuItem run() {

@@ -58,6 +58,7 @@ public class SWTBotImageHyperlink extends AbstractSWTBotControl<ImageHyperlink> 
 		super(w, description);
 	}
 	
+	@Override
 	public AbstractSWTBot<ImageHyperlink> click() {
 		return click(true);
 	}

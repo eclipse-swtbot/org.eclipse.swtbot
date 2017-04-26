@@ -41,6 +41,7 @@ class WithMessage<T extends Widget> extends AbstractMatcher<T> {
 		this.message = text;
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		try {
 			return getMessage(obj).equals(message);

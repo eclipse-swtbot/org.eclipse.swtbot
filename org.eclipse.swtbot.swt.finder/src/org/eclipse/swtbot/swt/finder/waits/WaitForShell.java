@@ -35,6 +35,7 @@ class WaitForShell extends WaitForObjectCondition<Shell> {
 		return "Could not find shell matching: " + matcher; //$NON-NLS-1$
 	}
 
+	@Override
 	protected List<Shell> findMatches() {
 		Shell[] shells = findShells();
 		ArrayList<Shell> matchingShells = new ArrayList<Shell>();

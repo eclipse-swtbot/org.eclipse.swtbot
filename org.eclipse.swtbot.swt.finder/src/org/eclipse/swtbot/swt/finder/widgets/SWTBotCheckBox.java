@@ -62,6 +62,7 @@ public class SWTBotCheckBox extends AbstractSWTBotControl<Button> {
 	/**
 	 * Click on the checkbox, toggle it.
 	 */
+	@Override
 	public SWTBotCheckBox click() {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
 		toggle();

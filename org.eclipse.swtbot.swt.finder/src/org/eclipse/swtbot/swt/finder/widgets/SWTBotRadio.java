@@ -63,6 +63,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 	/**
 	 * Selects the radio button.
 	 */
+	@Override
 	public SWTBotRadio click() {
 		if (isSelected()) {
 			log.debug(MessageFormat.format("Widget {0} is already selected, not clicking again.", this)); //$NON-NLS-1$

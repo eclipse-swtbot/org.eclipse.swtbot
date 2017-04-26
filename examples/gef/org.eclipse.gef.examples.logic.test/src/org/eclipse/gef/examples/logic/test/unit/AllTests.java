@@ -64,6 +64,7 @@ public class AllTests extends SWTBotGefTestCase implements LogicModeler {
 		}
 	}
 	
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -72,6 +73,7 @@ public class AllTests extends SWTBotGefTestCase implements LogicModeler {
 		editor = bot.gefEditor(FILE_NAME);
 	}
 
+	@Override
 	@After
 	public void tearDown() throws Exception {
 		if (editor != null)

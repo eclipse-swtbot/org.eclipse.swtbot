@@ -53,6 +53,7 @@ public class KeyboardLayoutGenerator {
 
 		createGenerator();
 		new Thread() {
+			@Override
 			public void run() {
 				SWTUtils.sleep(1000);
 				try {

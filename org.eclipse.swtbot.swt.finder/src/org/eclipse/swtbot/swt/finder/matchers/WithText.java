@@ -64,6 +64,7 @@ public class WithText<T extends Widget> extends AbstractMatcher<T> {
 	}
 
 	// FIXME: optimize the if() code block, use strategy or something else.
+	@Override
 	protected boolean doMatch(Object obj) {
 		try {
 			boolean result = false;

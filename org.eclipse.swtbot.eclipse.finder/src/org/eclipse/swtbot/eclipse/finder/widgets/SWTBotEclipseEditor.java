@@ -490,6 +490,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	/**
 	 * @see SWTBotStyledText#setFocus()
 	 */
+	@Override
 	public void setFocus() {
 		styledText.setFocus();
 	}
@@ -640,6 +641,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	private Matcher<SWTBotTable> tableWithRow(final String itemText) {
 		return new AbstractMatcher<SWTBotTable>() {
 
+			@Override
 			protected boolean doMatch(Object item) {
 				return ((SWTBotTable) item).containsItem(itemText);
 			}
@@ -654,6 +656,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 		final String lowerCaseText = itemText.toLowerCase();
 		return new AbstractMatcher<SWTBotTable>() {
 
+			@Override
 			protected boolean doMatch(Object item) {
 				List<String> rows = getRows((SWTBotTable) item);
 				for (String row : rows) {
@@ -672,6 +675,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	private WaitForObjectCondition<SWTBotTable> quickFixAppears(Matcher<SWTBotTable> tableMatcher) {
 		return new WaitForObjectCondition<SWTBotTable>(tableMatcher) {
+			@Override
 			protected List<SWTBotTable> findMatches() {
 				try {
 					activateQuickFixShell();
@@ -732,6 +736,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	private WaitForObjectCondition<SWTBotTable> autoCompleteAppears(Matcher<SWTBotTable> tableMatcher) {
 		return new WaitForObjectCondition<SWTBotTable>(tableMatcher) {
+			@Override
 			protected List<SWTBotTable> findMatches() {
 				try {
 					activateAutoCompleteShell();

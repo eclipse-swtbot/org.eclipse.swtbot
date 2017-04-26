@@ -58,6 +58,7 @@ public class WithLabel<T extends Widget> extends AbstractMatcher<T> {
 		this.finder = finder;
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		List<? extends Widget> allWidgets = finder.findControls(new IsAnything<Widget>());
 

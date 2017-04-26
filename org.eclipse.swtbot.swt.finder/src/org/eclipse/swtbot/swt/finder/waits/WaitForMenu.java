@@ -54,6 +54,7 @@ public class WaitForMenu extends WaitForObjectCondition<MenuItem> {
 		return "Could not find a menu within the shell '" + shell + "' matching '" + matcher + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
+	@Override
 	protected List<MenuItem> findMatches() {
 		return new MenuFinder().findMenus(shell.widget, matcher, recursive);
 	}

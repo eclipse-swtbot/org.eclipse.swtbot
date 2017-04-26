@@ -58,6 +58,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer impleme
 		swtbotPreferenceStore.addPropertyChangeListener(this);
 	}
 
+	@Override
 	public void initializeDefaultPreferences() {
 		swtbotPreferenceStore.setDefault(PreferenceInitializer.ENABLE_ADDITIONAL_AUTOCOMPLETE_FAVOURTES, true);
 	}

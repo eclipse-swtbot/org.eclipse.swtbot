@@ -73,6 +73,7 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 		this.menuFinder = new ViewMenuFinder();
 	}
 
+	@Override
 	public void setFocus() {
 		syncExec(new VoidResult() {
 			public void run() {
@@ -88,6 +89,7 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 		return partReference;
 	}
 
+	@Override
 	public boolean isActive() {
 		return partReference.getPage().getActivePartReference() == partReference;
 	}
@@ -95,6 +97,7 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	/**
 	 * Close the partReference.
 	 */
+	@Override
 	public void close() {
 		UIThreadRunnable.syncExec(new VoidResult() {
 			public void run() {

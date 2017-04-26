@@ -30,15 +30,18 @@ public class MockKeyboardStrategy extends AbstractKeyboardStrategy {
 
 	private MyWidget	widget;
 
+	@Override
 	public void init(Widget widget, SelfDescribing description) {
 		this.widget = new MyWidget(widget, description);
 	}
 
+	@Override
 	public void pressKeys(KeyStroke... keys) {
 		assertNotDisposed();
 		widget.notify(SWT.KeyDown, event(keys));
 	}
 
+	@Override
 	public void releaseKeys(KeyStroke... keys) {
 		assertNotDisposed();
 		widget.notify(SWT.KeyUp, event(keys));
@@ -64,10 +67,12 @@ public class MockKeyboardStrategy extends AbstractKeyboardStrategy {
 		Assert.isTrue(!widget.widget.isDisposed(), "The widget has been disposed.");
 	}
 
+	@Override
 	public void pressKey(KeyStroke key) {
 		throw new UnsupportedOperationException("This operation is not supported");
 	}
 
+	@Override
 	public void releaseKey(KeyStroke key) {
 		throw new UnsupportedOperationException("This operation is not supported");
 	}
@@ -78,6 +83,7 @@ public class MockKeyboardStrategy extends AbstractKeyboardStrategy {
 			super(w, description);
 		}
 
+		@Override
 		public void notify(int eventType, Event createEvent) {
 			super.notify(eventType, createEvent);
 		}

@@ -33,6 +33,7 @@ public class SWTBotPreferencePage extends FieldEditorPreferencePage implements I
 		setDescription("SWTBot Preferences");
 	}
 
+	@Override
 	public void createFieldEditors() {
 		BooleanFieldEditor editor = new BooleanFieldEditor(PreferenceInitializer.ENABLE_ADDITIONAL_AUTOCOMPLETE_FAVOURTES,
 				"Enable additional autocomplete favourites for java editing", getFieldEditorParent());

@@ -71,6 +71,7 @@ public class WithMnemonic<T extends Widget> extends AbstractMatcher<T> {
 		description.appendText("with mnemonic '").appendText(text).appendText("'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		try {
 			boolean result = false;

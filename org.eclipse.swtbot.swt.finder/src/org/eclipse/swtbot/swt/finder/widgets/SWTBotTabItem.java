@@ -93,6 +93,7 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 		return this;
 	}
 
+	@Override
 	protected Event createEvent() {
 		Event event = super.createEvent();
 		event.widget = parent;
@@ -100,6 +101,7 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 		return event;
 	}
 
+	@Override
 	public boolean isActive() {
 		return syncExec(new BoolResult() {
 			public Boolean run() {
@@ -108,6 +110,7 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 		});
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
 			public Boolean run() {

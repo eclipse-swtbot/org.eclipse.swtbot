@@ -20,6 +20,7 @@ public class SWTBotJUnitTabGroup extends JUnitTabGroup {
 	// use the pde defaults, just change the first tab to use the junit
 	// config instead of the pde one.
 	// SWTBot uses its own IApplication, which takes care of threading.
+	@Override
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 		super.createTabs(dialog, mode);
 		ILaunchConfigurationTab[] tabs = getTabs();

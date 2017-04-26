@@ -49,6 +49,7 @@ public final class SWTBotJUnit4Suite extends Suite {
 	 * 
 	 * @see org.junit.runners.Suite#run(RunNotifier)
 	 */
+	@Override
 	public void run(RunNotifier notifier) {
 		if (notifier instanceof ScreenshotCaptureNotifier) {
 			super.run(notifier);

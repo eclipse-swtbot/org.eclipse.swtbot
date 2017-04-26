@@ -37,6 +37,7 @@ public class InUIThread<T extends Widget> extends AbstractMatcher<T> {
 		this.matcher = matcher;
 	}
 
+	@Override
 	protected boolean doMatch(final Object obj) {
 		return UIThreadRunnable.syncExec(new BoolResult() {
 			public Boolean run() {

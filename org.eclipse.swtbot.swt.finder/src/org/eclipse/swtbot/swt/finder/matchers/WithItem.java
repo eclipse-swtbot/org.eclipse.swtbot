@@ -44,6 +44,7 @@ public class WithItem<T extends Item> extends AbstractMatcher<T> {
 		description.appendText(")");
 	}
 
+	@Override
 	protected boolean doMatch(Object obj) {
 		boolean result = false;
 		try {

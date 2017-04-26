@@ -38,6 +38,7 @@ public class KeyboardLayout {
 		parseKeyStrokes(resource);
 	}
 
+	@Override
 	public String toString() {
 		return layoutName + " keyboard layout";
 	}

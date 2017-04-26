@@ -48,6 +48,7 @@ public class WithId<T extends Widget> extends AbstractMatcher<T> {
 		this.value = value;
 	}
 
+	@Override
 	protected boolean doMatch(final Object obj) {
 		String data = UIThreadRunnable.syncExec(new Result<String>() {
 			public String run() {

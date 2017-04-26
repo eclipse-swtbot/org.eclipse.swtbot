@@ -30,6 +30,7 @@ public class NewSWTBotTestPluginWizard extends Wizard implements INewWizard {
 //		launchConfigWizardPage = new LaunchConfigPropertiesWizardPage();
 	}
 
+	@Override
 	public void addPages() {
 		addPage(projectWizardPage);
 //		addPage(launchConfigWizardPage);

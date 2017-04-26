@@ -47,6 +47,7 @@ public class SWTBotCommand extends SWTBotViewMenu {
 	 *
 	 * @throws WidgetNotFoundException Thrown if the action or command id are not valid.
 	 */
+	@Override
 	public void click() throws WidgetNotFoundException {
 		if (commandID != null) {
 			menuClickResult = null;
@@ -70,6 +71,7 @@ public class SWTBotCommand extends SWTBotViewMenu {
 	 *
 	 * @return The object data from the click or <code>null</code> if a click never occurred.
 	 */
+	@Override
 	public Object getClickResult() {
 		return menuClickResult;
 	}
@@ -80,6 +82,7 @@ public class SWTBotCommand extends SWTBotViewMenu {
 	 * @return The text name of this item.
 	 * @throws WidgetNotFoundException Thrown if the command name has not been defined.
 	 */
+	@Override
 	public String getText() throws WidgetNotFoundException {
 		try {
 			return cmdItem.getName();
@@ -93,6 +96,7 @@ public class SWTBotCommand extends SWTBotViewMenu {
 	 *
 	 * @return <code>true</code> if enabled. Otherwise <code>false</code>.
 	 */
+	@Override
 	public boolean isEnabled() {
 		return cmdItem.isEnabled();
 	}

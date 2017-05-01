@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -54,6 +55,19 @@ public class AbstractSWTBotControl<T extends Control> extends AbstractSWTBot<T> 
 				return widget.getBounds();
 			}
 		});
+	}
+
+	@Override
+	protected Control getDNDControl() {
+		return widget;
+	}
+
+	@Override
+	protected void dragStart() {
+		setFocus();
+		notify(SWT.Activate);
+		notify(SWT.FocusIn);
+		notify(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 	}
 
 	/**

@@ -17,6 +17,7 @@ package org.eclipse.swtbot.swt.finder.widgets;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -180,6 +181,25 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.FocusOut, super.createEvent());
 		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
 		return this;
+	}
+
+	@Override
+	protected Control getDNDControl() {
+		return table;
+	}
+
+	@Override
+	protected void dragStart() {
+		syncExec(new VoidResult() {
+			public void run() {
+				table.setFocus();
+				table.setSelection(widget);
+			}
+		});
+		notifyTable(SWT.Activate);
+		notifyTable(SWT.FocusIn);
+		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
+		notifyTable(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 	}
 
 	@Override
@@ -373,4 +393,12 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		});
 	}
 
+	@Override
+	protected Rectangle absoluteLocation() {
+		return syncExec(new Result<Rectangle>() {
+			public Rectangle run() {
+				return display.map(widget.getParent(), null, widget.getBounds());
+			}
+		});
+	}
 }

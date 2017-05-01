@@ -25,6 +25,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -470,6 +471,26 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.FocusOut, super.createEvent());
 		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
 		return this;
+	}
+
+	@Override
+	protected Control getDNDControl() {
+		return tree;
+	}
+
+	@Override
+	protected void dragStart() {
+		syncExec(new VoidResult() {
+			public void run() {
+				tree.setFocus();
+				tree.setSelection(widget);
+				lastSelectionItem = widget;
+			}
+		});
+		notifyTree(SWT.Activate);
+		notifyTree(SWT.FocusIn);
+		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
+		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 	}
 
 	@Override

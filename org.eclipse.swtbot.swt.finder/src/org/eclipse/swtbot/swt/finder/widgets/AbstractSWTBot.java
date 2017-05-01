@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,27 +9,34 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Lorenzo Bettini - (Bug 426869) mark new methods with since annotation
  *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
+ *                   - Implement Drag and Drop using DNDEvent (Bug 516017)
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 489179
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.InputEvent;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -931,54 +938,231 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		keyboard().pressShortcut(keys);
 		return this;
 	}
-	
+
+	/**
+	 * Returns the control used for Drag and Drop operations.
+	 *
+	 * @return the control
+	 * @since 2.6
+	 */
+	protected Control getDNDControl() {
+		throw new UnsupportedOperationException("This operation is not supported by this widget.");
+	}
+
+	/**
+	 * Start a drag operation, by making sure the source control has focus and
+	 * the source widget is selected, if applicable.
+	 *
+	 * @since 2.6
+	 */
+	protected void dragStart() {
+		throw new UnsupportedOperationException("This operation is not supported by this widget.");
+	}
+
 	/**
 	 * @since 2.2
 	 */
 	public void dragAndDrop(final AbstractSWTBot<? extends Widget> target) {
-		final Rectangle sourceRect = absoluteLocation();
-		final Rectangle destRect = target.absoluteLocation();
-		dragAndDropPointToPoint(Geometry.centerPoint(sourceRect), Geometry.centerPoint(destRect));
-	}
-	
-	private void dragAndDropPointToPoint(final Point source, final Point dest) {
-		try {
-			final Robot robot = new Robot();
-			syncExec(new VoidResult() {
-				public void run() {
-					robot.mouseMove(source.x, source.y);
-					robot.mousePress(InputEvent.BUTTON1_MASK);
-					robot.mouseMove((source.x + 10), source.y);
-				}
-			});
 
-			waitForIdle(robot);
-
-			syncExec(new VoidResult() {
-				public void run() {
-					robot.mouseMove((dest.x + 10), dest.y);
-					robot.mouseMove(dest.x, dest.y);
-				}
-			});
-
-			waitForIdle(robot);
-
-			syncExec(new VoidResult() {
-				public void run() {
-					robot.mouseRelease(InputEvent.BUTTON1_MASK);
-				}
-			});
-		waitForIdle(robot);
-		} catch (final AWTException e) {
-			 log.error(e.getMessage(), e);
-			throw new RuntimeException(e);
+		DragSource dragSource = syncExec(new Result<DragSource>() {
+			public DragSource run() {
+				Control control = getDNDControl();
+				return control == null ? null : (DragSource) control.getData(DND.DRAG_SOURCE_KEY);
+			}
+		});
+		if (dragSource == null) {
+			log.error(MessageFormat.format("Widget {0} is not configured for drag support.", this));
+			return;
 		}
 
+		DropTarget dropTarget = syncExec(new Result<DropTarget>() {
+			public DropTarget run() {
+				Control control = target.getDNDControl();
+				return control == null ? null : (DropTarget) control.getData(DND.DROP_TARGET_KEY);
+			}
+		});
+		if (dropTarget == null) {
+			log.error(MessageFormat.format("Widget {0} is not configured for drop support.", target));
+			return;
+		}
+
+		dragStart();
+
+		// SWT.DragDetect
+		Event dragDetectEvent = createMouseEvent(1, SWT.NONE, 0);
+		notifyDragDetect(dragDetectEvent);
+
+		// DND.DragStart -> DragSource
+		Event dragStartEvent = createDNDEvent();
+		dragStartEvent.x = dragDetectEvent.x;
+		dragStartEvent.y = dragDetectEvent.y;
+		notify(DND.DragStart, dragStartEvent, dragSource);
+		if (!dragStartEvent.doit) {
+			return;
+		}
+
+		List<TransferData> dataTypeList = new ArrayList<TransferData>();
+		for (Transfer sourceTransfer : dragSource.getTransfer()) {
+			for (TransferData sourceDataType : sourceTransfer.getSupportedTypes()) {
+				for (Transfer targetTransfer : dropTarget.getTransfer()) {
+					if (targetTransfer.isSupportedType(sourceDataType)) {
+						dataTypeList.add(sourceDataType);
+						break;
+					}
+				}
+			}
+		}
+		TransferData[] dataTypes = dataTypeList.toArray(new TransferData[dataTypeList.size()]);
+		if (dataTypes.length == 0) {
+			// DND.DragEnd -> DragSource
+			Event dragEndEvent = createDNDEvent();
+			dragEndEvent.doit = false;
+			notify(DND.DragEnd, dragEndEvent, dragSource);
+			return;
+		}
+
+		// DND.DragEnter -> DropTarget
+		Event dragEnterEvent = createDNDEvent();
+		Point targetAbsoluteLocation = Geometry.centerPoint(target.absoluteLocation());
+		dragEnterEvent.x = targetAbsoluteLocation.x;
+		dragEnterEvent.y = targetAbsoluteLocation.y;
+		setDNDEventField(dragEnterEvent, "dataType", dataTypes[0]);
+		setDNDEventField(dragEnterEvent, "dataTypes", dataTypes);
+		setDNDEventField(dragEnterEvent, "operations", DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
+		setDNDEventField(dragEnterEvent, "feedback", DND.FEEDBACK_SELECT);
+		dragEnterEvent.detail = DND.DROP_MOVE;
+		dragEnterEvent.item = target.widget;
+		notify(DND.DragEnter, dragEnterEvent, dropTarget);
+
+		// DND.DragOver -> DropTarget
+		Event dragOverEvent = createDNDEvent(dragEnterEvent);
+		notify(DND.DragOver, dragOverEvent, dropTarget);
+
+		// DND.DragLeave -> DropTarget
+		Event dragLeaveEvent = createDNDEvent();
+		dragLeaveEvent.item = target.widget;
+		notify(DND.DragLeave, dragLeaveEvent, dropTarget);
+
+		// DND.DropAccept -> DropTarget
+		Event dropAcceptEvent = createDNDEvent(dragOverEvent);
+		notify(DND.DropAccept, dropAcceptEvent, dropTarget);
+		if (dropAcceptEvent.detail == DND.DROP_NONE) {
+			// DND.DragEnd -> DragSource
+			Event dragEndEvent = createDNDEvent();
+			dragEndEvent.doit = false;
+			notify(DND.DragEnd, dragEndEvent, dragSource);
+			return;
+		}
+
+		// DND.DragSetData -> DragSource
+		Event dragSetDataEvent = createDNDEvent();
+		setDNDEventField(dragSetDataEvent, "dataType", getDNDEventField(dropAcceptEvent, "dataType"));
+		notify(DND.DragSetData, dragSetDataEvent, dragSource);
+		if (!dragSetDataEvent.doit) {
+			// DND.DragEnd -> DragSource
+			Event dragEndEvent = createDNDEvent();
+			dragEndEvent.doit = false;
+			notify(DND.DragEnd, dragEndEvent, dragSource);
+			return;
+		}
+
+		// DND.Drop -> DropTarget
+		Event dropEvent = createDNDEvent(dropAcceptEvent);
+		dropEvent.data = dragSetDataEvent.data;
+		notify(DND.Drop, dropEvent, dropTarget);
+
+		// DND.DragEnd -> DragSource
+		Event dragEndEvent = createDNDEvent();
+		dragEndEvent.detail = dropEvent.detail;
+		dragEndEvent.doit = dragEndEvent.detail != DND.DROP_NONE;
+		notify(DND.DragEnd, dragEndEvent, dragSource);
 	}
 
-	private void waitForIdle(final Robot robot) {
-		if (SWT.getPlatform().equals("gtk")) {
-			robot.waitForIdle();
+	private Event createDNDEvent() {
+		try {
+			Class<?> clazz = Class.forName("org.eclipse.swt.dnd.DNDEvent");
+			Constructor<?> constructor = clazz.getDeclaredConstructor();
+			constructor.setAccessible(true);
+			Event dndEvent = (Event) constructor.newInstance();
+			dndEvent.time = (int) System.currentTimeMillis();
+			dndEvent.widget = widget;
+			dndEvent.display = display;
+			return dndEvent;
+		} catch (ReflectiveOperationException e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	private Event createDNDEvent(Event other) {
+		Event dndEvent = createDNDEvent();
+		dndEvent.x = other.x;
+		dndEvent.y = other.y;
+		dndEvent.item = other.item;
+		dndEvent.detail = other.detail;
+		setDNDEventField(dndEvent, "dataType", getDNDEventField(other, "dataType"));
+		setDNDEventField(dndEvent, "dataTypes", getDNDEventField(other, "dataTypes"));
+		setDNDEventField(dndEvent, "operations", getDNDEventField(other, "operations"));
+		setDNDEventField(dndEvent, "feedback", DND.FEEDBACK_SELECT);
+		setDNDEventField(dndEvent, "image", getDNDEventField(other, "image"));
+		setDNDEventField(dndEvent, "offsetX", getDNDEventField(other, "offsetX"));
+		setDNDEventField(dndEvent, "offsetY", getDNDEventField(other, "offsetY"));
+		return dndEvent;
+	}
+
+	private void setDNDEventField(Event dndEvent, String fieldName, Object value) {
+		try {
+			Class<?> clazz = Class.forName("org.eclipse.swt.dnd.DNDEvent");
+			Field field = clazz.getDeclaredField(fieldName);
+			field.setAccessible(true);
+			field.set(dndEvent, value);
+		} catch (ReflectiveOperationException e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	private Object getDNDEventField(Event dndEvent, String fieldName) {
+		try {
+			Class<?> clazz = Class.forName("org.eclipse.swt.dnd.DNDEvent");
+			Field field = clazz.getDeclaredField(fieldName);
+			field.setAccessible(true);
+			return field.get(dndEvent);
+		} catch (ReflectiveOperationException e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	private void notifyDragDetect(Event dragDetectEvent) {
+		// Don't send SWT.DragDetect to the DragSource listener,
+		// otherwise the cursor gets stuck in drag mode
+		final Control control = getDNDControl();
+		final Listener dragSourceListener = syncExec(new Result<Listener>() {
+			public Listener run() {
+				// The DragSource listener is an anonymous class of DragSource
+				for (Listener listener : control.getListeners(SWT.DragDetect)) {
+					if (DragSource.class.equals(listener.getClass().getEnclosingClass())) {
+						return listener;
+					}
+				}
+				return null;
+			}
+		});
+		try {
+			if (dragSourceListener != null) {
+				syncExec(new VoidResult() {
+					public void run() {
+						control.removeListener(SWT.DragDetect, dragSourceListener);
+					}
+				});
+			}
+			notify(SWT.DragDetect, dragDetectEvent, control);
+		} finally {
+			if (dragSourceListener != null) {
+				syncExec(new VoidResult() {
+					public void run() {
+						control.addListener(SWT.DragDetect, dragSourceListener);
+					}
+				});
+			}
 		}
 	}
 }

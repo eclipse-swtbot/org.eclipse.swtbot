@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.swtbot.swt.finder.utils;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.events.ArmEvent;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.DisposeEvent;
@@ -82,6 +83,15 @@ public abstract class SWTBotEvents {
 		EVENTS.put("Show", SWT.Show); //$NON-NLS-1$
 		EVENTS.put("Traverse", SWT.Traverse); //$NON-NLS-1$
 		EVENTS.put("Verify", SWT.Verify); //$NON-NLS-1$
+		EVENTS.put("DND.DragEnd", DND.DragEnd); //$NON-NLS-1$
+		EVENTS.put("DND.DragSetData", DND.DragSetData); //$NON-NLS-1$
+		EVENTS.put("DND.DragEnter", DND.DragEnter); //$NON-NLS-1$
+		EVENTS.put("DND.DragLeave", DND.DragLeave); //$NON-NLS-1$
+		EVENTS.put("DND.DragOver", DND.DragOver); //$NON-NLS-1$
+		EVENTS.put("DND.DragOperationChanged", DND.DragOperationChanged); //$NON-NLS-1$
+		EVENTS.put("DND.Drop", DND.Drop); //$NON-NLS-1$
+		EVENTS.put("DND.DropAccept", DND.DropAccept); //$NON-NLS-1$
+		EVENTS.put("DND.DragStart", DND.DragStart); //$NON-NLS-1$
 	}
 
 	/**

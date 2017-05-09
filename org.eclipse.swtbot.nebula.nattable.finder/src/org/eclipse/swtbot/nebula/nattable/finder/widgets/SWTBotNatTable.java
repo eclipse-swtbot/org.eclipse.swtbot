@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Cadence Design Systems, Inc. and others.
+ * Copyright (c) 2017 Cadence Design Systems, Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Aparna Argade(Cadence Design Systems, Inc.) - initial API and implementation
  *     Patrick Tasse - Support viewport scrolling (Bug 504483)
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 512815
+ *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 516325
  *******************************************************************************/
 package org.eclipse.swtbot.nebula.nattable.finder.widgets;
 
@@ -17,6 +18,7 @@ import org.eclipse.nebula.widgets.nattable.coordinate.PixelCoordinate;
 import org.eclipse.nebula.widgets.nattable.edit.editor.ICellEditor;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
+import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
@@ -397,9 +399,7 @@ public class SWTBotNatTable extends AbstractSWTBot<NatTable> {
 		 * after returning, viewportPosition has been modified to be the
 		 * corresponding position in the viewport layer's coordinates
 		 */
-		if (viewportLayer == null) {
-			throw new IllegalArgumentException("No viewport layer found at position " + position);
-		}
+		assertIsValidLayer(viewportLayer, "viewport layer", position);
 		ILayer scrollableLayer = viewportLayer.getUnderlyingLayerByPosition(viewportPosition.column,
 				viewportPosition.row);
 		if (scrollableColumn < 0 || scrollableColumn >= scrollableLayer.getColumnCount() || scrollableRow < 0
@@ -453,9 +453,7 @@ public class SWTBotNatTable extends AbstractSWTBot<NatTable> {
 
 		Position viewportPosition = new Position(position);
 		ViewportLayer viewportLayer = getViewportLayer(viewportPosition);
-		if (viewportLayer == null) {
-			throw new IllegalArgumentException("No viewport layer found at position " + position);
-		}
+		assertIsValidLayer(viewportLayer, "viewport layer", position);
 		int scrollableColumn = viewportLayer.localToUnderlyingColumnPosition(viewportPosition.column);
 
 		int row = scrollViewport(position, scrollableRow, scrollableColumn).row;
@@ -490,9 +488,7 @@ public class SWTBotNatTable extends AbstractSWTBot<NatTable> {
 	{
 		Position viewportPosition = new Position(position);
 		ViewportLayer viewportLayer = getViewportLayer(viewportPosition);
-		if (viewportLayer == null) {
-			throw new IllegalArgumentException("No viewport layer found at position " + position);
-		}
+		assertIsValidLayer(viewportLayer, "viewport layer", position);
 		int scrollableRow = viewportLayer.localToUnderlyingRowPosition(viewportPosition.row);
 
 		int column = scrollViewport(position, scrollableRow, scrollableColumn).column;
@@ -518,6 +514,233 @@ public class SWTBotNatTable extends AbstractSWTBot<NatTable> {
 		assertIsLegalCell(row, column);
 		LabelStack labels = widget.getConfigLabelsByPosition(column, row);
 		return labels.hasLabel(label);
+	}
+
+	/**
+	 * Gets the first underlying TreeLayer at the specified NatTable position.
+	 *
+	 * @param position
+	 *            the position in the NatTable
+	 * @return the TreeLayer, or <code>null</code> if none was found in the layer stack
+	 */
+	private TreeLayer getTreeLayer(Position position) {
+		Position modifiedPosition = new Position(position);
+		ILayer layer = widget.getLayer();
+		while (layer != null) {
+			if (layer instanceof TreeLayer) {
+				return (TreeLayer) layer;
+			}
+			ILayer underlyingLayer = layer.getUnderlyingLayerByPosition(modifiedPosition.column,
+					modifiedPosition.row);
+			modifiedPosition.column = layer.localToUnderlyingColumnPosition(modifiedPosition.column);
+			modifiedPosition.row = layer.localToUnderlyingRowPosition(modifiedPosition.row);
+			layer = underlyingLayer;
+		}
+		return null;
+	}
+
+	/**
+	 * Asserts that the layer of the NatTable is not <code>null</code>.
+	 *
+	 * @param layer
+	 *            the layer of the NatTable
+	 * @param layerName
+	 *            the layer name
+	 * @param position
+	 *            the position in the NatTable
+	 */
+	private void assertIsValidLayer(ILayer layer, String layerName, Position position) {
+		if (layer == null) {
+			throw new IllegalArgumentException("No " + layerName + " found at position " + position); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
+	 * Asserts that the row is legal for given layer of the NatTable.
+	 *
+	 * @param row
+	 *            the row index
+	 * @param layer
+	 *            the layer of the NatTable
+	 * @param layerName
+	 *            the layer name
+	 */
+	private void assertIsValidRow(int row, ILayer layer, String layerName) {
+		if (row < 0 || row >= layer.getRowCount()) {
+			throw new IllegalArgumentException("Row " + row + " is out of range for " + layerName); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	/**
+	 * Expands all tree nodes in the tree found at the specified NatTable
+	 * position.
+	 *
+	 * @param position
+	 *            a visible position in the NatTable with an underlying tree
+	 * @throws IllegalArgumentException
+	 *             if the specified position does not have an underlying
+	 *             TreeLayer
+	 */
+	public void expandAll(Position position) {
+		final TreeLayer treelayer = getTreeLayer(position);
+		assertIsValidLayer(treelayer, "TreeLayer", position);
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				treelayer.expandAll();
+			}
+		});
+	}
+
+	/**
+	 * Collapses all tree nodes in the tree found at the specified NatTable
+	 * position.
+	 *
+	 * @param position
+	 *            a visible position in the NatTable with an underlying tree
+	 * @throws IllegalArgumentException
+	 *             if the specified position does not have an underlying
+	 *             TreeLayer
+	 */
+	public void collapseAll(Position position) {
+		final TreeLayer treelayer = getTreeLayer(position);
+		assertIsValidLayer(treelayer, "TreeLayer", position);
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				treelayer.collapseAll();
+			}
+		});
+	}
+
+	/**
+	 * Collapses the tree node at the given row index in the tree found at the
+	 * specified NatTable position.
+	 *
+	 * @param position
+	 *            a visible position in the NatTable with an underlying tree
+	 * @param treeRow
+	 *            the index of the row (in the tree's underlying tree layer's
+	 *            coordinates) that shows the node that should be collapsed
+	 * @throws IllegalArgumentException
+	 *             if the specified position does not have an underlying
+	 *             TreeLayer, or if the specified treeRow is out of bounds
+	 */
+	public void collapseTreeRow(Position position, final int treeRow) {
+		final TreeLayer treelayer = getTreeLayer(position);
+		assertIsValidLayer(treelayer, "TreeLayer", position);
+		assertIsValidRow(treeRow, treelayer, "TreeLayer");
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				treelayer.collapseTreeRow(treeRow);
+			}
+		});
+	}
+
+	/**
+	 * Expands the tree node at the given row index in the tree found at the
+	 * specified NatTable position.
+	 *
+	 * @param position
+	 *            a visible position in the NatTable with an underlying tree
+	 * @param treeRow
+	 *            the index of the row (in the tree's underlying tree layer's
+	 *            coordinates) that shows the node that should be expanded
+	 * @throws IllegalArgumentException
+	 *             if the specified position does not have an underlying
+	 *             TreeLayer, or if the specified treeRow is out of bounds
+	 */
+	public void expandTreeRow(Position position, final int treeRow) {
+		final TreeLayer treelayer = getTreeLayer(position);
+		assertIsValidLayer(treelayer, "TreeLayer", position);
+		assertIsValidRow(treeRow, treelayer, "TreeLayer");
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				treelayer.expandTreeRow(treeRow);
+			}
+		});
+	}
+
+	/**
+	 * Expands the tree node at the given row index to a certain level in the
+	 * tree found at the specified NatTable position.
+	 *
+	 * @param position
+	 *            a visible position in the NatTable with an underlying tree
+	 * @param treeRow
+	 *            the index of the row (in the tree's underlying tree layer's
+	 *            coordinates) that shows the node that should be expanded
+	 * @param level
+	 *            The level to which the tree node should be expanded.
+	 * @throws IllegalArgumentException
+	 *             if the specified position does not have an underlying
+	 *             TreeLayer, or if the specified treeRow or level are out of
+	 *             bounds
+	 */
+	public void expandTreeRowToLevel(Position position, final int treeRow, final int level) {
+		final TreeLayer treelayer = getTreeLayer(position);
+		assertIsValidLayer(treelayer, "TreeLayer", position);
+		assertIsValidRow(treeRow, treelayer, "TreeLayer");
+		Assert.isLegal(level > 0, "Level should be greater than 0"); //$NON-NLS-1$
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				treelayer.expandTreeRowToLevel(treeRow, level);
+			}
+		});
+	}
+
+	/**
+	 * Expands all tree nodes to a certain level in the tree found at the
+	 * specified NatTable position.
+	 *
+	 * @param position
+	 *            a visible position in the NatTable with an underlying tree
+	 * @param level
+	 *            The level to which the tree node should be expanded.
+	 * @throws IllegalArgumentException
+	 *             if the specified position does not have an underlying
+	 *             TreeLayer, or if the specified level is out of bounds
+	 */
+	public void expandAllToLevel(Position position, final int level) {
+		final TreeLayer treelayer = getTreeLayer(position);
+		assertIsValidLayer(treelayer, "TreeLayer", position);
+		Assert.isLegal(level > 0, "Level should be greater than 0"); //$NON-NLS-1$
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				treelayer.expandAllToLevel(level);
+			}
+		});
+	}
+
+	/**
+	 * Performs an expand/collapse action dependent on the current state of the
+	 * tree node at the given row index in the tree found at the specified
+	 * NatTable position.
+	 *
+	 * @param position
+	 *            a visible position in the NatTable with an underlying tree
+	 * @param treeRow
+	 *            the index of the row (in the tree's underlying tree layer's
+	 *            coordinates) that shows the tree node for which the
+	 *            expand/collapse action should be performed.
+	 * @throws IllegalArgumentException
+	 *             if the specified position does not have an underlying
+	 *             TreeLayer, or if the specified treeRow is out of bounds
+	 */
+	public void expandOrCollapseIndex(Position position, final int treeRow) {
+		final TreeLayer treelayer = getTreeLayer(position);
+		assertIsValidLayer(treelayer, "TreeLayer", position);
+		assertIsValidRow(treeRow, treelayer, "TreeLayer");
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				treelayer.expandOrCollapseIndex(treeRow);
+			}
+		});
 	}
 
 }

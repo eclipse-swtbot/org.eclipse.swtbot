@@ -13,6 +13,7 @@
  *     Hans Schwaebli - http://swtbot.org/bugzilla/show_bug.cgi?id=122
  *     Kristine Jetzke - Bug 259908
  *     Aparna Argade - Bug 508710
+ *     Kunal Tayal - Bug 516098
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -246,7 +247,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	}
 
 	/**
-	 * Gets the index of the item matching the given item.
+	 * Gets the index of the item matching the given item. Only the first column is searched.
 	 *
 	 * @param item the item in the table.
 	 * @return the index of the specified item in the table, or -1 if the item does not exist in the table.
@@ -267,28 +268,73 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	}
 
 	/**
-	 * @param item the item in the table.
-	 * @return <code>true</code> if the table contains the specified item, <code>false</code> otherwise.
+	 * Returns true if the table contains the given item. Only the first column
+	 * is searched.
+	 *
+	 * @param item
+	 *            the item in the table.
+	 * @return <code>true</code> if the table contains the specified item,
+	 *         <code>false</code> otherwise. Only the first column is searched.
 	 */
 	public boolean containsItem(final String item) {
 		return indexOf(item) != -1;
 	}
 
 	/**
-	 * Gets the index of the item matching the given item and the given column.
+	 * Gets the row index of the item matching the first occurrence of given
+	 * text in any column of the table.
 	 *
-	 * @param item the index of the item in the table, or -1 if the item does not exist in the table.
-	 * @param column the column for which to get the index of.
-	 * @return the index of the specified item and of the specified column in the table.
-	 * @since 1.3
+	 * @param text
+	 *            the text in the table.
+	 * @return the row index of the item in the table, or -1 if the text does
+	 *         not exist in the table.
+	 * @since 2.6
 	 */
-	public int indexOf(final String item, final int column) {
+	public int searchText(final String text) {
+		final int columnCount = columnCount();
 		return syncExec(new IntResult() {
 			public Integer run() {
 				TableItem[] items = widget.getItems();
 				for (int i = 0; i < items.length; i++) {
 					TableItem tableItem = items[i];
-					if (tableItem.getText(column).equals(item))
+					for (int column = 0; column < columnCount; column++) {
+						if (tableItem.getText(column).equals(text))
+							return i;
+					}
+				}
+				return -1;
+			}
+		});
+	}
+
+	/**
+	 * Returns true if the table contains an item with the given text in any column.
+	 *
+	 * @param text
+	 *            the text to be searched in the table.
+	 * @return <code>true</code> if the table contains an item with the given
+	 *         text in any column, <code>false</code> otherwise.
+	 * @since 2.6
+	 */
+	public boolean containsText(final String text) {
+		return searchText(text) != -1;
+	}
+
+	/**
+	 * Gets the index of the item matching the given text in the given column.
+	 *
+	 * @param text the text in the table.
+	 * @param column the column for which to get the index of.
+	 * @return the index of the item matching the given text in the given column.
+	 * @since 1.3
+	 */
+	public int indexOf(final String text, final int column) {
+		return syncExec(new IntResult() {
+			public Integer run() {
+				TableItem[] items = widget.getItems();
+				for (int i = 0; i < items.length; i++) {
+					TableItem tableItem = items[i];
+					if (tableItem.getText(column).equals(text))
 						return i;
 				}
 				return -1;
@@ -297,15 +343,15 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	}
 
 	/**
-	 * Gets the index of the item matching the given item and the given column.
+	 * Gets the index of the item matching the given text in the given column.
 	 *
 	 * @param item the index of the item in the table, or -1 if the item does not exist in the table.
 	 * @param column the column for which to get the index of.
 	 * @return the index of the specified item and of the specified column in the table.
 	 * @since 1.3
 	 */
-	public int indexOf(final String item, final String column) {
-		return indexOf(item, indexOfColumn(column));
+	public int indexOf(final String text, final String column) {
+		return indexOf(text, indexOfColumn(column));
 	}
 
 	/**

@@ -8,6 +8,7 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Aparna Argade - Bug 508710
+ *     Kunal Tayal - Bug 516098
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -310,6 +311,24 @@ public class SWTBotTableTest extends AbstractControlExampleTest {
 	public void findsItemsBasedOnText() throws Exception {
 		SWTBotTableItem tableItem = table.getTableItem("Index:3");
 		assertEquals("Index:3", tableItem.getText());
+	}
+
+	@Test
+	public void searchText() throws Exception {
+		assertEquals(15, table.searchText("Index:15"));
+		assertEquals(1, table.searchText("databases"));
+		assertEquals(2, table.searchText("91571"));
+		assertEquals(0, table.searchText("today"));
+		assertEquals(-1, table.searchText("non existent item"));
+	}
+
+	@Test
+	public void containsText() throws Exception {
+		assertEquals(true, table.containsText("Index:7"));
+		assertEquals(true, table.containsText("images"));
+		assertEquals(true, table.containsText("2556"));
+		assertEquals(true, table.containsText("tomorrow"));
+		assertEquals(false, table.containsText("non existent item"));
 	}
 
 	@Before

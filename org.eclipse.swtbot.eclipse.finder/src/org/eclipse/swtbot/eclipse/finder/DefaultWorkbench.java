@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 - 2010 David Green and others.
+ * Copyright (c) 2009, 2017 David Green and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,6 +34,9 @@ import org.eclipse.ui.PlatformUI;
  */
 class DefaultWorkbench {
 
+	/** @see org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.getLimboShell() */
+	private static final String LIMBO_SHELL = "PartRenderingEngine's limbo";
+
 	/** The bot that may be used to drive the workbench. */
 	private final SWTWorkbenchBot	bot;
 
@@ -62,7 +65,7 @@ class DefaultWorkbench {
 	DefaultWorkbench closeAllShells() {
 		SWTBotShell[] shells = bot.shells();
 		for (SWTBotShell shell : shells) {
-			if (!isEclipseShell(shell)) {
+			if (!isEclipseShell(shell) && !isLimboShell(shell)) {
 				shell.close();
 			}
 		}
@@ -87,6 +90,10 @@ class DefaultWorkbench {
 
 	private boolean isEclipseShell(final SWTBotShell shell) {
 		return getActiveWorkbenchWindowShell() == shell.widget;
+	}
+
+	private boolean isLimboShell(final SWTBotShell shell) {
+		return shell.getText().equals(LIMBO_SHELL);
 	}
 
 	private IWorkbenchWindow getActiveWorkbenchWindow() {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -78,8 +78,9 @@ public class SWTBotEclipseEditorTest extends AbstractSWTBotEclipseTest {
 	@Override
 	@After
 	public void tearDown() throws Exception {
-		super.tearDown();
+		bot.saveAllEditors();
 		packageExplorerView.deleteProject(PROJECT_NAME);
+		super.tearDown();
 	}
 
 	@Test

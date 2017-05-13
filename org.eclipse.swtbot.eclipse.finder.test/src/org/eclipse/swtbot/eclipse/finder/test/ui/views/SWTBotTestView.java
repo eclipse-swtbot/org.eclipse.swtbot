@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,6 +34,7 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swtbot.eclipse.finder.test.ui.data.internal.SWTBotTestContentProvider;
@@ -256,7 +257,7 @@ public class SWTBotTestView extends ViewPart {
 	}
 
 	private void showMessage(String message) {
-		MessageDialog.openInformation(viewer.getControl().getShell(), "Sample View", message);
+		MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Sample View", message);
 	}
 
 	@Override

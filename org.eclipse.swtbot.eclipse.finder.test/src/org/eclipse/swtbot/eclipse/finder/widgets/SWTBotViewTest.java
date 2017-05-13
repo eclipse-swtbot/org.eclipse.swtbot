@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -115,7 +115,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 	public void menusExtensionsCommandWithoutParameters() throws Exception {
 		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
-		
+
 		// Runs an action that has a contribution ID instead of the action.
 		view.viewMenu().menu("Contribution Item Command").click();
 		bot.button("OK").click();
@@ -130,7 +130,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 	public void menusExtensionsParameterizedCommand() throws Exception {
 		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
-		
+
 		// Runs an action that has a contribution ID instead of the action.
 		view.viewMenu().menu("Try the Banana").click();
 		bot.button("OK").click();
@@ -138,7 +138,9 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 
 	@Test
 	public void getToolbarButtons() throws Exception {
+		openSWTBotTestView();
 		SWTBotView view = bot.viewByTitle("SWTBot Test View");
+
 		List<SWTBotToolbarButton> items = view.getToolbarButtons();
 		assertNotNull(items);
 		assertEquals(4, items.size());
@@ -229,7 +231,6 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 			assertEquals("Form 2", form2.bot().textWithLabel("Form 2").getText());
 		} finally {
 			SWTBotPreferences.TIMEOUT = 5000;
-			bot.resetWorkbench();
 		}
 	}
 

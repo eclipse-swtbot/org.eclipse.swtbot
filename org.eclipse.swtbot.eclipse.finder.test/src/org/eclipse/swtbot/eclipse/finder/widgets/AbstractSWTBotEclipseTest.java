@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,10 +11,8 @@
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
-import java.util.List;
-
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.After;
 import org.junit.BeforeClass;
 
@@ -24,6 +22,7 @@ public abstract class AbstractSWTBotEclipseTest {
 
 	@BeforeClass
 	public static void beforeClass() {
+		SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
 		closeWelcomePage();
 	}
 
@@ -37,16 +36,7 @@ public abstract class AbstractSWTBotEclipseTest {
 
 	@After
 	public void tearDown() throws Exception {
-		saveAndCloseAllEditors();
-	}
-
-	/**
-	 * @throws WidgetNotFoundException
-	 */
-	private void saveAndCloseAllEditors() {
-		List<? extends SWTBotEditor> editors = bot.editors();
-		for (SWTBotEditor editor : editors) {
-			editor.saveAndClose();
-		}
+		closeWelcomePage();
+		bot.resetWorkbench();
 	}
 }

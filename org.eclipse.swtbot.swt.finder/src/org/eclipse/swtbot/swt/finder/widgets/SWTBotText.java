@@ -64,7 +64,7 @@ public class SWTBotText extends AbstractSWTBotControl<Text> {
 	public SWTBotText setText(final String text) {
 		waitForEnabled();
 		assertWritable();
-		asyncExec(new VoidResult() {
+		syncExec(new VoidResult() {
 			public void run() {
 				widget.setText(text);
 			}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,11 +42,13 @@ import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
+import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.Position;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -153,7 +155,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 		waitUntil(quickFixTableCondition);
 		SWTBotTable quickFixTable = quickFixTableCondition.get(0);
 		List<String> proposals = getRows(quickFixTable);
-		makeProposalsDisappear();
+		makeProposalsDisappear(quickFixTable);
 		return proposals;
 	}
 
@@ -215,7 +217,6 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	/**
 	 * Gets the quick fix table.
 	 *
-	 * @param proposalShell the shell containing the quickfixes.
 	 * @return the table containing the quickfix.
 	 */
 	private SWTBotTable getProposalTable() {
@@ -226,7 +227,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 			log.debug(MessageFormat.format("Found table containing proposals -- {0}", getRows(swtBotTable)));
 			return swtBotTable;
 		} catch (Exception e) {
-			throw new QuickFixNotFoundException("Quickfix options not found. Giving up.", e); //$NON-NLS-1$
+			throw new QuickFixNotFoundException("Proposal options not found. Giving up.", e); //$NON-NLS-1$
 		}
 	}
 
@@ -245,7 +246,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 		waitUntil(autoCompleteAppears);
 		final SWTBotTable autoCompleteTable = autoCompleteAppears.get(0);
 		List<String> proposals = getRows(autoCompleteTable);
-		makeProposalsDisappear();
+		makeProposalsDisappear(autoCompleteTable);
 		return proposals;
 	}
 
@@ -257,9 +258,10 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 */
 	public void autoCompleteProposal(String insertText, String proposalText) {
 		typeText(insertText);
-		WaitForObjectCondition<SWTBotTable> autoCompleteTable = autoCompleteAppears(tableWithRow(proposalText));
-		waitUntil(autoCompleteTable);
-		selectProposal(autoCompleteTable.get(0), proposalText);
+		WaitForObjectCondition<SWTBotTable> autoCompleteTableAppears = autoCompleteAppears(tableWithRow(proposalText));
+		waitUntil(autoCompleteTableAppears);
+		final SWTBotTable autoCompleteTable = autoCompleteTableAppears.get(0);
+		selectProposal(autoCompleteTable, proposalText);
 	}
 
 	/**
@@ -632,10 +634,37 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 		return styledText.getToolTipText();
 	}
 
-	private void makeProposalsDisappear() {
+	private void makeProposalsDisappear(final SWTBotTable table) {
 		// clear away all content assists for next retry.
 		log.debug("Making proposals disappear.");
-		setFocus();
+		SWTBotShell proposalShell = syncExec(new Result<SWTBotShell>() {
+			public SWTBotShell run() {
+				if (table != null && !table.widget.isDisposed()) {
+					Shell shell = table.widget.getShell();
+					if (!shell.isDisposed() && shell.isVisible()) {
+						return new SWTBotShell(shell);
+					}
+				}
+				return null;
+			}
+		});
+		syncExec(new VoidResult() {
+			public void run() {
+				Event event = new Event();
+				event.keyCode = SWT.ESC;
+				styledText.widget.notifyListeners(SWT.KeyDown, event);
+			}
+		});
+		syncExec(new VoidResult() {
+			public void run() {
+				Event event = new Event();
+				event.keyCode = SWT.ESC;
+				styledText.widget.notifyListeners(SWT.KeyUp, event);
+			}
+		});
+		if (proposalShell != null) {
+			bot.waitUntil(Conditions.shellCloses(proposalShell));
+		}
 	}
 
 	private Matcher<SWTBotTable> tableWithRow(final String itemText) {
@@ -680,10 +709,13 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 				try {
 					activateQuickFixShell();
 					SWTBotTable quickFixTable = getProposalTable();
-					if (matcher.matches(quickFixTable))
+					if (matcher.matches(quickFixTable)) {
 						return Arrays.asList(quickFixTable);
-				} catch (Throwable e) {
-					makeProposalsDisappear();
+					} else {
+						makeProposalsDisappear(quickFixTable);
+					}
+				} catch (QuickFixNotFoundException e) {
+					makeProposalsDisappear(null);
 				}
 				return null;
 			}
@@ -696,12 +728,12 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
-	 * This activates the popup shell.
+	 * This activates the proposal shell.
 	 *
 	 * @return The shell.
 	 */
 	private SWTBotShell activatePopupShell() {
-		log.debug("Activating quickfix shell."); //$NON-NLS-1$
+		log.debug("Activating proposal shell."); //$NON-NLS-1$
 		try {
 			Shell mainWindow = syncExec(new WidgetResult<Shell>() {
 				public Shell run() {
@@ -727,10 +759,10 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 			});
 			SWTBotShell shell = new SWTBotShell(widgetShell);
 			shell.activate();
-			log.debug("Activated quickfix shell."); //$NON-NLS-1$
+			log.debug("Activated proposal shell."); //$NON-NLS-1$
 			return shell;
 		} catch (Exception e) {
-			throw new QuickFixNotFoundException("Quickfix popup not found. Giving up.", e); //$NON-NLS-1$
+			throw new QuickFixNotFoundException("Proposal shell not found. Giving up.", e); //$NON-NLS-1$
 		}
 	}
 
@@ -744,9 +776,11 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 					if (matcher.matches(autoCompleteTable)) {
 						SWTBotEclipseEditor.this.log.debug("matched table, returning");
 						return Arrays.asList(autoCompleteTable);
+					} else {
+						makeProposalsDisappear(autoCompleteTable);
 					}
-				} catch (Throwable e) {
-					makeProposalsDisappear();
+				} catch (QuickFixNotFoundException e) {
+					makeProposalsDisappear(null);
 				}
 				return null;
 			}

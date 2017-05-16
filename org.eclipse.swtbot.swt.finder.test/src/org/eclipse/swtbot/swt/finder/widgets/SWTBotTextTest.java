@@ -18,7 +18,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,6 +55,13 @@ public class SWTBotTextTest extends AbstractControlExampleTest {
 	@Test
 	public void typesText() throws Exception {
 		final SWTBotText text = bot.textInGroup("Text");
+
+		/*
+		 * Temporary fix for Bug 516674. Pressing the SPACE key gives proper
+		 * keyboard focus to the text widget.
+		 */
+		text.pressShortcut(Keystrokes.SPACE);
+
 		text.setText("");
 
 		text.typeText("Type This 123");
@@ -88,6 +97,7 @@ public class SWTBotTextTest extends AbstractControlExampleTest {
 
 	@Before
 	public void prepareExample() throws Exception {
+		SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
 		bot.tabItem("Text").activate();
 	}
 

@@ -27,6 +27,7 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
@@ -121,7 +122,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		view.viewMenu().menu("Contribution Item Command").click();
 		bot.button("OK").click();
 	}
-	
+
 	/**
 	 * Test commands contributed via org.eclipse.ui.menus and org.eclipse.core.commands
 	 * that have parameters
@@ -264,13 +265,14 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		this.bot.shell("Show View").activate();
 		SWTBotTree tree = bot.tree();
 		SWTBotTreeItem expandNode = tree.expandNode("Debug");
+		bot.waitUntil(Conditions.treeItemHasNode(expandNode, "Breakpoints"));
 		expandNode.getNode("Breakpoints").click();
 		getOkButtonInShowViewDialog().click();
 
 		SWTBotView breakpointsView = this.bot.viewByTitle("Breakpoints");
 		breakpointsView.show();
 		breakpointsView.viewMenu().menu("Working Sets...").click();
-	
+
 		bot.button("OK").click();
 	}
 

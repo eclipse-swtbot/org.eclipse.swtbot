@@ -26,6 +26,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.hamcrest.Matcher;
 
 /**
@@ -64,6 +65,24 @@ public abstract class Conditions {
 	 */
 	public static ICondition treeHasRows(SWTBotTree tree, int rowCount) {
 		return new TreeHasRows(tree, rowCount);
+	}
+
+	/**
+	 * Gets the condition for checking that a tree item has a node with the
+	 * given text. When the node is not found, if the tree item is expanded it
+	 * is collapsed and re-expanded to attempt to make the node appear.
+	 *
+	 * @param treeItem
+	 *            the treeItem
+	 * @param text
+	 *            the text of the child node to look for
+	 * @return a condition that returns false until the tree item has a node with the given text.
+	 * @throws NullPointerException
+	 *             Thrown if the tree item is <code>null</code>.
+	 * @since 2.6
+	 */
+	public static ICondition treeItemHasNode(SWTBotTreeItem treeItem, String text) {
+		return new TreeItemHasNode(treeItem, text);
 	}
 
 	/**

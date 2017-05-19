@@ -43,7 +43,7 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		SWTBotButton apply = bot.button("Apply");
 		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled(apply));
 		apply.click();
-		SWTBotButton ok = bot.button("OK");
+		SWTBotButton ok = getOkButtonInPreferencesDialog();
 		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled(ok));
 		ok.click();
 		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses(prefsShell));
@@ -57,4 +57,13 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		assertTrue("Radio should be selected", pref2.isSelected());
 	}
 
+	private SWTBotButton getOkButtonInPreferencesDialog() {
+		// Button text was "OK" before Oxygen M7, "Apply and Close" since.
+		int i = 0;
+		SWTBotButton button = bot.button(i++);
+		while (!button.getText().equals("Apply and Close") && !button.getText().equals("OK")) {
+			button = bot.button(i++);
+		}
+		return button;
+	}
 }

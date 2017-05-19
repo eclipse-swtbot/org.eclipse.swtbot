@@ -20,6 +20,7 @@ import org.eclipse.swtbot.forms.finder.SWTFormsBot;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.junit.After;
 import org.junit.BeforeClass;
 
@@ -42,8 +43,17 @@ public abstract class AbstractSWTBotFormsTest {
 		bot.menu("Window", false).menu("Show View").menu("Other...").click();
 		SWTBot showViewDialogBot = bot.shell("Show View").bot();
 		showViewDialogBot.tree().getTreeItem("Eclipse Forms Examples").expand().getNode("Eclipse Form").select();
-		showViewDialogBot.button("OK").click();
+		getOkButtonInShowViewDialog().click();
 		workbench.viewByTitle("Eclipse Form");
+	}
+
+	private static SWTBotButton getOkButtonInShowViewDialog() {
+		// Button text was "OK" before Oxygen M7, "Open" since.
+		SWTBotButton button = bot.button();
+		if (!button.getText().equals("Open") && !button.getText().equals("OK")) {
+			button = bot.button(1);
+		}
+		return button;
 	}
 
 	private static void closeAllViews() {

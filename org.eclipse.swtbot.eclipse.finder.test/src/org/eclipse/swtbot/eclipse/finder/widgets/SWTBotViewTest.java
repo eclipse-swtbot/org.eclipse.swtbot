@@ -27,6 +27,7 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarDropDownButton;
@@ -93,7 +94,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		SWTBotTree tree = bot.tree();
 		SWTBotTreeItem expandNode = tree.expandNode("SWTBot Test Category");
 		expandNode.getNode("SWTBot Test View").click();
-		this.bot.button("OK").click();
+		getOkButtonInShowViewDialog().click();
 		this.bot.viewByTitle("SWTBot Test View").show();
 	}
 
@@ -264,12 +265,21 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		SWTBotTree tree = bot.tree();
 		SWTBotTreeItem expandNode = tree.expandNode("Debug");
 		expandNode.getNode("Breakpoints").click();
-		this.bot.button("OK").click();
+		getOkButtonInShowViewDialog().click();
 
 		SWTBotView breakpointsView = this.bot.viewByTitle("Breakpoints");
 		breakpointsView.show();
 		breakpointsView.viewMenu().menu("Working Sets...").click();
 	
 		bot.button("OK").click();
+	}
+
+	private SWTBotButton getOkButtonInShowViewDialog() {
+		// Button text was "OK" before Oxygen M7, "Open" since.
+		SWTBotButton button = bot.button();
+		if (!button.getText().equals("Open") && !button.getText().equals("OK")) {
+			button = bot.button(1);
+		}
+		return button;
 	}
 }

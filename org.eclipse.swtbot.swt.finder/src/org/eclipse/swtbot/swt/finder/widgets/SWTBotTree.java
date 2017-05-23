@@ -387,11 +387,6 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 		notify(SWT.MouseDown, item.createMouseEvent(1, stateMask1, 1));
 		notify(SWT.Selection, item.createSelectionEvent(stateMask2));
 		notify(SWT.MouseUp, item.createMouseEvent(1, stateMask2, 1));
-		notify(SWT.MouseHover);
-		notify(SWT.MouseMove);
-		notify(SWT.MouseExit);
-		notify(SWT.Deactivate);
-		notify(SWT.FocusOut);
 	}
 
 	@Override

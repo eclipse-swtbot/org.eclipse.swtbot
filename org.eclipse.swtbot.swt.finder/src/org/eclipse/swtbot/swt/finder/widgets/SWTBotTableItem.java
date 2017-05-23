@@ -365,11 +365,6 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 		notifyTable(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 		notifyTable(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
-		notifyTable(SWT.MouseHover);
-		notifyTable(SWT.MouseMove);
-		notifyTable(SWT.MouseExit);
-		notifyTable(SWT.Deactivate);
-		notifyTable(SWT.FocusOut);
 	}
 
 	@Override

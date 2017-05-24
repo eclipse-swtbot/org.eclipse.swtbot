@@ -68,7 +68,7 @@
          point="org.eclipse.ui.commandImages">
       <image
             commandId="org.eclipse.swtbot.generator.client.commands.import.code"
-            icon="icons/swtbot_rec64.png">
+            icon="icons/swtbot_rec16.png">
       </image>
    </extension>
    <extension

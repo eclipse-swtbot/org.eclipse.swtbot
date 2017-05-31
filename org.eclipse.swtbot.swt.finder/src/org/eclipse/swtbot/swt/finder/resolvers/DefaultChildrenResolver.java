@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,18 +22,18 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class DefaultChildrenResolver extends Resolvable implements IChildrenResolver {
 
-	public List getChildren(Widget w) {
-		List result = new ArrayList();
+	public List<Widget> getChildren(Widget w) {
+		List<Widget> result = new ArrayList<Widget>();
 
 		if (!hasChildren(w))
 			return result;
 
-		List resolvers = resolver.getResolvers(w.getClass());
+		List<IResolvable> resolvers = resolver.getResolvers(w.getClass());
 
-		for (Iterator iterator = resolvers.iterator(); iterator.hasNext();) {
+		for (Iterator<IResolvable> iterator = resolvers.iterator(); iterator.hasNext();) {
 			IChildrenResolver resolver = (IChildrenResolver) iterator.next();
 			if (resolver.canResolve(w) && resolver.hasChildren(w)) {
-				List children = resolver.getChildren(w);
+				List<Widget> children = resolver.getChildren(w);
 				if (children != null) {
 					result.addAll(children);
 					return result;
@@ -44,8 +44,8 @@ public class DefaultChildrenResolver extends Resolvable implements IChildrenReso
 	}
 
 	public boolean hasChildren(Widget w) {
-		List resolvers = resolver.getResolvers(w.getClass());
-		for (Iterator iterator = resolvers.iterator(); iterator.hasNext();) {
+		List<IResolvable> resolvers = resolver.getResolvers(w.getClass());
+		for (Iterator<IResolvable> iterator = resolvers.iterator(); iterator.hasNext();) {
 			IChildrenResolver resolver = (IChildrenResolver) iterator.next();
 			if (resolver.canResolve(w) && resolver.hasChildren(w))
 				return true;

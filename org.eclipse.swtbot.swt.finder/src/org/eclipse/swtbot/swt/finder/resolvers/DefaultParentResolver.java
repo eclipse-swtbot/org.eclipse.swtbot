@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,9 +25,9 @@ public class DefaultParentResolver extends Resolvable implements IParentResolver
 		if (!hasParent(w))
 			return null;
 
-		List resolvers = getResolver().getResolvers(w.getClass());
+		List<IResolvable> resolvers = getResolver().getResolvers(w.getClass());
 
-		for (Iterator iter = resolvers.iterator(); iter.hasNext();) {
+		for (Iterator<IResolvable> iter = resolvers.iterator(); iter.hasNext();) {
 			IParentResolver resolver = (IParentResolver) iter.next();
 			if (resolver.hasParent(w))
 				return resolver.getParent(w);
@@ -37,9 +37,9 @@ public class DefaultParentResolver extends Resolvable implements IParentResolver
 
 	public boolean hasParent(Widget w) {
 
-		List resolvers = getResolver().getResolvers(w.getClass());
+		List<IResolvable> resolvers = getResolver().getResolvers(w.getClass());
 
-		for (Iterator iter = resolvers.iterator(); iter.hasNext();) {
+		for (Iterator<IResolvable> iter = resolvers.iterator(); iter.hasNext();) {
 			IParentResolver resolver = (IParentResolver) iter.next();
 			if (resolver.hasParent(w))
 				return true;

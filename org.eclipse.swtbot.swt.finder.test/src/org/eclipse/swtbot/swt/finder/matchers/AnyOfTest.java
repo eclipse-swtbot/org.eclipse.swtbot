@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Ketan Padegaonkar and others.
+ * Copyright (c) 2011, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,9 +19,9 @@ import org.junit.Test;
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class AnyOfTest {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testShouldAnswerTrueIfAnyMatcherMatches() throws Exception {
 		MyMatcher matcher1 = new MyMatcher(true);
@@ -31,6 +31,7 @@ public class AnyOfTest {
 		assertFalse(matcher2.matched);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testShouldAnswerFalseIfNoMatchersMatche() throws Exception {
 		MyMatcher matcher1 = new MyMatcher(false);

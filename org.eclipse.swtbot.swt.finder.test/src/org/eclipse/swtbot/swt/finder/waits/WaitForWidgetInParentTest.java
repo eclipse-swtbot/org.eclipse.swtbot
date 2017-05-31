@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.swtbot.swt.finder.waits;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.hamcrest.BaseMatcher;
@@ -31,7 +32,7 @@ public class WaitForWidgetInParentTest extends AbstractControlExampleTest {
 	public void waitsForWidgetToAppearInParent() throws Exception {
 		long start = System.currentTimeMillis();
 
-		WaitForObjectCondition condition = Conditions.waitForWidget(new EvaluateTrueAfterAWhile(500), shell);
+		WaitForObjectCondition<Widget> condition = Conditions.waitForWidget(new EvaluateTrueAfterAWhile(500), shell);
 		new SWTBot().waitUntil(condition);
 		long end = System.currentTimeMillis();
 
@@ -40,7 +41,7 @@ public class WaitForWidgetInParentTest extends AbstractControlExampleTest {
 		assertFalse(condition.getAllMatches().isEmpty());
 	}
 
-	private final class EvaluateTrueAfterAWhile extends BaseMatcher {
+	private final class EvaluateTrueAfterAWhile extends BaseMatcher<Widget> {
 		private final long	start;
 		private final int	i;
 

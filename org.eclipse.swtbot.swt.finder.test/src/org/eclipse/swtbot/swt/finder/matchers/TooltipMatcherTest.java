@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Stephane Bouchet (Intel Corporation).
+ * Copyright (c) 2016, 2017 Stephane Bouchet (Intel Corporation) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swt.widgets.Widget;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
@@ -23,39 +24,37 @@ public class TooltipMatcherTest {
 
 	@Test
 	public void doesNotMatchObjectsWithNoGetTooltipMethod() throws Exception {
-		Matcher matcher = withTooltip("Some Tooltip");
+		Matcher<Widget> matcher = withTooltip("Some Tooltip");
 		assertFalse(matcher.matches(new Object()));
 	}
-	
 
 	@Test
 	public void doesNotMatchObjectsWithNullGetTooltip() throws Exception {
-		Matcher matcher = withTooltip("Some Tooltip");
+		Matcher<Widget> matcher = withTooltip("Some Tooltip");
 		assertFalse(matcher.matches(new ObjectWithGetTooltip(null)));
 	}
 
 	@Test
 	public void doesNotMatchTooltip() throws Exception {
-		Matcher matcher = withTooltip("Some Tooltip");
+		Matcher<Widget> matcher = withTooltip("Some Tooltip");
 		assertFalse(matcher.matches(new Object()));
 	}
 
 	@Test
 	public void matchTooltip() throws Exception {
-		Matcher matcher = withTooltip("Some Tooltip");
+		Matcher<Widget> matcher = withTooltip("Some Tooltip");
 		assertTrue(matcher.matches(new ObjectWithGetTooltip("Some Tooltip")));
 	}
 
 	@Test
 	public void matchTooltipIgnoreCase() throws Exception {
-		Matcher matcher = withTooltipIgnoringCase("Some Tooltip");
+		Matcher<Widget> matcher = withTooltipIgnoringCase("Some Tooltip");
 		assertTrue(matcher.matches(new ObjectWithGetTooltip("some tooltip")));
 	}
-	
 
 	@Test
 	public void getsToString() throws Exception {
-		Matcher matcher = withTooltip("Some Tooltip");
+		Matcher<Widget> matcher = withTooltip("Some Tooltip");
 		assertEquals("with tooltip 'Some Tooltip'", matcher.toString());
 	}
 

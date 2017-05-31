@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2016, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,48 +45,48 @@ public class WidgetMatcherFactoryTest extends AbstractClipboardExampleTest {
 
 	@Test
 	public void matchesControlsWithLabel() throws Exception {
-		List findControls = finder.findControls(withLabel("TextTransfer:", finder));
+		List<Widget> findControls = finder.findControls(withLabel("TextTransfer:", finder));
 		assertText("some\n" + "plain\n" + "text", (Widget) findControls.get(0));
 		assertText("Copy", (Widget) findControls.get(1));
 	}
 
 	@Test
 	public void matchesControlsWithRegex() throws Exception {
-		List findControls = finder.findControls(withRegex(".*Transfer.*"));
+		List<Widget> findControls = finder.findControls(withRegex(".*Transfer.*"));
 		assertThat(findControls.size(), is(8));
 	}
 
 	@Test
 	public void matchesControlsWithText() throws Exception {
-		List findControls = finder.findControls(withText("some\n" + "plain\n" + "text"));
+		List<Widget> findControls = finder.findControls(withText("some\n" + "plain\n" + "text"));
 		assertThat(findControls.size(), is(1));
 		assertThat(findControls.get(0), is(instanceOf(Text.class)));
 	}
 
 	@Test
 	public void matchesControlsWithTextIgnoringCase() throws Exception {
-		List findControls = finder.findControls(withTextIgnoringCase("SOME\n" + "plain\n" + "TeXt"));
+		List<Widget> findControls = finder.findControls(withTextIgnoringCase("SOME\n" + "plain\n" + "TeXt"));
 		assertThat(findControls.size(), is(1));
 		assertThat(findControls.get(0), is(instanceOf(Text.class)));
 	}
-	
+
 	@Test
 	public void matchesControlsWithTooltip() throws Exception {
-		List findControls = finder.findControls(withTooltip("TextTransfer Tooltip"));
+		List<Widget> findControls = finder.findControls(withTooltip("TextTransfer Tooltip"));
 		assertThat(findControls.size(), is(1));
 		assertThat(findControls.get(0), is(instanceOf(Label.class)));
 	}
 
 	@Test
 	public void matchesControlsWithTooltipIgnoringCase() throws Exception {
-		List findControls = finder.findControls(withTooltipIgnoringCase("texttransfer tooltip"));
+		List<Widget> findControls = finder.findControls(withTooltipIgnoringCase("texttransfer tooltip"));
 		assertThat(findControls.size(), is(1));
 		assertThat(findControls.get(0), is(instanceOf(Label.class)));
 	}
 
 	@Test
 	public void matchesControlsInGroup() throws Exception {
-		List findControls = finder.findControls(inGroup("Paste To:"));
+		List<Widget> findControls = finder.findControls(inGroup("Paste To:"));
 		assertThat(findControls.size(), is(12));
 		assertThat(findControls.get(0), is(instanceOf(Label.class)));
 		assertThat(findControls.get(1), is(instanceOf(Text.class)));

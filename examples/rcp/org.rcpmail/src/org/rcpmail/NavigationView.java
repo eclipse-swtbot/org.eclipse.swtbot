@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.rcpmail;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -27,11 +28,11 @@ import org.eclipse.ui.part.ViewPart;
 public class NavigationView extends ViewPart {
 	public static final String ID = "org.rcpmail.navigationView";
 	private TreeViewer viewer;
-	 
+
 	class TreeObject {
 		private String name;
 		private TreeParent parent;
-		
+
 		public TreeObject(String name) {
 			this.name = name;
 		}
@@ -49,12 +50,12 @@ public class NavigationView extends ViewPart {
 			return getName();
 		}
 	}
-	
+
 	class TreeParent extends TreeObject {
-		private ArrayList children;
+		private List<TreeObject> children;
 		public TreeParent(String name) {
 			super(name);
-			children = new ArrayList();
+			children = new ArrayList<TreeObject>();
 		}
 		public void addChild(TreeObject child) {
 			children.add(child);
@@ -72,26 +73,25 @@ public class NavigationView extends ViewPart {
 		}
 	}
 
-	class ViewContentProvider implements IStructuredContentProvider, 
-										   ITreeContentProvider {
+	class ViewContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 
-        public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
-        
+
 		public void dispose() {
 		}
-        
+
 		public Object[] getElements(Object parent) {
 			return getChildren(parent);
 		}
-        
+
 		public Object getParent(Object child) {
 			if (child instanceof TreeObject) {
 				return ((TreeObject)child).getParent();
 			}
 			return null;
 		}
-        
+
 		public Object[] getChildren(Object parent) {
 			if (parent instanceof TreeParent) {
 				return ((TreeParent)parent).getChildren();
@@ -99,13 +99,13 @@ public class NavigationView extends ViewPart {
 			return new Object[0];
 		}
 
-        public boolean hasChildren(Object parent) {
+		public boolean hasChildren(Object parent) {
 			if (parent instanceof TreeParent)
 				return ((TreeParent)parent).hasChildren();
 			return false;
 		}
 	}
-	
+
 	class ViewLabelProvider extends LabelProvider {
 
 		@Override
@@ -116,38 +116,38 @@ public class NavigationView extends ViewPart {
 		public Image getImage(Object obj) {
 			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 			if (obj instanceof TreeParent)
-			   imageKey = ISharedImages.IMG_OBJ_FOLDER;
+				imageKey = ISharedImages.IMG_OBJ_FOLDER;
 			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
 	}
 
-    /**
-     * We will set up a dummy model to initialize tree heararchy. In real
-     * code, you will connect to a real model and expose its hierarchy.
-     */
-    private TreeObject createDummyModel() {
-        TreeObject to1 = new TreeObject("Inbox");
-        TreeObject to2 = new TreeObject("Drafts");
-        TreeObject to3 = new TreeObject("Sent");
-        TreeParent p1 = new TreeParent("me@this.com");
-        p1.addChild(to1);
-        p1.addChild(to2);
-        p1.addChild(to3);
+	/**
+	 * We will set up a dummy model to initialize tree heararchy. In real
+	 * code, you will connect to a real model and expose its hierarchy.
+	 */
+	private TreeObject createDummyModel() {
+		TreeObject to1 = new TreeObject("Inbox");
+		TreeObject to2 = new TreeObject("Drafts");
+		TreeObject to3 = new TreeObject("Sent");
+		TreeParent p1 = new TreeParent("me@this.com");
+		p1.addChild(to1);
+		p1.addChild(to2);
+		p1.addChild(to3);
 
-        TreeObject to4 = new TreeObject("Inbox");
-        TreeParent p2 = new TreeParent("other@aol.com");
-        p2.addChild(to4);
+		TreeObject to4 = new TreeObject("Inbox");
+		TreeParent p2 = new TreeParent("other@aol.com");
+		p2.addChild(to4);
 
-        TreeParent root = new TreeParent("");
-        root.addChild(p1);
-        root.addChild(p2);
-        return root;
-    }
+		TreeParent root = new TreeParent("");
+		root.addChild(p1);
+		root.addChild(p2);
+		return root;
+	}
 
 	/**
-     * This is a callback that will allow us to create the viewer and initialize
-     * it.
-     */
+	 * This is a callback that will allow us to create the viewer and initialize
+	 * it.
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);

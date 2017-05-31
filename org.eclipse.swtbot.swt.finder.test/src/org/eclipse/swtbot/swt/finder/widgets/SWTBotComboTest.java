@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,7 +41,7 @@ public class SWTBotComboTest extends AbstractControlExampleTest {
 		bot.tabItem("Combo").activate();
 		SWTBotCombo comboBox = bot.comboBoxInGroup("Combo");
 		assertEquals(9, comboBox.itemCount());
-		List items = Arrays.asList(comboBox.items());
+		List<String> items = Arrays.asList(comboBox.items());
 		assertEquals(9, items.size());
 		for (int i = 1; i < 9; i++)
 			assertTrue("Expected to contain: " + "Line " + i, items.contains("Line " + i));

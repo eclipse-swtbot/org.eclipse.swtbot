@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Ketan Padegaonkar and others.
+ * Copyright (c) 2011, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,15 +26,15 @@ public class ExpandBarResolver implements IChildrenResolver, IParentResolver {
 		return w instanceof ExpandBar;
 	}
 
-	public List getChildren(Widget w) {
-		return hasChildren(w) ? Arrays.asList(((ExpandBar) w).getItems()) : new ArrayList();
+	public List<Widget> getChildren(Widget w) {
+		return hasChildren(w) ? Arrays.<Widget>asList(((ExpandBar) w).getItems()) : new ArrayList<Widget>();
 	}
 
 	public Widget getParent(Widget w) {
 		return canResolve(w) ? ((ExpandBar) w).getParent() : null;
 	}
 
-	public Class[] getResolvableClasses() {
+	public Class<?>[] getResolvableClasses() {
 		return new Class[] { ExpandBar.class };
 	}
 

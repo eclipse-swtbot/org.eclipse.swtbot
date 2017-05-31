@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swt.widgets.Widget;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
@@ -27,37 +28,37 @@ public class TextMatcherTest {
 
 	@Test
 	public void doesNotMatchObjectsWithNoGetTextMethod() throws Exception {
-		Matcher matcher = withText("Some Text");
+		Matcher<Widget> matcher = withText("Some Text");
 		assertFalse(matcher.matches(new Object()));
 	}
 
 	@Test
 	public void doesNotMatchObjectsWithNullGetText() throws Exception {
-		Matcher matcher = withText("Some Text");
+		Matcher<Widget> matcher = withText("Some Text");
 		assertFalse(matcher.matches(new ObjectWithGetText(null)));
 	}
 
 	@Test
 	public void doesNotMatchText() throws Exception {
-		Matcher matcher = withText("Some Text");
+		Matcher<Widget> matcher = withText("Some Text");
 		assertFalse(matcher.matches(new Object()));
 	}
 
 	@Test
 	public void matchText() throws Exception {
-		Matcher matcher = withText("Some Text");
+		Matcher<Widget> matcher = withText("Some Text");
 		assertTrue(matcher.matches(new ObjectWithGetText("Some Text")));
 	}
 
 	@Test
 	public void matchTextIgnoreCase() throws Exception {
-		Matcher matcher = withTextIgnoringCase("Some Text");
+		Matcher<Widget> matcher = withTextIgnoringCase("Some Text");
 		assertTrue(matcher.matches(new ObjectWithGetText("some text")));
 	}
 
 	@Test
 	public void getsToString() throws Exception {
-		Matcher matcher = withText("Some Text");
+		Matcher<Widget> matcher = withText("Some Text");
 		assertEquals("with text 'Some Text'", matcher.toString());
 	}
 

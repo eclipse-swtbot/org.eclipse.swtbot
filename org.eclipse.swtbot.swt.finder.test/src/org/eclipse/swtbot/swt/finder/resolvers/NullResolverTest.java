@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.eclipse.swt.widgets.Widget;
 import org.junit.Test;
 
 /**
@@ -26,7 +27,7 @@ public class NullResolverTest {
 
 	@Test
 	public void getChildren() {
-		List children = new NullResolver().getChildren(null);
+		List<Widget> children = new NullResolver().getChildren(null);
 		assertTrue(children.isEmpty());
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -89,6 +89,7 @@ public class SWTBotMultiPageEditor extends SWTBotEditor {
 	 * @param titleMatcher the text matcher
 	 * @return a {@link SWTBotCTabItem} with the specified tab name.
 	 */
+	@SuppressWarnings("unchecked")
 	private SWTBotCTabItem findPage(Matcher<? extends Widget> titleMatcher) {
 		WithItem<CTabItem> itemMatcher = WithItem.withItem(allOf(widgetOfType(CTabItem.class), titleMatcher));
 		if (itemMatcher.matches(tabFolder))

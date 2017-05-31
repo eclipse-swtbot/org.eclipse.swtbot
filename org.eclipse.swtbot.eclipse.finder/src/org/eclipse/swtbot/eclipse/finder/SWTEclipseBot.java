@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -72,9 +72,8 @@ public class SWTEclipseBot extends SWTWorkbenchBot {
 	 * @deprecated use {@link SWTWorkbenchBot#editorByTitle(String)}
 	 * @since 2.0
 	 */
-	@SuppressWarnings("unchecked")
 	public SWTBotEclipseEditor editor(String fileName, int index) throws WidgetNotFoundException {
-		Matcher matcher = allOf(instanceOf(IEditorReference.class), withPartName(fileName));
+		Matcher<IEditorReference> matcher = allOf(instanceOf(IEditorReference.class), withPartName(fileName));
 		WaitForEditor waitForEditor = waitForEditor(matcher);
 		waitUntilWidgetAppears(waitForEditor);
 		return new SWTBotEclipseEditor(waitForEditor.get(index), this);
@@ -104,9 +103,8 @@ public class SWTEclipseBot extends SWTWorkbenchBot {
 	 * @deprecated use {@link SWTWorkbenchBot#viewByTitle(String)}
 	 * @since 2.0
 	 */
-	@SuppressWarnings("unchecked")
 	public SWTBotView view(String label, int index) throws WidgetNotFoundException {
-		Matcher matcher = allOf(instanceOf(IViewReference.class), withPartName(label));
+		Matcher<IViewReference> matcher = allOf(instanceOf(IViewReference.class), withPartName(label));
 		WaitForView waitForView = waitForView(matcher);
 		waitUntilWidgetAppears(waitForView);
 		return new SWTBotView(waitForView.get(index), this);
@@ -120,9 +118,8 @@ public class SWTEclipseBot extends SWTWorkbenchBot {
 	 * @deprecated use {@link SWTWorkbenchBot#editors()}
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<SWTBotEclipseEditor> editors() throws WidgetNotFoundException {
-		Matcher matcher = allOf(instanceOf(IEditorReference.class));
+		Matcher<IEditorReference> matcher = instanceOf(IEditorReference.class);
 		WaitForEditor waitForEditor = waitForEditor(matcher);
 		waitUntilWidgetAppears(waitForEditor);
 
@@ -143,9 +140,8 @@ public class SWTEclipseBot extends SWTWorkbenchBot {
 	 * @deprecated use {@link SWTWorkbenchBot#views()}
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<SWTBotView> views() throws WidgetNotFoundException {
-		Matcher matcher = allOf(instanceOf(IViewReference.class));
+		Matcher<IViewReference> matcher = instanceOf(IViewReference.class);
 		WaitForView waitForView = waitForView(matcher);
 		waitUntilWidgetAppears(waitForView);
 

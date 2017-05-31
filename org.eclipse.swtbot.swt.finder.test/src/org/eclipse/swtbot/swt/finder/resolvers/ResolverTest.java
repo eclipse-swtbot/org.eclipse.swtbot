@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,7 +30,7 @@ public class ResolverTest {
 		Resolver resolver = new Resolver();
 		resolver.addResolver(new CompositeResolver());
 
-		List resolvers = resolver.getResolvers(FileInputStream.class);
+		List<IResolvable> resolvers = resolver.getResolvers(FileInputStream.class);
 		assertTrue(resolvers.isEmpty());
 	}
 
@@ -39,7 +39,7 @@ public class ResolverTest {
 		Resolver resolver = new Resolver();
 		resolver.addResolver(new CompositeResolver());
 
-		List resolvers = resolver.getResolvers(Shell.class);
+		List<IResolvable> resolvers = resolver.getResolvers(Shell.class);
 		assertFalse(resolvers.isEmpty());
 	}
 

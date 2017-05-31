@@ -1,12 +1,21 @@
-// Generated source. DO NOT MODIFY.
-// To add new new methods, please see README file in the generator plugin.
-
+/*******************************************************************************
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Ketan Padegaonkar - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.matchers;
+
+import org.eclipse.ui.IPerspectiveDescriptor;
 
 public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory {
 
   /**
-   * Matches a workbench part (view/editor) with the specfied name.
+   * Matches a workbench part (view/editor) with the specified name.
    * 
    * @param text the label of the part.
    * @return a matcher.
@@ -78,7 +87,7 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
    * @return a matcher.
    * @since 2.0
    */
-  public static org.hamcrest.Matcher withPerspectiveId(java.lang.String id) {
+  public static org.hamcrest.Matcher<IPerspectiveDescriptor> withPerspectiveId(java.lang.String id) {
     return org.eclipse.swtbot.eclipse.finder.matchers.WithPerspectiveId.withPerspectiveId(id);
   }
 
@@ -89,7 +98,7 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
    * @return a matcher.
    * @since 2.0
    */
-  public static org.hamcrest.Matcher withPerspectiveId(org.hamcrest.Matcher<java.lang.String> idMatcher) {
+  public static org.hamcrest.Matcher<IPerspectiveDescriptor> withPerspectiveId(org.hamcrest.Matcher<java.lang.String> idMatcher) {
     return org.eclipse.swtbot.eclipse.finder.matchers.WithPerspectiveId.withPerspectiveId(idMatcher);
   }
 
@@ -100,7 +109,7 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
    * @return a matcher.
    * @since 2.0
    */
-  public static org.hamcrest.Matcher withPerspectiveLabel(java.lang.String label) {
+  public static org.hamcrest.Matcher<IPerspectiveDescriptor> withPerspectiveLabel(java.lang.String label) {
     return org.eclipse.swtbot.eclipse.finder.matchers.WithPerspectiveLabel.withPerspectiveLabel(label);
   }
 
@@ -111,7 +120,7 @@ public abstract class WidgetMatcherFactory extends org.eclipse.swtbot.swt.finder
    * @return a matcher.
    * @since 2.0
    */
-  public static org.hamcrest.Matcher withPerspectiveLabel(org.hamcrest.Matcher<java.lang.String> labelMatcher) {
+  public static org.hamcrest.Matcher<IPerspectiveDescriptor> withPerspectiveLabel(org.hamcrest.Matcher<java.lang.String> labelMatcher) {
     return org.eclipse.swtbot.eclipse.finder.matchers.WithPerspectiveLabel.withPerspectiveLabel(labelMatcher);
   }
   

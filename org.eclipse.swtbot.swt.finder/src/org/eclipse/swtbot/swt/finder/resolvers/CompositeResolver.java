@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,11 +35,11 @@ public class CompositeResolver implements IChildrenResolver, IParentResolver {
 		return (w instanceof Composite) && !(w.getClass().getName().equals("org.eclipse.swt.widgets.DateTime")); //$NON-NLS-1$
 	}
 
-	public List getChildren(Widget w) {
+	public List<Widget> getChildren(Widget w) {
 		// FIXME https://bugs.eclipse.org/bugs/show_bug.cgi?id=206868
 		if (w.getClass().getName().equals("org.eclipse.swt.widgets.DateTime")) //$NON-NLS-1$
-			return new ArrayList();
-		return hasChildren(w) ? Arrays.asList(((Composite) w).getChildren()) : new ArrayList();
+			return new ArrayList<Widget>();
+		return hasChildren(w) ? Arrays.<Widget>asList(((Composite) w).getChildren()) : new ArrayList<Widget>();
 	}
 
 	public Widget getParent(Widget w) {
@@ -51,7 +51,7 @@ public class CompositeResolver implements IChildrenResolver, IParentResolver {
 		return parent;
 	}
 
-	public Class[] getResolvableClasses() {
+	public Class<?>[] getResolvableClasses() {
 		return new Class[] { Composite.class, Control.class };
 	}
 

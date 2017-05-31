@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,15 +27,15 @@ public class TabFolderResolver implements IChildrenResolver, IParentResolver {
 		return w instanceof TabFolder;
 	}
 
-	public List getChildren(Widget w) {
-		return hasChildren(w) ? Arrays.asList(((TabFolder) w).getItems()) : new ArrayList();
+	public List<Widget> getChildren(Widget w) {
+		return hasChildren(w) ? Arrays.<Widget>asList(((TabFolder) w).getItems()) : new ArrayList<Widget>();
 	}
 
 	public Widget getParent(Widget w) {
 		return (canResolve(w)) ? ((TabFolder) w).getParent() : null;
 	}
 
-	public Class[] getResolvableClasses() {
+	public Class<?>[] getResolvableClasses() {
 		return new Class[] { TabFolder.class };
 	}
 

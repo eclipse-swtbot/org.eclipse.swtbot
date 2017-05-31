@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,8 +26,8 @@ public class TabItemResolver implements IChildrenResolver, IParentResolver {
 		return w instanceof TabItem;
 	}
 
-	public List getChildren(Widget w) {
-		ArrayList children = new ArrayList();
+	public List<Widget> getChildren(Widget w) {
+		List<Widget> children = new ArrayList<Widget>();
 		children.add(((TabItem) w).getControl());
 		return children;
 	}
@@ -36,7 +36,7 @@ public class TabItemResolver implements IChildrenResolver, IParentResolver {
 		return (canResolve(w)) ? ((TabItem) w).getParent() : null;
 	}
 
-	public Class[] getResolvableClasses() {
+	public Class<?>[] getResolvableClasses() {
 		return new Class[] { TabItem.class };
 	}
 

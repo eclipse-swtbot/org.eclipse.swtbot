@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IMarker;
@@ -253,7 +254,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 
 		StringTokenizer tokenizer =
 				new StringTokenizer(editorText, " \t\n\r\f!@#\u0024%^&*()-_=+`~[]{};:'\",.<>/?|\\");
-		ArrayList editorWords = new ArrayList();
+		List<String> editorWords = new ArrayList<String>();
 		while (tokenizer.hasMoreTokens()) {
 			editorWords.add(tokenizer.nextToken());
 		}

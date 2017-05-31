@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class CTabItemResolver implements IChildrenResolver, IParentResolver {
 
-	public List getChildren(Widget w) {
-		ArrayList children = new ArrayList();
+	public List<Widget> getChildren(Widget w) {
+		List<Widget> children = new ArrayList<Widget>();
 		Control control = ((CTabItem) w).getControl();
 		if (control != null)
 			children.add(control);
@@ -41,7 +41,7 @@ public class CTabItemResolver implements IChildrenResolver, IParentResolver {
 		return w instanceof CTabItem;
 	}
 
-	public Class[] getResolvableClasses() {
+	public Class<?>[] getResolvableClasses() {
 		return new Class[] { CTabItem.class };
 	}
 

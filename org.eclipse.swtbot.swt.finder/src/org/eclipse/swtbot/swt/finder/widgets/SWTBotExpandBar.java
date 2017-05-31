@@ -147,6 +147,7 @@ public class SWTBotExpandBar extends AbstractSWTBotControl<ExpandBar> {
 	 * @param matcher the matcher.
 	 * @return the {@link SWTBotExpandItem} with the specified text.
 	 */
+	@SuppressWarnings("unchecked")
 	public SWTBotExpandItem getExpandItem(Matcher<Widget> matcher) {
 		try {
 			matcher = allOf(widgetOfType(ExpandItem.class), matcher);

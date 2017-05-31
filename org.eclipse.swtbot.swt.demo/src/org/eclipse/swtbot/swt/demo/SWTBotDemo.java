@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,13 +22,13 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
  */
 public class SWTBotDemo {
 
-	private final Class	mainClass;
+	private final Class<?>	mainClass;
 	private SWTBot		bot;
 
 	/**
 	 * @param mainClass
 	 */
-	public SWTBotDemo(Class mainClass) {
+	public SWTBotDemo(Class<?> mainClass) {
 		this.mainClass = mainClass;
 	}
 

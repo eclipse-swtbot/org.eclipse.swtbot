@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
@@ -37,11 +36,6 @@ import org.hamcrest.Matcher;
  * @version $Id$
  */
 public class MenuFinder {
-
-	/**
-	 * The logging instance for this class.
-	 */
-	private static final Logger	log	= Logger.getLogger(MenuFinder.class);
 
 	/** The display */
 	protected final Display		display;

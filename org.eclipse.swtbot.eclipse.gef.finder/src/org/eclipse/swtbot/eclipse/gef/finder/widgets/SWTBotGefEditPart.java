@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2010 MAKE Technologies Inc and others
+ * Copyright (c) 2004, 2017 MAKE Technologies Inc and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -165,8 +165,8 @@ public class SWTBotGefEditPart {
 		return this;
 	}
 
-
 	/* this method is not finished. She will become public when finished, but API is not guaranteed */
+	@SuppressWarnings("unused")
 	private void scrollUp() {
 		final IFigure figure = ((GraphicalEditPart) part).getFigure();
 		for (final Object child : figure.getChildren()) {

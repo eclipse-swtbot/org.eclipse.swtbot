@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,7 +15,6 @@ import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.isUIThread;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
@@ -30,8 +29,6 @@ import org.eclipse.swtbot.swt.finder.results.VoidResult;
  * @version $Id$
  */
 public abstract class UIThreadRunnable implements Runnable {
-
-	private static final Logger	log	= Logger.getLogger(UIThreadRunnable.class);
 
 	/** the display on which runnables must be executed. */
 	protected final Display		display;

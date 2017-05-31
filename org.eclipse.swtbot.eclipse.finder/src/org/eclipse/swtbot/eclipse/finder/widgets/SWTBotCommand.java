@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,8 @@ import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 
@@ -25,7 +27,11 @@ import org.eclipse.ui.handlers.IHandlerService;
  * @author @author Stephen Paulin &lt;paulin [at] spextreme [dot] com&gt;
  * @version $Id$
  * @since 1.2
+ * @deprecated Use {@link SWTBotView#viewMenu()} and
+ *             {@link SWTBotRootMenu#menu(String...)} to get a
+ *             {@link SWTBotMenu} instead.
  */
+@Deprecated
 public class SWTBotCommand extends SWTBotViewMenu {
 	private IHandlerService	handlerService	= null;
 

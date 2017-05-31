@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -274,7 +274,7 @@ public abstract class AbstractKeyboardTest extends AbstractCustomControlExampleT
 	@Test
 	public void canTypeFunctionKeys() throws Exception {
 		styledText.setFocus();
-		styledText.notifyKeyboardEvent(SWT.NONE, '\0', SWT.F2);
+		styledText.pressShortcut(SWT.NONE, SWT.F2, '\0');
 		assertEventMatches(listeners, "KeyDown [1]: KeyEvent{StyledText {} time=71024493 data=null character='\\0' keyCode=" + toKeyCode(16777227, styledText.widget) + " stateMask=0 doit=true}");
 		assertEventMatches(listeners, "KeyUp [2]: KeyEvent{StyledText {} time=71024597 data=null character='\\0' keyCode=" + toKeyCode(16777227, styledText.widget) + " stateMask=0 doit=true}");
 	}

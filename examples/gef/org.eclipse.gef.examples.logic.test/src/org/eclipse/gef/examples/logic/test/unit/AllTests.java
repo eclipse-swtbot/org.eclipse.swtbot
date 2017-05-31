@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2010 Obeo
+ * Copyright (c) 2009, 2017 Obeo and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -298,7 +298,7 @@ public class AllTests extends SWTBotGefTestCase implements LogicModeler {
 	@Test
 	public void deprecatedGetEditPartWithLabelOnCanvas() throws Exception {
 		editor.activateTool(TOOL_LABEL);
-		editor.mouseMoveLeftClick(10, 10);
+		editor.click(10, 10);
 		SWTBotGefEditPart botPart = editor.getEditPart("Label");
 		assertNotNull(botPart);
 		assertTrue(botPart.part() instanceof LogicLabelEditPart);
@@ -307,9 +307,9 @@ public class AllTests extends SWTBotGefTestCase implements LogicModeler {
 	@Test
 	public void deprecatedGetEditPartWithLabelInsideNode() throws Exception {
 		editor.activateTool(TOOL_CIRCUIT);
-		editor.mouseMoveLeftClick(10, 10);
+		editor.click(10, 10);
 		editor.activateTool("Label");
-		editor.mouseMoveLeftClick(10 + 3, 10 + 3);
+		editor.click(10 + 3, 10 + 3);
 
 		SWTBotGefEditPart botPart = editor.getEditPart("Label");
 		assertNotNull(botPart);
@@ -319,8 +319,8 @@ public class AllTests extends SWTBotGefTestCase implements LogicModeler {
 	@Test
 	public void deprecatedDrag() throws Exception {
 		editor.activateTool(TOOL_LABEL);
-		editor.mouseMoveLeftClick(10, 10);
-		editor.mouseDrag("Label", 100, 110);
+		editor.click(10, 10);
+		editor.drag("Label", 100, 110);
 
 		Rectangle bounds = ((GraphicalEditPart) editor.getEditPart("Label").part()).getFigure().getBounds();
 		assertEquals(100, bounds.x);

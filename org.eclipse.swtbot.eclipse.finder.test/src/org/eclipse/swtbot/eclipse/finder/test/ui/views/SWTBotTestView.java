@@ -30,7 +30,7 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -83,7 +83,7 @@ public class SWTBotTestView extends ViewPart {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new SWTBotTestContentProvider());
 		viewer.setLabelProvider(new SWTBotTestLabelProvider());
-		viewer.setSorter(new ViewerSorter());
+		viewer.setComparator(new ViewerComparator());
 
 		List<SWTBotTestData> data = new ArrayList<SWTBotTestData>();
 		data.add(new SWTBotTestData("Test Data 1"));

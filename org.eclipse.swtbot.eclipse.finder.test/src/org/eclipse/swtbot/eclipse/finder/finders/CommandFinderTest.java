@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,6 +31,7 @@ import org.junit.runner.RunWith;
  * @author @author Stephen Paulin &lt;paulin [at] spextreme [dot] com&gt;
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class CommandFinderTest extends AbstractSWTBotEclipseTest {
 

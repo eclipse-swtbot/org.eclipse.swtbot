@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,12 +24,12 @@ public class KeyboardFactoryTest extends AbstractSWTShellTest {
 
 	@Test
 	public void createsKeyboardForAWTKeyboardStrategy() throws Exception {
-		assertEquals(AWTKeyboardStrategy.class, new KeyboardFactory(AWTKeyboardStrategy.class.getName()).strategyClass);
+		assertEquals(AWTKeyboardStrategy.class, new KeyboardFactory(AWTKeyboardStrategy.class).strategyClass);
 	}
 
 	@Test
 	public void createsKeyboardForSWTKeyboardStrategy() throws Exception {
-		assertEquals(SWTKeyboardStrategy.class, new KeyboardFactory(SWTKeyboardStrategy.class.getName()).strategyClass);
+		assertEquals(SWTKeyboardStrategy.class, new KeyboardFactory(SWTKeyboardStrategy.class).strategyClass);
 	}
 
 	@Test

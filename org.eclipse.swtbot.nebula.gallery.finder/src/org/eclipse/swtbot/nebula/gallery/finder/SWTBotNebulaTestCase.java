@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2010 Bonitasoft S.A.
+ * Copyright (C) 2010, 2017 Bonitasoft S.A. and others.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
  *
  * All rights reserved. This program and the accompanying materials
@@ -12,15 +12,15 @@
  */
 package org.eclipse.swtbot.nebula.gallery.finder;
 
-import org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase;
+import org.eclipse.swtbot.swt.finder.SWTBotTestCase;
 
 
 /**
- * This is a wrapper test case to the SWTBotEclipseTestCase that adds a Nebula bot
- * instead of the standard eclipse bot.
- * 
+ * This is a wrapper test case to the SWTBotTestCase that adds a Nebula bot
+ * instead of the standard bot.
+ *
  * @author Aurelien Pupier
  */
-public class SWTBotNebulaTestCase extends SWTBotEclipseTestCase {
+public class SWTBotNebulaTestCase extends SWTBotTestCase {
 	protected SWTNebulaBot bot = new SWTNebulaBot();
 }

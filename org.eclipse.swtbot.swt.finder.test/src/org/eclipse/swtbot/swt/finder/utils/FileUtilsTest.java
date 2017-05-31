@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,7 +32,7 @@ public class FileUtilsTest {
 	@Test
 	public void canWriteToAFile() throws Exception {
 		// the write part is execute @Before
-		String read = FileUtils.read(FILE.toURL());
+		String read = FileUtils.read(FILE);
 		assertEquals("some text", read);
 
 		FileUtils.write("some other text", FILE);
@@ -48,7 +48,7 @@ public class FileUtilsTest {
 
 	@Test
 	public void canReadFromURL() throws Exception {
-		String read = FileUtils.read(FILE.toURL());
+		String read = FileUtils.read(FILE);
 		assertEquals("some text", read);
 	}
 

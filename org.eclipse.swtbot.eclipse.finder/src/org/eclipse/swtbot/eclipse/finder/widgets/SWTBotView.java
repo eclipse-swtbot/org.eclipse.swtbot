@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,8 +24,6 @@ import javax.swing.text.View;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.eclipse.finder.finders.CommandFinder;
-import org.eclipse.swtbot.eclipse.finder.finders.ViewMenuFinder;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.utils.PartLabelDescription;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -49,7 +47,6 @@ import org.hamcrest.SelfDescribing;
  */
 public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 
-	private final ViewMenuFinder	menuFinder;
 	/**
 	 * Creates an instance of a view part.
 	 * 
@@ -70,7 +67,6 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	 */
 	public SWTBotView(IViewReference partReference, SWTWorkbenchBot bot, SelfDescribing description) {
 		super(partReference, bot, description);
-		this.menuFinder = new ViewMenuFinder();
 	}
 
 	@Override
@@ -142,7 +138,7 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	 */
 	@Deprecated
 	public List<SWTBotViewMenu> menus() {
-		return menuFinder.findMenus(partReference, anything(), true);
+		return new org.eclipse.swtbot.eclipse.finder.finders.ViewMenuFinder().findMenus(partReference, anything(), true);
 	}
 
 	/**
@@ -172,9 +168,9 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	@Deprecated
 	public SWTBotViewMenu menu(String label, int index) throws WidgetNotFoundException {
 		try {
-			List<SWTBotViewMenu> menuItems = menuFinder.findMenus(partReference, withMnemonic(label), true);
+			List<SWTBotViewMenu> menuItems = new org.eclipse.swtbot.eclipse.finder.finders.ViewMenuFinder().findMenus(partReference, withMnemonic(label), true);
 			if ((menuItems == null) || (menuItems.size() < 1)) {
-				CommandFinder finder = new CommandFinder();
+				org.eclipse.swtbot.eclipse.finder.finders.CommandFinder finder = new org.eclipse.swtbot.eclipse.finder.finders.CommandFinder();
 				List<SWTBotCommand> command = finder.findCommand(equalTo(label));
 				return command.get(index);
 			}

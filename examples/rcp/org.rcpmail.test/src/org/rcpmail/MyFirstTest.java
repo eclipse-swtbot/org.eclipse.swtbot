@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.rcpmail;
 
-import org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase;
+import org.eclipse.swtbot.swt.finder.SWTBotTestCase;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 import junit.framework.AssertionFailedError;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class MyFirstTest extends SWTBotEclipseTestCase {
+public class MyFirstTest extends SWTBotTestCase {
 
 	@Override
 	@Before

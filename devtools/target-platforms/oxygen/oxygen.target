@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Eclipse Oxygen via p2" sequenceNumber="1">
+<?pde version="3.8"?><target name="Eclipse Oxygen via p2" sequenceNumber="2">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.ide" version="0.0.0"/>
@@ -21,7 +21,7 @@
 <unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
 <unit id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
 <unit id="ca.odell.glazedlists" version="0.0.0"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20170306214312/repository/"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170516192513/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.license.feature.group" version="1.0.1.v20140414-1359"/>

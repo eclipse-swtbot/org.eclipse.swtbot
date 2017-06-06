@@ -17,4 +17,4 @@ Require-Bundle: org.eclipse.swtbot.generator,
  org.eclipse.ui,
  org.eclipse.debug.ui,
  org.eclipse.pde.ui
-Bundle-Activator: org.eclipse.swtbot.generator.GeneratorPlugin
+Bundle-Activator: org.eclipse.swtbot.generator.ui.GeneratorUIPlugin

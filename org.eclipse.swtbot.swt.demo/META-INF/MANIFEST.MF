@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Demo Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.swt.demo;singleton:=true
 Bundle-Version: 2.6.0.qualifier
-Bundle-Activator: org.eclipse.swtbot.swt.demo.Activator
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

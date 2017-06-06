@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 MAKE Technologies Inc. and others
+ * Copyright (c) 2004, 2017 MAKE Technologies Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,13 +47,13 @@ public class PaletteFinder {
 	}
 	
 	protected void find(List<PaletteEntry> list, PaletteContainer container, Matcher<?> matcher) {
-		List<PaletteEntry> children = container.getChildren();
+		List<?> children = container.getChildren();
 		if (children != null) {
-			for (PaletteEntry entry: children) {
-				if (matcher.matches(entry)) {
-					list.add(entry);
+			for (Object entry: children) {
+				if (entry instanceof PaletteEntry && matcher.matches(entry)) {
+					list.add((PaletteEntry) entry);
 				} else if (entry instanceof PaletteContainer) {
-					find(list,(PaletteContainer)entry,matcher);
+					find(list, (PaletteContainer) entry, matcher);
 				}
 			}
 		}

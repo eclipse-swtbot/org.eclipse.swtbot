@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -55,7 +55,7 @@ public class PathGenerator {
 		if (elements.length <= 1)
 			return null;
 
-		Widget[] treePath = new Widget[elements.length - 1];
+		Object[] treePath = new Object[elements.length - 1];
 
 		Object parent = display;
 
@@ -112,11 +112,11 @@ public class PathGenerator {
 	 * @param pathElements
 	 * @return
 	 */
-	private Object getParent(Widget[] treePath, Object parent, int i, String[] pathElements) {
+	private Object getParent(Object[] treePath, Object parent, int i, String[] pathElements) {
 		if (pathElements.length > 0) {
 
 			parent = getWidget(parent, Integer.valueOf(pathElements[1]).intValue());
-			treePath[i - 1] = (Widget) parent;
+			treePath[i - 1] = parent;
 		}
 		return parent;
 	}

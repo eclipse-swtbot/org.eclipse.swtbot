@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Ericsson
+ * Copyright (c) 2016, 2017 Ericsson
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,8 +17,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
-import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.VerticalRuler;
@@ -53,6 +51,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
  * RecorderClientView shows SWTBot recorder output as it is received from a
@@ -424,8 +423,8 @@ public class RecorderClientView extends ViewPart implements RecorderClientStatus
 			Recorder.INSTANCE.setSelectedMethodDocument(null);
 
 			availableMethodsDropDown.setInput(null);
-		} else if (activeEditor instanceof JavaEditor) {
-			ITypeRoot root = EditorUtility.getEditorInputJavaElement(activeEditor, false);
+		} else if (activeEditor instanceof org.eclipse.jdt.internal.ui.javaeditor.JavaEditor) {
+			ITypeRoot root = org.eclipse.jdt.internal.ui.javaeditor.EditorUtility.getEditorInputJavaElement(activeEditor, false);
 			IType type = root.findPrimaryType();
 			final IMethod[] methods;
 			try {
@@ -435,7 +434,7 @@ public class RecorderClientView extends ViewPart implements RecorderClientStatus
 				if (Recorder.INSTANCE.getSelectedMethod() != null) {
 					methodToSelect = findSimilarMethod(Recorder.INSTANCE.getSelectedMethod(), methods);
 				}
-				IDocument currentActiveDocument = ((JavaEditor) activeEditor).getDocumentProvider()
+				IDocument currentActiveDocument = ((AbstractTextEditor) activeEditor).getDocumentProvider()
 						.getDocument(activeEditor.getEditorInput());
 
 				Recorder.INSTANCE.setSelectedMethod(methodToSelect);

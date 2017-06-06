@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Obeo.
+ * Copyright (c) 2010, 2017 Obeo and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,7 @@ public class SWTBotGefView extends SWTBotView {
 		GraphicalViewer graphicalViewer = UIThreadRunnable.syncExec(new Result<GraphicalViewer>() {
 			public GraphicalViewer run() {
 				final IViewPart view = partReference.getView(true);
-				return (GraphicalViewer) view.getAdapter(GraphicalViewer.class);
+				return view.getAdapter(GraphicalViewer.class);
 			}
 		});
 		viewer = new SWTBotGefViewer(graphicalViewer);

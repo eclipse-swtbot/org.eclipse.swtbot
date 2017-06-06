@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -69,6 +69,7 @@ public class MessageFormat {
 	}
 
 	private static final class LRUMap<K, V> extends LinkedHashMap<K, V> {
+		private static final long	serialVersionUID = -6249122610915763546L;
 		private static final int	MAX_SIZE	= 512;
 
 		@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2010 MAKE Technologies Inc and others
+ * Copyright (c) 2004, 2017 MAKE Technologies Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -59,7 +59,7 @@ public class SWTBotGefEditor extends SWTBotEditor {
 		GraphicalViewer graphicalViewer = UIThreadRunnable.syncExec(new Result<GraphicalViewer>() {
 			public GraphicalViewer run() {
 				final IEditorPart editor = partReference.getEditor(true);
-				return (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
+				return editor.getAdapter(GraphicalViewer.class);
 			}
 		});
 		viewer = new SWTBotGefViewer(graphicalViewer);

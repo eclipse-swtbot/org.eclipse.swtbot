@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 SWTBot Committers and others.
+ * Copyright (c) 2008, 2017 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,7 +37,6 @@ import org.junit.runners.model.FrameworkMethod;
  * @author Toby Weston (Bug 259787)
  * @version $Id$
  * @see SWTBotApplicationLauncherClassRunner
- * @noextend This class is not intended to be subclassed by clients.
  * @noinstantiate This class is not intended to be instantiated by clients.
  */
 public class SWTBotJunit4ClassRunner extends BlockJUnit4ClassRunner {

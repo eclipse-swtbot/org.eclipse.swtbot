@@ -37,6 +37,7 @@ public class WithTitle<T extends IWorkbenchPartReference> extends
 		return false;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with title '").appendDescriptionOf(titleMatcher)
 				.appendText("'");

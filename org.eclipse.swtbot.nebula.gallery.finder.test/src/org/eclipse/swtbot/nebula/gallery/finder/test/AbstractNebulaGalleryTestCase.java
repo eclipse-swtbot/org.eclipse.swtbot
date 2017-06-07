@@ -45,6 +45,7 @@ public class AbstractNebulaGalleryTestCase {
 	private void runInUIThread() {
 		final Display display = Display.getDefault();
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				shell = createShell(display, "Nebula Gallery Test");
 				gallery = createGallery(shell);
@@ -98,6 +99,7 @@ public class AbstractNebulaGalleryTestCase {
 	@After
 	public void tearDown(){
 		Display.getDefault().syncExec(new Runnable() {
+			@Override
 			public void run() {
 				if(shell != null){
 					shell.dispose();

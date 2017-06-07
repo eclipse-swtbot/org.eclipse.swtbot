@@ -282,6 +282,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 
 	private Rectangle getColumnBounds(final SWTBotTreeItem node, final int columnIndex) {
 		return UIThreadRunnable.syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return node.widget.getBounds(2);
 			}

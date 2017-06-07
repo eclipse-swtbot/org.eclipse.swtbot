@@ -50,6 +50,7 @@ public class WaitForMenu extends WaitForObjectCondition<MenuItem> {
 		this.recursive = recursive;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find a menu within the shell '" + shell + "' matching '" + matcher + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}

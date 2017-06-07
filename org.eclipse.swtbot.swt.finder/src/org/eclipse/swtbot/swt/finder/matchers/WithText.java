@@ -94,6 +94,7 @@ public class WithText<T extends Widget> extends AbstractMatcher<T> {
 		return ((String) SWTUtils.invokeMethod(obj, "getText")).replaceAll(Text.DELIMITER, "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with text '").appendText(text).appendText("'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

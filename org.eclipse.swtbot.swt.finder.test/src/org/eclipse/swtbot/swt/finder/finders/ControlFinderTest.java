@@ -67,6 +67,7 @@ public class ControlFinderTest extends AbstractControlExampleTest {
 		List<TabItem> tabItems = controlFinder.findControls(allOf(widgetOfType(TabItem.class), withText));
 		final TabItem items[] = new TabItem[] { null };
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				items[0] = ((TabFolder) shell.getChildren()[0]).getItems()[5];
 			}

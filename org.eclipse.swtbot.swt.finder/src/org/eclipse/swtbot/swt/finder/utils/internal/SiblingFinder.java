@@ -46,6 +46,7 @@ public final class SiblingFinder implements ArrayResult<Widget> {
 	 * @see org.eclipse.swtbot.swt.finder.results.ArrayResult#run()
 	 * @return The object found.
 	 */
+	@Override
 	public Widget[] run() {
 		Widget[] siblings = new Widget[] {};
 		if (isControl(w))

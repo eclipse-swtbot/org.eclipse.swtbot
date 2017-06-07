@@ -72,6 +72,7 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	@Override
 	public void setFocus() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				((Control) getWidget()).setFocus();
 			}
@@ -96,6 +97,7 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	@Override
 	public void close() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				partReference.getPage().hideView(partReference);
 			}
@@ -183,6 +185,7 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 	@Override
 	public void show() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				try {
 					partReference.getPage().activate(partReference.getPart(true));

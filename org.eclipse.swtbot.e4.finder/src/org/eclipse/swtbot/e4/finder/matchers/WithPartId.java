@@ -41,6 +41,7 @@ public class WithPartId<T extends MPart> extends AbstractMatcher<T> {
 		return false;
 	}
 
+	@Override
 	public void describeTo(final Description description) {
 		description.appendText("with id '").appendDescriptionOf(idMatcher).appendText("'");
 	}

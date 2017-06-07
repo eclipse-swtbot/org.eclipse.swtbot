@@ -81,6 +81,7 @@ public class SWTBotToggleButton extends AbstractSWTBotControl<Button> {
 			return;
 		}
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Deselecting {0}", this)); //$NON-NLS-1$
 				widget.setSelection(false);
@@ -100,6 +101,7 @@ public class SWTBotToggleButton extends AbstractSWTBotControl<Button> {
 			return;
 		}
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Selecting {0}", this)); //$NON-NLS-1$
 				widget.setSelection(true);
@@ -114,6 +116,7 @@ public class SWTBotToggleButton extends AbstractSWTBotControl<Button> {
 	protected void toggle() {
 		waitForEnabled();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Toggling state on {0}. Setting state to {1}", widget, (!widget.getSelection() ? "selected" //$NON-NLS-1$ //$NON-NLS-2$
 						: "unselected"))); //$NON-NLS-1$
@@ -148,6 +151,7 @@ public class SWTBotToggleButton extends AbstractSWTBotControl<Button> {
 	 */
 	public boolean isPressed() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getSelection();
 			}

@@ -42,6 +42,7 @@ public class WorkbenchContentsFinder {
 	 */
 	public IWorkbenchWindow activeWorkbenchWindow() {
 		return syncExec(new Result<IWorkbenchWindow>() {
+			@Override
 			public IWorkbenchWindow run() {
 				return PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 			}
@@ -54,6 +55,7 @@ public class WorkbenchContentsFinder {
 	 */
 	public List<IEditorReference> findEditors(final Matcher<?> matcher) {
 		return syncExec(SWTUtils.display(), new ListResult<IEditorReference>() {
+			@Override
 			public List<IEditorReference> run() {
 				return findEditorsInternal(matcher);
 			}
@@ -67,6 +69,7 @@ public class WorkbenchContentsFinder {
 	 */
 	public List<IViewReference> findViews(final Matcher<?> matcher) {
 		return syncExec(SWTUtils.display(), new ListResult<IViewReference>() {
+			@Override
 			public List<IViewReference> run() {
 				return findViewsInternal(matcher);
 			}
@@ -79,6 +82,7 @@ public class WorkbenchContentsFinder {
 	 */
 	public List<IPerspectiveDescriptor> findPerspectives(final Matcher<?> matcher) {
 		return syncExec(SWTUtils.display(), new ListResult<IPerspectiveDescriptor>() {
+			@Override
 			public List<IPerspectiveDescriptor> run() {
 				return findPerspectivesInternal(matcher);
 			}
@@ -126,6 +130,7 @@ public class WorkbenchContentsFinder {
 	 */
 	public IViewReference findActiveView() {
 		return syncExec(new Result<IViewReference>() {
+			@Override
 			public IViewReference run() {
 				return findActiveViewInternal();
 			}
@@ -144,6 +149,7 @@ public class WorkbenchContentsFinder {
 	 */
 	public IPerspectiveDescriptor findActivePerspective() {
 		return syncExec(new Result<IPerspectiveDescriptor>() {
+			@Override
 			public IPerspectiveDescriptor run() {
 				return findActivePerspectiveInternal();
 			}
@@ -155,6 +161,7 @@ public class WorkbenchContentsFinder {
 	 */
 	public IEditorReference findActiveEditor() {
 		return syncExec(new Result<IEditorReference>() {
+			@Override
 			public IEditorReference run() {
 				return findActiveEditorInternal();
 			}

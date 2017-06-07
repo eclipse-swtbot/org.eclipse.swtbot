@@ -59,6 +59,7 @@ public class SWTBotCommand extends SWTBotViewMenu {
 			menuClickResult = null;
 
 			UIThreadRunnable.asyncExec(new VoidResult() {
+				@Override
 				public void run() {
 					try {
 						menuClickResult = handlerService.executeCommand(commandID, null);

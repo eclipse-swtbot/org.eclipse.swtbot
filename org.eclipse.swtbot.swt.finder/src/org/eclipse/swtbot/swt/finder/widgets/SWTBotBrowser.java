@@ -69,6 +69,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 */
 	public void setUrl(final String url) {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				progressListener.setDone(false);
 				widget.addProgressListener(progressListener);
@@ -87,6 +88,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	public String getUrl() {
 		waitForPageLoaded();
 		return UIThreadRunnable.syncExec(new Result<String>() {
+			@Override
 			public String run() {
 				return widget.getUrl();
 			}
@@ -107,6 +109,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	public void execute(final String script) {
 		waitForPageLoaded();
 		UIThreadRunnable.asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.execute(script);
 			}
@@ -118,6 +121,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 */
 	public boolean isBackEnabled() {
 		return UIThreadRunnable.syncExec(new Result<Boolean>() {
+			@Override
 			public Boolean run() {
 				return widget.isBackEnabled();
 			}
@@ -129,6 +133,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 */
 	public boolean isForwardEnabled() {
 		return UIThreadRunnable.syncExec(new Result<Boolean>() {
+			@Override
 			public Boolean run() {
 				return widget.isForwardEnabled();
 			}
@@ -140,6 +145,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 */
 	public void back() {
 		UIThreadRunnable.asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				progressListener.setDone(false);
 				widget.addProgressListener(progressListener);
@@ -158,6 +164,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 */
 	public void forward() {
 		UIThreadRunnable.asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				progressListener.setDone(false);
 				widget.addProgressListener(progressListener);
@@ -176,6 +183,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 */
 	public void refresh() {
 		UIThreadRunnable.asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.refresh();
 			}
@@ -258,9 +266,11 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 			this.done = done;
 		}
 
+		@Override
 		public void changed(ProgressEvent event) {
 		}
 
+		@Override
 		public void completed(ProgressEvent event) {
 			setDone(true);
 			browser.widget.removeProgressListener(this);
@@ -277,10 +287,12 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 			this.browser = browser;
 		}
 
+		@Override
 		public String getFailureMessage() {
 			return "Browser dit not finish loading page before timeout."; //$NON-NLS-1$	
 		}
 
+		@Override
 		public boolean test() throws Exception {
 			return browser.isPageLoaded();
 		}

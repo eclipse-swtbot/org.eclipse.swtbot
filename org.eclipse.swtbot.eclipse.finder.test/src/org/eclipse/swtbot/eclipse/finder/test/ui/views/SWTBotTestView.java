@@ -102,6 +102,7 @@ public class SWTBotTestView extends ViewPart {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				SWTBotTestView.this.fillContextMenu(manager);
 			}
@@ -124,6 +125,7 @@ public class SWTBotTestView extends ViewPart {
 		manager.add(iRadioTypeAction);
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		manager.addMenuListener(new IMenuListener() {
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				manager.remove(iDropDownTypeAction.getId());
 				manager.insertBefore(IWorkbenchActionConstants.MB_ADDITIONS, iDropDownTypeAction);
@@ -205,6 +207,7 @@ public class SWTBotTestView extends ViewPart {
 			Menu toolBarSubMenu = null;
 			Menu viewSubMenu = null;
 			boolean toolBarChecked = false;
+			@Override
 			public void dispose() {
 				if (toolBarSubMenu != null) {
 					toolBarSubMenu.dispose();
@@ -216,6 +219,7 @@ public class SWTBotTestView extends ViewPart {
 				}
 			}
 
+			@Override
 			public Menu getMenu(Control parent) {
 				if (toolBarSubMenu != null) {
 					toolBarSubMenu.dispose();
@@ -232,6 +236,7 @@ public class SWTBotTestView extends ViewPart {
 				return toolBarSubMenu;
 			}
 
+			@Override
 			public Menu getMenu(Menu parent) {
 				if (viewSubMenu != null) {
 					viewSubMenu.dispose();
@@ -250,6 +255,7 @@ public class SWTBotTestView extends ViewPart {
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				doubleClickAction.run();
 			}

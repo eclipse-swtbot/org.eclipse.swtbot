@@ -107,6 +107,7 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog {
 		comboViewer.setInput(this.availableGenerators);
 		comboViewer.setSelection(new StructuredSelection(this.recorder.getCurrentGenerator()));
 		comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				Generator newGenerator = (Generator) ((IStructuredSelection)event.getSelection()).getFirstElement();
 				recorder.setGenerator(newGenerator);
@@ -136,6 +137,7 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog {
 		});
 		this.recorder.addListener(new CodeGenerationListener() {
 
+			@Override
 			public void handleCodeGenerated(GenerationRule code) {
 				String lineSeparator = System.getProperty("line.separator");
 				StringBuilder builder = new StringBuilder(generatedCode.getText());
@@ -186,31 +188,38 @@ public class RecorderDialog extends TitleAreaDialog implements IRecorderDialog {
 		return this.generatedCode;
 	}
 
+	@Override
 	public BotGeneratorEventDispatcher getRecorder() {
 		return this.recorder;
 	}
 
+	@Override
 	public void setAvailableGenerators(List<Generator> availableGenerators) {
 		this.availableGenerators = availableGenerators;
 
 	}
 
+	@Override
 	public List<Generator> getAvailableGenerators() {
 		return availableGenerators;
 	}
 
+	@Override
 	public void setRecorder(BotGeneratorEventDispatcher recorder) {
 		this.recorder = recorder;
 	}
 
+	@Override
 	public List<Shell> getIgnoredShells() {
 		return ignoredShells;
 	}
 
+	@Override
 	public String getName() {
 		return "Basic Dialog";
 	}
 
+	@Override
 	public String getId() {
 		return ID;
 	}

@@ -59,6 +59,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 	public SWTBotCTabItem(CTabItem w, SelfDescribing description) throws WidgetNotFoundException {
 		super(w, description);
 		this.parent = syncExec(new WidgetResult<CTabFolder>() {
+			@Override
 			public CTabFolder run() {
 				return widget.getParent();
 			}
@@ -74,6 +75,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 	 */
 	public SWTBotCTabItem show() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				parent.showItem(widget);
 			}
@@ -92,6 +94,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 		waitForEnabled();
 		// this runs in sync because tabFolder.setSelection() does not send a notification, and so should not block.
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.getParent().setSelection(widget);
 				log.debug(MessageFormat.format("Activated {0}", this)); //$NON-NLS-1$
@@ -101,10 +104,12 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 		notify(SWT.Selection, createEvent(), parent);
 
 		new SWTBot().waitUntil(new DefaultCondition() {
+			@Override
 			public boolean test() throws Exception {
 				return isActive();
 			}
 
+			@Override
 			public String getFailureMessage() {
 				return "Timed out waiting for " + SWTUtils.toString(widget) + " to activate"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -124,6 +129,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 	@Override
 	public boolean isActive() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return parent.getSelection() == widget;
 			}
@@ -133,6 +139,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getParent().isEnabled();
 			}
@@ -147,6 +154,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 	public SWTBotCTabItem close() {
 		waitForEnabled();
 		Rectangle rectangleCloseBox = syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				try {
 					Field field = CTabItem.class.getDeclaredField("closeRect");

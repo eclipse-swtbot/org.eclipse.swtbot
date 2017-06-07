@@ -30,6 +30,7 @@ class WaitForWidgetInParent<T extends Widget> extends WaitForObjectCondition<T> 
 		this.parent = parent;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find widget matching: " + matcher; //$NON-NLS-1$
 	}

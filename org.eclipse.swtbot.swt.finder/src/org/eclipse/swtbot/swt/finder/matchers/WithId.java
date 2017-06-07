@@ -51,6 +51,7 @@ public class WithId<T extends Widget> extends AbstractMatcher<T> {
 	@Override
 	protected boolean doMatch(final Object obj) {
 		String data = UIThreadRunnable.syncExec(new Result<String>() {
+			@Override
 			public String run() {
 				return (String) ((Widget) obj).getData(key);
 			}
@@ -58,6 +59,7 @@ public class WithId<T extends Widget> extends AbstractMatcher<T> {
 		return value.equals(data);
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with key/value (").appendText(key).appendText("/").appendText(value).appendText(")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}

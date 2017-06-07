@@ -40,6 +40,7 @@ public class SWTBotTableColumn extends AbstractSWTBot<TableColumn> {
 	 */
 	public SWTBotTableColumn(final TableColumn w) throws WidgetNotFoundException {
 		this(w, UIThreadRunnable.syncExec(new WidgetResult<Table>() {
+			@Override
 			public Table run() {
 				return w.getParent();
 			}
@@ -75,6 +76,7 @@ public class SWTBotTableColumn extends AbstractSWTBot<TableColumn> {
 	@Override
 	protected Rectangle getBounds() {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				Table table = widget.getParent();
 				Point location = widget.getDisplay().map(table.getParent(), table, table.getLocation());

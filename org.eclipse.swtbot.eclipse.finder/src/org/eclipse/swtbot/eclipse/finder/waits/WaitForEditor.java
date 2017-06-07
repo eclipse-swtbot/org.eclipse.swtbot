@@ -39,6 +39,7 @@ public class WaitForEditor extends WaitForObjectCondition<IEditorReference> {
 		super(matcher);
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find editor matching: " + matcher;
 	}
@@ -46,6 +47,7 @@ public class WaitForEditor extends WaitForObjectCondition<IEditorReference> {
 	@Override
 	protected List<IEditorReference> findMatches() {
 		return UIThreadRunnable.syncExec(SWTUtils.display(), new ListResult<IEditorReference>() {
+			@Override
 			public List<IEditorReference> run() {
 				return new WorkbenchContentsFinder().findEditors(matcher);
 			}

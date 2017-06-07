@@ -67,6 +67,7 @@ public class SWTBotCLabel extends AbstractSWTBotControl<CLabel> {
 	 */
 	public int alignment() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getAlignment();
 			}

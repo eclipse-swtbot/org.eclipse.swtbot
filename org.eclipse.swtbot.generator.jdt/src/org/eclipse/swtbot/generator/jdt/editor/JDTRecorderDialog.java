@@ -134,6 +134,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		generatorSelectionCombo.setSelection(new StructuredSelection(this.recorder.getCurrentGenerator()));
 
 		generatorSelectionCombo.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				Generator newGenerator = (Generator) ((IStructuredSelection) event.getSelection()).getFirstElement();
 				recorder.setGenerator(newGenerator);
@@ -207,6 +208,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		});
 
 		this.recorder.addListener(new CodeGenerationListener() {
+			@Override
 			public void handleCodeGenerated(GenerationRule code) {
 				SourceViewer viewer = tabViewer.get(classTabFolder.getSelection());
 				ClassDocument doc = (ClassDocument) viewer.getDocument();
@@ -297,6 +299,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 
 	    this.getShell().getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				if(Window.OK == d.open()){
 					String classText = d.getClassName();
@@ -317,6 +320,7 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 
 		this.getShell().getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				if(Window.OK == d.open()){
 					String methodText = d.getMethodName();
@@ -343,31 +347,38 @@ public class JDTRecorderDialog extends TitleAreaDialog implements IRecorderDialo
 		// Override to remove default buttons
 	}
 
+	@Override
 	public BotGeneratorEventDispatcher getRecorder() {
 		return recorder;
 	}
 
+	@Override
 	public void setRecorder(BotGeneratorEventDispatcher recorder) {
 		this.recorder = recorder;
 	}
 
 
+	@Override
 	public List<Generator> getAvailableGenerators() {
 		return availableGenerators;
 	}
 
+	@Override
 	public void setAvailableGenerators(List<Generator> availableGenerators) {
 		this.availableGenerators = availableGenerators;
 	}
 
+	@Override
 	public List<Shell> getIgnoredShells() {
 		return ignoredShells;
 	}
 
+	@Override
 	public String getName() {
 		return "JDT Dialog";
 	}
 
+	@Override
 	public String getId() {
 		return ID;
 	}

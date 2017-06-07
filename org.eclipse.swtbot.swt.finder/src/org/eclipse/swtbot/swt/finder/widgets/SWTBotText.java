@@ -65,6 +65,7 @@ public class SWTBotText extends AbstractSWTBotControl<Text> {
 		waitForEnabled();
 		assertWritable();
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setText(text);
 			}
@@ -138,6 +139,7 @@ public class SWTBotText extends AbstractSWTBotControl<Text> {
 	 */
 	public SWTBotText selectAll() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.selectAll();
 			}

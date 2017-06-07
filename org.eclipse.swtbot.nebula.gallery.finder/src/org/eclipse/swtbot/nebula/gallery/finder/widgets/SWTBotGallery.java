@@ -51,6 +51,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 
 	public int getItemCount(){
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -59,6 +60,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	
 	public int getSelectionCount(){
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelectionCount();
 			}
@@ -73,6 +75,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	public SWTBotGalleryItem[]  selection() {
 
 		return syncExec(new Result<SWTBotGalleryItem[]>() {
+			@Override
 			public SWTBotGalleryItem[] run() {
 				GalleryItem[] selection = widget.getSelection();
 				SWTBotGalleryItem[] res = new SWTBotGalleryItem[selection.length];	
@@ -106,6 +109,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 		waitForEnabled();
 		setFocus();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				List<GalleryItem> selection = new ArrayList<GalleryItem>();
 				for (String item : items) {
@@ -132,6 +136,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 		assertEnabled();
 		setFocus();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				List<GalleryItem> selection = new ArrayList<GalleryItem>();
 				for (SWTBotGalleryItem galleryItem : items) {
@@ -153,10 +158,12 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	public SWTBotGalleryItem getGalleryItem(final int index){
 		try {
 			new SWTNebulaBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find gallery item for index " + index; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(index) != null;
 				}
@@ -170,6 +177,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	protected GalleryItem getItem(final int index){
 
 		return syncExec(new WidgetResult<GalleryItem>() {
+			@Override
 			public GalleryItem run() {
 				return widget.getItem(index);
 			}
@@ -186,10 +194,12 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	public SWTBotGalleryItem getGalleryItem(final String nodeText) throws WidgetNotFoundException {
 		try {
 			new SWTBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find node with text " + nodeText; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(nodeText) != null;
 				}
@@ -208,6 +218,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	 */
 	private GalleryItem getItem(final String nodeText) {
 		return syncExec(new WidgetResult<GalleryItem>() {
+			@Override
 			public GalleryItem run() {
 				GalleryItem[] items = widget.getItems();
 				for (GalleryItem item : items) {
@@ -227,6 +238,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	 */
 	public SWTBotGalleryItem[] getAllItems() {
 		return syncExec(new ArrayResult<SWTBotGalleryItem>() {
+			@Override
 			public SWTBotGalleryItem[] run() {
 				GalleryItem[] items = widget.getItems();
 				SWTBotGalleryItem[] result = new SWTBotGalleryItem[items.length];
@@ -268,6 +280,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 		waitForEnabled();
 		setFocus();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Unselecting all in {0}", widget)); //$NON-NLS-1$
 				widget.deselectAll();
@@ -282,6 +295,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	private void additionalSelectAndNotify(final int j) {
 		//assertIsLegalRowIndex(j);
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				List<GalleryItem> newSelection = new ArrayList<GalleryItem>();
 				GalleryItem[] oldSelection = widget.getSelection();

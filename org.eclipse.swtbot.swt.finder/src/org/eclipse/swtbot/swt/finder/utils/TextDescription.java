@@ -30,6 +30,7 @@ public class TextDescription implements SelfDescribing {
 		this.description = description;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText(this.description);
 	}

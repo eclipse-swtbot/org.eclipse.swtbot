@@ -49,6 +49,7 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 	public SWTBotExpandItem(final ExpandItem w, SelfDescribing description) throws WidgetNotFoundException {
 		super(w, description);
 		this.expandBar = syncExec(new WidgetResult<ExpandBar>() {
+			@Override
 			public ExpandBar run() {
 				return w.getParent();
 			}
@@ -62,6 +63,7 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 	 */
 	public SWTBotExpandItem expand() {
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (isExpanded())
 					return;
@@ -79,6 +81,7 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 	 */
 	public SWTBotExpandItem collapse() {
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (isCollapsed())
 					return;
@@ -95,6 +98,7 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 	 */
 	public boolean isExpanded() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getExpanded();
 			}

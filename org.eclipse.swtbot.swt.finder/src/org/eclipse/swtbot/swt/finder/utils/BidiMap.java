@@ -46,6 +46,7 @@ public class BidiMap<K, V> implements Iterable<Entry<K, V>> {
 		return forward.size();
 	}
 
+	@Override
 	public Iterator<Entry<K, V>> iterator() {
 		return forward.entrySet().iterator();
 	}

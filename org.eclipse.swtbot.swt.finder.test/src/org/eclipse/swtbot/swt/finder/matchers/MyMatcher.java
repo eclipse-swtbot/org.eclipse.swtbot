@@ -22,6 +22,7 @@ final class MyMatcher extends AbstractMatcher<Widget> {
 		this.toAnswer = toAnswer;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 
 	}

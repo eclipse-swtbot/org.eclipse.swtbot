@@ -21,26 +21,32 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class NullResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return true;
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		return new ArrayList<Widget>();
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return null;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[0];
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return false;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return false;
 	}

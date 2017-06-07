@@ -60,6 +60,7 @@ public class SWTBotMenuTest extends AbstractMenuExampleTest {
 	@Test
 	public void clicksSubMenus() throws Exception {
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				addressBook
 						.addAddressBook(new String[] { "last2", "first", "business phone", "home phone", "email@addres.ss", "fax number" });
@@ -78,6 +79,7 @@ public class SWTBotMenuTest extends AbstractMenuExampleTest {
 
 		final TableItem[][] treeItems = new TableItem[][] { null };
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				treeItems[0] = addressBook.getTreeItems();
 			}
@@ -91,6 +93,7 @@ public class SWTBotMenuTest extends AbstractMenuExampleTest {
 		new SWTBotMenu(menuItem).click();
 
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				treeItems[0] = addressBook.getTreeItems();
 			}

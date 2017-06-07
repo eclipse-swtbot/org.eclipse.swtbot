@@ -31,10 +31,12 @@ public class NewEmptyEmfProject {
 	    SWTBotTree projectSelectionTree = bot.tree();
 	    projectSelectionTree.expandNode("Eclipse Modeling Framework").expandNode("Empty EMF Project").select();
 	    bot.waitUntil(new DefaultCondition() {
+			@Override
 			public String getFailureMessage() {
 				return "unable to select";
 			}
 			
+			@Override
 			public boolean test() throws Exception {
 				return bot.button("Next >").isEnabled();
 			}	

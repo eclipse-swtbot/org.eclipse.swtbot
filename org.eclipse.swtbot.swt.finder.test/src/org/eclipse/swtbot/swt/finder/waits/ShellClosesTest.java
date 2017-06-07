@@ -41,6 +41,7 @@ public class ShellClosesTest extends AbstractSWTShellTest {
 	@Override
 	protected void createUI(Composite parent) {
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Thread.sleep(200);

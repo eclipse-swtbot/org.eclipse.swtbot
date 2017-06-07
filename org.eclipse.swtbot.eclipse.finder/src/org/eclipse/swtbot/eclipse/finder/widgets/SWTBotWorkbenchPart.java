@@ -112,6 +112,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	 */
 	public void show() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				try {
 					partReference.getPage().activate(partReference.getPart(true));
@@ -140,6 +141,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 	public List<SWTBotToolbarButton> getToolbarButtons() {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotToolbarButton>() {
 
+			@Override
 			public List<SWTBotToolbarButton> run() {
 				ToolBar toolbar = null;
 

@@ -98,6 +98,7 @@ public class OpenGefEditorAndCreateContentsExampleTest extends SWTBotGefTestCase
 				LogicLabel label = (LogicLabel) editPart.getModel();
 				return label.getLabelContents().equals("Label");
 			}
+			@Override
 			public void describeTo(Description description) {
 			}
 		});

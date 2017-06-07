@@ -143,6 +143,7 @@ public class SWTWorkbenchBot extends SWTBot {
 		
 		final EPartService partService = context.get(EPartService.class);
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				partService.switchPerspective(perspective);
 			}
@@ -207,6 +208,7 @@ public class SWTWorkbenchBot extends SWTBot {
 	public boolean isPartActive(final MPart part) {
 		final EPartService partService = context.get(EPartService.class);
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return partService.getActivePart() == part;
 			}
@@ -247,6 +249,7 @@ public class SWTWorkbenchBot extends SWTBot {
 		
 		final EPartService partService = context.get(EPartService.class);		
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				partService.showPart(part, PartState.ACTIVATE);
 			}
@@ -267,6 +270,7 @@ public class SWTWorkbenchBot extends SWTBot {
 		
 		final EPartService partService = context.get(EPartService.class);		
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				//
 				// If the part is dirty, ensure we don't lose any unsaved changes.
@@ -308,9 +312,11 @@ public class SWTWorkbenchBot extends SWTBot {
 	 * follow the logic inside ApplicationPartServiceImpl.
 	 */
 	protected class IEclipseContextReady extends DefaultCondition {
+		@Override
 		public boolean test() throws Exception {
 			return context.getActiveChild() != null;
 		}
+		@Override
 		public String getFailureMessage() {
 			return "The current context does not contain an active window as its activeChild()";
 		}

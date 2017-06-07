@@ -58,6 +58,7 @@ public class SWTBotSpinner extends AbstractSWTBotControl<Spinner> {
 	 */
 	public int getSelection() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelection();
 			}
@@ -73,6 +74,7 @@ public class SWTBotSpinner extends AbstractSWTBotControl<Spinner> {
 		log.debug(MessageFormat.format("Setting selection on {0} to {1}", this, value)); //$NON-NLS-1$
 		waitForEnabled();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(value);
 			}
@@ -88,6 +90,7 @@ public class SWTBotSpinner extends AbstractSWTBotControl<Spinner> {
 	 */
 	public int getMaximum() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getMaximum();
 			}
@@ -101,6 +104,7 @@ public class SWTBotSpinner extends AbstractSWTBotControl<Spinner> {
 	 */
 	public int getMinimum() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getMinimum();
 			}
@@ -114,6 +118,7 @@ public class SWTBotSpinner extends AbstractSWTBotControl<Spinner> {
 	 */
 	public int getIncrement() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getIncrement();
 			}
@@ -127,6 +132,7 @@ public class SWTBotSpinner extends AbstractSWTBotControl<Spinner> {
 	 */
 	public int getPageIncrement() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getPageIncrement();
 			}
@@ -140,6 +146,7 @@ public class SWTBotSpinner extends AbstractSWTBotControl<Spinner> {
 	 */
 	public int getDigits() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getDigits();
 			}

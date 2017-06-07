@@ -22,28 +22,34 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class TabItemResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof TabItem;
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		List<Widget> children = new ArrayList<Widget>();
 		children.add(((TabItem) w).getControl());
 		return children;
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return (canResolve(w)) ? ((TabItem) w).getParent() : null;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { TabItem.class };
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return (canResolve(w)) && ((TabItem) w).getControl() != null;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

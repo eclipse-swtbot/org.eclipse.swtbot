@@ -68,6 +68,7 @@ public class WaitForMenuItem extends WaitForObjectCondition<MenuItem> {
 		this.index = index;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find menu item matching: " + matcher; //$NON-NLS-1$
 	}
@@ -75,6 +76,7 @@ public class WaitForMenuItem extends WaitForObjectCondition<MenuItem> {
 	@Override
 	protected List<MenuItem> findMatches() {
 		MenuItem menuItem = UIThreadRunnable.syncExec(new WidgetResult<MenuItem>() {
+			@Override
 			public MenuItem run() {
 				if (widget instanceof Menu) {
 					return menuFinder.findMenuItem((Menu) widget, matcher, recursive, index);

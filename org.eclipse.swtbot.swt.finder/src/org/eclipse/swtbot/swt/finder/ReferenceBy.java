@@ -225,6 +225,7 @@ public enum ReferenceBy {
 
 	protected static Comparator<ReferenceBy> comparator() {
 		return new Comparator<ReferenceBy>() {
+			@Override
 			public int compare(ReferenceBy o1, ReferenceBy o2) {
 				return o2.priority - o1.priority;
 			}

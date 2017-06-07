@@ -47,6 +47,7 @@ public class MenuDetectTest extends AbstractSWTShellTest {
 		menuItem.setText(MENU_ITEM_TEXT);
 		label.setMenu(menu);
 		label.addListener(SWT.MenuDetect, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				checkInsideBounds(label.getParent().toControl(new Point(event.x, event.y)), label.getBounds());
 				label.setText(EXPECTED_TEXT);
@@ -79,6 +80,7 @@ public class MenuDetectTest extends AbstractSWTShellTest {
 		menuItem.setText(MENU_ITEM_TEXT);
 		tree.setMenu(menu);
 		tree.addListener(SWT.MenuDetect, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				Point point = new Point(event.x, event.y);
 				checkInsideBounds(tree.getParent().toControl(point), tree.getBounds());
@@ -106,6 +108,7 @@ public class MenuDetectTest extends AbstractSWTShellTest {
 		menuItem.setText(MENU_ITEM_TEXT);
 		table.setMenu(menu);
 		table.addListener(SWT.MenuDetect, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				Point point = new Point(event.x, event.y);
 				checkInsideBounds(table.getParent().toControl(point), table.getBounds());

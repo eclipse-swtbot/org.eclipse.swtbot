@@ -29,6 +29,7 @@ final class BrowserAuthenticationListener implements AuthenticationListener {
 
 	public void init(final Browser widget) {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.addAuthenticationListener(BrowserAuthenticationListener.this);
 			}
@@ -43,6 +44,7 @@ final class BrowserAuthenticationListener implements AuthenticationListener {
 		return this.credentials;
 	}
 
+	@Override
 	public void authenticate(AuthenticationEvent event) {
 		if (credentials == null) {
 			event.doit = false;

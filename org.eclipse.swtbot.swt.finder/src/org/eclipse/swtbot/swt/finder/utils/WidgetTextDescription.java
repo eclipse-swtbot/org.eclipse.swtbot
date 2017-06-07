@@ -31,6 +31,7 @@ public class WidgetTextDescription implements SelfDescribing {
 		this.widget = widget;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		String text = SWTUtils.getText(widget);
 		if (text.isEmpty()) {

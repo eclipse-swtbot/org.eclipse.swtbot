@@ -55,8 +55,10 @@ class TreeItemHasNode extends DefaultCondition {
 	 * @return <code>true</code> if the tree item has a node with the given
 	 *         text. Otherwise <code>false</code> is returned.
 	 */
+	@Override
 	public boolean test() {
 		boolean hasNode = UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				for (TreeItem item : treeItem.widget.getItems()) {
 					if (item.getText().equals(text)) {
@@ -84,6 +86,7 @@ class TreeItemHasNode extends DefaultCondition {
 	 * @see org.eclipse.swtbot.swt.finder.waits.ICondition#getFailureMessage()
 	 * @return The failure message.
 	 */
+	@Override
 	public String getFailureMessage() {
 		return "Timed out waiting for " + treeItem + " to contain a node with text: " + text; //$NON-NLS-1$ //$NON-NLS-2$
 	}

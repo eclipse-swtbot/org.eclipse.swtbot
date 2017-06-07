@@ -22,26 +22,32 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class ExpandBarResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof ExpandBar;
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		return hasChildren(w) ? Arrays.<Widget>asList(((ExpandBar) w).getItems()) : new ArrayList<Widget>();
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return canResolve(w) ? ((ExpandBar) w).getParent() : null;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { ExpandBar.class };
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return canResolve(w) && ((ExpandBar) w).getItems().length > 0;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

@@ -16,6 +16,7 @@ public class LaunchConfigPropertiesWizardPage extends WizardPage {
 		setTitle("Settings when you launch your application");
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

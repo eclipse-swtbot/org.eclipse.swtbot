@@ -67,6 +67,7 @@ public class WithMnemonic<T extends Widget> extends AbstractMatcher<T> {
 		return WithText.getText(obj).replaceAll("&", "").split("\t")[0]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with mnemonic '").appendText(text).appendText("'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

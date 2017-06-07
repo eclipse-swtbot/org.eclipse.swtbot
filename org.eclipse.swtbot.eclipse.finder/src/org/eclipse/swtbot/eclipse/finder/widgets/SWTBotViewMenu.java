@@ -124,6 +124,7 @@ public class SWTBotViewMenu {
 			final IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
 
 			UIThreadRunnable.asyncExec(new VoidResult() {
+				@Override
 				public void run() {
 					try {
 						menuClickResult = handlerService.executeCommand(commandID, null);
@@ -134,6 +135,7 @@ public class SWTBotViewMenu {
 			});
 		} else if (action != null)
 			UIThreadRunnable.asyncExec(new VoidResult() {
+				@Override
 				public void run() {
 					if((action.getStyle() == IAction.AS_CHECK_BOX) || (action.getStyle() == IAction.AS_RADIO_BUTTON)) {
 						action.setChecked(!action.isChecked());

@@ -112,6 +112,7 @@ public class RecorderServer {
 		 * @param code
 		 *            The generated code.
 		 */
+		@Override
 		public void handleCodeGenerated(GenerationRule code) {
 			for (String text : code.getActions()) {
 				output.println(text);

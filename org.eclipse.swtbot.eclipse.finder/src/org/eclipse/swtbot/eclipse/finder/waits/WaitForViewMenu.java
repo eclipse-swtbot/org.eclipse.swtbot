@@ -58,6 +58,7 @@ public class WaitForViewMenu extends WaitForObjectCondition<Menu> {
 		this.viewReference = viewReference;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find view menu for view: " + viewReference; //$NON-NLS-1$
 	}
@@ -71,6 +72,7 @@ public class WaitForViewMenu extends WaitForObjectCondition<Menu> {
 			return emptyList;
 		}
 		final ToolItem toolItem = UIThreadRunnable.syncExec(new WidgetResult<ToolItem>() {
+			@Override
 			public ToolItem run() {
 				String elementId = viewReference.getSecondaryId() == null ? viewReference.getId() :
 					viewReference.getId() + ':' + viewReference.getSecondaryId();
@@ -81,11 +83,13 @@ public class WaitForViewMenu extends WaitForObjectCondition<Menu> {
 			return emptyList;
 		}
 		UIThreadRunnable.asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				toolItem.notifyListeners(SWT.Selection, createEvent(toolItem));
 			}
 		});
 		Menu viewMenu = UIThreadRunnable.syncExec(new WidgetResult<Menu>() {
+			@Override
 			public Menu run() {
 				IMenuManager viewMenuManager = viewPart.getViewSite().getActionBars().getMenuManager();
 				if (viewMenuManager instanceof MenuManager) {

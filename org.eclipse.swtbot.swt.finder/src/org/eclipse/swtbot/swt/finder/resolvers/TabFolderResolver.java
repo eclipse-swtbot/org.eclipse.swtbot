@@ -23,26 +23,32 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class TabFolderResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof TabFolder;
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		return hasChildren(w) ? Arrays.<Widget>asList(((TabFolder) w).getItems()) : new ArrayList<Widget>();
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return (canResolve(w)) ? ((TabFolder) w).getParent() : null;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { TabFolder.class };
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return (canResolve(w)) && ((TabFolder) w).getItems().length > 0;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

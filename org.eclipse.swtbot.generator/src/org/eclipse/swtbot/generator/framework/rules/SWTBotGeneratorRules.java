@@ -54,6 +54,7 @@ public class SWTBotGeneratorRules implements Generator {
 
 	private static final String RULES_EXTENSION_POINT = "org.eclipse.swtbot.generator.rules.additions"; //$NON-NLS-1$
 	
+	@Override
 	public List<GenerationSimpleRule> createSimpleRules() {
 		List<GenerationSimpleRule> res = new ArrayList<GenerationSimpleRule>();
 
@@ -101,10 +102,12 @@ public class SWTBotGeneratorRules implements Generator {
 
 	}
 
+	@Override
 	public String getLabel() {
 		return "SWTBot";
 	}
 
+	@Override
 	public List<GenerationComplexRule> createComplexRules() {
 		List<GenerationComplexRule> cres = new ArrayList<GenerationComplexRule>();
 		cres.add(new ToolBarMenuComplexRule());
@@ -133,12 +136,14 @@ public class SWTBotGeneratorRules implements Generator {
 		return cres;
 	}
 
+	@Override
 	public List<AnnotationRule> createAnnotationRules() {
 		List<AnnotationRule> ares = new ArrayList<AnnotationRule>();
 		ares.add(new TestAnnotationRule());
 		return ares;
 	}
 
+	@Override
 	public Image getImage() {
 		// TODO SWTBot has no logo ?
 		return null;

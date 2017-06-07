@@ -66,6 +66,7 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 	@Override
 	public void setFocus() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				IEditorPart editor = partReference.getEditor(true);
 				editor.setFocus();
@@ -84,6 +85,7 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 	@Override
 	public void close() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				partReference.getPage().closeEditor(partReference.getEditor(false), false);
 			}
@@ -95,6 +97,7 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 	 */
 	public void save() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				IEditorPart editor = partReference.getEditor(false);
 				partReference.getPage().saveEditor(editor, false);
@@ -108,6 +111,7 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 	@Override
 	public void show() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				IEditorPart editor = partReference.getEditor(true);
 				partReference.getPage().activate(editor);
@@ -122,6 +126,7 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 	 */
 	public boolean isDirty() {
 		return UIThreadRunnable.syncExec(new Result<Boolean>() {
+			@Override
 			public Boolean run() {
 				return partReference.isDirty();
 			}

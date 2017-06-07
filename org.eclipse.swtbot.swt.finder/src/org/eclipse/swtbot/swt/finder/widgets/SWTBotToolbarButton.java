@@ -87,6 +87,7 @@ public abstract class SWTBotToolbarButton extends AbstractSWTBot<ToolItem> {
 	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.isEnabled();
 			}

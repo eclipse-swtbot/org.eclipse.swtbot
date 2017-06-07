@@ -152,6 +152,7 @@ public class SWTBotRootMenu extends AbstractSWTBot<Menu> {
 	 */
 	public SWTBotRootMenu hide() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if ((widget.getStyle() & SWT.POP_UP) != 0) {
 					widget.setVisible(false);
@@ -172,6 +173,7 @@ public class SWTBotRootMenu extends AbstractSWTBot<Menu> {
 	 */
 	public List<String> menuItems() {
 		return syncExec(new ListResult<String>() {
+			@Override
 			public List<String> run() {
 				List<String> items = new ArrayList<String>();
 				for (MenuItem menuItem : widget.getItems()) {

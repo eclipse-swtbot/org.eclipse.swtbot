@@ -27,28 +27,34 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class ToolItemResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof ToolItem;
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		List<Widget> children = new ArrayList<Widget>();
 		children.add(((ToolItem) w).getControl());
 		return children;
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return (canResolve(w)) ? ((ToolItem) w).getParent() : null;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { ToolItem.class };
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return (canResolve(w)) && ((ToolItem) w).getControl() != null;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

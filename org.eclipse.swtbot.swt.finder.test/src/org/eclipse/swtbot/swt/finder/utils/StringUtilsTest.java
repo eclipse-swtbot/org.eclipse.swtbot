@@ -35,6 +35,7 @@ public class StringUtilsTest {
 	public void canJoinListsUsingTheObjectConverter() throws Exception {
 		Object[] toJoin = new Object[] { new TestObject("foo"), new TestObject("bar"), new TestObject("baz") };
 		StringConverter converter = new StringConverter() {
+			@Override
 			public String toString(Object object) {
 				return ((TestObject) object).string;
 			}

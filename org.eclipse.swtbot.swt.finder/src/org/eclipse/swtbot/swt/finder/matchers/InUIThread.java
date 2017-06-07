@@ -40,12 +40,14 @@ public class InUIThread<T extends Widget> extends AbstractMatcher<T> {
 	@Override
 	protected boolean doMatch(final Object obj) {
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return matcher.matches(obj);
 			}
 		});
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("evaluates matcher [").appendDescriptionOf(matcher).appendText("] in the ui thread"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

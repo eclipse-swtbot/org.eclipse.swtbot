@@ -59,6 +59,7 @@ public abstract class SWTBotApplicationLauncherClassRunner extends SWTBotJunit4C
 		if (isApplicationRunning())
 			return;
 		Runnable runnable = new Runnable() {
+			@Override
 			public void run() {
 				startApplication();
 			}
@@ -71,6 +72,7 @@ public abstract class SWTBotApplicationLauncherClassRunner extends SWTBotJunit4C
 		SWTUtils.waitForDisplayToAppear();
 	}
 
+	@Override
 	public boolean isApplicationRunning() {
 		try {
 			SWTUtils.waitForDisplayToAppear();

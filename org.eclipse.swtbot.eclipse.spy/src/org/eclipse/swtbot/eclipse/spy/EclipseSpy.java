@@ -77,6 +77,7 @@ public class EclipseSpy {
 
 	private void hookAccelerator() {
 		parent.getDisplay().addFilter(SWT.KeyDown, new Listener() {
+			@Override
 			public void handleEvent(Event e) {
 				if ((e.stateMask == SWT.CTRL) && (e.keyCode == SWT.SHIFT))
 					if (actionMonitor.isChecked())

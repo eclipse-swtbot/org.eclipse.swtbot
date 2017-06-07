@@ -98,6 +98,7 @@ public class WithTooltip<T extends Widget> extends AbstractMatcher<T> {
 		return "";
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with tooltip '").appendText(text).appendText("'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

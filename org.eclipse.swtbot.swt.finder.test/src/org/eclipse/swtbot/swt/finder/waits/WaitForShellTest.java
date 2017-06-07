@@ -53,8 +53,10 @@ public class WaitForShellTest extends AbstractSWTTest {
 
 	private void createShellAfter(int delay) {
 		new Thread(new DelayedExecutionRunnable(new Runnable() {
+			@Override
 			public void run() {
 				UIThreadRunnable.syncExec(new WidgetResult<Shell>() {
+					@Override
 					public Shell run() {
 						Shell shell = new Shell(Display.getDefault());
 						shell.setText(TEXT);
@@ -77,6 +79,7 @@ public class WaitForShellTest extends AbstractSWTTest {
 			this.delayInMillis = delayInMillis;
 		}
 
+		@Override
 		public void run() {
 			try {
 				Thread.sleep(delayInMillis);

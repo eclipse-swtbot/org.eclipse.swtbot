@@ -53,6 +53,7 @@ public class StartupRecorder implements IStartup {
 			this.recorderDialogId = dialog;
 		}
 
+		@Override
 		public void run() {
 			final List<Generator> availableGenerators = GeneratorExtensionPointManager.loadGenerators();
 			Generator generator = availableGenerators.get(0);
@@ -105,6 +106,7 @@ public class StartupRecorder implements IStartup {
 		}
 	}
 
+	@Override
 	public void earlyStartup() {
 		if (Boolean.parseBoolean(System.getProperty(ENABLEMENT_PROPERTY)) != true) {
 			return;

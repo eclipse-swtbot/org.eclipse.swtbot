@@ -24,10 +24,12 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class CTabFolderResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof CTabFolder;
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		List<Widget> res = new ArrayList<Widget>();
 		if (hasChildren(w)) {
@@ -40,18 +42,22 @@ public class CTabFolderResolver implements IChildrenResolver, IParentResolver {
 		return res;
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return canResolve(w) ? ((CTabFolder) w).getParent() : null;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class<?>[] { CTabFolder.class };
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return canResolve(w) && (((CTabFolder) w).getItems().length > 0 || ((CTabFolder)w).getTopRight() != null);
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

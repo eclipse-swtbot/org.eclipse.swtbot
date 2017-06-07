@@ -57,6 +57,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	public SWTBotTableItem(final TableItem tableItem, SelfDescribing description) throws WidgetNotFoundException {
 		super(tableItem, description);
 		this.table = syncExec(new WidgetResult<Table>() {
+			@Override
 			public Table run() {
 				return tableItem.getParent();
 			}
@@ -71,6 +72,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	public SWTBotTableItem select() {
 		waitForEnabled();
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				table.setFocus();
 				table.setSelection(widget);
@@ -92,6 +94,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTable(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (table.getSelectionCount() != 1 || !table.getSelection()[0].equals(widget)) {
 					table.setSelection(widget);
@@ -158,6 +161,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTable(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (table.getSelectionCount() != 1 || !table.getSelection()[0].equals(widget)) {
 					table.setSelection(widget);
@@ -191,6 +195,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	@Override
 	protected void dragStart() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				table.setFocus();
 				table.setSelection(widget);
@@ -205,6 +210,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	@Override
 	protected Rectangle getBounds() {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return widget.getBounds();
 			}
@@ -219,6 +225,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 */
 	private Rectangle getCellBounds(final int column) {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return widget.getBounds(column);
 			}
@@ -238,6 +245,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	@Override
 	public String getText() {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return widget.getText();
 			}
@@ -246,6 +254,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	public String getText(final int index) {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return widget.getText(index);
 			}
@@ -288,6 +297,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	public boolean isChecked() {
 		assertIsCheck();
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getChecked();
 			}
@@ -302,6 +312,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	public boolean isGrayed() {
 		assertIsCheck();
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getGrayed();
 			}
@@ -331,6 +342,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		waitForEnabled();
 		assertIsCheck();
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				TableItem item = widget;
 				log.debug(MessageFormat.format("Setting state to {0} on: {1}", (checked ? "checked" : "unchecked"), item.getText())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -351,6 +363,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 */
 	private void notifyCheck() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				table.notifyListeners(SWT.Selection, createCheckEvent());
 			}
@@ -382,6 +395,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return table.isEnabled();
 			}
@@ -391,6 +405,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	@Override
 	protected Rectangle absoluteLocation() {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return display.map(widget.getParent(), null, widget.getBounds());
 			}

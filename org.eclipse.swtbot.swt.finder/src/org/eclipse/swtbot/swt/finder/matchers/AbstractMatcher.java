@@ -32,6 +32,7 @@ public abstract class AbstractMatcher<T> extends BaseMatcher<T> {
 
 	public static final Logger	log	= Logger.getLogger(AbstractMatcher.class);
 
+	@Override
 	public boolean matches(Object item) {
 		boolean result = false;
 		try {

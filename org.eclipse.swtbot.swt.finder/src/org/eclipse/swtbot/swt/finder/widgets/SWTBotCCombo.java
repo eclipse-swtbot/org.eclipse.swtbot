@@ -69,6 +69,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 		if (hasStyle(widget, SWT.READ_ONLY))
 			throw new RuntimeException("This combo box is read-only."); //$NON-NLS-1$
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setText(text);
 			}
@@ -84,6 +85,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 */
 	public int textLimit() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getTextLimit();
 			}
@@ -109,6 +111,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	private void _setSelection(final String text) {
 		waitForEnabled();
 		final int indexOf = syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				String[] items = widget.getItems();
 				return Arrays.asList(items).indexOf(text);
@@ -122,6 +125,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 
 	private void select(final int indexOf) {
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.select(indexOf);
 			}
@@ -136,6 +140,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 */
 	public String selection() {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				int selectionIndex = widget.getSelectionIndex();
 				if (selectionIndex == -1)
@@ -152,6 +157,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 */
 	public int selectionIndex() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelectionIndex();
 			}
@@ -179,6 +185,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 */
 	public int itemCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -192,6 +199,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 */
 	public String[] items() {
 		return syncExec(new ArrayResult<String>() {
+			@Override
 			public String[] run() {
 				return widget.getItems();
 			}

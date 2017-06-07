@@ -369,6 +369,7 @@ public class SWTWorkbenchBot extends SWTBot {
 	public SWTBotPerspective defaultPerspective() {
 		return syncExec(new Result<SWTBotPerspective>() {
 
+			@Override
 			public SWTBotPerspective run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				return perspectiveById(workbench.getPerspectiveRegistry().getDefaultPerspective());

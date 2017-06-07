@@ -151,6 +151,7 @@ public abstract class SWTUtils {
 	 */
 	public static String[] getTextPath(final MenuItem menuItem) {
 		return UIThreadRunnable.syncExec(new ArrayResult<String>() {
+			@Override
 			public String[] run() {
 				List<String> textPath = new ArrayList<String>();
 				textPath.add(menuItem.getText());
@@ -221,6 +222,7 @@ public abstract class SWTUtils {
 		if (style == SWT.NONE)
 			return true;
 		return UIThreadRunnable.syncExec(w.getDisplay(), new BoolResult() {
+			@Override
 			public Boolean run() {
 				return (w.getStyle() & style) != 0;
 			}
@@ -322,6 +324,7 @@ public abstract class SWTUtils {
 		if (object instanceof Widget) {
 			widget = (Widget) object;
 			result = UIThreadRunnable.syncExec(widget.getDisplay(), new Result<Object>() {
+				@Override
 				public Object run() {
 					try {
 						return method.invoke(object, new Object[0]);
@@ -362,6 +365,7 @@ public abstract class SWTUtils {
 	public static boolean captureScreenshot(final String fileName) {
 		new ImageFormatConverter().imageTypeOf(fileName.substring(fileName.lastIndexOf('.') + 1));
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return captureScreenshotInternal(fileName);
 			}
@@ -379,6 +383,7 @@ public abstract class SWTUtils {
 	public static boolean captureScreenshot(final String fileName, final Control control) {
 		new ImageFormatConverter().imageTypeOf(fileName.substring(fileName.lastIndexOf('.') + 1));
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				if (control instanceof Shell)
 					return captureScreenshotInternal(fileName, control.getBounds());
@@ -402,6 +407,7 @@ public abstract class SWTUtils {
 	public static boolean captureScreenshot(final String fileName, final Rectangle bounds) {
 		new ImageFormatConverter().imageTypeOf(fileName.substring(fileName.lastIndexOf('.') + 1));
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return captureScreenshotInternal(fileName, bounds);
 			}
@@ -487,10 +493,12 @@ public abstract class SWTUtils {
 	public static void waitForDisplayToAppear(long timeout) {
 		waitUntil(new DefaultCondition() {
 
+			@Override
 			public String getFailureMessage() {
 				return "Could not find a display"; //$NON-NLS-1$
 			}
 
+			@Override
 			public boolean test() throws Exception {
 				return SWTUtils.display() != null;
 			}

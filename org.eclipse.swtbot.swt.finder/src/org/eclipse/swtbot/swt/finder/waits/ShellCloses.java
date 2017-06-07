@@ -38,12 +38,15 @@ class ShellCloses extends DefaultCondition {
 		this.shell = shell;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "The shell " + shell + " did not close."; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Override
 	public boolean test() throws Exception {
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return shell.widget.isDisposed() || !shell.widget.isVisible();
 			}

@@ -43,6 +43,7 @@ public class WithPerspectiveLabel extends AbstractMatcher<IPerspectiveDescriptor
 		return false;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with label '").appendDescriptionOf(labelMatcher).appendText("'");
 	}

@@ -30,6 +30,7 @@ public abstract class DefaultCondition implements ICondition {
 	 * @see org.eclipse.swtbot.swt.finder.waits.ICondition#init(org.eclipse.swtbot.swt.finder.SWTBot)
 	 * @param bot The bot to use. This should never be <code>null</code>.
 	 */
+	@Override
 	public void init(SWTBot bot) {
 		this.bot = bot;
 	}

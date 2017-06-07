@@ -51,6 +51,7 @@ public class AddClassDialog extends TitleAreaDialog{
 		classText.setLayoutData(dataClassText);
 		classText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent arg0) {
 				
 				if (!classText.getText().isEmpty() && !classText.getText().contains(" ")) {

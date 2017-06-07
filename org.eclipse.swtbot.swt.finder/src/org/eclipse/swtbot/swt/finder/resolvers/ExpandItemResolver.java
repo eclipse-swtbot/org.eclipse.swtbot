@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class ExpandItemResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		List<Widget> children = new ArrayList<Widget>();
 		Control control = ((ExpandItem) w).getControl();
@@ -32,22 +33,27 @@ public class ExpandItemResolver implements IChildrenResolver, IParentResolver {
 		return children;
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return canResolve(w) && ((ExpandItem) w).getControl() != null;
 	}
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof ExpandItem;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { ExpandItem.class };
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return canResolve(w) ? ((ExpandItem) w).getParent() : null;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

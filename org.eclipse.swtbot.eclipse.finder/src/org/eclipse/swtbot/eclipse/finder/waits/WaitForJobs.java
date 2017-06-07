@@ -37,15 +37,18 @@ public class WaitForJobs implements ICondition {
         this.mHumanReadableJobFamily = humanReadableJobFamily;
     }
     
-    public boolean test() throws Exception {
+    @Override
+	public boolean test() throws Exception {
         Job[] allJobs = Job.getJobManager().find(mFamily);
         return allJobs.length == 0;
     }
     
-    public void init(SWTBot bot) {
+    @Override
+	public void init(SWTBot bot) {
     }
 
-    public String getFailureMessage() {
+    @Override
+	public String getFailureMessage() {
     	String errMsg = "Wait for jobs failed: ";
     	if (mHumanReadableJobFamily != null) {
     		return mHumanReadableJobFamily + " jobs are still running.";

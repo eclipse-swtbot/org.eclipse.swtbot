@@ -48,6 +48,7 @@ public class NextWidgetFinder implements WidgetResult<Widget> {
 	 * @see org.eclipse.swtbot.swt.finder.results.WidgetResult#run()
 	 * @return The next widget or <code>null</code> if not found.
 	 */
+	@Override
 	public Widget run() {
 		Widget[] siblings = new SiblingFinder(w).run();
 		int widgetIndex = new WidgetIndexFinder(w).run();

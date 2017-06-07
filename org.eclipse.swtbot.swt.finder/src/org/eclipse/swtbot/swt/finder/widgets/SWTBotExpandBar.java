@@ -66,6 +66,7 @@ public class SWTBotExpandBar extends AbstractSWTBotControl<ExpandBar> {
 	 */
 	public int itemCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -79,6 +80,7 @@ public class SWTBotExpandBar extends AbstractSWTBotControl<ExpandBar> {
 	 */
 	public int expandedItemCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				int count = 0;
 				for (ExpandItem item : widget.getItems()) {
@@ -164,6 +166,7 @@ public class SWTBotExpandBar extends AbstractSWTBotControl<ExpandBar> {
 	 */
 	public List<SWTBotExpandItem> getAllItems() {
 		return syncExec(new ListResult<SWTBotExpandItem>() {
+			@Override
 			public List<SWTBotExpandItem> run() {
 				List<SWTBotExpandItem> result = new ArrayList<SWTBotExpandItem>();
 				for (ExpandItem item : widget.getItems()) {

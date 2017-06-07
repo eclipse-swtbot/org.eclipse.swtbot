@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class DefaultParentResolver extends Resolvable implements IParentResolver {
 
+	@Override
 	public Widget getParent(Widget w) {
 		if (!hasParent(w))
 			return null;
@@ -35,6 +36,7 @@ public class DefaultParentResolver extends Resolvable implements IParentResolver
 		return null;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 
 		List<IResolvable> resolvers = getResolver().getResolvers(w.getClass());

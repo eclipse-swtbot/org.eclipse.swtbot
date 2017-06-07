@@ -47,6 +47,7 @@ class CombinationGenerator<T> implements Iterable<List<T>> {
 		}
 	}
 
+	@Override
 	public Iterator<List<T>> iterator() {
 		return result.iterator();
 	}
@@ -119,10 +120,12 @@ class CombinationGenerator<T> implements Iterable<List<T>> {
 			return a;
 		}
 
+		@Override
 		public boolean hasNext() {
 			return numLeft.compareTo(BigInteger.ZERO) == 1;
 		}
 
+		@Override
 		public List<E> next() {
 			ArrayList<E> arrayList = new ArrayList<E>();
 			int[] indices = getIndices();
@@ -132,10 +135,12 @@ class CombinationGenerator<T> implements Iterable<List<T>> {
 			return arrayList;
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public Iterator<List<E>> iterator() {
 			return this;
 		}

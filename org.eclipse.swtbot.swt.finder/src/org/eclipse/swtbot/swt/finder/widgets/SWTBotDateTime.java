@@ -60,6 +60,7 @@ public class SWTBotDateTime extends AbstractSWTBotControl<DateTime> {
 	 */
 	public Date getDate() {
 		return syncExec(new Result<Date>() {
+			@Override
 			public Date run() {
 				int year = widget.getYear();
 				int month = widget.getMonth();
@@ -86,6 +87,7 @@ public class SWTBotDateTime extends AbstractSWTBotControl<DateTime> {
 		log.debug(MessageFormat.format("Setting date on control: {0} to {1}", this, toSet)); //$NON-NLS-1$
 		waitForEnabled();
 		syncExec(new VoidResult() {
+			@Override
 			@SuppressWarnings("deprecation")
 			public void run() {
 				widget.setDate(toSet.getYear() + 1900, toSet.getMonth(), toSet.getDate());

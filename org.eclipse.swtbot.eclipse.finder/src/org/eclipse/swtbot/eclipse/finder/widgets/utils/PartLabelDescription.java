@@ -30,6 +30,7 @@ public class PartLabelDescription<T extends IWorkbenchPartReference> implements 
 		this.partReference = partReference;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText(ClassUtils.simpleClassName(partReference) + " with label {" + partReference.getPartName() + "}"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

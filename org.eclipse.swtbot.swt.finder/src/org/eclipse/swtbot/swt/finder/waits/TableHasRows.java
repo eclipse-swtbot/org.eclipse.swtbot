@@ -54,6 +54,7 @@ class TableHasRows extends DefaultCondition {
 	 * @return <code>true</code> if the condition row count equals the number of rows in the table. Otherwise
 	 *         <code>false</code> is returned.
 	 */
+	@Override
 	public boolean test() {
 		return table.rowCount() == rowCount;
 	}
@@ -64,6 +65,7 @@ class TableHasRows extends DefaultCondition {
 	 * @see org.eclipse.swtbot.swt.finder.waits.ICondition#getFailureMessage()
 	 * @return The failure message.
 	 */
+	@Override
 	public String getFailureMessage() {
 		return "Timed out waiting for " + table + " to contain " + rowCount + " rows."; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}

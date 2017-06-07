@@ -98,6 +98,7 @@ public class WidgetMatcherFactoryTest extends AbstractClipboardExampleTest {
 	public void findsControlsById() throws Exception {
 		final Text text = (Text) bot.widget(allOf(withLabel("TextTransfer:", finder), inGroup("Copy From:")));
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				text.setData("foo-text", "bar");
 			}

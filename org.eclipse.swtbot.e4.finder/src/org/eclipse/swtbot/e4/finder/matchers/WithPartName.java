@@ -45,6 +45,7 @@ public class WithPartName<T extends MPart> extends AbstractMatcher<T> {
 		return false;
 	}
 
+	@Override
 	public void describeTo(final Description description) {
 		description.appendText("with name '").appendDescriptionOf(nameMatcher).appendText("'");
 	}

@@ -36,6 +36,7 @@ class WaitForShellInParent extends WaitForShell {
 	@Override
 	protected Shell[] findShells() {
 		return UIThreadRunnable.syncExec(new ArrayResult<Shell>() {
+			@Override
 			public Shell[] run() {
 				return parent.getShells();
 			}

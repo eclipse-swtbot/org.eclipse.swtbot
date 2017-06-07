@@ -78,6 +78,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public SWTBotTreeItem(final TreeItem treeItem, SelfDescribing description) throws WidgetNotFoundException {
 		super(treeItem, description);
 		this.tree = syncExec(new WidgetResult<Tree>() {
+			@Override
 			public Tree run() {
 				return treeItem.getParent();
 			}
@@ -100,6 +101,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		Assert.isLegal(column < columnCount, java.text.MessageFormat.format(
 				"The column index ({0}) is more than the number of column({1}) in the tree.", column, columnCount)); //$NON-NLS-1$
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return widget.getText(column);
 			}
@@ -113,6 +115,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public TableRow row() {
 		return syncExec(new Result<TableRow>() {
+			@Override
 			public TableRow run() {
 				int columnCount = tree.getColumnCount();
 				TableRow tableRow = new TableRow();
@@ -133,6 +136,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public int rowCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -151,6 +155,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		Assert.isLegal(row < rowCount,
 				java.text.MessageFormat.format("The row number ({0}) is more than the number of rows({1}) in the tree.", row, rowCount)); //$NON-NLS-1$
 		return syncExec(new Result<SWTBotTreeItem>() {
+			@Override
 			public SWTBotTreeItem run() {
 				return new SWTBotTreeItem(widget.getItem(row));
 			}
@@ -185,6 +190,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 		preExpandNotify();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setExpanded(true);
 			}
@@ -208,6 +214,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 		preCollapseNotify();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setExpanded(false);
 			}
@@ -267,6 +274,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public List<String> getNodes() {
 		return syncExec(new ListResult<String>() {
+			@Override
 			public List<String> run() {
 				TreeItem[] items = widget.getItems();
 				List<String> result = new ArrayList<String>(items.length);
@@ -331,6 +339,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public List<SWTBotTreeItem> getNodes(final String nodeText) {
 		List<SWTBotTreeItem> foundItems = syncExec(new ListResult<SWTBotTreeItem>() {
+			@Override
 			public List<SWTBotTreeItem> run() {
 				TreeItem[] items = widget.getItems();
 				List<SWTBotTreeItem> results = new ArrayList<SWTBotTreeItem>();
@@ -366,6 +375,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public SWTBotTreeItem select() {
 		waitForEnabled();
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				tree.setFocus();
 				tree.setSelection(widget);
@@ -389,6 +399,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
 					tree.setSelection(widget);
@@ -448,6 +459,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
 					tree.setSelection(widget);
@@ -481,6 +493,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	protected void dragStart() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				tree.setFocus();
 				tree.setSelection(widget);
@@ -496,6 +509,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	protected Rectangle getBounds() {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return widget.getBounds();
 			}
@@ -510,6 +524,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	private Rectangle getCellBounds(final int column) {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return widget.getBounds(column);
 			}
@@ -606,6 +621,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	private void processSelection(final TreeItem item, final boolean add) {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (add) {
 					tree.select(item);
@@ -700,6 +716,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public boolean isChecked() {
 		assertIsCheck();
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getChecked();
 			}
@@ -724,6 +741,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		waitForEnabled();
 		assertIsCheck();
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Setting state to {0} on: {1}", (checked ? "checked" : "unchecked"), widget.getText())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				widget.setChecked(checked);
@@ -743,6 +761,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	private void notifyCheck() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				tree.notifyListeners(SWT.Selection, createCheckEvent());
 			}
@@ -768,6 +787,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public boolean isSelected() {
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return Arrays.asList(tree.getSelection()).contains(widget);
 			}
@@ -783,6 +803,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public boolean isExpanded() {
 		waitForEnabled();
 		return UIThreadRunnable.syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getExpanded();
 			}
@@ -796,6 +817,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem[] getItems() {
 		return syncExec(new ArrayResult<SWTBotTreeItem>() {
+			@Override
 			public SWTBotTreeItem[] run() {
 				TreeItem[] items = widget.getItems();
 				List<SWTBotTreeItem> children = new ArrayList<SWTBotTreeItem>();
@@ -812,6 +834,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	public Color foregroundColor() {
 		return syncExec(new Result<Color>() {
+			@Override
 			public Color run() {
 				return widget.getForeground();
 			}
@@ -821,6 +844,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	public Color backgroundColor() {
 		return syncExec(new Result<Color>() {
+			@Override
 			public Color run() {
 				return widget.getBackground();
 			}
@@ -837,10 +861,12 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	private SWTBotTreeItem getTreeItem(final String nodeText) throws WidgetNotFoundException {
 		try {
 			new SWTBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find node with text " + nodeText; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(nodeText) != null;
 				}
@@ -859,6 +885,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	private TreeItem getItem(final int index) {
 		return syncExec(new WidgetResult<TreeItem>() {
+			@Override
 			public TreeItem run() {
 				return widget.getItem(index);
 			}
@@ -873,6 +900,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	private TreeItem getItem(final String nodeText) {
 		return syncExec(new WidgetResult<TreeItem>() {
+			@Override
 			public TreeItem run() {
 				TreeItem[] items = widget.getItems();
 				for (TreeItem item : items) {
@@ -887,6 +915,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return tree.isEnabled();
 			}
@@ -896,6 +925,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public boolean isGrayed() {
 		assertIsCheck();
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getGrayed();
 			}
@@ -905,6 +935,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	protected Rectangle absoluteLocation() {
 		return UIThreadRunnable.syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return display.map(widget.getParent(), null, widget.getBounds());
 			}

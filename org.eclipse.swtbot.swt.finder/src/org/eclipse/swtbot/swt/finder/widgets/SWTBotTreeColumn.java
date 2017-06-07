@@ -43,6 +43,7 @@ public class SWTBotTreeColumn extends AbstractSWTBot<TreeColumn> {
 	 */
 	public SWTBotTreeColumn(final TreeColumn w) throws WidgetNotFoundException {
 		this(w, UIThreadRunnable.syncExec(new WidgetResult<Tree>() {
+			@Override
 			public Tree run() {
 				return w.getParent();
 			}
@@ -52,6 +53,7 @@ public class SWTBotTreeColumn extends AbstractSWTBot<TreeColumn> {
 	@Override
 	protected Rectangle getBounds() {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				Tree tree = widget.getParent();
 				Point location = widget.getDisplay().map(tree.getParent(), tree, tree.getLocation());

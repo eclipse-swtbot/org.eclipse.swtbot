@@ -85,6 +85,7 @@ public class SWTBotToolbarToggleButton extends SWTBotToolbarButton {
 
 	private void internalToggle() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(!widget.getSelection());
 			}
@@ -112,6 +113,7 @@ public class SWTBotToolbarToggleButton extends SWTBotToolbarButton {
 	 */
 	public boolean isChecked() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getSelection();
 			}

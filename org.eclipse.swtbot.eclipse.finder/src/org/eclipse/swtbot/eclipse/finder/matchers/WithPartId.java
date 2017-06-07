@@ -40,6 +40,7 @@ public class WithPartId<T extends IWorkbenchPartReference> extends AbstractMatch
 		return false;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with id '").appendDescriptionOf(idMatcher).appendText("'");
 	}

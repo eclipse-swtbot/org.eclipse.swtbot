@@ -101,6 +101,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 */
 	private void _setSelection(final String text) {
 		final int indexOf = syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				String[] items = widget.getItems();
 				return Arrays.asList(items).indexOf(text);
@@ -109,6 +110,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 		if (indexOf == -1)
 			throw new RuntimeException("Item `" + text + "' not found in combo box."); //$NON-NLS-1$ //$NON-NLS-2$
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.select(indexOf);
 			}
@@ -122,6 +124,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 */
 	public String selection() {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return widget.getItem(widget.getSelectionIndex());
 			}
@@ -135,6 +138,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 */
 	public int selectionIndex() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelectionIndex();
 			}
@@ -153,6 +157,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 			throw new RuntimeException("The index (" + index + ") is more than the number of items (" + itemCount + ") in the combo."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.select(index);
 			}
@@ -167,6 +172,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 */
 	public int itemCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -181,6 +187,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 */
 	public String[] items() {
 		return syncExec(new ArrayResult<String>() {
+			@Override
 			public String[] run() {
 				return widget.getItems();
 			}
@@ -201,6 +208,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 			throw new RuntimeException("This combo box is read-only."); //$NON-NLS-1$
 
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setText(text);
 			}

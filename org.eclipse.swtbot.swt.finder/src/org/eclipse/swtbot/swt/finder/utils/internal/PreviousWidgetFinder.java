@@ -47,6 +47,7 @@ public final class PreviousWidgetFinder implements WidgetResult<Widget> {
 	 * @see org.eclipse.swtbot.swt.finder.results.WidgetResult#run()
 	 * @return The widget found or <code>null</code> if not found.
 	 */
+	@Override
 	public Widget run() {
 		Widget[] siblings = new SiblingFinder(w).run();
 		int myIndex = new WidgetIndexFinder(w).run();

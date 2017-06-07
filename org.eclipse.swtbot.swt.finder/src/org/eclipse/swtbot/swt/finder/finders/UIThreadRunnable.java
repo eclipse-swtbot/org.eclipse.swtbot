@@ -62,6 +62,7 @@ public abstract class UIThreadRunnable implements Runnable {
 	/**
 	 * This method is intelligent to execute in the UI thread.
 	 */
+	@Override
 	public void run() {
 		if ((display == null) || display.isDisposed())
 			return;
@@ -82,6 +83,7 @@ public abstract class UIThreadRunnable implements Runnable {
 	 */
 	private Runnable runnable() {
 		final Runnable runnable = new Runnable() {
+			@Override
 			public void run() {
 				doRun();
 				dispatchAllEvents();

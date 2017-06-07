@@ -66,6 +66,7 @@ class WithMessage<T extends Widget> extends AbstractMatcher<T> {
 		return ((String) SWTUtils.invokeMethod(obj, "getMessage")); //$NON-NLS-1$
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with message '").appendText(message).appendText("'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

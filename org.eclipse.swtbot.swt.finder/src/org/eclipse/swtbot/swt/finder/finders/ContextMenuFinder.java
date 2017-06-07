@@ -82,6 +82,7 @@ public class ContextMenuFinder extends MenuFinder {
 	@Override
 	protected Menu menuBar(final Shell shell) {
 		return UIThreadRunnable.syncExec(display, new WidgetResult<Menu>() {
+			@Override
 			public Menu run() {
 				Menu popupMenu = control.getMenu();
 				if (popupMenu != null) {

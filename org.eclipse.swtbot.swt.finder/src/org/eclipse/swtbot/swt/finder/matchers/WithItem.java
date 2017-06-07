@@ -38,6 +38,7 @@ public class WithItem<T extends Item> extends AbstractMatcher<T> {
 		matches = new ArrayList<T>();
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with item matching (");
 		this.itemMatcher.describeTo(description);

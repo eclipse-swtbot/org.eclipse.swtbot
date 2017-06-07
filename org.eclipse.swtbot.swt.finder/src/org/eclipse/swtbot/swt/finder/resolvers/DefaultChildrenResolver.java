@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class DefaultChildrenResolver extends Resolvable implements IChildrenResolver {
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		List<Widget> result = new ArrayList<Widget>();
 
@@ -43,6 +44,7 @@ public class DefaultChildrenResolver extends Resolvable implements IChildrenReso
 		return result;
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		List<IResolvable> resolvers = resolver.getResolvers(w.getClass());
 		for (Iterator<IResolvable> iterator = resolvers.iterator(); iterator.hasNext();) {

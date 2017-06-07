@@ -43,6 +43,7 @@ public class SWTBot2Test extends AbstractControlExampleTest {
 	@Test
 	public void findsTextBox() throws Exception {
 		UIThreadRunnable.syncExec(display, new VoidResult() {
+			@Override
 			public void run() {
 				Shell shell2 = new Shell(display);
 				shell2.setText("Hello Shell");
@@ -63,6 +64,7 @@ public class SWTBot2Test extends AbstractControlExampleTest {
 		} finally {
 			// a hacked tear down
 			UIThreadRunnable.syncExec(display, new VoidResult() {
+				@Override
 				public void run() {
 					try {
 						bot.shell("Hello Shell").widget.dispose();
@@ -113,6 +115,7 @@ public class SWTBot2Test extends AbstractControlExampleTest {
 		final SWTBotButton button = bot.button("Two");
 		assertNull(button.getId());
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				button.widget.setData(SWTBotPreferences.DEFAULT_KEY, "foo");
 			}

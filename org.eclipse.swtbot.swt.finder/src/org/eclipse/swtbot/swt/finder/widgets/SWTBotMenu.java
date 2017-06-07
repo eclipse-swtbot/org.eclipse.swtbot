@@ -77,6 +77,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 			 * to ensure that the UI runnable triggered from the E4 model to
 			 * dispose hidden menus is queued after the SWT.Selection event.
 			 */
+			@Override
 			public void run() {
 				hide();
 				if (SWTUtils.hasStyle(widget, SWT.CHECK)) {
@@ -88,6 +89,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 			};
 		});
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				// do nothing, just wait for sync.
 			}
@@ -119,6 +121,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	 */
 	public SWTBotMenu hide() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Menu menu = widget.getParent();
 				/* the menu bar of a shell does not get hidden */
@@ -139,6 +142,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	 */
 	private void toggleCheckSelection() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(!widget.getSelection());
 			}
@@ -154,6 +158,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 		if (otherSelectedRadioItem != null) {
 			otherSelectedRadioItem.notify(SWT.Deactivate);
 			asyncExec(new VoidResult() {
+				@Override
 				public void run() {
 					otherSelectedRadioItem.widget.setSelection(false);
 				}
@@ -161,6 +166,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 			otherSelectedRadioItem.notify(SWT.Selection);
 		}
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(true);
 			}
@@ -169,6 +175,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 
 	private SWTBotMenu otherSelectedRadioItem() {
 		MenuItem other = syncExec(new WidgetResult<MenuItem>() {
+			@Override
 			public MenuItem run() {
 				if (hasStyle(widget.getParent(), SWT.NO_RADIO_GROUP))
 					return null;
@@ -287,6 +294,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.isEnabled();
 			}
@@ -301,6 +309,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	 */
 	public boolean hasMenu() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getMenu() != null;
 			}
@@ -316,6 +325,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	 */
 	public boolean isChecked() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getSelection();
 			}
@@ -333,6 +343,7 @@ public class SWTBotMenu extends AbstractSWTBot<MenuItem> {
 	 */
 	public List<String> menuItems() {
 		return syncExec(new ListResult<String>() {
+			@Override
 			public List<String> run() {
 				List<String> items = new ArrayList<String>();
 				Menu menu = widget.getMenu();

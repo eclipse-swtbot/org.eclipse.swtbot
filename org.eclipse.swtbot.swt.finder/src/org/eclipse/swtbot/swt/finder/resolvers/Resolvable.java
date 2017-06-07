@@ -57,6 +57,7 @@ public class Resolvable implements IResolvable {
 	 * @param w The widget to resolve.
 	 * @return <code>true</code> if any of the resolvers can resolve the widget. Otherwise <code>false</code>.
 	 */
+	@Override
 	public boolean canResolve(Widget w) {
 		Class<?>[] resolvableClasses = getResolvableClasses();
 		for (Class<?> clazz : resolvableClasses) {
@@ -72,6 +73,7 @@ public class Resolvable implements IResolvable {
 	 *
 	 * @return the types that this resolver can resolve
 	 */
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return resolver.getResolvableClasses();
 	}

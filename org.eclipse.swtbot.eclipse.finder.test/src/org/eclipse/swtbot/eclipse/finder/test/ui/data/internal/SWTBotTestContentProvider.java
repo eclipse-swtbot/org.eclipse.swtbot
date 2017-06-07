@@ -63,10 +63,12 @@ public class SWTBotTestContentProvider implements IStructuredContentProvider {
 		viewer.remove(item);
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return data.toArray();
 	}
 
+	@Override
 	public void dispose() {
 		if (data != null)
 			data.clear();
@@ -75,6 +77,7 @@ public class SWTBotTestContentProvider implements IStructuredContentProvider {
 		viewer = null;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// This does not do any checking of the type before casting...This will

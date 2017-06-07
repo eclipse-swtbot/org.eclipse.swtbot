@@ -75,6 +75,7 @@ public class SWTBotView {
 	 */
 	public List<SWTBotToolbarButton> getToolbarButtons() {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotToolbarButton>() {
+			@Override
 			public List<SWTBotToolbarButton> run() {
 				final List<SWTBotToolbarButton> l = new ArrayList<SWTBotToolbarButton>();
 
@@ -213,6 +214,7 @@ public class SWTBotView {
 		if (this.part.isDirty()) {
 			// If the part is dirty, we don't want the blocking dialog to block the test thread.
 			UIThreadRunnable.asyncExec(new VoidResult() {
+				@Override
 				public void run() {
 					SWTBotView.this.bot.closePart(SWTBotView.this.part);
 				}

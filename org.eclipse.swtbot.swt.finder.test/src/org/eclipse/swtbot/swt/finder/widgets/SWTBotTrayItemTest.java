@@ -87,6 +87,7 @@ public class SWTBotTrayItemTest extends AbstractSWTShellTest {
 	}
 
 	private final Listener	popupMenu				= new Listener() {
+														@Override
 														public void handleEvent(Event event) {
 															tray_item_menu = new Menu(shell, SWT.POP_UP);
 															MenuItem item = new MenuItem(tray_item_menu, SWT.PUSH);
@@ -100,6 +101,7 @@ public class SWTBotTrayItemTest extends AbstractSWTShellTest {
 	private boolean			menuSelected			= false;
 
 	private final Listener	menuSelectedListener	= new Listener() {
+														@Override
 														public void handleEvent(Event event) {
 															SWTBotTrayItemTest.this.menuSelected = true;
 														}
@@ -107,6 +109,7 @@ public class SWTBotTrayItemTest extends AbstractSWTShellTest {
 
 	private Tray getSystemTray() {
 		Tray tray = UIThreadRunnable.syncExec(new WidgetResult<Tray>() {
+			@Override
 			public Tray run() {
 				return display.getSystemTray();
 			}
@@ -119,6 +122,7 @@ public class SWTBotTrayItemTest extends AbstractSWTShellTest {
 
 	private TrayItem createTrayItem(final Tray tray, final String text, final int icon) {
 		return UIThreadRunnable.syncExec(new WidgetResult<TrayItem>() {
+			@Override
 			public TrayItem run() {
 				TrayItem trayItem = new TrayItem(tray, SWT.NONE);
 				trayItem.setText(text);
@@ -135,6 +139,7 @@ public class SWTBotTrayItemTest extends AbstractSWTShellTest {
 	private void destroyTrayItems() {
 		final Tray tray = getSystemTray();
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				tray.dispose();
 			}

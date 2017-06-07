@@ -44,6 +44,7 @@ public class WaitForPopupMenu extends WaitForObjectCondition<Menu> {
 		this.control = control;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find pop up menu for control: " + control; //$NON-NLS-1$
 	}
@@ -51,6 +52,7 @@ public class WaitForPopupMenu extends WaitForObjectCondition<Menu> {
 	@Override
 	protected List<Menu> findMatches() {
 		Menu popupMenu = UIThreadRunnable.syncExec(new WidgetResult<Menu>() {
+			@Override
 			public Menu run() {
 				Menu menu = control.getMenu();
 				if (menu != null) {

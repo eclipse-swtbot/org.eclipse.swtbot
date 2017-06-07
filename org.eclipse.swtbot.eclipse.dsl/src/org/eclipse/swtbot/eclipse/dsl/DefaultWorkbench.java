@@ -54,6 +54,7 @@ public class DefaultWorkbench extends Workbench {
 	@Override
 	public Workbench switchToPerspective(final String perspectiveName) {
 		Boolean result = UIThreadRunnable.syncExec(new Result<Boolean>() {
+			@Override
 			public Boolean run() {
 				IPerspectiveDescriptor[] perspectives = perspectives();
 				for (IPerspectiveDescriptor perspective : perspectives) {
@@ -69,6 +70,7 @@ public class DefaultWorkbench extends Workbench {
 			return this;
 		}
 		String availablePerspectives = StringUtils.join(perspectives(), ", ", new StringConverter() {
+			@Override
 			public String toString(Object object) {
 				return ((IPerspectiveDescriptor) object).getLabel();
 			}
@@ -81,6 +83,7 @@ public class DefaultWorkbench extends Workbench {
 	@Override
 	public Workbench resetPerspective() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				activePage().resetPerspective();
 			}
@@ -133,6 +136,7 @@ public class DefaultWorkbench extends Workbench {
 
 	private IWorkbenchWindow getActiveWorkbenchWindow() {
 		return UIThreadRunnable.syncExec(bot.getDisplay(), new Result<IWorkbenchWindow>() {
+			@Override
 			public IWorkbenchWindow run() {
 				return PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 			}

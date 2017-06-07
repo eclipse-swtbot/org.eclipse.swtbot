@@ -51,6 +51,7 @@ public class AbstractSWTBotControl<T extends Control> extends AbstractSWTBot<T> 
 	@Override
 	protected Rectangle getBounds() {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return widget.getBounds();
 			}
@@ -78,6 +79,7 @@ public class AbstractSWTBotControl<T extends Control> extends AbstractSWTBot<T> 
 	@Override
 	protected Rectangle absoluteLocation() {
 		return syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				return display.map(widget.getParent(), null, widget.getBounds());
 			}
@@ -122,6 +124,7 @@ public class AbstractSWTBotControl<T extends Control> extends AbstractSWTBot<T> 
 	 */
 	protected AbstractSWTBotControl<T> moveMouseToWidget() {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Rectangle location = absoluteLocation();
 				moveMouse(location.x + location.width / 2, location.y + location.height / 2);

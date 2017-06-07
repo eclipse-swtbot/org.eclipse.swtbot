@@ -161,6 +161,7 @@ public class SWTBotStyledTextTest extends AbstractCustomControlExampleTest {
 		assertFalse(styledText.hasBulletOnCurrentLine());
 
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				StyledText t = styledText.widget;
 				StyleRange style = new StyleRange();
@@ -183,6 +184,7 @@ public class SWTBotStyledTextTest extends AbstractCustomControlExampleTest {
 
 	private void setTabs(final int tabSize) {
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				StyledText t = styledText.widget;
 				t.setTabs(tabSize);

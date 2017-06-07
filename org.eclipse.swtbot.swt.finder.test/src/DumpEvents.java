@@ -42,6 +42,7 @@ public class DumpEvents {
 	}
 
 	class EventListener implements Listener {
+		@Override
 		public void handleEvent(Event event) {
 			if (event.type == SWT.Dispose || event.type == SWT.MouseMove || event.type == SWT.MouseHover || event.type == SWT.MouseEnter
 					|| event.type == SWT.MouseExit || event.type == SWT.MouseExit || event.type == SWT.Paint || event.type == SWT.Move

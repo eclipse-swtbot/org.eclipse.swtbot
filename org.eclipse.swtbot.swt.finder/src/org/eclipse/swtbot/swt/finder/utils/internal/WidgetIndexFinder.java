@@ -47,6 +47,7 @@ public final class WidgetIndexFinder implements IntResult {
 	 * @see org.eclipse.swtbot.swt.finder.results.IntResult#run()
 	 * @return The index value.
 	 */
+	@Override
 	public Integer run() {
 		Widget[] siblings = new SiblingFinder(w).run();
 		return indexOf(siblings, w);

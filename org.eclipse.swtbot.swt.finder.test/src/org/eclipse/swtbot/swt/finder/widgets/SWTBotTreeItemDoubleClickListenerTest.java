@@ -67,21 +67,26 @@ public class SWTBotTreeItemDoubleClickListenerTest extends AbstractSWTTest {
 					| SWT.FULL_SELECTION);
 			viewer.setContentProvider(new ITreeContentProvider() {
 
+				@Override
 				public void inputChanged(Viewer viewer, Object oldInput,
 						Object newInput) {
 				}
 
+				@Override
 				public void dispose() {
 				}
 
+				@Override
 				public boolean hasChildren(Object element) {
 					return !(element instanceof String);
 				}
 
+				@Override
 				public Object getParent(Object element) {
 					return null;
 				}
 
+				@Override
 				public Object[] getElements(Object inputElement) {
 					if (inputElement instanceof Model[]) {
 						return (Object[]) inputElement;
@@ -92,6 +97,7 @@ public class SWTBotTreeItemDoubleClickListenerTest extends AbstractSWTTest {
 					return new Object[0];
 				}
 
+				@Override
 				public Object[] getChildren(Object parentElement) {
 					if (parentElement instanceof Model[]) {
 						return (Object[]) parentElement;
@@ -105,6 +111,7 @@ public class SWTBotTreeItemDoubleClickListenerTest extends AbstractSWTTest {
 
 			viewer.addDoubleClickListener(new IDoubleClickListener() {
 
+				@Override
 				public void doubleClick(DoubleClickEvent event) {
 
 					label.setText(((StructuredSelection) event.getSelection())

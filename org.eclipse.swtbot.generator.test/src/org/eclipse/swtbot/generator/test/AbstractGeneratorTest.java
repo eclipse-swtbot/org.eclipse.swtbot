@@ -39,6 +39,7 @@ public abstract class AbstractGeneratorTest {
 
 		this.display = Display.getDefault();
 		this.display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				dialog = new TestDialog(new Shell(), AbstractGeneratorTest.this);
 				dialog.open();
@@ -52,6 +53,7 @@ public abstract class AbstractGeneratorTest {
 	@After
 	public void tearDown() {
 		this.display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (!dialog.getShell().isDisposed()) {
 					dialog.close();
@@ -72,6 +74,7 @@ public abstract class AbstractGeneratorTest {
 	 */
 	public void flushEvents() {
 		this.display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				AbstractGeneratorTest.this.recorderDialog.getRecorder().flushGenerationRules();
 			}

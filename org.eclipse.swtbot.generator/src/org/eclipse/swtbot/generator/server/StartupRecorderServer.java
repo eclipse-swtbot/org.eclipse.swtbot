@@ -56,6 +56,7 @@ public class StartupRecorderServer implements IStartup {
 			this.port = port;
 		}
 
+		@Override
 		public void run() {
 			final List<Generator> availableGenerators = GeneratorExtensionPointManager.loadGenerators();
 			Generator generator = availableGenerators.get(0);
@@ -98,6 +99,7 @@ public class StartupRecorderServer implements IStartup {
 	 * argument ENABLED_WITH_PORT can be found and it is equal to an integer
 	 * which is used as the port number.
 	 */
+	@Override
 	public void earlyStartup() {
 		if (System.getProperty(ENABLED_WITH_PORT) == null) {
 			return;

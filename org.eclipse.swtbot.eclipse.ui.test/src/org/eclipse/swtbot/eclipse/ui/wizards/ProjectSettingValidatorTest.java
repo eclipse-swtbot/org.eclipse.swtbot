@@ -24,10 +24,12 @@ public class ProjectSettingValidatorTest {
 		private boolean	complete;
 		private String	newMessage;
 
+		@Override
 		public void setPageComplete(boolean complete) {
 			this.complete = complete;
 		}
 
+		@Override
 		public void setErrorMessage(String newMessage) {
 			this.newMessage = newMessage;
 		}

@@ -51,6 +51,7 @@ class DefaultWorkbench {
 
 	DefaultWorkbench resetActivePerspective() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				activePage().resetPerspective();
 			}
@@ -98,6 +99,7 @@ class DefaultWorkbench {
 
 	private IWorkbenchWindow getActiveWorkbenchWindow() {
 		return UIThreadRunnable.syncExec(bot.getDisplay(), new Result<IWorkbenchWindow>() {
+			@Override
 			public IWorkbenchWindow run() {
 				return PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 			}

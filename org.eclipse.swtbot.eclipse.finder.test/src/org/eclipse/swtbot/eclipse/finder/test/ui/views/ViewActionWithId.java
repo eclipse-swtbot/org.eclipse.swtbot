@@ -26,6 +26,7 @@ public class ViewActionWithId extends ActionDelegate implements
 
 	private IViewPart view;
 
+	@Override
 	public void init(IViewPart view) {
 		this.view = view;
 	}

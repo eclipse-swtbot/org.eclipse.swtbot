@@ -70,6 +70,7 @@ public class SWTBotImageHyperlink extends AbstractSWTBotControl<ImageHyperlink> 
 	 */
 	public Image image() {
 		return syncExec(new Result<Image>() {
+			@Override
 			public Image run() {
 				return widget.getImage();
 			}
@@ -83,6 +84,7 @@ public class SWTBotImageHyperlink extends AbstractSWTBotControl<ImageHyperlink> 
 	 */
 	public Image hoverImage() {
 		return syncExec(new Result<Image>() {
+			@Override
 			public Image run() {
 				return widget.getHoverImage();
 			}
@@ -96,6 +98,7 @@ public class SWTBotImageHyperlink extends AbstractSWTBotControl<ImageHyperlink> 
 	 */
 	public Image activeImage() {
 		return syncExec(new Result<Image>() {
+			@Override
 			public Image run() {
 				return widget.getActiveImage();
 			}

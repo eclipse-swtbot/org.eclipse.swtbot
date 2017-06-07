@@ -78,6 +78,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 		if (otherSelectedButton != null) {
 			otherSelectedButton.notify(SWT.Deactivate);
 			asyncExec(new VoidResult() {
+				@Override
 				public void run() {
 					otherSelectedButton.widget.setSelection(false);
 				}
@@ -90,6 +91,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 		notify(SWT.MouseDown, createMouseEvent(0, 0, 1, 0, 1));
 		notify(SWT.MouseUp, createMouseEvent(0, 0, 1, SWT.BUTTON1, 1));
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(true);
 			}
@@ -102,6 +104,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 
 	private SWTBotRadio otherSelectedButton() {
 		Button button = syncExec(new WidgetResult<Button>() {
+			@Override
 			public Button run() {
 				if (hasStyle(widget.getParent(), SWT.NO_RADIO_GROUP))
 					return null;
@@ -127,6 +130,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 	 */
 	public boolean isSelected() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getSelection();
 			}

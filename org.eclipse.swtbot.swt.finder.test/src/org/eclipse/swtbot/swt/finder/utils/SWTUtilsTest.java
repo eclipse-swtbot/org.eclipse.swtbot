@@ -83,6 +83,7 @@ public class SWTUtilsTest extends AbstractControlExampleTest {
 	private Control[] getChildren() {
 		final Control[][] children = new Control[][] { null };
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				children[0] = controlExample.getTabFolder().getChildren();
 			}

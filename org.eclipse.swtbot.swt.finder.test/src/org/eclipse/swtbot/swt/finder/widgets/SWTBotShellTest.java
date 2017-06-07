@@ -80,6 +80,7 @@ public class SWTBotShellTest extends AbstractSWTShellTest {
 	@Test
 	public void closesShell() throws Exception {
 		UIThreadRunnable.asyncExec(display, new VoidResult() {
+			@Override
 			public void run() {
 				Shell someShell = new Shell(shell);
 				someShell.setText("some shell");
@@ -113,6 +114,7 @@ public class SWTBotShellTest extends AbstractSWTShellTest {
 	@Test
 	public void findsShellsById() throws Exception {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				shell.setData("foo-shell", "bar");
 			}

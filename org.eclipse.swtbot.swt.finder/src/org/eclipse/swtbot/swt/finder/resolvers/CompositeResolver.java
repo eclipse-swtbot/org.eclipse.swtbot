@@ -30,11 +30,13 @@ import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
  */
 public class CompositeResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		// FIXME https://bugs.eclipse.org/bugs/show_bug.cgi?id=206868
 		return (w instanceof Composite) && !(w.getClass().getName().equals("org.eclipse.swt.widgets.DateTime")); //$NON-NLS-1$
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		// FIXME https://bugs.eclipse.org/bugs/show_bug.cgi?id=206868
 		if (w.getClass().getName().equals("org.eclipse.swt.widgets.DateTime")) //$NON-NLS-1$
@@ -42,6 +44,7 @@ public class CompositeResolver implements IChildrenResolver, IParentResolver {
 		return hasChildren(w) ? Arrays.<Widget>asList(((Composite) w).getChildren()) : new ArrayList<Widget>();
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		Composite parent = w instanceof Control ? ((Control) w).getParent() : null;
 		if ((w instanceof Composite) && (parent instanceof TabFolder)) {
@@ -51,10 +54,12 @@ public class CompositeResolver implements IChildrenResolver, IParentResolver {
 		return parent;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { Composite.class, Control.class };
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		// FIXME https://bugs.eclipse.org/bugs/show_bug.cgi?id=206868
 		// No "instanceof DateTime" is used in order to be compatible with PDE 3.2.
@@ -63,6 +68,7 @@ public class CompositeResolver implements IChildrenResolver, IParentResolver {
 		return canResolve(w) && ((Composite) w).getChildren().length > 0;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

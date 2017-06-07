@@ -38,6 +38,7 @@ public abstract class WaitForObjectCondition<T> extends DefaultCondition {
 		matches = new ArrayList<T>();
 	}
 
+	@Override
 	public boolean test() throws Exception {
 		matches.clear();
 		matches.addAll(findMatches());

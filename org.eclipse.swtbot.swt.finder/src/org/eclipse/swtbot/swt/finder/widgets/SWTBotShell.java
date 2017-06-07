@@ -73,12 +73,15 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 	 */
 	public SWTBotShell activate() throws TimeoutException {
 		new SWTBot().waitUntil(new DefaultCondition() {
+			@Override
 			public String getFailureMessage() {
 				return "Timed out waiting for " + SWTUtils.toString(widget) + " to get activated"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
+			@Override
 			public boolean test() throws Exception {
 				syncExec(new VoidResult() {
+					@Override
 					public void run() {
 						widget.forceActive();
 						widget.forceFocus();
@@ -99,6 +102,7 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 	public void close() throws TimeoutException {
 		notify(SWT.Close);
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				// TODO investigate bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=259895
 				if (!widget.isDisposed())
@@ -106,10 +110,12 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 			}
 		});
 		new SWTBot().waitUntil(new DefaultCondition() {
+			@Override
 			public boolean test() throws Exception {
 				return !isOpen();
 			}
 
+			@Override
 			public String getFailureMessage() {
 				return "Timed out waiting for " + SWTUtils.toString(widget) + " to close."; //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -123,6 +129,7 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 	 */
 	public boolean isOpen() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return !widget.isDisposed() && widget.isVisible();
 			}
@@ -137,6 +144,7 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 	@Override
 	public boolean isActive() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return display.getActiveShell() == widget;
 			}

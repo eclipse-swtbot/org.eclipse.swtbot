@@ -42,6 +42,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	public SWTBotGalleryItem(final GalleryItem w) throws WidgetNotFoundException {
 		super(w);
 		this.gallery = syncExec(new WidgetResult<Gallery>() {
+			@Override
 			public Gallery run() {
 				return w.getParent();
 			}
@@ -55,6 +56,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	public String getText(){
 		//TODO: check that we really want to override 
 		return syncExec(new StringResult() {	
+			@Override
 			public String run() {
 				return widget.getText();
 			}
@@ -66,6 +68,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	 */
 	public String getText(final int index){
 		return syncExec(new StringResult() {		
+			@Override
 			public String run() {
 				return widget.getText(index);
 			}
@@ -78,6 +81,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	 */
 	public int getItemCount(){
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -91,10 +95,12 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	public SWTBotGalleryItem getGalleryItem(final int index){
 		try {
 			new SWTNebulaBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find gallery item for index " + index; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(index) != null;
 				}
@@ -108,6 +114,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	protected GalleryItem getItem(final int index){
 
 		return syncExec(new WidgetResult<GalleryItem>() {
+			@Override
 			public GalleryItem run() {
 				return widget.getItem(index);
 			}
@@ -124,10 +131,12 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	public SWTBotGalleryItem getGalleryItem(final String itemText) throws WidgetNotFoundException {
 		try {
 			new SWTNebulaBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find node with text " + itemText; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(itemText) != null;
 				}
@@ -146,6 +155,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	 */
 	private GalleryItem getItem(final String itemText) {
 		return syncExec(new WidgetResult<GalleryItem>() {
+			@Override
 			public GalleryItem run() {
 				GalleryItem[] items = widget.getItems();
 				for (int i = 0; i < items.length; i++) {
@@ -169,10 +179,12 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	public SWTBotGalleryItem getGalleryItem(final String itemText, final int textIndex) throws WidgetNotFoundException {
 		try {
 			new SWTNebulaBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find node with text " + itemText; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(itemText, textIndex) != null;
 				}
@@ -192,6 +204,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	 */
 	private GalleryItem getItem(final String itemText, final int textIndex) {
 		return syncExec(new WidgetResult<GalleryItem>() {
+			@Override
 			public GalleryItem run() {
 				GalleryItem[] items = widget.getItems();
 				for (int i = 0; i < items.length; i++) {
@@ -213,6 +226,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	public SWTBotGalleryItem select() {
 		assertEnabled();
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				gallery.setFocus();
 				gallery.setSelection(new GalleryItem[]{widget});
@@ -236,6 +250,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 		Assert.isTrue(getNodes().containsAll(nodes));
 
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				ArrayList<GalleryItem> selection = new ArrayList<GalleryItem>();
 
@@ -295,6 +310,7 @@ public class SWTBotGalleryItem extends AbstractSWTBot<GalleryItem> {
 	 */
 	private List<String> getNodes() {
 		return syncExec(new ListResult<String>() {
+			@Override
 			public List<String> run() {
 				GalleryItem[] items = widget.getItems();
 				List<String> result = new ArrayList<String>(items.length);

@@ -72,6 +72,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	public void setText(final String text) {
 		waitForEnabled();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setText(text);
 			}
@@ -122,6 +123,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 		waitForEnabled();
 		setFocus();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Navigating to location {0}, {1} in {2}", line, column, widget)); //$NON-NLS-1$
 				widget.setSelection(offset(line, column));
@@ -145,6 +147,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public Position cursorPosition() {
 		return syncExec(new Result<Position>() {
+			@Override
 			public Position run() {
 				widget.setFocus();
 				int offset = widget.getSelectionRange().x;
@@ -192,6 +195,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	public void insertText(final String text) {
 		waitForEnabled();
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.insert(text);
 			}
@@ -236,6 +240,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public StyleRange getStyle(final int line, final int column) {
 		return syncExec(new Result<StyleRange>() {
+			@Override
 			public StyleRange run() {
 				return widget.getStyleRangeAtOffset(offset(line, column));
 			}
@@ -264,6 +269,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	public void selectRange(final int line, final int column, final int length) {
 		waitForEnabled();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				int offset = offset(line, column);
 				widget.setSelection(offset, offset + length);
@@ -279,6 +285,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public String getSelection() {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return widget.getSelectionText();
 			}
@@ -296,6 +303,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public StyleRange[] getStyles(final int line, final int column, final int length) {
 		return syncExec(new ArrayResult<StyleRange>() {
+			@Override
 			public StyleRange[] run() {
 				return widget.getStyleRanges(offset(line, column), length);
 			}
@@ -326,6 +334,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public String getTextOnLine(final int line) {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return widget.getContent().getLine(line);
 			}
@@ -372,6 +381,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public Bullet getBulletOnLine(final int line) {
 		return syncExec(new Result<Bullet>() {
+			@Override
 			public Bullet run() {
 				return widget.getLineBullet(line);
 			}
@@ -406,6 +416,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public RGB getLineBackground(final int line) {
 		return syncExec(new Result<RGB>() {
+			@Override
 			public RGB run() {
 				return widget.getLineBackground(line).getRGB();
 			}
@@ -419,6 +430,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public int getLineCount(){
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getLineCount();
 			}
@@ -432,6 +444,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public List<String> getLines() {
 		return syncExec(new ListResult<String>() {
+			@Override
 			public List<String> run() {
 				int lineCount = widget.getLineCount();
 				ArrayList<String> lines = new ArrayList<String>(lineCount);
@@ -450,6 +463,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public int getTabs() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getTabs();
 			}

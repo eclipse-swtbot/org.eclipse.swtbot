@@ -70,6 +70,7 @@ public class SWTBotTableTest2 extends AbstractMenuExampleTest {
 
 	private void populateData() {
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				addressBook.clearAddressbook();
 				addressBook.addAddressBook(row1());

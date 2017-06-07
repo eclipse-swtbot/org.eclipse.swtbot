@@ -50,6 +50,7 @@ public class WaitForWidgetInParentTest extends AbstractControlExampleTest {
 			this.i = i;
 		}
 
+		@Override
 		public boolean matches(Object item) {
 			long diff = System.currentTimeMillis() - start;
 			if (diff >= i)
@@ -57,6 +58,7 @@ public class WaitForWidgetInParentTest extends AbstractControlExampleTest {
 			return false;
 		}
 
+		@Override
 		public void describeTo(Description description) {
 
 		}

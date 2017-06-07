@@ -387,6 +387,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 
 	private Point getCellCenter(final SWTBotTreeItem node, final int columnIndex) {
 		 return UIThreadRunnable.syncExec(new Result<Point>() {
+				@Override
 				public Point run() {
 					Rectangle bounds = node.widget.getBounds(columnIndex);
 					return new Point(bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));

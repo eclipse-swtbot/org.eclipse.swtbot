@@ -329,6 +329,7 @@ public class AllTests extends SWTBotGefTestCase implements LogicModeler {
 
 	private void syncWithUIThread() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				while (PlatformUI.getWorkbench().getDisplay().readAndDispatch()) {
 				}

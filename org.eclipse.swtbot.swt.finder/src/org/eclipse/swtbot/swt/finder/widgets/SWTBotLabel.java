@@ -65,6 +65,7 @@ public class SWTBotLabel extends AbstractSWTBotControl<Label> {
 	 */
 	public Image image() {
 		return syncExec(new Result<Image>() {
+			@Override
 			public Image run() {
 				return widget.getImage();
 			}
@@ -78,6 +79,7 @@ public class SWTBotLabel extends AbstractSWTBotControl<Label> {
 	 */
 	public int alignment() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getAlignment();
 			}

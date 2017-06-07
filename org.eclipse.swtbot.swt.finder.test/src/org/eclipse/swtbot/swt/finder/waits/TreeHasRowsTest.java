@@ -46,6 +46,7 @@ public class TreeHasRowsTest extends AbstractSWTShellTest {
 
 	private void keepAddingRowsInTree(final Tree Tree, final int rows) {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				for (int i = 0; i < rows; i++) {
 					new TreeItem(Tree, SWT.NONE).setText("item " + i);
@@ -73,6 +74,7 @@ public class TreeHasRowsTest extends AbstractSWTShellTest {
 
 	private Shell createShell(final String text) {
 		return UIThreadRunnable.syncExec(new WidgetResult<Shell>() {
+			@Override
 			public Shell run() {
 				Shell shell = new Shell(Display.getCurrent());
 				shell.setText(text);
@@ -85,6 +87,7 @@ public class TreeHasRowsTest extends AbstractSWTShellTest {
 
 	private Tree createTree(final Shell shell) {
 		return UIThreadRunnable.syncExec(new WidgetResult<Tree>() {
+			@Override
 			public Tree run() {
 				Tree tree = new Tree(shell, SWT.SINGLE);
 				tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

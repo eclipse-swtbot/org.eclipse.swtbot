@@ -25,6 +25,7 @@ public class SWTBotTestLabelProvider extends LabelProvider implements ITableLabe
 	/**
 	 * No image provided.
 	 */
+	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 		return null;
 	}
@@ -32,6 +33,7 @@ public class SWTBotTestLabelProvider extends LabelProvider implements ITableLabe
 	/**
 	 * Gets the text for the given element.
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		return element.toString();
 	}

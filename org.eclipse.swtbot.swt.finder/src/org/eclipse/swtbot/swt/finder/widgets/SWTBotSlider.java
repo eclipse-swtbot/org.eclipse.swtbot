@@ -57,6 +57,7 @@ public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 	 */
 	public int getSelection() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelection();
 			}
@@ -72,6 +73,7 @@ public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 		log.debug(MessageFormat.format("Setting selection on {0} to {1}", this, value)); //$NON-NLS-1$
 		waitForEnabled();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(value);
 			}
@@ -87,6 +89,7 @@ public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 	 */
 	public int getMaximum() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getMaximum();
 			}
@@ -100,6 +103,7 @@ public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 	 */
 	public int getMinimum() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getMinimum();
 			}
@@ -113,6 +117,7 @@ public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 	 */
 	public int getIncrement() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getIncrement();
 			}
@@ -126,6 +131,7 @@ public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 	 */
 	public int getPageIncrement() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getPageIncrement();
 			}
@@ -139,6 +145,7 @@ public class SWTBotSlider extends AbstractSWTBotControl<Slider> {
 	 */
 	public int getThumb() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getThumb();
 			}

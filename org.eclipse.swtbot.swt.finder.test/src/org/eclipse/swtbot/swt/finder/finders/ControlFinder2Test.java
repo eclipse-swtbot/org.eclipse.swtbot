@@ -51,6 +51,7 @@ public class ControlFinder2Test extends AbstractCustomControlExampleTest {
 
 	private void selectCTabFolder() {
 		UIThreadRunnable.syncExec(display, new VoidResult() {
+			@Override
 			public void run() {
 				List<TabFolder> findControls = controlFinder.findControls(widgetOfType(TabFolder.class));
 				TabFolder folder = findControls.get(0);

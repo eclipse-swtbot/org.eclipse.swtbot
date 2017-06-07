@@ -36,14 +36,17 @@ class ShellIsActive extends DefaultCondition {
 		this.text = text;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "The shell '" + text + "' did not activate"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	@Override
 	public boolean test() throws Exception {
 		try {
 			final SWTBotShell shell = bot.shell(text);
 			return UIThreadRunnable.syncExec(new BoolResult() {
+				@Override
 				public Boolean run() {
 					return shell.widget.isVisible() || shell.widget.isFocusControl();
 				}

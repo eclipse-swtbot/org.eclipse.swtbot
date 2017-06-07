@@ -86,6 +86,7 @@ public class EventContextMenuFinder extends MenuFinder {
 	 */
 	public void register() {
 		UIThreadRunnable.syncExec(display, new VoidResult() {
+			@Override
 			public void run() {
 				display.addFilter(SWT.Show, showHideListener);
 				display.addFilter(SWT.Hide, showHideListener);
@@ -99,6 +100,7 @@ public class EventContextMenuFinder extends MenuFinder {
 	 */
 	public void unregister() {
 		UIThreadRunnable.syncExec(display, new VoidResult() {
+			@Override
 			public void run() {
 				display.removeFilter(SWT.Show, showHideListener);
 				display.removeFilter(SWT.Hide, showHideListener);
@@ -129,6 +131,7 @@ public class EventContextMenuFinder extends MenuFinder {
 		 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 		 * @param event the event to check.
 		 */
+		@Override
 		public void handleEvent(Event event) {
 			if (!(event.widget instanceof Menu))
 				return;

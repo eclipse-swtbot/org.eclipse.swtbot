@@ -56,6 +56,7 @@ public class AddMethodDialog extends TitleAreaDialog {
 		methodText.setLayoutData(dataMethodText);
 		methodText.addModifyListener(new ModifyListener() {
 			
+			@Override
 			public void modifyText(ModifyEvent arg0) {
 				for(Method m: methods){
 					if(m.getName().equals(methodText.getText())){

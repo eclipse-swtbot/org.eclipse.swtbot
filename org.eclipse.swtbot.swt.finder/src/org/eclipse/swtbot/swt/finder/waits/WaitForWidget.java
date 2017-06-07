@@ -27,6 +27,7 @@ class WaitForWidget<T extends Widget> extends WaitForObjectCondition<T> {
 		super(matcher);
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find widget matching: " + matcher; //$NON-NLS-1$
 	}

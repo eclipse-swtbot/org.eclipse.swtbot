@@ -199,6 +199,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	private void selectProposal(final SWTBotTable proposalTable, final int proposalIndex) {
 		log.debug(MessageFormat.format("Trying to select proposal with index {0}", proposalIndex)); //$NON-NLS-1$
 		UIThreadRunnable.asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Table table = proposalTable.widget;
 				log.debug(MessageFormat.format("Selecting row [{0}] {1} in {2}", proposalIndex, table.getItem(proposalIndex).getText(), //$NON-NLS-1$
@@ -638,6 +639,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 		// clear away all content assists for next retry.
 		log.debug("Making proposals disappear.");
 		SWTBotShell proposalShell = syncExec(new Result<SWTBotShell>() {
+			@Override
 			public SWTBotShell run() {
 				if (table != null && !table.widget.isDisposed()) {
 					Shell shell = table.widget.getShell();
@@ -649,6 +651,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 			}
 		});
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Event event = new Event();
 				event.keyCode = SWT.ESC;
@@ -656,6 +659,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 			}
 		});
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Event event = new Event();
 				event.keyCode = SWT.ESC;
@@ -675,6 +679,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 				return ((SWTBotTable) item).containsItem(itemText);
 			}
 
+			@Override
 			public void describeTo(Description description) {
 				description.appendText("table with item (").appendText(itemText).appendText(")");
 			}
@@ -696,6 +701,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 				return false;
 			}
 
+			@Override
 			public void describeTo(Description description) {
 				description.appendText("table with item (").appendText(itemText).appendText(")");
 			}
@@ -720,6 +726,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 				return null;
 			}
 
+			@Override
 			public String getFailureMessage() {
 				return "Could not find auto complete proposal using matcher " + matcher;
 			}
@@ -736,6 +743,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 		log.debug("Activating proposal shell."); //$NON-NLS-1$
 		try {
 			Shell mainWindow = syncExec(new WidgetResult<Shell>() {
+				@Override
 				public Shell run() {
 					return styledText.widget.getShell();
 				}
@@ -743,6 +751,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 			final List<Shell> shells = bot.shells("", mainWindow);
 			Shell widgetShell = syncExec(new WidgetResult<Shell>() {
+				@Override
 				public Shell run() {
 					for(int j=0; j<shells.size(); j++) {
 						Shell s = shells.get(j);
@@ -785,6 +794,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 				return null;
 			}
 
+			@Override
 			public String getFailureMessage() {
 				return "Could not find auto complete proposal using matcher " + matcher;
 			}
@@ -799,6 +809,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	private void invokeAction(final String actionId) {
 		final IAction action = ((ITextEditor) partReference.getEditor(false)).getAction(actionId);
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Activating action with id {0}", actionId));
 				action.run();

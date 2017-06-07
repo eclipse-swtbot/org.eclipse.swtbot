@@ -56,6 +56,7 @@ public class SWTBotTableDoubleClickListenerTest extends AbstractSWTTest {
 			viewer.setContentProvider(ArrayContentProvider.getInstance());
 			viewer.addDoubleClickListener(new IDoubleClickListener() {
 
+				@Override
 				public void doubleClick(DoubleClickEvent event) {
 
 					label.setText(((StructuredSelection) event.getSelection())

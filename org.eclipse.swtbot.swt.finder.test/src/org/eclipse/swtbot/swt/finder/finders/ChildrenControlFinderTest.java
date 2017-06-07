@@ -75,6 +75,7 @@ public class ChildrenControlFinderTest extends AbstractControlExampleTest {
 
 	private Image getImage(final Button button) {
 		return UIThreadRunnable.syncExec(new Result<Image>() {
+			@Override
 			public Image run() {
 				return button.getImage();
 			}

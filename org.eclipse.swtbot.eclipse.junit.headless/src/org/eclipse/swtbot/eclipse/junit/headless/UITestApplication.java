@@ -7,7 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
- *     Jérôme Joslet - Bug 460403
+ *     JÃ©rÃ´me Joslet - Bug 460403
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.junit.headless;
 
@@ -31,7 +31,7 @@ import org.eclipse.ui.testing.TestableObject;
  * suite specified in the command line arguments.
  * 
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
- * @author Jérôme Joslet
+ * @author JÃ©rÃ´me Joslet
  */
 public class UITestApplication implements IApplication, ITestHarness {
 
@@ -44,6 +44,7 @@ public class UITestApplication implements IApplication, ITestHarness {
 	 * (non-Javadoc)
 	 * @see org.eclipse.equinox.app.IApplication#start(org.eclipse.equinox.app.IApplicationContext)
 	 */
+	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		Object app = getApplication(args);
@@ -63,6 +64,7 @@ public class UITestApplication implements IApplication, ITestHarness {
 	 * (non-Javadoc)
 	 * @see org.eclipse.equinox.app.IApplication#stop()
 	 */
+	@Override
 	public void stop() {
 		if (fApplication != null)
 			fApplication.stop();
@@ -111,6 +113,7 @@ public class UITestApplication implements IApplication, ITestHarness {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.testing.ITestHarness#runTests()
 	 */
+	@Override
 	public void runTests() {
 		fTestableObject.testingStarting();
 		try {

@@ -56,6 +56,7 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 	public SWTBotTabItem(TabItem w, SelfDescribing description) throws WidgetNotFoundException {
 		super(w, description);
 		this.parent = syncExec(new WidgetResult<TabFolder>() {
+			@Override
 			public TabFolder run() {
 				return widget.getParent();
 			}
@@ -73,6 +74,7 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 		waitForEnabled();
 		// this runs in sync because tabFolder.setSelection() does not send a notification, and so should not block.
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.getParent().setSelection(widget);
 				log.debug(MessageFormat.format("Activated {0}", this)); //$NON-NLS-1$
@@ -82,10 +84,12 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 		notify(SWT.Selection, createEvent(), parent);
 
 		new SWTBot().waitUntil(new DefaultCondition() {
+			@Override
 			public boolean test() throws Exception {
 				return isActive();
 			}
 
+			@Override
 			public String getFailureMessage() {
 				return "Timed out waiting for " + SWTUtils.toString(widget) + " to activate"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -104,6 +108,7 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 	@Override
 	public boolean isActive() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return parent.getSelection()[0] == widget;
 			}
@@ -113,6 +118,7 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 	@Override
 	public boolean isEnabled() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return parent.isEnabled();
 			}

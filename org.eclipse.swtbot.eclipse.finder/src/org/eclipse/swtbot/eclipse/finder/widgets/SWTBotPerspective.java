@@ -49,6 +49,7 @@ public class SWTBotPerspective {
 	 */
 	public void activate() {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				try {
 					IWorkbench workbench = PlatformUI.getWorkbench();

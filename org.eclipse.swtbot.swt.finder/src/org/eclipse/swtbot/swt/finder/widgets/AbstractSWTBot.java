@@ -152,6 +152,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	protected void notify(final int eventType, final Event createEvent, final Widget widget) {
 		createEvent.type = eventType;
 		final Object[] result = syncExec(new ArrayResult<Object>() {
+			@Override
 			public Object[] run() {
 				return new Object[] { SWTBotEvents.toString(createEvent), AbstractSWTBot.this.toString() };
 			}
@@ -159,6 +160,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 		log.trace(MessageFormat.format("Enquing event {0} on {1}", result)); //$NON-NLS-1$
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if ((widget == null) || widget.isDisposed()) {
 					log.trace(MessageFormat.format("Not notifying {0} is null or has been disposed", AbstractSWTBot.this)); //$NON-NLS-1$
@@ -175,6 +177,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		});
 
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				// do nothing, just wait for sync.
 			}
@@ -415,6 +418,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	public String getId() {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return (String) widget.getData(SWTBotPreferences.DEFAULT_KEY);
 			}
@@ -429,6 +433,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	public String getToolTipText() {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return SWTUtils.getToolTipText(widget);
 			}
@@ -520,6 +525,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	public boolean isEnabled() {
 		if (widget instanceof Control)
 			return syncExec(new BoolResult() {
+				@Override
 				public Boolean run() {
 					return isEnabledInternal();
 				}
@@ -643,6 +649,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	public Color foregroundColor() {
 		return syncExec(new Result<Color>() {
+			@Override
 			public Color run() {
 				if (widget instanceof Control)
 					return ((Control) widget).getForeground();
@@ -660,6 +667,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	public Color backgroundColor() {
 		return syncExec(new Result<Color>() {
+			@Override
 			public Color run() {
 				if (widget instanceof Control)
 					return ((Control) widget).getBackground();
@@ -694,6 +702,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	public boolean isVisible() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				if (widget instanceof Control)
 					return ((Control) widget).isVisible();
@@ -711,6 +720,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		waitForEnabled();
 		log.debug(MessageFormat.format("Attempting to set focus on {0}", this));
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (widget instanceof Control) {
 					Control control = (Control) widget;
@@ -742,6 +752,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 					+ widget.getClass().getName());
 
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return ((Control) widget).traverse(traverse.type);
 			}
@@ -754,6 +765,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	public boolean isActive() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return display.getFocusControl() == widget;
 			}
@@ -789,6 +801,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	protected AbstractSWTBot<T> click(final int x, final int y, final boolean post) {
 		if (post) {
 			syncExec(new VoidResult() {
+				@Override
 				public void run() {
 					Point cursorLocation = display.getCursorLocation();
 					moveMouse(x, y);
@@ -813,6 +826,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	protected AbstractSWTBot<T> rightClick(final int x, final int y, final boolean post) {
 		if (post) {
 			syncExec(new VoidResult() {
+				@Override
 				public void run() {
 					Point cursorLocation = display.getCursorLocation();
 					moveMouse(x, y);
@@ -834,6 +848,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	void moveMouse(final int x, final int y) {
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Event event = createMouseEvent(x, y, 0, 0, 0);
 				event.type = SWT.MouseMove;
@@ -851,6 +866,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	private void mouseDown(final int x, final int y, final int button) {
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Event event = createMouseEvent(x, y, button, 0, 0);
 				event.type = SWT.MouseDown;
@@ -868,6 +884,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	private void mouseUp(final int x, final int y, final int button) {
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				Event event = createMouseEvent(x, y, button, 0, 0);
 				event.type = SWT.MouseUp;
@@ -965,6 +982,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	public void dragAndDrop(final AbstractSWTBot<? extends Widget> target) {
 
 		DragSource dragSource = syncExec(new Result<DragSource>() {
+			@Override
 			public DragSource run() {
 				Control control = getDNDControl();
 				return control == null ? null : (DragSource) control.getData(DND.DRAG_SOURCE_KEY);
@@ -976,6 +994,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		}
 
 		DropTarget dropTarget = syncExec(new Result<DropTarget>() {
+			@Override
 			public DropTarget run() {
 				Control control = target.getDNDControl();
 				return control == null ? null : (DropTarget) control.getData(DND.DROP_TARGET_KEY);
@@ -1136,6 +1155,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		// otherwise the cursor gets stuck in drag mode
 		final Control control = getDNDControl();
 		final Listener dragSourceListener = syncExec(new Result<Listener>() {
+			@Override
 			public Listener run() {
 				// The DragSource listener is an anonymous class of DragSource
 				for (Listener listener : control.getListeners(SWT.DragDetect)) {
@@ -1149,6 +1169,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		try {
 			if (dragSourceListener != null) {
 				syncExec(new VoidResult() {
+					@Override
 					public void run() {
 						control.removeListener(SWT.DragDetect, dragSourceListener);
 					}
@@ -1158,6 +1179,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		} finally {
 			if (dragSourceListener != null) {
 				syncExec(new VoidResult() {
+					@Override
 					public void run() {
 						control.addListener(SWT.DragDetect, dragSourceListener);
 					}

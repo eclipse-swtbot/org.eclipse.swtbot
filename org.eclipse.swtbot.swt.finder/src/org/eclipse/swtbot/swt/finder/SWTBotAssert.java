@@ -59,6 +59,7 @@ public abstract class SWTBotAssert {
 			return pattern.matcher(item).matches();
 		}
 
+		@Override
 		public void describeTo(Description description) {
 			description.appendText("matching regex (").appendValue(pattern).appendText(")");
 		}

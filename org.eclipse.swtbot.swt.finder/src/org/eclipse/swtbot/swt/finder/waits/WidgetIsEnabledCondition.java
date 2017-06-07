@@ -21,10 +21,12 @@ class WidgetIsEnabledCondition extends DefaultCondition {
 		this.widget = widget;
 	}
 
+	@Override
 	public boolean test() throws Exception {
 		return widget.isEnabled();
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "The widget " + widget + " was not enabled.";
 	}

@@ -74,6 +74,7 @@ public class SWTBotTestCaseTest extends AbstractSWTBotTest {
 	public void assertEnabledThrowsExceptionWhenWidgetIsDisable() throws Exception {
 		final SWTBotButton button = bot.button("One");
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				button.widget.setEnabled(false);
 			}
@@ -86,6 +87,7 @@ public class SWTBotTestCaseTest extends AbstractSWTBotTest {
 					.getMessage());
 		} finally {
 			UIThreadRunnable.syncExec(new VoidResult() {
+				@Override
 				public void run() {
 					button.widget.setEnabled(true);
 				}

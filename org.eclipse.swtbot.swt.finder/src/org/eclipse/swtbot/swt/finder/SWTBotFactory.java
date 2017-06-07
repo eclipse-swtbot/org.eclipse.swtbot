@@ -621,6 +621,7 @@ abstract class SWTBotFactory {
 	 */
 	public Control getFocusedWidget() {
 		return syncExec(new WidgetResult<Control>() {
+			@Override
 			public Control run() {
 				return display.getFocusControl();
 			}
@@ -689,6 +690,7 @@ abstract class SWTBotFactory {
 	 */
 	protected Tray systemTray() {
 		Tray tray = syncExec(SWTUtils.display(), new WidgetResult<Tray>() {
+			@Override
 			public Tray run() {
 				return SWTUtils.display().getSystemTray();
 			}

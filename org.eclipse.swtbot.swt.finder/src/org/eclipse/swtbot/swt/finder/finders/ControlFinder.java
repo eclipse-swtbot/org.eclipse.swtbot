@@ -148,6 +148,7 @@ public class ControlFinder {
 	 */
 	public <T extends Widget> List<T> findControls(final Widget parentWidget, final Matcher<T> matcher, final boolean recursive) {
 		return UIThreadRunnable.syncExec(display, new ListResult<T>() {
+			@Override
 			public List<T> run() {
 				return findControlsInternal(parentWidget, matcher, recursive);
 			}
@@ -216,6 +217,7 @@ public class ControlFinder {
 	 */
 	public List<Shell> findShells(final String text) {
 		return UIThreadRunnable.syncExec(new ListResult<Shell>() {
+			@Override
 			public List<Shell> run() {
 				ArrayList<Shell> list = new ArrayList<Shell>();
 				Shell[] shells = getShells();
@@ -263,6 +265,7 @@ public class ControlFinder {
 	 */
 	public Shell[] getShells() {
 		return UIThreadRunnable.syncExec(display, new ArrayResult<Shell>() {
+			@Override
 			public Shell[] run() {
 				Shell[] shells = display.getShells();
 				List<Shell> undisposedShells = new ArrayList<Shell>();
@@ -283,6 +286,7 @@ public class ControlFinder {
 	 */
 	public Shell activeShell() {
 		Shell activeShell = UIThreadRunnable.syncExec(display, new WidgetResult<Shell>() {
+			@Override
 			public Shell run() {
 				return display.getActiveShell();
 			}
@@ -290,6 +294,7 @@ public class ControlFinder {
 		if (activeShell != null)
 			return activeShell;
 		return UIThreadRunnable.syncExec(display, new WidgetResult<Shell>() {
+			@Override
 			public Shell run() {
 				Shell[] shells = getShells();
 				for (Shell shell : shells)
@@ -302,6 +307,7 @@ public class ControlFinder {
 
 	private List<Widget> getParents(final Widget w) {
 		return UIThreadRunnable.syncExec(display, new ListResult<Widget>() {
+			@Override
 			public List<Widget> run() {
 				Widget parent = w;
 				List<Widget> parents = new LinkedList<Widget>();

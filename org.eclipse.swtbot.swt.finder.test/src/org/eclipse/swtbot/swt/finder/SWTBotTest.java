@@ -44,10 +44,12 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 		final long begin = System.currentTimeMillis();
 		try {
 			bot.waitUntil(new DefaultCondition() {
+				@Override
 				public boolean test() throws Exception {
 					return false;
 				}
 
+				@Override
 				public String getFailureMessage() {
 					return "timed out";
 				}
@@ -69,10 +71,12 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 	public void doesNotWait5SecondsAndPassesForPassingCondition() throws Exception {
 		final long begin = System.currentTimeMillis();
 		bot.waitUntil(new DefaultCondition() {
+			@Override
 			public boolean test() throws Exception {
 				return true;
 			}
 
+			@Override
 			public String getFailureMessage() {
 				return "timed out";
 			}
@@ -102,6 +106,7 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 	public void findsShellsById() throws Exception {
 		final SWTBotShell shell = bot.shell("Address Book - Untitled");
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				shell.widget.setData("foo-shell", "bar");
 			}
@@ -115,10 +120,12 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 		final long begin = System.currentTimeMillis();
 		bot.waitWhile(new DefaultCondition() {
 
+			@Override
 			public String getFailureMessage() {
 				return "time out";
 			}
 
+			@Override
 			public boolean test() throws Exception {
 				if (System.currentTimeMillis() < begin + 2500)
 					return true;
@@ -143,10 +150,12 @@ public class SWTBotTest extends AbstractMenuExampleTest {
 		try {
 			bot.waitWhile(new DefaultCondition() {
 
+				@Override
 				public String getFailureMessage() {
 					return "time out";
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					if (System.currentTimeMillis() < begin + 10000)
 						return true;

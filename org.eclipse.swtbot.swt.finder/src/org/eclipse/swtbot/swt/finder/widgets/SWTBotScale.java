@@ -56,6 +56,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 	 */
 	public int getValue() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelection();
 			}
@@ -71,6 +72,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 		log.debug(MessageFormat.format("Setting selection on {0} to {1}", this, value)); //$NON-NLS-1$
 		waitForEnabled();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(value);
 			}
@@ -86,6 +88,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 	 */
 	public int getMaximum() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getMaximum();
 			}
@@ -99,6 +102,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 	 */
 	public int getMinimum() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getMinimum();
 			}
@@ -112,6 +116,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 	 */
 	public int getIncrement() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getIncrement();
 			}
@@ -125,6 +130,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 	 */
 	public int getPageIncrement() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getPageIncrement();
 			}

@@ -50,6 +50,7 @@ public class SWTBotCanvas extends AbstractSWTBotControl<Canvas> {
 	@Override
 	public AbstractSWTBot<Canvas> click() {
 		Point size = syncExec(new Result<Point>() {
+			@Override
 			public Point run() {
 				return widget.getSize();
 			}
@@ -82,6 +83,7 @@ public class SWTBotCanvas extends AbstractSWTBotControl<Canvas> {
 	 */
 	public void doubleClick() {
 		Point size = syncExec(new Result<Point>() {
+			@Override
 			public Point run() {
 				return widget.getSize();
 			}

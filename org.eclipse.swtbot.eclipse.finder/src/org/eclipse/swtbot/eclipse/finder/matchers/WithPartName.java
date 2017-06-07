@@ -48,6 +48,7 @@ public class WithPartName<T extends IWorkbenchPartReference> extends
 		return false;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with name '").appendDescriptionOf(nameMatcher)
 				.appendText("'");

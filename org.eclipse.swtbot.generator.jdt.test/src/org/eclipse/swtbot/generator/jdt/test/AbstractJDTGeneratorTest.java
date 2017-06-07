@@ -42,6 +42,7 @@ public abstract class AbstractJDTGeneratorTest extends AbstractGeneratorTest {
 		methodShell.bot().button("OK").click();
 		this.display = Display.getDefault();
 		this.display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				dialog = new TestDialog(new Shell(), AbstractJDTGeneratorTest.this);
 				dialog.open();

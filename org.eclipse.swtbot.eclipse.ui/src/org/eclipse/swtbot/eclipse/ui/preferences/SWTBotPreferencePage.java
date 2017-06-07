@@ -40,6 +40,7 @@ public class SWTBotPreferencePage extends FieldEditorPreferencePage implements I
 		addField(editor);
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 	}
 

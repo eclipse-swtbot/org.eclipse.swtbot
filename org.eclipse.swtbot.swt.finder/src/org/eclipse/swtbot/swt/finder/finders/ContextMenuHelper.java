@@ -102,6 +102,7 @@ public class ContextMenuHelper {
 		event.x = bounds.x + bounds.width / 2;
 		event.y = bounds.y + bounds.height / 2;
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				control.notifyListeners(SWT.MenuDetect, event);
 			}
@@ -117,6 +118,7 @@ public class ContextMenuHelper {
 	private static Rectangle getBounds(final Widget widget) {
 
 		return UIThreadRunnable.syncExec(widget.getDisplay(), new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				Control parent;
 				Rectangle widgetBounds;

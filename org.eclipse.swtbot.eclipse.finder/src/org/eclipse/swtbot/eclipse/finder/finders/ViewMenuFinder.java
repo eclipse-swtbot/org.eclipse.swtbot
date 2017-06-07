@@ -70,6 +70,7 @@ public class ViewMenuFinder {
 	public List<SWTBotViewMenu> findMenus(final IViewReference view, final Matcher<?> matcher, final boolean recursive) {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotViewMenu>() {
 
+			@Override
 			public List<SWTBotViewMenu> run() {
 				List<SWTBotViewMenu> l = new ArrayList<SWTBotViewMenu>();
                 IViewPart viewPart = view.getView(false);

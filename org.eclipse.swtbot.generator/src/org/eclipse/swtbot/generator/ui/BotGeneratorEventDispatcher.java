@@ -71,6 +71,7 @@ public class BotGeneratorEventDispatcher implements Listener{
 		return this.generator;
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		if (!this.recording) {
 			return;

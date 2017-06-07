@@ -23,26 +23,32 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class ToolbarResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof ToolBar;
 	}
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		return hasChildren(w) ? Arrays.<Widget>asList(((ToolBar) w).getItems()) : new ArrayList<Widget>();
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return (canResolve(w)) ? ((ToolBar) w).getParent() : null;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { ToolBar.class };
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return (canResolve(w)) && ((ToolBar) w).getItems().length > 0;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

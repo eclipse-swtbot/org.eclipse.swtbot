@@ -83,6 +83,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	public int rowCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -96,6 +97,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	public int columnCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getColumnCount();
 			}
@@ -109,6 +111,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	public List<String> columns() {
 		return syncExec(new ListResult<String>() {
+			@Override
 			public List<String> run() {
 				ArrayList<String> result = new ArrayList<String>();
 
@@ -141,6 +144,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	public SWTBotTableColumn header(final String label) throws WidgetNotFoundException {
 		TableColumn column = syncExec(new Result<TableColumn>() {
+			@Override
 			public TableColumn run() {
 				TableColumn[] columns = widget.getColumns();
 				for (TableColumn column : columns) {
@@ -164,6 +168,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 		assertIsLegalCell(row, column);
 
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				TableItem item = widget.getItem(row);
 				return item.getText(column);
@@ -194,6 +199,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	public int selectionCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelectionCount();
 			}
@@ -208,6 +214,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	public TableCollection selection() {
 		final int columnCount = columnCount();
 		return syncExec(new Result<TableCollection>() {
+			@Override
 			public TableCollection run() {
 				final TableCollection selection = new TableCollection();
 				TableItem[] items = widget.getSelection();
@@ -255,6 +262,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	public int indexOf(final String item) {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				TableItem[] items = widget.getItems();
 				for (int i = 0; i < items.length; i++) {
@@ -293,6 +301,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	public int searchText(final String text) {
 		final int columnCount = columnCount();
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				TableItem[] items = widget.getItems();
 				for (int i = 0; i < items.length; i++) {
@@ -330,6 +339,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	public int indexOf(final String text, final int column) {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				TableItem[] items = widget.getItems();
 				for (int i = 0; i < items.length; i++) {
@@ -362,6 +372,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 		setFocus();
 		log.debug(MessageFormat.format("Unselecting all in {0}", this)); //$NON-NLS-1$
 		TableItem[] selection = syncExec(new ArrayResult<TableItem>() {
+			@Override
 			public TableItem[] run() {
 				return widget.getSelection();
 			}
@@ -380,6 +391,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	private void unselect(final TableItem item) {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.deselect(widget.indexOf(item));
 				lastSelectionItem = item;
@@ -432,6 +444,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	private void processSelection(final TableItem item, final boolean add) {
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (add) {
 					widget.select(widget.indexOf(item));
@@ -491,6 +504,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 		// for some reason, it does not work without setting selection first
 		setFocus();
 		Rectangle cellBounds = syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				TableItem item = widget.getItem(row);
 				Rectangle cellBounds = item.getBounds(column);
@@ -513,6 +527,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 		assertIsLegalCell(row, column);
 		setFocus();
 		Rectangle cellBounds = syncExec(new Result<Rectangle>() {
+			@Override
 			public Rectangle run() {
 				TableItem item = widget.getItem(row);
 				Rectangle cellBounds = item.getBounds(column);
@@ -551,10 +566,12 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	public SWTBotTableItem getTableItem(final String itemText) throws WidgetNotFoundException {
 		try {
 			new SWTBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find node with text " + itemText; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(itemText) != null;
 				}
@@ -573,6 +590,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	private TableItem getItem(final String itemText) {
 		return syncExec(new WidgetResult<TableItem>() {
+			@Override
 			public TableItem run() {
 				TableItem[] items = widget.getItems();
 				for (int i = 0; i < items.length; i++) {
@@ -596,10 +614,12 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	public SWTBotTableItem getTableItem(final int row) throws WidgetNotFoundException {
 		try {
 			new SWTBot().waitUntil(new DefaultCondition() {
+				@Override
 				public String getFailureMessage() {
 					return "Could not find table item for row " + row; //$NON-NLS-1$
 				}
 
+				@Override
 				public boolean test() throws Exception {
 					return getItem(row) != null;
 				}
@@ -618,6 +638,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 */
 	private TableItem getItem(final int row) {
 		return syncExec(new WidgetResult<TableItem>() {
+			@Override
 			public TableItem run() {
 				return widget.getItem(row);
 			}

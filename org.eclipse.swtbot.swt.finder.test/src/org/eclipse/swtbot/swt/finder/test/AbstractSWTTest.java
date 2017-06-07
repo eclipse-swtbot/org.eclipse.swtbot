@@ -48,6 +48,7 @@ public abstract class AbstractSWTTest {
 
 	@Rule
 	public MethodRule runner = new MethodRule(){
+		@Override
 		public Statement apply(Statement base, FrameworkMethod method, Object target) {
 			return new RunUIThreadRule(target).apply(base, method, target);
 		}

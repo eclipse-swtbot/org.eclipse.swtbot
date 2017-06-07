@@ -59,6 +59,7 @@ public class TableHasRowsTest extends AbstractSWTShellTest {
 	
 	private void keepAddingRowsInTable(final Table table, final int rows) {
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				for (int i = 0; i < rows; i++) {
 					new TableItem(table, SWT.NONE).setText("item " + i);

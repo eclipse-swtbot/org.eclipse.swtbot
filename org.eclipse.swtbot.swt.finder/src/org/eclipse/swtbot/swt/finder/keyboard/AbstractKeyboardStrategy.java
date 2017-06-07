@@ -31,6 +31,7 @@ public abstract class AbstractKeyboardStrategy implements KeyboardStrategy {
 		this.log = Logger.getLogger(getClass());
 	}
 
+	@Override
 	public void init(Widget widget, SelfDescribing description) {
 		// do nothing
 	}
@@ -49,6 +50,7 @@ public abstract class AbstractKeyboardStrategy implements KeyboardStrategy {
 	 */
 	protected abstract void releaseKey(KeyStroke key);
 
+	@Override
 	public void pressKeys(KeyStroke... keys) {
 		assertKeys(keys);
 		for (KeyStroke key : keys) {
@@ -57,6 +59,7 @@ public abstract class AbstractKeyboardStrategy implements KeyboardStrategy {
 		}
 	}
 
+	@Override
 	public void releaseKeys(KeyStroke... keys) {
 		assertKeys(keys);
 		for (KeyStroke key : keys) {

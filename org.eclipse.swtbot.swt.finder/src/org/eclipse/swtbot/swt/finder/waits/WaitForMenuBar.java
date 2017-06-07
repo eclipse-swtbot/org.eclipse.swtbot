@@ -42,6 +42,7 @@ public class WaitForMenuBar extends WaitForObjectCondition<Menu> {
 		this.shell = shell;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find menu bar for shell: " + shell; //$NON-NLS-1$
 	}
@@ -49,6 +50,7 @@ public class WaitForMenuBar extends WaitForObjectCondition<Menu> {
 	@Override
 	protected List<Menu> findMatches() {
 		Menu menuBar = UIThreadRunnable.syncExec(new WidgetResult<Menu>() {
+			@Override
 			public Menu run() {
 				return shell.widget.getMenuBar();
 			}

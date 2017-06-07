@@ -26,6 +26,7 @@ public class WorkbenchListener implements IPartListener2{
 		this.dispatcher=dispatcher;
 	}
 
+	@Override
 	public void partActivated(IWorkbenchPartReference arg0) {
 		Event e = new Event();
 		e.type=SWT.Selection;
@@ -34,6 +35,7 @@ public class WorkbenchListener implements IPartListener2{
 		dispatcher.handleEvent(e);
 	}
 
+	@Override
 	public void partClosed(IWorkbenchPartReference arg0) {
 		Event e = new Event();
 		e.type=SWT.Selection;
@@ -43,31 +45,37 @@ public class WorkbenchListener implements IPartListener2{
 
 	}
 
+	@Override
 	public void partBroughtToTop(IWorkbenchPartReference arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void partDeactivated(IWorkbenchPartReference arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void partHidden(IWorkbenchPartReference arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void partInputChanged(IWorkbenchPartReference arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void partOpened(IWorkbenchPartReference arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void partVisible(IWorkbenchPartReference arg0) {
 		// TODO Auto-generated method stub
 		

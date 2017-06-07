@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.ui.forms.examples.internal;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 public class FormEditorInput implements IEditorInput {
 	private String name;
@@ -63,7 +66,7 @@ public class FormEditorInput implements IEditorInput {
 	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
 		return null;
 	}
 }

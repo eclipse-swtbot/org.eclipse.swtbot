@@ -108,6 +108,7 @@ public class SWTBotToolbarPushButtonTest extends AbstractControlExampleTest {
 		assertTrue(button.isEnabled());
 		try {
 			UIThreadRunnable.syncExec(display, new VoidResult() {
+				@Override
 				public void run() {
 					button.widget.setEnabled(false);
 				}
@@ -115,6 +116,7 @@ public class SWTBotToolbarPushButtonTest extends AbstractControlExampleTest {
 			assertFalse(button.isEnabled());
 		} finally {
 			UIThreadRunnable.syncExec(display, new VoidResult() {
+				@Override
 				public void run() {
 					button.widget.setEnabled(true);
 				}

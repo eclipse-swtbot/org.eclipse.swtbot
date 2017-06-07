@@ -47,6 +47,7 @@ public final class ReflectionInvoker implements StringResult {
 	 * @see org.eclipse.swtbot.swt.finder.results.StringResult#run()
 	 * @return The results of the invoke.
 	 */
+	@Override
 	public String run() {
 		String result = ""; //$NON-NLS-1$
 		try {

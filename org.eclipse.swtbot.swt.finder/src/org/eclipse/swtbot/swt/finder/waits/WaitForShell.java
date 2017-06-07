@@ -31,6 +31,7 @@ class WaitForShell extends WaitForObjectCondition<Shell> {
 		super(matcher);
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find shell matching: " + matcher; //$NON-NLS-1$
 	}

@@ -102,6 +102,7 @@ public class MenuFinder {
 	 */
 	protected Menu menuBar(final Shell shell) {
 		return UIThreadRunnable.syncExec(display, new WidgetResult<Menu>() {
+			@Override
 			public Menu run() {
 				return shell.getMenuBar();
 			}
@@ -120,6 +121,7 @@ public class MenuFinder {
 	 */
 	public List<MenuItem> findMenus(final Menu bar, final Matcher<MenuItem> matcher, final boolean recursive) {
 		return UIThreadRunnable.syncExec(display, new ListResult<MenuItem>() {
+			@Override
 			public List<MenuItem> run() {
 				return findMenusInternal(bar, matcher, recursive);
 			}
@@ -134,6 +136,7 @@ public class MenuFinder {
 	 */
 	protected Shell[] getShells() {
 		return UIThreadRunnable.syncExec(display, new ArrayResult<Shell>() {
+			@Override
 			public Shell[] run() {
 				return display.getShells();
 			}

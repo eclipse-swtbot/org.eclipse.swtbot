@@ -70,6 +70,7 @@ public class CommandFinder {
 	public List<SWTBotCommand> findCommand(final ICommandService service, final Matcher<?> matcher) {
 		return UIThreadRunnable.syncExec(new ListResult<SWTBotCommand>() {
 
+			@Override
 			public List<SWTBotCommand> run() {
 				List<SWTBotCommand> l = new ArrayList<SWTBotCommand>();
 				Command[] commands = service.getDefinedCommands();

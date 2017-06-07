@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class CTabItemResolver implements IChildrenResolver, IParentResolver {
 
+	@Override
 	public List<Widget> getChildren(Widget w) {
 		List<Widget> children = new ArrayList<Widget>();
 		Control control = ((CTabItem) w).getControl();
@@ -33,22 +34,27 @@ public class CTabItemResolver implements IChildrenResolver, IParentResolver {
 		return children;
 	}
 
+	@Override
 	public boolean hasChildren(Widget w) {
 		return canResolve(w) && ((CTabItem) w).getControl() != null;
 	}
 
+	@Override
 	public boolean canResolve(Widget w) {
 		return w instanceof CTabItem;
 	}
 
+	@Override
 	public Class<?>[] getResolvableClasses() {
 		return new Class[] { CTabItem.class };
 	}
 
+	@Override
 	public Widget getParent(Widget w) {
 		return canResolve(w) ? ((CTabItem) w).getParent() : null;
 	}
 
+	@Override
 	public boolean hasParent(Widget w) {
 		return getParent(w) != null;
 	}

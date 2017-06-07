@@ -91,6 +91,7 @@ public class SWTBotToolbarRadioButton extends SWTBotToolbarButton {
 			if (otherSelectedButton != null) {
 				otherSelectedButton.notify(SWT.Deactivate);
 				asyncExec(new VoidResult() {
+					@Override
 					public void run() {
 						otherSelectedButton.widget.setSelection(false);
 					}
@@ -99,6 +100,7 @@ public class SWTBotToolbarRadioButton extends SWTBotToolbarButton {
 			}
 		}
 		syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(selected);
 			}
@@ -107,6 +109,7 @@ public class SWTBotToolbarRadioButton extends SWTBotToolbarButton {
 
 	private SWTBotToolbarRadioButton otherSelectedButton() {
 		ToolItem other = syncExec(new WidgetResult<ToolItem>() {
+			@Override
 			public ToolItem run() {
 				Widget[] siblings = SWTUtils.siblings(widget);
 				boolean ownGroup = false;
@@ -156,6 +159,7 @@ public class SWTBotToolbarRadioButton extends SWTBotToolbarButton {
 	 */
 	public boolean isChecked() {
 		return syncExec(new BoolResult() {
+			@Override
 			public Boolean run() {
 				return widget.getSelection();
 			}

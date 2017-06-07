@@ -104,6 +104,7 @@ public class SWTBotMultiPageEditor extends SWTBotEditor {
 	 */
 	public int getPageCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return tabFolder.getItemCount();
 			}
@@ -152,6 +153,7 @@ public class SWTBotMultiPageEditor extends SWTBotEditor {
 		List<String> pages = null;
 		if (getPageCount() > 0) {
 			pages = UIThreadRunnable.syncExec(new Result<List<String>>() {
+				@Override
 				public List<String> run() {
 					ArrayList<String> titles = new ArrayList<String>();
 					for (CTabItem item : tabFolder.getItems()) {

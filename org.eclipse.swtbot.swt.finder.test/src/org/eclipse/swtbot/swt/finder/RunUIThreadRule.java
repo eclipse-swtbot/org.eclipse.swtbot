@@ -21,6 +21,7 @@ public class RunUIThreadRule implements MethodRule {
 		this.testObject = testObject;
 	}
 
+	@Override
 	public Statement apply(final Statement testStatement, FrameworkMethod method, final Object target) {
 		return new Statement() {
 			@Override
@@ -38,6 +39,7 @@ public class RunUIThreadRule implements MethodRule {
 
 	private Runnable createTestRunnable(final Statement testStatement) {
 		return new Runnable() {
+			@Override
 			public void run() {
 				runTestThread(testStatement);
 			}
@@ -68,6 +70,7 @@ public class RunUIThreadRule implements MethodRule {
 
 	private void waitForEventLoop() {
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				// no-op, wait for sync
 			}
@@ -77,6 +80,7 @@ public class RunUIThreadRule implements MethodRule {
 	private void disposeDisplay() {
 		if (display != null && !display.isDisposed()) {
 			display.syncExec(new Runnable() {
+				@Override
 				public void run() {
 					display.dispose();
 				}

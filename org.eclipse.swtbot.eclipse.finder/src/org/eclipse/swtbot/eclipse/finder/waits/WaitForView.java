@@ -37,6 +37,7 @@ public class WaitForView extends WaitForObjectCondition<IViewReference> {
 		super(matcher);
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find view matching: " + matcher;
 	}

@@ -64,6 +64,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 		waitForEnabled();
 		final int indexOf = indexOfChecked(item);
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(indexOf);
 			}
@@ -81,6 +82,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 		waitForEnabled();
 		assertIsLegalIndex(index);
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				widget.setSelection(index);
 			}
@@ -95,6 +97,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public int itemCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getItemCount();
 			}
@@ -108,6 +111,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public int selectionCount() {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.getSelectionCount();
 			}
@@ -121,6 +125,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public String[] selection() {
 		return syncExec(new ArrayResult<String>() {
+			@Override
 			public String[] run() {
 				return widget.getSelection();
 			}
@@ -141,6 +146,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 			assertIsLegalIndex(indices[i]);
 		}
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				for (int i = 0; i < indices.length; i++) {
 					if (i == 0) {
@@ -224,6 +230,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	public void unselect() {
 		assertMultiSelect("unselect");
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				int[] selectionIndices = widget.getSelectionIndices();
 				for (int i = 0; i < selectionIndices.length; i++) {
@@ -249,6 +256,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 		waitForEnabled();
 		setFocus();
 		asyncExec(new VoidResult() {
+			@Override
 			public void run() {
 				if (widget.isSelected(row)) {
 					log.debug(MessageFormat.format("Unselecting row {0} in {1}", row, widget)); //$NON-NLS-1$
@@ -269,6 +277,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public int indexOf(final String item) {
 		return syncExec(new IntResult() {
+			@Override
 			public Integer run() {
 				return widget.indexOf(item);
 			}
@@ -283,6 +292,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public String itemAt(final int index) {
 		return syncExec(new StringResult() {
+			@Override
 			public String run() {
 				return widget.getItem(index);
 			}
@@ -296,6 +306,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public String[] getItems() {
 		return syncExec(new ArrayResult<String>() {
+			@Override
 			public String[] run() {
 				return widget.getItems();
 			}

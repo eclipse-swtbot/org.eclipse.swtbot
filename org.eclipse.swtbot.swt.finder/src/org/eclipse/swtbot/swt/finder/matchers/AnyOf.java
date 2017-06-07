@@ -40,6 +40,7 @@ public class AnyOf<T> extends AbstractMatcher<T> {
 		return false;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendList("(", " or ", ")", matchers); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}

@@ -60,6 +60,7 @@ public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 
 			private String	text;
 
+			@Override
 			public boolean test() throws Exception {
 				text = listeners.getText();
 				// keyLocation was added in 3.6, we don't care about it for the tests
@@ -67,6 +68,7 @@ public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 				return matcher.matches(listenersText);
 			}
 
+			@Override
 			public String getFailureMessage() {
 				Description description = new StringDescription();
 				description.appendText("\nExpected:\n").appendDescriptionOf(matcher).appendText("\ngot:\n").appendValue(text).appendText("\n");

@@ -48,6 +48,7 @@ public class SWTBotMultiPageEditorTest extends AbstractSWTBotEclipseTest {
 		testFile = File.createTempFile("multipage", ".mpe");
 		testFile.deleteOnExit();
 		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
 			public void run() {
 				try {
 					IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();

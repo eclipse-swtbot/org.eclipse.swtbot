@@ -88,6 +88,7 @@ public class ParameterizedSWTBotJunit4ClassRunner extends BlockJUnit4ClassRunner
 	 * Creates a runner for a single {@link TestWithParameters}.
 	 */
 	public static class RunnerFactory implements ParametersRunnerFactory {
+		@Override
 		public Runner createRunnerForTestWithParameters(TestWithParameters test) throws InitializationError {
 			return new ParameterizedSWTBotJunit4ClassRunner(test);
 		}

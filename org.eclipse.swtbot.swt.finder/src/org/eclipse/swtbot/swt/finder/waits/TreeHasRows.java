@@ -54,6 +54,7 @@ class TreeHasRows extends DefaultCondition {
 	 * @return <code>true</code> if the condition node count equals the number of nodes in the tree. Otherwise
 	 *         <code>false</code> is returned.
 	 */
+	@Override
 	public boolean test() {
 		return tree.rowCount() == rowCount;
 	}
@@ -64,6 +65,7 @@ class TreeHasRows extends DefaultCondition {
 	 * @see org.eclipse.swtbot.swt.finder.waits.ICondition#getFailureMessage()
 	 * @return The failure message.
 	 */
+	@Override
 	public String getFailureMessage() {
 		return "Timed out waiting for " + tree + " to contain " + rowCount + " rows."; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}

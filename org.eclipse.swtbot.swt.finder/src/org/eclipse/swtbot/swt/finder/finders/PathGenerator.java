@@ -137,6 +137,7 @@ public class PathGenerator {
 	 */
 	Widget getShell(final Display display, final int index) {
 		return UIThreadRunnable.syncExec(display, new WidgetResult<Shell>() {
+			@Override
 			public Shell run() {
 				return display.getShells()[index];
 			}
@@ -150,6 +151,7 @@ public class PathGenerator {
 	 */
 	Widget getWidget(final Widget parent, final int index) {
 		return UIThreadRunnable.syncExec(parent.getDisplay(), new WidgetResult<Widget>() {
+			@Override
 			public Widget run() {
 				return getChildrenResolver().getChildren(parent).get(index);
 			}

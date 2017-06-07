@@ -43,6 +43,7 @@ public class WithPerspectiveId extends AbstractMatcher<IPerspectiveDescriptor> {
 		return false;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("with id '").appendDescriptionOf(idMatcher).appendText("'");
 	}

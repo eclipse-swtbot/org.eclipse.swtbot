@@ -176,6 +176,7 @@ class EclipseWidgetTracker implements Runnable {
 		return SWTUtils.toString(sibling);
 	}
 
+	@Override
 	public void run() {
 		if ((view.output == null) || view.output.isDisposed() || !view.actionMonitor.isChecked())
 			return;

@@ -39,6 +39,7 @@ public class WaitForPart extends WaitForObjectCondition<MPart> {
 		this.context = context;
 	}
 
+	@Override
 	public String getFailureMessage() {
 		return "Could not find view matching: " + matcher;
 	}

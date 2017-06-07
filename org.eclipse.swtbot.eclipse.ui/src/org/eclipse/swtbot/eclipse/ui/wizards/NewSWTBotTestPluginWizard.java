@@ -54,6 +54,7 @@ public class NewSWTBotTestPluginWizard extends Wizard implements INewWizard {
 		}
 	}
 
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 
 	}

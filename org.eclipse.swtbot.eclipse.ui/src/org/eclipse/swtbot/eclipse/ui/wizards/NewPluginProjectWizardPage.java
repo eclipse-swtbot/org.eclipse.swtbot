@@ -51,6 +51,7 @@ public class NewPluginProjectWizardPage extends WizardPage implements WizardPage
 		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.getDefault().getBundle().getSymbolicName(), "icons/swtbot_plugin64.png")); //$NON-NLS-1$
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -99,28 +100,33 @@ public class NewPluginProjectWizardPage extends WizardPage implements WizardPage
 
 	private void hookListeners() {
 		applicationIdButton.addSelectionListener(new SelectionListener() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				productId.setEnabled(false);
 				applicationId.setEnabled(true);
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 		});
 
 		productIdButton.addSelectionListener(new SelectionListener() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				applicationId.setEnabled(false);
 				productId.setEnabled(true);
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 		});
 
 		ModifyListener listener = new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				ProjectSettingValidator validator = new ProjectSettingValidator(pluginId.getText(), pluginName.getText(), pluginVersion.getText(), getProjects(), NewPluginProjectWizardPage.this);
 				validator.validate();

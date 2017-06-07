@@ -44,6 +44,7 @@ public class WidgetOfType<T extends Widget> extends AbstractMatcher<T> {
 		return type.isInstance(obj);
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendText("of type '").appendText(type.getSimpleName()).appendText("'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

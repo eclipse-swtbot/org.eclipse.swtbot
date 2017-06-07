@@ -63,6 +63,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer impleme
 		swtbotPreferenceStore.setDefault(PreferenceInitializer.ENABLE_ADDITIONAL_AUTOCOMPLETE_FAVOURTES, true);
 	}
 
+	@Override
 	public void earlyStartup() {
 		new PreferenceInitializer().initializeFavorites();
 	}
@@ -108,6 +109,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer impleme
 		return orderedSet;
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		initializeFavorites();
 	}

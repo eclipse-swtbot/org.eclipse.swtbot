@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ public class TemplatizerTest {
 				"Bundle-Version: @PLUGIN_VERSION@\n" + 
 				"Bundle-ActivationPolicy: lazy\n" + 
 				"Bundle-Vendor: @PLUGIN_PROVIDER@\n" + 
-				"Bundle-RequiredExecutionEnvironment: J2SE-1.5\n" + 
+				"Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n" + 
 				"Require-Bundle: org.eclipse.swtbot.go\n" + 
 				"");
 		assertEquals("" +
@@ -38,7 +38,7 @@ public class TemplatizerTest {
 				"Bundle-Version: 1.2.3.4\n" + 
 				"Bundle-ActivationPolicy: lazy\n" + 
 				"Bundle-Vendor: Eclipse.org\n" + 
-				"Bundle-RequiredExecutionEnvironment: J2SE-1.5\n" + 
+				"Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n" + 
 				"Require-Bundle: org.eclipse.swtbot.go\n" + 
 				"", templatize);
 	}

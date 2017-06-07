@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Graphical Editing Framework Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.gef.finder;singleton:=true
 Bundle-Version: 2.6.0.qualifier
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.swtbot.eclipse.gef.finder,
  org.eclipse.swtbot.eclipse.gef.finder.finders,
  org.eclipse.swtbot.eclipse.gef.finder.matchers,

@@ -83,7 +83,7 @@ public class SWTBotLink extends AbstractSWTBotControl<Link> {
 			if (linkIndex >= 0 && linkIndex < ids.length) {
 				hyperlinkText = ids[linkIndex];
 			}
-		} catch (ReflectiveOperationException e) {
+		} catch (Exception e) {
 			throw new UnsupportedOperationException(e);
 		}
 		notify(SWT.MouseEnter, createMouseEvent(0, 0, 0, SWT.NONE, 0));

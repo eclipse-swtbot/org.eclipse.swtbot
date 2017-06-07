@@ -1088,7 +1088,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 			dndEvent.widget = widget;
 			dndEvent.display = display;
 			return dndEvent;
-		} catch (ReflectiveOperationException e) {
+		} catch (Exception e) {
 			throw new UnsupportedOperationException(e);
 		}
 	}
@@ -1115,7 +1115,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 			Field field = clazz.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			field.set(dndEvent, value);
-		} catch (ReflectiveOperationException e) {
+		} catch (Exception e) {
 			throw new UnsupportedOperationException(e);
 		}
 	}
@@ -1126,7 +1126,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 			Field field = clazz.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			return field.get(dndEvent);
-		} catch (ReflectiveOperationException e) {
+		} catch (Exception e) {
 			throw new UnsupportedOperationException(e);
 		}
 	}

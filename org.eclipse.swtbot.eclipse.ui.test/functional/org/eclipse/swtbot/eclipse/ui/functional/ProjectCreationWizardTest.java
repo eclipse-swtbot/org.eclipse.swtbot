@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -48,7 +48,7 @@ public class ProjectCreationWizardTest {
 				"Bundle-Version: 1.0.0.qualifier\n" +
 				"Bundle-ActivationPolicy: lazy\n" +
 				"Bundle-Vendor: ACME Corp.\n" +
-				"Bundle-RequiredExecutionEnvironment: J2SE-1.5\n" +
+				"Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n" +
 				"Require-Bundle: org.eclipse.swtbot.go\n" +
 				"", contentsOf(project, "META-INF/MANIFEST.MF"));
 
@@ -95,7 +95,7 @@ public class ProjectCreationWizardTest {
 						"<classpath>\n" +
 						"	<classpathentry kind=\"con\" " +
 						"path=\"org.eclipse.jdt.launching.JRE_CONTAINER/" +
-						"org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5\"/>\n" +
+						"org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6\"/>\n" +
 						"	<classpathentry kind=\"con\" path=\"org.eclipse.pde.core.requiredPlugins\"/>\n" +
 						"	<classpathentry kind=\"src\" path=\"src\"/>\n" +
 						"	<classpathentry kind=\"output\" path=\"bin\"/>\n" +

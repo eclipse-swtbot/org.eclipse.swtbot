@@ -250,11 +250,15 @@ public abstract class SWTUtils {
 	public static Thread[] allThreads() {
 		ThreadGroup threadGroup = primaryThreadGroup();
 
-		Thread[] threads = new Thread[64];
-		int enumerate = threadGroup.enumerate(threads, true);
+		int numThreads = 0;
+		Thread[] threads = null;
+		while (threads == null || numThreads >= threads.length) {
+			threads = new Thread[Math.max(numThreads, threadGroup.activeCount()) + 8];
+			numThreads = threadGroup.enumerate(threads, true);
+		}
 
-		Thread[] result = new Thread[enumerate];
-		System.arraycopy(threads, 0, result, 0, enumerate);
+		Thread[] result = new Thread[numThreads];
+		System.arraycopy(threads, 0, result, 0, numThreads);
 
 		return result;
 	}

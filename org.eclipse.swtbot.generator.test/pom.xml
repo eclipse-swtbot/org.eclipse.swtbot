@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2011, 2016 PetalsLink and others.
+<!-- Copyright (c) 2011, 2017 PetalsLink and others.
 All rights reserved.
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License v1.0 which accompanies this distribution,
@@ -19,7 +19,7 @@ Authors:
   <parent>
   	<groupId>org.eclipse.swtbot</groupId>
   	<artifactId>parent</artifactId>
-  	<version>2.6.0-SNAPSHOT</version>
+  	<version>2.7.0-SNAPSHOT</version>
   	<relativePath>../pom.xml</relativePath>
   </parent>
 

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Nebula NatTable Test Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.nebula.nattable.finder.test
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse.org - SWTBot
 Require-Bundle: org.eclipse.ui,

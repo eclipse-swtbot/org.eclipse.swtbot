@@ -78,6 +78,9 @@ public class SWTBotTableColumn extends AbstractSWTBot<TableColumn> {
 		return syncExec(new Result<Rectangle>() {
 			@Override
 			public Rectangle run() {
+				if (widget.isDisposed()) {
+					return new Rectangle(0, 0, 0, 0);
+				}
 				Table table = widget.getParent();
 				Point location = widget.getDisplay().map(table.getParent(), table, table.getLocation());
 				Rectangle bounds = new Rectangle(location.x, location.y, widget.getWidth(), table.getHeaderHeight());

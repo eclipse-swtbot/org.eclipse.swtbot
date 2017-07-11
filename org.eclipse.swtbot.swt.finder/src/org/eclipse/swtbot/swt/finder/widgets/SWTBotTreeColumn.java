@@ -55,6 +55,9 @@ public class SWTBotTreeColumn extends AbstractSWTBot<TreeColumn> {
 		return syncExec(new Result<Rectangle>() {
 			@Override
 			public Rectangle run() {
+				if (widget.isDisposed()) {
+					return new Rectangle(0, 0, 0, 0);
+				}
 				Tree tree = widget.getParent();
 				Point location = widget.getDisplay().map(tree.getParent(), tree, tree.getLocation());
 				Rectangle bounds = new Rectangle(location.x, location.y, widget.getWidth(), tree.getHeaderHeight());

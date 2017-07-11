@@ -511,6 +511,9 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		return syncExec(new Result<Rectangle>() {
 			@Override
 			public Rectangle run() {
+				if (widget.isDisposed()) {
+					return new Rectangle(0, 0, 0, 0);
+				}
 				return widget.getBounds();
 			}
 		});

@@ -189,9 +189,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		}
 
 		preExpandNotify();
-		asyncExec(new VoidResult() {
+		syncExec(new VoidResult() {
 			@Override
 			public void run() {
+				notifyTree(SWT.Expand, createEvent());
 				widget.setExpanded(true);
 			}
 		});
@@ -213,9 +214,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		}
 
 		preCollapseNotify();
-		asyncExec(new VoidResult() {
+		syncExec(new VoidResult() {
 			@Override
 			public void run() {
+				notifyTree(SWT.Collapse, createEvent());
 				widget.setExpanded(false);
 			}
 		});
@@ -224,31 +226,23 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	private void preExpandNotify() {
-		notifyTree(SWT.Expand, createEvent());
+		notifyTree(SWT.Activate);
+		notifyTree(SWT.FocusIn);
+		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 	}
 
 	private void postExpandNotify() {
-		notifyTree(SWT.MouseMove);
-		notifyTree(SWT.Activate);
-		notifyTree(SWT.FocusIn);
-		notifyTree(SWT.MouseDown);
-		notifyTree(SWT.MeasureItem);
-		notifyTree(SWT.Deactivate);
-		notifyTree(SWT.FocusOut);
+		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
 	}
 
 	private void preCollapseNotify() {
-		notifyTree(SWT.Collapse, createEvent());
+		notifyTree(SWT.Activate);
+		notifyTree(SWT.FocusIn);
+		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 	}
 
 	private void postCollapseNotify() {
-		notifyTree(SWT.MouseMove);
-		notifyTree(SWT.Activate);
-		notifyTree(SWT.FocusIn);
-		notifyTree(SWT.MouseDown);
-		notifyTree(SWT.MeasureItem);
-		notifyTree(SWT.Deactivate);
-		notifyTree(SWT.FocusOut);
+		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
 	}
 
 	private void notifyTree(int eventType) {

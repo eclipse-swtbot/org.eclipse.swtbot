@@ -4,14 +4,10 @@
 
    <extension
          point="org.eclipse.ui.views">
-      <category
-            name="SWTBot Category"
-            id="org.eclipse.swtbot.eclipse.spy">
-      </category>
       <view
-            name="EclipseSpy View"
+            name="Eclipse Spy"
             icon="icons/sample.gif"
-            category="org.eclipse.swtbot.eclipse.spy"
+            category="org.eclipse.swtbot"
             class="org.eclipse.swtbot.eclipse.spy.views.EclipseSpyView"
             id="org.eclipse.swtbot.eclipse.spy.views.EclipseSpyView">
       </view>

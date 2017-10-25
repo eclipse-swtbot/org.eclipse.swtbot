@@ -142,4 +142,12 @@
             category="org.eclipse.swtbot.wizards">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <!-- This is used in other plugins to contribute views into a common SWTBot category. -->
+      <category
+            name="SWTBot"
+            id="org.eclipse.swtbot">
+      </category>
+   </extension>
 </plugin>

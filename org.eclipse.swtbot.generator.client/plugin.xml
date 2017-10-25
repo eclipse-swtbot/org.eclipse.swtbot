@@ -17,11 +17,11 @@
             class="org.eclipse.swtbot.generator.client.launcher.RecorderServerLauncherTabGroup"
             id="org.eclipse.swtbot.generator.client.launcher.SWTBotServerRecorderTabGroup">
         	<launchMode
-                description="Launch a SWTBot recorder server"
+                description="Launch an SWTBot recorder server"
                	mode="run">
          	</launchMode>
          <launchMode
-               description="Launch a SWTBot recorder server"
+               description="Launch an SWTBot recorder server"
                mode="debug">
          </launchMode>
       	</launchConfigurationTabGroup>
@@ -37,6 +37,7 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+            category="org.eclipse.swtbot"
             class="org.eclipse.swtbot.generator.client.views.RecorderClientView"
             icon="icons/swtbot_rec16.png"
             id="org.eclipse.swtbot.generator.client.view.recorder.client"

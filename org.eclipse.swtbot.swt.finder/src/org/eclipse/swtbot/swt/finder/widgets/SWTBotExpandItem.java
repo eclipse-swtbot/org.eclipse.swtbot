@@ -1,12 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2011 SWTBot Committers and others.
+ * Copyright (c) 2017 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Toby Weston - initial API and implementation (Bug 259799)
+ *     Aparna Argade - Bug 526768
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -22,7 +23,7 @@ import org.hamcrest.SelfDescribing;
 
 /**
  * Represents an {@link ExpandItem}.
- * 
+ *
  * @author Toby Weston (Bug 259799)
  * @version $Id$
  */
@@ -31,7 +32,7 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 
 	/**
 	 * Constructs a new instance with the given widget.
-	 * 
+	 *
 	 * @param w the widget.
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
 	 */
@@ -41,7 +42,7 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 
 	/**
 	 * Constructs a new instance with the given widget.
-	 * 
+	 *
 	 * @param w the widget.
 	 * @param description the description of the widget, this will be reported by {@link #toString()}
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
@@ -58,37 +59,41 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 
 	/**
 	 * Expand this item and return itself.
-	 * 
+	 *
 	 * @return itself.
 	 */
 	public SWTBotExpandItem expand() {
-		asyncExec(new VoidResult() {
+		if (isExpanded())
+			return this;
+		preExpandCollapseNotify();
+		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				if (isExpanded())
-					return;
+				notifyExpandBar(SWT.Expand);
 				widget.setExpanded(true);
-				expandNotify();
 			}
 		});
+		postExpandCollapseNotify();
 		return this;
 	}
 
 	/**
 	 * Collapse this item and return itself.
-	 * 
+	 *
 	 * @return itself.
 	 */
 	public SWTBotExpandItem collapse() {
-		asyncExec(new VoidResult() {
+		if (isCollapsed())
+			return this;
+		preExpandCollapseNotify();
+		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				if (isCollapsed())
-					return;
+				notifyExpandBar(SWT.Collapse);
 				widget.setExpanded(false);
-				collapseNotify();
 			}
 		});
+		postExpandCollapseNotify();
 		return this;
 	}
 
@@ -113,30 +118,22 @@ public class SWTBotExpandItem extends AbstractSWTBot<ExpandItem> {
 		return !isExpanded();
 	}
 
-	private void expandNotify() {
-		notifyExpandBar(SWT.MouseMove);
-		notifyExpandBar(SWT.Activate);
-		notifyExpandBar(SWT.FocusIn);
-		notifyExpandBar(SWT.MouseDown);
-		notifyExpandBar(SWT.Expand);
-		notifyExpandBar(SWT.MeasureItem);
-		notifyExpandBar(SWT.Deactivate);
-		notifyExpandBar(SWT.FocusOut);
+	private void preExpandCollapseNotify() {
+		notifyExpandBar(SWT.Activate, super.createEvent());
+		notifyExpandBar(SWT.FocusIn, super.createEvent());
+		notifyExpandBar(SWT.MouseDown, super.createEvent());
 	}
 
-	private void collapseNotify() {
-		notifyExpandBar(SWT.MouseMove);
-		notifyExpandBar(SWT.Activate);
-		notifyExpandBar(SWT.FocusIn);
-		notifyExpandBar(SWT.MouseDown);
-		notifyExpandBar(SWT.Collapse);
-		notifyExpandBar(SWT.MeasureItem);
-		notifyExpandBar(SWT.Deactivate);
-		notifyExpandBar(SWT.FocusOut);
+	private void postExpandCollapseNotify() {
+		notifyExpandBar(SWT.MouseUp, super.createEvent());
 	}
 
 	private void notifyExpandBar(int eventType) {
 		notify(eventType, createEvent(), expandBar);
+	}
+
+	private void notifyExpandBar(int eventType, Event event) {
+		notify(eventType, event, expandBar);
 	}
 
 	@Override

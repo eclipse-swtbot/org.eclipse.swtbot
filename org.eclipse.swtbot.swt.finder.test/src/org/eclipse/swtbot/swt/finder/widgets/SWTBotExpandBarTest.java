@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Ketan Padegaonkar and others.
+ * Copyright (c) 2017 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Aparna Argade - Bug 526768
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -23,6 +24,7 @@ import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.Before;
 import org.junit.Test;
+import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
@@ -97,6 +99,29 @@ public class SWTBotExpandBarTest extends AbstractControlExampleTest {
 
 		// and we reset the possible custom timeout
 		SWTBotPreferences.TIMEOUT = currentTimeout;
+	}
+
+	@Test
+	public void shouldMatchEvents() throws Exception {
+		bot.checkBox("Listen").select();
+		SWTBotExpandBar expandBar = bot.expandBar();
+		expandBar.expandItem("What is your favorite button?");
+		SWTBotText text = bot.textInGroup("Listeners");
+		assertTextContains("Activate [26]: ShellEvent{ExpandBar {} time=", text.widget);
+		assertTextContains("FocusIn [15]: FocusEvent{ExpandBar {} time=", text.widget);
+		assertTextContains("MouseDown [3]: MouseEvent{ExpandBar {} time=", text.widget);
+		assertEventMatches(text,
+				"Expand [17]: TreeEvent{ExpandBar {} time=0 data=null item=ExpandItem {What is your favorite button?} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertTextContains("MouseUp [4]: MouseEvent{ExpandBar {} time=", text.widget);
+
+		bot.button("Clear").click();
+		expandBar.collapseItem("What is your favorite button?");
+		assertTextContains("Activate [26]: ShellEvent{ExpandBar {} time=", text.widget);
+		assertTextContains("FocusIn [15]: FocusEvent{ExpandBar {} time=", text.widget);
+		assertTextContains("MouseDown [3]: MouseEvent{ExpandBar {} time=", text.widget);
+		assertEventMatches(text,
+				"Collapse [18]: TreeEvent{ExpandBar {} time=0 data=null item=ExpandItem {What is your favorite button?} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertTextContains("MouseUp [4]: MouseEvent{ExpandBar {} time=", text.widget);
 	}
 
 	@Before

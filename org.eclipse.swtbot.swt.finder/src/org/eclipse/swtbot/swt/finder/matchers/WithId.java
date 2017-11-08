@@ -17,10 +17,11 @@ import org.eclipse.swtbot.swt.finder.results.Result;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 
 /**
  * Tells if a particular widget has value for the given key.
- * 
+ *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
  * @since 2.0
@@ -34,53 +35,72 @@ public class WithId<T extends Widget> extends AbstractMatcher<T> {
 	/**
 	 * The value to use while matching widgets.
 	 */
-	private final String	value;
+	private final Matcher<?>	valueMatcher;
 
 	/**
 	 * Matches a widget that has the specified Key/Value pair set as data into it.
-	 * 
+	 *
 	 * @see Widget#setData(String, Object)
 	 * @param key the key
 	 * @param value the value
 	 */
-	WithId(String key, String value) {
+	WithId(String key, Object value) {
+		this(key, Matchers.equalTo(value));
+	}
+
+	WithId(String key, Matcher<?> valueMatcher) {
 		this.key = key;
-		this.value = value;
+		this.valueMatcher = valueMatcher;
 	}
 
 	@Override
 	protected boolean doMatch(final Object obj) {
-		String data = UIThreadRunnable.syncExec(new Result<String>() {
+		final Widget widget = (Widget) obj;
+		Object data = UIThreadRunnable.syncExec(new Result<Object>() {
 			@Override
-			public String run() {
-				return (String) ((Widget) obj).getData(key);
+			public Object run() {
+				if (key == null) {
+					return widget.getData();
+				}
+				return widget.getData(key);
 			}
 		});
-		return value.equals(data);
+		return this.valueMatcher.matches(data);
 	}
 
 	@Override
 	public void describeTo(Description description) {
-		description.appendText("with key/value (").appendText(key).appendText("/").appendText(value).appendText(")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		description.appendText("with key=").appendText(key).appendText(" and value matching "); //$NON-NLS-1$ //$NON-NLS-2$
+		this.valueMatcher.describeTo(description);
 	}
 
 	/**
-	 * Matches a widget that has the specified Key/Value pair set as data into it.
-	 * 
-	 * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
-	 * @param key the key
-	 * @param value the value
-	 * @return a matcher.
+	 * @deprecated use {@link #withId(String, Object)}
 	 */
+	@Deprecated
 	@Factory
 	public static <T extends Widget> Matcher<T> withId(String key, String value) {
 		return new WithId<T>(key, value);
 	}
 
 	/**
+	 * Matches a widget that has the specified Key/Value pair set as data into it.
+	 *
+	 * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
+	 * @param key the key
+	 * @param value the value
+	 * @return a matcher.
+	 * @since 2.7
+	 */
+	@Factory
+	public static <T extends Widget> Matcher<T> withId(String key, Object value) {
+		return new WithId<T>(key, value);
+	}
+
+	/**
 	 * Matches a widget that has the specified value set for the key
 	 * {@link org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences#DEFAULT_KEY}.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
 	 * @param value the value
 	 * @return a matcher.

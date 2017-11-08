@@ -50,6 +50,7 @@ import org.eclipse.swtbot.swt.finder.finders.ControlFinder;
 import org.eclipse.swtbot.swt.finder.finders.Finder;
 import org.eclipse.swtbot.swt.finder.finders.MenuFinder;
 import org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotArrowButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotBrowser;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
@@ -84,13 +85,13 @@ import org.hamcrest.Matcher;
 
 /**
  * This class contains convenience API to find widgets in SWTBot.
- * Most users would start off as follows: 
- * 
+ * Most users would start off as follows:
+ *
  * <pre>
  *    SWTBot bot = new SWTBot();
- *    
+ *
  *    bot.button(&quot;hello world&quot;).click();
- *    
+ *
  *    // in case you have two edit buttons in two different groups
  *    // say an edit button in the &quot;Address&quot; section,
  *    // and another in &quot;Bank Account&quot; section, you can do the following
@@ -98,9 +99,9 @@ import org.hamcrest.Matcher;
  *    // This is the recommended way to use SWTBot, instead of finding widgets based on its index.
  *    bot.buttonInGroup(&quot;Edit&quot;, &quot;Bank Account&quot;).click();
  * </pre>
- * 
+ *
  * For finding widgets using custom matchers:
- * 
+ *
  * <pre>
  *    SWTBot bot = new SWTBot();
  *    //
@@ -128,7 +129,7 @@ public class SWTBot extends SWTBotFactory {
 
 	/**
 	 * Constructs a bot that will match the contents of the given parentWidget.
-	 * 
+	 *
 	 * @param parent the parent
 	 */
 	public SWTBot(Widget parent) {
@@ -136,7 +137,7 @@ public class SWTBot extends SWTBotFactory {
 	}
 	/**
 	 * Constructs an instance of the bot using the given control finder and menu finder.
-	 * 
+	 *
 	 * @param controlFinder the {@link ControlFinder} used to identify and find controls.
 	 * @param menuFinder the {@link MenuFinder} used to find menu items.
 	 */
@@ -146,7 +147,7 @@ public class SWTBot extends SWTBotFactory {
 
 	/**
 	 * Constructs a bot with the given finder.
-	 * 
+	 *
 	 * @param finder the finder.
 	 */
 	public SWTBot(Finder finder) {
@@ -221,7 +222,9 @@ public class SWTBot extends SWTBotFactory {
 	 * @param value the value for the key.
 	 * @return a {@link SWTBotButton} with the specified <code>key/value</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @deprecated use {@link #buttonWithId(String, Object)} instead
 	 */
+	@Deprecated
 	public SWTBotButton buttonWithId(String key, String value) {
 		return buttonWithId(key, value, 0);
 	}
@@ -232,7 +235,9 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotButton} with the specified <code>key/value</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @deprecated use {@link #buttonWithId(String, Object, int)} instead
 	 */
+	@Deprecated
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotButton buttonWithId(String key, String value, int index) {
 		Matcher matcher = allOf(widgetOfType(Button.class), withId(key, value), withStyle(SWT.PUSH, "SWT.PUSH"));
@@ -254,9 +259,34 @@ public class SWTBot extends SWTBotFactory {
 	 * @return a {@link SWTBotButton} with the specified <code>value</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotButton buttonWithId(String value, int index) {
-		Matcher matcher = allOf(widgetOfType(Button.class), withId(value), withStyle(SWT.PUSH, "SWT.PUSH"));
+		return buttonWithId(SWTBotPreferences.DEFAULT_KEY, value, index);
+	}
+
+	/**
+	 * @param key the key set on the widget.
+	 * @param value the value for the key.
+	 * @return a {@link SWTBotButton} with the specified <code>key/value</code> as data.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @see Widget#setData(String, Object)
+	 * @since 2.7
+	 */
+	public SWTBotButton buttonWithId(String key, Object value) {
+		return buttonWithId(key, value, 0);
+	}
+
+	/**
+	 * @param key the key set on the widget.
+	 * @param value the value for the key.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotButton} with the specified <code>key/value</code> as data.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @see Widget#setData(String, Object)
+	 * @since 2.7
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public SWTBotButton buttonWithId(String key, Object value, int index) {
+		Matcher matcher = allOf(widgetOfType(Button.class), withId(key, value), withStyle(SWT.PUSH, "SWT.PUSH"));
 		return new SWTBotButton((Button) widget(matcher, index), matcher);
 	}
 
@@ -559,7 +589,7 @@ public class SWTBot extends SWTBotFactory {
 	@SuppressWarnings("unchecked")
 	public SWTBotCanvas canvas(int index) {
 		Matcher<Canvas> matcher = allOf(widgetOfType(Canvas.class));
-		return new SWTBotCanvas((Canvas) widget(matcher, index), matcher);
+		return new SWTBotCanvas(widget(matcher, index), matcher);
 	}
 
 	/**

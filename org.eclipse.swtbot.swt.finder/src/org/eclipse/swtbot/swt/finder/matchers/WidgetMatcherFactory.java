@@ -7,7 +7,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified labelText.
-   * 
+   *
    * @param labelText the label.
    * @return a matcher.
    * @since 2.0
@@ -18,7 +18,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified labelText within the given parent.
-   * 
+   *
    * @param labelText the label.
    * @param finder finder for locating widgets
    * @return a matcher.
@@ -30,7 +30,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified text, after striping the mnemonics "&"
-   * 
+   *
    * @param text the text.
    * @return a matcher.
    * @since 2.0
@@ -41,7 +41,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified regex.
-   * 
+   *
    * @param regex the label.
    * @return a matcher.
    * @since 2.0
@@ -52,7 +52,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified exact text.
-   * 
+   *
    * @param text the label.
    * @return a matcher.
    * @since 2.0
@@ -63,7 +63,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified text, ignoring case considerations.
-   * 
+   *
    * @param text the label.
    * @return a matcher.
    * @since 2.0
@@ -72,10 +72,10 @@ public abstract class WidgetMatcherFactory {
     return org.eclipse.swtbot.swt.finder.matchers.WithText.withTextIgnoringCase(text);
   }
 
-  
+
   /**
    * Matches a widget that has the specified exact message.
-   * 
+   *
    * @param message the message.
    * @return a matcher.
    * @since 2.0
@@ -86,7 +86,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified style bit set.
-   * 
+   *
    * @param style the style bits.
    * @param styleDescription the description of the style bits.
    * @return a matcher.
@@ -98,7 +98,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified exact tooltip.
-   * 
+   *
    * @param text the label.
    * @return a matcher.
    * @since 2.0
@@ -109,7 +109,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified tooltip, ignoring case considerations.
-   * 
+   *
    * @param text the label.
    * @return a matcher.
    * @since 2.0
@@ -119,10 +119,10 @@ public abstract class WidgetMatcherFactory {
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withTooltipIgoringCase(java.lang.String text) {
     return withTooltipIgnoringCase(text);
   }
-  
+
   /**
    * Matches a widget that has the specified tooltip, ignoring case considerations.
-   * 
+   *
    * @param text the label.
    * @return a matcher.
    * @since 2.5
@@ -133,20 +133,33 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified Key/Value pair set as data into it.
-   * 
+   *
    * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
    * @param key the key
    * @param value the value
    * @return a matcher.
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withId(java.lang.String key, java.lang.String value) {
+    return org.eclipse.swtbot.swt.finder.matchers.WithId.withId(key, (Object)value);
+  }
+
+  /**
+   * Matches a widget that has the specified Key/Value pair set as data into it.
+   *
+   * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
+   * @param key the key
+   * @param value the value
+   * @return a matcher.
+   * @since 2.7
+   */
+  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withId(java.lang.String key, java.lang.Object value) {
     return org.eclipse.swtbot.swt.finder.matchers.WithId.withId(key, value);
   }
 
   /**
    * Matches a widget that has the specified value set for the key
    * {@link org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences#DEFAULT_KEY}.
-   * 
+   *
    * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
    * @param value the value
    * @return a matcher.
@@ -161,7 +174,7 @@ public abstract class WidgetMatcherFactory {
    * <p>
    * <strong>Note:</strong> This invokes getItems method on the object and expects to see an array as a return value.
    * </p>
-   * 
+   *
    * @param matcher the matcher.
    * @return a matcher.
    */
@@ -171,7 +184,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that belongs to the specified group
-   * 
+   *
    * @param labelText the label.
    * @return a matcher.
    * @since 2.0
@@ -182,7 +195,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget in a group, if the matcher evaluates to true for the group.
-   * 
+   *
    * @param matcher the matcher.
    * @return a matcher.
    * @since 2.0
@@ -193,7 +206,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches a widget that has the specified type
-   * 
+   *
    * @param type the type of the widget.
    * @return a matcher.
    * @since 2.0
@@ -204,19 +217,20 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Matches another matcher in the context of the UI thread. Useful if you want to make a matcher UI thread safe.
-   * 
+   *
    * @param matcher the matcher
    * @return a matcher.
    * @since 2.0
    * @deprecated this has been deprecated and will be removed in future releases of swtbot.
    */
+  @Deprecated
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> inUIThread(org.hamcrest.Matcher<?> matcher) {
     return org.eclipse.swtbot.swt.finder.matchers.InUIThread.inUIThread(matcher);
   }
 
   /**
    * Evaluates to true only if ALL of the passed in matchers evaluate to true.
-   * 
+   *
    * @return a matcher.
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> allOf(org.hamcrest.Matcher<? extends T>... matchers) {
@@ -225,7 +239,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Evaluates to true only if ALL of the passed in matchers evaluate to true.
-   * 
+   *
    * @return a matcher.
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> allOf(java.lang.Iterable<org.hamcrest.Matcher<? extends T>> matchers) {
@@ -234,7 +248,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Evaluates to true only if ANY of the passed in matchers evaluate to true.
-   * 
+   *
    * @return a matcher.
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> anyOf(org.hamcrest.Matcher<? extends T>... matchers) {
@@ -243,7 +257,7 @@ public abstract class WidgetMatcherFactory {
 
   /**
    * Evaluates to true only if ANY of the passed in matchers evaluate to true.
-   * 
+   *
    * @return a matcher.
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> anyOf(java.lang.Iterable<org.hamcrest.Matcher<? extends T>> matchers) {

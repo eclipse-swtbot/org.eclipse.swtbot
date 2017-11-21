@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Red Hat Inc. and others.
+ * Copyright (c) 2014, 2018 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,11 +26,13 @@ import org.eclipse.swtbot.generator.framework.GenerationComplexRule;
 import org.eclipse.swtbot.generator.framework.GenerationSimpleRule;
 import org.eclipse.swtbot.generator.framework.Generator;
 import org.eclipse.swtbot.generator.framework.rules.annotation.TestAnnotationRule;
+import org.eclipse.swtbot.generator.framework.rules.complex.ModifyCComboComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyComboComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyStyledTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ModifyTextComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.complex.ToolBarMenuComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CComboSelectionRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.CComboTextModifyRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CTabItemActivateRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CheckTableItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CheckTreeItemRule;
@@ -80,6 +82,7 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new SelectListItemRule());
 		res.add(new CTabItemActivateRule());
 		res.add(new TabItemActivateRule());
+		res.add(new CComboTextModifyRule());
 		res.add(new PressShortCutRule());
 		res.add(new SelectTableItemRule());
 		res.add(new CheckTableItemRule());
@@ -121,6 +124,7 @@ public class SWTBotGeneratorRules implements Generator {
 		cres.add(new ModifyTextComplexRule());
 		cres.add(new ModifyStyledTextComplexRule());
 		cres.add(new ModifyComboComplexRule());
+		cres.add(new ModifyCComboComplexRule());
 
 		IExtensionRegistry registry = RegistryFactory.getRegistry();
 		if (registry != null) {

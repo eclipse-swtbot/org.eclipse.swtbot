@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2012, 2017 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,14 +45,18 @@ public class WidgetUtils {
 		Composite parent = null;
 		do {
 			parent = control.getParent();
-			for (Control c : parent.getChildren()) {
-				if(c.equals(control)){
+			Control[] children = parent.getChildren();
+			if (children.length == 0) {
+				throw new RuntimeException("Could not determine index for widget " + control);
+			}
+			for (Control c : children) {
+				if (c.equals(control)) {
 					return index;
-				} else if (c.getClass().equals(control.getClass())){
+				} else if (c.getClass().equals(control.getClass())) {
 					index++;
 				}
 			}
-		} while(!(parent instanceof Shell));
+		} while (!(parent instanceof Shell));
 
 		throw new RuntimeException("Could not determine index for widget " + control);
 	}
@@ -119,7 +123,7 @@ public class WidgetUtils {
 
 	private static Control getPreviousControl(Control control) {
 		int i = Arrays.asList(control.getParent().getChildren()).indexOf(control);
-		if (i == 0) {
+		if (i <= 0) {
 			return null;
 		}
 		return control.getParent().getChildren()[i - 1];

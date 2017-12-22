@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 http://www.inria.fr/ and others.
+ * Copyright (c) 2008, 2018 http://www.inria.fr/ and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -176,7 +176,6 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.Selection);
 		notifyTable(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
 		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 2));
-		notifyTable(SWT.Selection);
 		notifyTable(SWT.MouseDoubleClick, createMouseEvent(1, SWT.NONE, 2));
 		notifyTable(SWT.DefaultSelection);
 		notifyTable(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 2));

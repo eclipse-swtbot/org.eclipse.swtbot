@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc. and others.
+ * Copyright (c) 2017 Cadence Design Systems, Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Mickael Istria (Red Hat) - initial API and implementation
+ *     Aparna Argade - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtbot.generator.framework.rules.simple;
 
@@ -16,11 +16,10 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 
-public class SelectTreeItemRule extends AbstractTreeGenerationRule {
-
+public class CheckTreeItemRule extends AbstractTreeGenerationRule {
 	@Override
 	public boolean appliesTo(Event e) {
-		return super.appliesTo(e) && e.type == SWT.Selection && e.detail != SWT.CHECK;
+		return super.appliesTo(e) && e.type == SWT.Selection && e.detail == SWT.CHECK;
 	}
 
 	@Override
@@ -28,7 +27,7 @@ public class SelectTreeItemRule extends AbstractTreeGenerationRule {
 		List<String> actions = new ArrayList<String>();
 		StringBuilder code = new StringBuilder();
 		code.append(getWidgetAccessor());
-		code.append(".select()");
+		code.append(".toggleCheck()");
 		actions.add(code.toString());
 		return actions;
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Red Hat Inc..
+ * Copyright (c) 2014 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,10 +32,13 @@ import org.eclipse.swtbot.generator.framework.rules.complex.ModifyTextComplexRul
 import org.eclipse.swtbot.generator.framework.rules.complex.ToolBarMenuComplexRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CComboSelectionRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CTabItemActivateRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.CheckTableItemRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.CheckTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.CheckboxClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboSelectionRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ContextMenuRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.DoubleClickTableItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.DoubleClickTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ExpandTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ModifyStyledTextRule;
@@ -44,6 +47,7 @@ import org.eclipse.swtbot.generator.framework.rules.simple.PressShortCutRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.PushButtonClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.RadioButtonClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.SelectListItemRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.SelectTableItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.SelectTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ShellMenuClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.TabItemActivateRule;
@@ -53,7 +57,7 @@ import org.eclipse.swtbot.generator.framework.rules.simple.ToolBarItemClickedRul
 public class SWTBotGeneratorRules implements Generator {
 
 	private static final String RULES_EXTENSION_POINT = "org.eclipse.swtbot.generator.rules.additions"; //$NON-NLS-1$
-	
+
 	@Override
 	public List<GenerationSimpleRule> createSimpleRules() {
 		List<GenerationSimpleRule> res = new ArrayList<GenerationSimpleRule>();
@@ -76,9 +80,12 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new SelectListItemRule());
 		res.add(new CTabItemActivateRule());
 		res.add(new TabItemActivateRule());
-
 		res.add(new PressShortCutRule());
-		
+		res.add(new SelectTableItemRule());
+		res.add(new CheckTableItemRule());
+		res.add(new CheckTreeItemRule());
+		res.add(new DoubleClickTableItemRule());
+
 		IExtensionRegistry registry = RegistryFactory.getRegistry();
 		if (registry != null) {
 			for (IConfigurationElement element : registry.getConfigurationElementsFor(RULES_EXTENSION_POINT)) {
@@ -88,11 +95,11 @@ public class SWTBotGeneratorRules implements Generator {
 						res.add(rule);
 					} catch (CoreException ex) {
 						SWTBotGeneratorPlugin.getDefault().getLog().log(
-							new Status(
-									IStatus.ERROR,
-									element.getContributor().getName(),
-									ex.getMessage(),
-									ex));
+								new Status(
+										IStatus.ERROR,
+										element.getContributor().getName(),
+										ex.getMessage(),
+										ex));
 					}
 				}
 			}
@@ -114,7 +121,7 @@ public class SWTBotGeneratorRules implements Generator {
 		cres.add(new ModifyTextComplexRule());
 		cres.add(new ModifyStyledTextComplexRule());
 		cres.add(new ModifyComboComplexRule());
-		
+
 		IExtensionRegistry registry = RegistryFactory.getRegistry();
 		if (registry != null) {
 			for (IConfigurationElement element : registry.getConfigurationElementsFor(RULES_EXTENSION_POINT)) {
@@ -124,11 +131,11 @@ public class SWTBotGeneratorRules implements Generator {
 						cres.add(rule);
 					} catch (CoreException ex) {
 						SWTBotGeneratorPlugin.getDefault().getLog().log(
-							new Status(
-									IStatus.ERROR,
-									element.getContributor().getName(),
-									ex.getMessage(),
-									ex));
+								new Status(
+										IStatus.ERROR,
+										element.getContributor().getName(),
+										ex.getMessage(),
+										ex));
 					}
 				}
 			}

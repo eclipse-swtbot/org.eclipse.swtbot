@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -468,7 +468,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.Selection);
 		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
 		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 2));
-		notifyTree(SWT.Selection);
 		notifyTree(SWT.MouseDoubleClick, createMouseEvent(1, SWT.NONE, 2));
 		notifyTree(SWT.DefaultSelection);
 		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 2));

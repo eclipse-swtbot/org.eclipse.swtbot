@@ -244,7 +244,7 @@
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+            url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
@@ -255,7 +255,7 @@
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+            url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
@@ -266,7 +266,7 @@
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+            url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
@@ -277,7 +277,7 @@
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+            url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
@@ -288,7 +288,7 @@
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+            url="http://download.eclipse.org/nebula/snapshot/"/>
       </repositoryList>
       <repositoryList
           name="Kepler">
@@ -297,7 +297,7 @@
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+            url="http://download.eclipse.org/nebula/snapshot/"/>
       </repositoryList>
       <repositoryList
           name="Juno">
@@ -306,7 +306,7 @@
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="http://download.eclipse.org/technology/nebula/snapshot/"/>
+            url="http://download.eclipse.org/nebula/snapshot/"/>
       </repositoryList>
     </targlet>
   </setupTask>

@@ -28,7 +28,7 @@
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.gallery.feature.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/technology/nebula/snapshot/"/>
+<repository location="http://download.eclipse.org/nebula/snapshot/"/>
 </location>
 </locations>
 <launcherArgs>

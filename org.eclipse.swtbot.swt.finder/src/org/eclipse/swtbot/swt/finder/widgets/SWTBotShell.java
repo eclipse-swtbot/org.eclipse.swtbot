@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,11 +7,13 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
- *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
+ *     Aparna Argade - maximize API (Bug 532391)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -19,6 +21,7 @@ import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
@@ -171,4 +174,70 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 		bot().waitUntil(waitForMenu);
 		return new SWTBotRootMenu(waitForMenu.get(0));
 	}
+
+	/**
+	 * Sets the maximized state of the shell.
+	 * <p>
+	 * If the argument is <code>true</code> causes the shell to switch to the
+	 * maximized state, and if the argument is <code>false</code> and the shell was
+	 * previously maximized, causes the shell to switch back to either the minimized
+	 * or normal state.
+	 *
+	 * @param maximize
+	 *            the new maximized state
+	 * @return itself
+	 * @throws TimeoutException if the shell does not resize as per the expectation.
+	 * @since 2.7
+	 */
+	public SWTBotShell maximize(final boolean maximize) throws TimeoutException {
+		if (maximize == isMaximizedState()) {
+			log.debug(MessageFormat.format("{0} is already in expected state, not resizing again.", this)); //$NON-NLS-1$
+			return this;
+		}
+		final Rectangle initialRectangle = getBounds();
+		activate();
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				widget.setMaximized(maximize);
+			}
+		});
+
+		new SWTBot().waitUntil(new DefaultCondition() {
+			@Override
+			public String getFailureMessage() {
+				return "Timed out waiting for " + SWTUtils.toString(widget) + " to get maximized/unmaximized"; //$NON-NLS-1$ //$NON-NLS-2$
+			}
+
+			@Override
+			public boolean test() throws Exception {
+				/* Wait for maximized state and also for resize to complete. */
+				if (maximize) {
+					return isMaximizedState() && isResized(initialRectangle);
+				} else {
+					return !isMaximizedState() && isResized(initialRectangle);
+				}
+			}
+		});
+		return this;
+	}
+
+	private boolean isMaximizedState() {
+		return syncExec(new BoolResult() {
+			@Override
+			public Boolean run() {
+				return widget.getMaximized();
+			}
+		});
+	}
+
+	private boolean isResized(final Rectangle initialRectangle) {
+		Rectangle newRectangle = getBounds();
+		if ((initialRectangle.width != newRectangle.width) || (initialRectangle.height != newRectangle.height)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

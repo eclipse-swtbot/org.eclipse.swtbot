@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,13 +7,17 @@
  * 
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Aparna Argade - maximize API (Bug 532391)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertSameWidget;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.pass;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import org.eclipse.swt.widgets.Composite;
@@ -22,6 +26,7 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.ControlFinder;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTShellTest;
 import org.junit.Test;
@@ -121,6 +126,49 @@ public class SWTBotShellTest extends AbstractSWTShellTest {
 		});
 
 		assertSame(shell, bot.shellWithId("foo-shell", "bar").widget);
+	}
+
+	private int getWidth(final SWTBotShell shell) {
+		return UIThreadRunnable.syncExec(display, new IntResult() {
+			@Override
+			public Integer run() {
+				return shell.widget.getBounds().width;
+			}
+		});
+	}
+
+	private int getHeight(final SWTBotShell shell) {
+		return UIThreadRunnable.syncExec(display, new IntResult() {
+			@Override
+			public Integer run() {
+				return shell.widget.getBounds().height;
+			}
+		});
+	}
+
+	@Test
+	public void testMaximize() throws Exception {
+		final SWTBotShell shell = bot.shell("shell4");
+		final int originalwidth = 400, originalheight = 400;
+		UIThreadRunnable.syncExec(display, new VoidResult() {
+			@Override
+			public void run() {
+				shell.widget.setSize(originalwidth, originalheight);
+			}
+		});
+		assertEquals("Initial width", originalwidth, getWidth(shell));
+		assertEquals("Initial height", originalheight, getHeight(shell));
+
+		//after maximize, bounds are greater than original
+		shell.maximize(true);
+		assertThat(getWidth(shell), greaterThan(originalwidth));
+		assertThat(getHeight(shell), greaterThan(originalheight));
+
+		// after un-maximize, bounds are either equal (normal size) or less than
+		// (minimized) the original
+		shell.maximize(false);
+		assertThat(getWidth(shell), lessThanOrEqualTo(originalwidth));
+		assertThat(getHeight(shell), lessThanOrEqualTo(originalheight));
 	}
 
 }

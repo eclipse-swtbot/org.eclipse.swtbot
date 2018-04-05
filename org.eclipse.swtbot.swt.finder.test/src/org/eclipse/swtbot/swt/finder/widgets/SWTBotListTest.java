@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -173,15 +173,19 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		SWTBotAssert.assertContains("MouseEnter [6]: MouseEvent{List {} ", events[i++]);
 		SWTBotAssert.assertContains("Activate [26]: ShellEvent{List {} ", events[i++]);
 		SWTBotAssert.assertContains("FocusIn [15]: FocusEvent{List {} ", events[i++]);
-		SWTBotAssert.assertContains("MouseMove [5]: MouseEvent{List {} ", events[i++]);
-		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i++]);
-		SWTBotAssert.assertContains("Selection [13]: SelectionEvent{List {} ", events[i++]);
-		SWTBotAssert.assertContains("MouseUp [4]: MouseEvent{List {} ", events[i++]);
+		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i]);
+		SWTBotAssert.assertContains("stateMask=0x0", events[i++]);
+		SWTBotAssert.assertContains("Selection [13]: SelectionEvent{List {} ", events[i]);
+		SWTBotAssert.assertContains("stateMask=0x0", events[i++]);
+		SWTBotAssert.assertContains("MouseUp [4]: MouseEvent{List {} ", events[i]);
+		SWTBotAssert.assertContains("stateMask=0x80000", events[i++]);
 		i = events[i].startsWith("Paint") ? (i + 1) : i;
-		SWTBotAssert.assertContains("MouseMove [5]: MouseEvent{List {} ", events[i++]);
-		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i++]);
-		SWTBotAssert.assertContains("Selection [13]: SelectionEvent{List {} ", events[i++]);
-		SWTBotAssert.assertContains("MouseUp [4]: MouseEvent{List {} ", events[i++]);
+		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i]);
+		SWTBotAssert.assertContains("stateMask=0x40000", events[i++]);
+		SWTBotAssert.assertContains("Selection [13]: SelectionEvent{List {} ", events[i]);
+		SWTBotAssert.assertContains("stateMask=0x40000", events[i++]);
+		SWTBotAssert.assertContains("MouseUp [4]: MouseEvent{List {} ", events[i]);
+		SWTBotAssert.assertContains("stateMask=0xc0000", events[i++]);
 	}
 
 	private void verifyNotifySelect()
@@ -190,10 +194,36 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		assertTextContains("MouseEnter [6]: MouseEvent{List {} ", text.widget);
 		assertTextContains("Activate [26]: ShellEvent{List {} ", text.widget);
 		assertTextContains("FocusIn [15]: FocusEvent{List {} ", text.widget);
-		assertTextContains("MouseMove [5]: MouseEvent{List {} ", text.widget);
 		assertTextContains("Selection [13]: SelectionEvent{List {} ", text.widget);
 		assertTextContains("MouseUp [4]: MouseEvent{List {} ", text.widget);
 		assertTextContains("MouseDown [3]: MouseEvent{List {} ", text.widget);
+	}
+
+	private void verifynotifyPostSelectDoubleClick() {
+		SWTBotText text = bot.textInGroup("Listeners");
+		assertEventMatches(text,
+				"MouseDown [3]: MouseEvent{List {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1");
+		assertEventMatches(text,
+				"MouseDoubleClick [8]: MouseEvent{List {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=2}");
+		assertEventMatches(text,
+				"DefaultSelection [14]: SelectionEvent{List {} time=0 data=null item=null detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true");
+		assertEventMatches(text,
+				"MouseUp [4]: MouseEvent{List {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1");
+	}
+
+	@Test
+	public void canDoubleClickOnList() throws Exception {
+		bot.checkBox("Listen").select();
+		bot.button("Clear").click();
+		SWTBotList list = bot.listInGroup("List");
+		SWTBotText text = bot.textInGroup("Listeners");
+		assertText("", text);
+		final String item = "Bananas";
+		list.doubleClick(item);
+		assertEquals(1, list.selectionCount());
+		assertEquals(item, list.selection()[0]);
+		verifyNotifySelect();
+		verifynotifyPostSelectDoubleClick();
 	}
 
 	@Test

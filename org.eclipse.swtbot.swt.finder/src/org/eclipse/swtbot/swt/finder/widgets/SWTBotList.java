@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -212,15 +212,16 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @since 2.6
 	 */
 	protected void notifySelect(boolean first) {
+		int stateMask1 = (first) ?  SWT.NONE : (SWT.NONE | SWT.CTRL);
+		int stateMask2 = (first) ?  SWT.BUTTON1 : (SWT.BUTTON1 | SWT.CTRL);
 		if (first) {
 			notify(SWT.MouseEnter);
 			notify(SWT.Activate);
 			notify(SWT.FocusIn);
 		}
-		notify(SWT.MouseMove);
-		notify(SWT.MouseDown);
-		notify(SWT.Selection);
-		notify(SWT.MouseUp);
+		notify(SWT.MouseDown, createMouseEvent(1, stateMask1, 1));
+		notify(SWT.Selection, createSelectionEvent(stateMask1));
+		notify(SWT.MouseUp, createMouseEvent(1, stateMask2, 1));
 	}
 
 	/**
@@ -312,4 +313,51 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 			}
 		});
 	}
+
+	/**
+	 * Double clicks on the given index.
+	 *
+	 * @param index the index to double click on the list.
+	 * @since 2.7
+	 */
+	public void doubleClick(final int index) {
+		log.debug(MessageFormat.format("Double clicking {0} on index {1}", this, index)); //$NON-NLS-1$
+		select(index);
+		notifyPostSelectDoubleClick();
+	}
+
+	/**
+	 * Double clicks on the item matching the given text.
+	 *
+	 * @param item the item to double click on the list.
+	 * @since 2.7
+	 */
+	public void doubleClick(final String item) {
+		log.debug(MessageFormat.format("Double clicking {0} on text {1}", this, item)); //$NON-NLS-1$
+		select(item);
+		notifyPostSelectDoubleClick();
+	}
+
+	/**
+	 * Double clicks on the list.
+	 *
+	 * @since 2.7
+	 */
+	public void doubleClick() {
+		waitForEnabled();
+		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		notifySelect(true);
+		notifyPostSelectDoubleClick();
+	}
+
+	/**
+	 * Notifies of events sent on double click after selection.
+	 */
+	private void notifyPostSelectDoubleClick() {
+		notify(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 2));
+		notify(SWT.MouseDoubleClick, createMouseEvent(1, SWT.NONE, 2));
+		notify(SWT.DefaultSelection);
+		notify(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 2));
+	}
+
 }

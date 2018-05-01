@@ -144,7 +144,7 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		assertText("", text);
 
 		list.select(new int[] { 1, 3 });
-		verifyNotifySelectMulti();
+		verifyNotifySelectMulti(true);
 	}
 
 	@Test
@@ -162,30 +162,40 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		bot.button("Clear").click();
 		assertText("", text);
 		list.unselect();
-		verifyNotifySelectMulti();
+		verifyNotifySelectMulti(false);
 	}
 
-	private void verifyNotifySelectMulti()
+	/**
+	 * @param select : true for select operation, false for unselect operation
+	 */
+	private void verifyNotifySelectMulti(boolean select)
 	{
 		SWTBotText text = bot.textInGroup("Listeners");
 		String[] events = SWTUtils.getText(text.widget).split("\n");
+		String stateMask1 = (select) ?  "0x0" : "0x40000";
+		String stateMask2 = (select) ?  "0x80000" : "0xc0000";
 		int i = 0;
+		i = events[i].startsWith("Paint") ? (i + 1) : i;
 		SWTBotAssert.assertContains("MouseEnter [6]: MouseEvent{List {} ", events[i++]);
 		SWTBotAssert.assertContains("Activate [26]: ShellEvent{List {} ", events[i++]);
 		SWTBotAssert.assertContains("FocusIn [15]: FocusEvent{List {} ", events[i++]);
 		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i]);
-		SWTBotAssert.assertContains("stateMask=0x0", events[i++]);
+		SWTBotAssert.assertContains("stateMask=" + stateMask1, events[i++]);
 		SWTBotAssert.assertContains("Selection [13]: SelectionEvent{List {} ", events[i]);
-		SWTBotAssert.assertContains("stateMask=0x0", events[i++]);
+		SWTBotAssert.assertContains("stateMask=" + stateMask1, events[i++]);
 		SWTBotAssert.assertContains("MouseUp [4]: MouseEvent{List {} ", events[i]);
-		SWTBotAssert.assertContains("stateMask=0x80000", events[i++]);
+		SWTBotAssert.assertContains("stateMask=" + stateMask2, events[i++]);
+		if (select) { //statemasks are changed only for select for further items
+			stateMask1 ="0x40000";
+			stateMask2 = "0xc0000";
+		}
 		i = events[i].startsWith("Paint") ? (i + 1) : i;
 		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i]);
-		SWTBotAssert.assertContains("stateMask=0x40000", events[i++]);
+		SWTBotAssert.assertContains("stateMask=" + stateMask1, events[i++]);
 		SWTBotAssert.assertContains("Selection [13]: SelectionEvent{List {} ", events[i]);
-		SWTBotAssert.assertContains("stateMask=0x40000", events[i++]);
+		SWTBotAssert.assertContains("stateMask=" + stateMask1, events[i++]);
 		SWTBotAssert.assertContains("MouseUp [4]: MouseEvent{List {} ", events[i]);
-		SWTBotAssert.assertContains("stateMask=0xc0000", events[i++]);
+		SWTBotAssert.assertContains("stateMask=" + stateMask2, events[i++]);
 	}
 
 	private void verifyNotifySelect()

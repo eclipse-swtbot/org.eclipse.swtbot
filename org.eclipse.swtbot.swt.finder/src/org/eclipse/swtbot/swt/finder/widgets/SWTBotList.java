@@ -12,6 +12,8 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
@@ -32,6 +34,8 @@ import org.hamcrest.SelfDescribing;
  */
 @SWTBotWidget(clasz = List.class, preferredName = "list", referenceBy = { ReferenceBy.LABEL })
 public class SWTBotList extends AbstractSWTBotControl<List> {
+
+	private int lastSelectionIndex;
 
 	/**
 	 * Constructs an isntance of this with the given list widget.
@@ -63,12 +67,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 		log.debug(MessageFormat.format("Set selection {0} to text {1}", this, item)); //$NON-NLS-1$
 		waitForEnabled();
 		final int indexOf = indexOfChecked(item);
-		asyncExec(new VoidResult() {
-			@Override
-			public void run() {
-				widget.setSelection(indexOf);
-			}
-		});
+		processSelection(true, indexOf);
 		notifySelect();
 	}
 
@@ -81,12 +80,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 		log.debug(MessageFormat.format("Set selection {0} to index {1}", this, index)); //$NON-NLS-1$
 		waitForEnabled();
 		assertIsLegalIndex(index);
-		asyncExec(new VoidResult() {
-			@Override
-			public void run() {
-				widget.setSelection(index);
-			}
-		});
+		processSelection(true, index);
 		notifySelect();
 	}
 
@@ -145,21 +139,15 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 		for (int i = 0; i < indices.length; i++) {
 			assertIsLegalIndex(indices[i]);
 		}
-		asyncExec(new VoidResult() {
-			@Override
-			public void run() {
-				for (int i = 0; i < indices.length; i++) {
-					if (i == 0) {
-						// removes earlier selection
-						widget.setSelection(indices[0]);
-						notifySelect(true);
-					} else {
-						widget.select(indices[i]);
-						notifySelect(false);
-					}
-				}
+		for (int i = 0; i < indices.length; i++) {
+			if (i == 0) {
+				processSelection(true, indices[0]);
+				notifySelect(true);
+			} else {
+				processSelection(false, indices[i]);
+				notifySelect(false);
 			}
-		});
+		}
 	}
 
 	/**
@@ -219,9 +207,10 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 			notify(SWT.Activate);
 			notify(SWT.FocusIn);
 		}
-		notify(SWT.MouseDown, createMouseEvent(1, stateMask1, 1));
+		Point point = getXYOfSelectionIndex();
+		notify(SWT.MouseDown, createMouseEvent(point.x, point.y, 1, stateMask1, 1));
 		notify(SWT.Selection, createSelectionEvent(stateMask1));
-		notify(SWT.MouseUp, createMouseEvent(1, stateMask2, 1));
+		notify(SWT.MouseUp, createMouseEvent(point.x, point.y, 1, stateMask2, 1));
 	}
 
 	/**
@@ -230,20 +219,16 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public void unselect() {
 		assertMultiSelect("unselect");
-		asyncExec(new VoidResult() {
-			@Override
-			public void run() {
-				int[] selectionIndices = widget.getSelectionIndices();
-				for (int i = 0; i < selectionIndices.length; i++) {
-					widget.deselect(selectionIndices[i]);
-					if (i == 0) {
-						notifySelect(true);
-					} else {
-						notifySelect(false);
-					}
-				}
+		String[] selection = selection();
+		for (int i = 0; i < selection.length; i++) {
+			int index = indexOf(selection[i]);
+			if (i == 0) {
+				unselect(index);
+			} else {
+				processUnSelection(index);
+				notifySelect(false);
 			}
-		});
+		}
 	}
 
 	/**
@@ -255,19 +240,11 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	public void unselect(final int row) {
 		assertMultiSelect("unselect");
 		waitForEnabled();
-		setFocus();
-		asyncExec(new VoidResult() {
-			@Override
-			public void run() {
-				if (widget.isSelected(row)) {
-					log.debug(MessageFormat.format("Unselecting row {0} in {1}", row, widget)); //$NON-NLS-1$
-					widget.deselect(row);
-					notifySelect();
-				} else {
-					log.debug(MessageFormat.format("Row {0} is already unselected in {1}", row, widget)); //$NON-NLS-1$
-				}
-			}
-		});
+		processUnSelection(row);
+		notify(SWT.MouseEnter);
+		notify(SWT.Activate);
+		notify(SWT.FocusIn);
+		notifySelect(false);
 	}
 
 	/**
@@ -354,10 +331,63 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * Notifies of events sent on double click after selection.
 	 */
 	private void notifyPostSelectDoubleClick() {
-		notify(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 2));
-		notify(SWT.MouseDoubleClick, createMouseEvent(1, SWT.NONE, 2));
+		Point point = getXYOfSelectionIndex();
+		notify(SWT.MouseDown, createMouseEvent(point.x, point.y, 1, SWT.NONE, 2));
+		notify(SWT.MouseDoubleClick, createMouseEvent(point.x, point.y, 1, SWT.NONE, 2));
 		notify(SWT.DefaultSelection);
-		notify(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 2));
+		notify(SWT.MouseUp, createMouseEvent(point.x, point.y, 1, SWT.BUTTON1, 2));
+	}
+
+	/**
+	 * Gets a point inside the selected item.
+	 * @return Point which specifies the X,Y coordinates of the center of the selected item.
+	 */
+	private Point getXYOfSelectionIndex() {
+		int y = syncExec(new IntResult() {
+			@Override
+			public Integer run() {
+				int itemHeight = widget.getItemHeight();
+				// zero-relative index
+				int visibleIndex = lastSelectionIndex - widget.getTopIndex();
+				return visibleIndex * itemHeight + (itemHeight / 2);
+			}
+		});
+		Rectangle bounds = getBounds();
+		return new Point(bounds.x + (bounds.width / 2), y);
+	}
+
+	/**
+	 * Selects the specified index.
+	 * @param first true for the first selection; false otherwise.
+	 * @param index the zero based index.
+	 */
+	private void processSelection(final boolean first, final int index) {
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				if (first) {
+					// removes earlier selection
+					widget.setSelection(index);
+				} else {
+					widget.select(index);
+				}
+				lastSelectionIndex = index;
+			}
+		});
+	}
+
+	/**
+	 * Unselects the specified index.
+	 * @param index the zero based index.
+	 */
+	private void processUnSelection(final int index) {
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				widget.deselect(index);
+				lastSelectionIndex = index;
+			}
+		});
 	}
 
 }

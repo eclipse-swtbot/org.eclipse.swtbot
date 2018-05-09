@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1157,9 +1157,9 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		final Listener dragSourceListener = syncExec(new Result<Listener>() {
 			@Override
 			public Listener run() {
-				// The DragSource listener is an anonymous class of DragSource
+				// The DragSource listener is an anonymous or lambda class of DragSource
 				for (Listener listener : control.getListeners(SWT.DragDetect)) {
-					if (DragSource.class.equals(listener.getClass().getEnclosingClass())) {
+					if (listener.getClass().getName().startsWith(DragSource.class.getName())) {
 						return listener;
 					}
 				}

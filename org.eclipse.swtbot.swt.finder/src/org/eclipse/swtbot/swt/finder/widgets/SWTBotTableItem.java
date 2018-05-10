@@ -200,8 +200,8 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 				table.setSelection(widget);
 			}
 		});
-		notifyTable(SWT.Activate);
-		notifyTable(SWT.FocusIn);
+		notifyTable(SWT.Activate, super.createEvent());
+		notifyTable(SWT.FocusIn, super.createEvent());
 		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 		notifyTable(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 	}
@@ -373,10 +373,9 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	}
 
 	private void notifySelect() {
-		notifyTable(SWT.MouseEnter);
-		notifyTable(SWT.MouseMove);
-		notifyTable(SWT.Activate);
-		notifyTable(SWT.FocusIn);
+		notifyTable(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
+		notifyTable(SWT.Activate, super.createEvent());
+		notifyTable(SWT.FocusIn, super.createEvent());
 		notifyTable(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 		notifyTable(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 		notifyTable(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));

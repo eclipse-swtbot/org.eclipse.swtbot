@@ -188,7 +188,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			return this;
 		}
 
-		preExpandNotify();
+		preExpandCollapseNotify();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
@@ -196,7 +196,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 				widget.setExpanded(true);
 			}
 		});
-		postExpandNotify();
+		postExpandCollapseNotify();
 		return this;
 	}
 
@@ -213,7 +213,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			return this;
 		}
 
-		preCollapseNotify();
+		preExpandCollapseNotify();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
@@ -221,27 +221,17 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 				widget.setExpanded(false);
 			}
 		});
-		postCollapseNotify();
+		postExpandCollapseNotify();
 		return this;
 	}
 
-	private void preExpandNotify() {
-		notifyTree(SWT.Activate);
-		notifyTree(SWT.FocusIn);
+	private void preExpandCollapseNotify() {
+		notifyTree(SWT.Activate, super.createEvent());
+		notifyTree(SWT.FocusIn, super.createEvent());
 		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 	}
 
-	private void postExpandNotify() {
-		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
-	}
-
-	private void preCollapseNotify() {
-		notifyTree(SWT.Activate);
-		notifyTree(SWT.FocusIn);
-		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
-	}
-
-	private void postCollapseNotify() {
+	private void postExpandCollapseNotify() {
 		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
 	}
 
@@ -493,8 +483,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 				lastSelectionItem = widget;
 			}
 		});
-		notifyTree(SWT.Activate);
-		notifyTree(SWT.FocusIn);
+		notifyTree(SWT.Activate, super.createEvent());
+		notifyTree(SWT.FocusIn, super.createEvent());
 		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
 		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
 	}
@@ -648,10 +638,9 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
 		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
 		SWTBotTreeItem item = new SWTBotTreeItem(lastSelectionItem);
-		notifyTree(SWT.MouseEnter);
-		notifyTree(SWT.MouseMove);
-		notifyTree(SWT.Activate);
-		notifyTree(SWT.FocusIn);
+		notifyTree(SWT.MouseEnter, item.createMouseEvent(0, SWT.NONE, 0));
+		notifyTree(SWT.Activate, super.createEvent());
+		notifyTree(SWT.FocusIn, super.createEvent());
 		notifyTree(SWT.MouseDown, item.createMouseEvent(1, stateMask1, 1));
 		notifyTree(SWT.Selection, item.createSelectionEvent(stateMask2));
 		notifyTree(SWT.MouseUp, item.createMouseEvent(1, stateMask2, 1));

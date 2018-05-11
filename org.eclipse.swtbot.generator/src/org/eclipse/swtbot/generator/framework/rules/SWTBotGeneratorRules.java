@@ -40,6 +40,7 @@ import org.eclipse.swtbot.generator.framework.rules.simple.CheckboxClickedRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboSelectionRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ComboTextModifyRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ContextMenuRule;
+import org.eclipse.swtbot.generator.framework.rules.simple.DoubleClickListRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.DoubleClickTableItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.DoubleClickTreeItemRule;
 import org.eclipse.swtbot.generator.framework.rules.simple.ExpandTreeItemRule;
@@ -88,6 +89,7 @@ public class SWTBotGeneratorRules implements Generator {
 		res.add(new CheckTableItemRule());
 		res.add(new CheckTreeItemRule());
 		res.add(new DoubleClickTableItemRule());
+		res.add(new DoubleClickListRule());
 
 		IExtensionRegistry registry = RegistryFactory.getRegistry();
 		if (registry != null) {

@@ -12,10 +12,11 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.utils;
 
+import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.isMac;
+
 import java.awt.im.InputContext;
 import java.util.Locale;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.keyboard.Keyboard;
 import org.eclipse.swtbot.swt.finder.keyboard.KeyboardStrategy;
@@ -171,11 +172,6 @@ public class SWTBotPreferences implements SWTBotPreferenceConstants {
 			keyboardLayout += layout.toUpperCase();
 
 			return keyboardLayout;
-		}
-
-		private static boolean isMac() {
-			String swtPlatform = SWT.getPlatform();
-			return ("carbon".equals(swtPlatform) || "cocoa".equals(swtPlatform));
 		}
 
 	}

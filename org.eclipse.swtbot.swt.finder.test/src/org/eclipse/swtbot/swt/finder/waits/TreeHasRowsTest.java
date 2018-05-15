@@ -60,18 +60,6 @@ public class TreeHasRowsTest extends AbstractSWTShellTest {
 		tree = createTree(createShell(TEXT));
 	}
 
-	protected static boolean isMac() {
-		return (isCarbon() || isCocoa());
-	}
-
-	private static boolean isCarbon() {
-		return "carbon".equals(SWT.getPlatform());
-	}
-
-	protected static boolean isCocoa() {
-		return SWT.getPlatform().equals("cocoa");
-	}
-
 	private Shell createShell(final String text) {
 		return UIThreadRunnable.syncExec(new WidgetResult<Shell>() {
 			@Override

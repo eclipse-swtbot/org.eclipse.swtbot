@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.keyboard;
 
+import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.isMac;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -157,11 +159,6 @@ public class KeyboardLayoutGenerator {
 				|| list.equals(Arrays.asList(Keystrokes.toKeys(SWT.CTRL, 'X')))
 		//
 		;
-	}
-
-	private static boolean isMac() {
-		String swtPlatform = SWT.getPlatform();
-		return ("carbon".equals(swtPlatform) || "cocoa".equals(swtPlatform));
 	}
 
 	private static int or(Integer[] combination) {

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.spy;
 
+import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.isMac;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
@@ -90,11 +92,6 @@ public class EclipseSpy {
 		});
 
 		// parent.getDisplay().addFilter(SWT.KeyDown, new SWTBotExecutionListener());
-	}
-
-	private static boolean isMac() {
-		String swtPlatform = SWT.getPlatform();
-		return ("carbon".equals(swtPlatform) || "cocoa".equals(swtPlatform));
 	}
 
 	private void initialize(Display display) {

@@ -20,7 +20,7 @@ Authors:
 	<packaging>pom</packaging>
 
 	<prerequisites>
-		<maven>3.1.1</maven>
+		<maven>3.5.3</maven>
 	</prerequisites>
 	<properties>
 		<tycho-version>1.2.0</tycho-version>

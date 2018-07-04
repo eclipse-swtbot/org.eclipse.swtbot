@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot SWT Control Finder Test Keyboard Layouts Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.swt.finder.test.keyboards
-Bundle-Version: 2.7.0.qualifier
+Bundle-Version: 2.8.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Fragment-Host: org.eclipse.swtbot.swt.finder;bundle-version="2.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Aparna Argade - API to consider Tab width for column (Bug 536131)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -84,7 +85,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * <p>
 	 * FIXME need some work for CTRL|SHIFT + 1 the 1 is to be sent as '!' in this case.
 	 * </p>
-	 * 
+	 *
 	 * @param modificationKeys the modification keys.
 	 * @param c the character.
 	 * @see Event#character
@@ -116,17 +117,40 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * Sets the caret at the specified location.
 	 *
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
+	 * @see SWTBotStyledText#navigateTo(int, int, boolean)
 	 */
 	public void navigateTo(final int line, final int column) {
 		log.debug(MessageFormat.format("Enquing navigation to location {0}, {1} in {2}", line, column, this)); //$NON-NLS-1$
 		waitForEnabled();
 		setFocus();
-		asyncExec(new VoidResult() {
+		syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				log.debug(MessageFormat.format("Navigating to location {0}, {1} in {2}", line, column, widget)); //$NON-NLS-1$
 				widget.setSelection(offset(line, column));
+			}
+		});
+	}
+
+	/**
+	 * Sets the caret at the specified location.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as a 1.
+	 * @since 2.8
+	 */
+	public void navigateTo(final int line, final int column, final boolean withTabWidth) {
+		log.debug(MessageFormat.format("Enquing navigation to location {0}, {1} in {2}", line, column, this)); //$NON-NLS-1$
+		waitForEnabled();
+		setFocus();
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				log.debug(MessageFormat.format("Navigating to location {0}, {1} in {2}", line, column, widget)); //$NON-NLS-1$
+				widget.setSelection(offset(line, column, withTabWidth));
 			}
 		});
 	}
@@ -141,9 +165,22 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	}
 
 	/**
+	 * Sets the caret at the specified location.
+	 *
+	 * @param position the position of the caret.
+	 * @param withTabWidth <code>true</code> if column of the position is specified considering tab width preference;
+	 *                     <code>false</code> if column of the position is specified counting tab as 1.
+	 * @since 2.8
+	 */
+	public void navigateTo(Position position, final boolean withTabWidth) {
+		navigateTo(position.line, position.column, withTabWidth);
+	}
+
+	/**
 	 * Gets the current position of the cursor. The returned position will contain a 0-based line and column.
 	 *
 	 * @return the position of the cursor in the styled text.
+	 * @see SWTBotStyledText#cursorPosition(boolean)
 	 */
 	public Position cursorPosition() {
 		return syncExec(new Result<Position>() {
@@ -160,11 +197,69 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	}
 
 	/**
+	 * Gets the current position of the cursor. The returned position will contain a 0-based line and column.
+	 *
+	 * @param withTabWidth <code>true</code> if column in the returned position should consider tab width preference;
+	 *                     <code>false</code> if column in the returned position should count tab as 1.
+	 * @return the position of the cursor in the styled text.
+	 * @since 2.8
+	 */
+	public Position cursorPosition(final boolean withTabWidth) {
+		return syncExec(new Result<Position>() {
+			@Override
+			public Position run() {
+				widget.setFocus();
+				int offset = widget.getSelectionRange().x;
+				int line = widget.getContent().getLineAtOffset(offset);
+				int offsetAtLine = widget.getContent().getOffsetAtLine(line);
+				int column = offset - offsetAtLine;
+				if (!withTabWidth) {
+					return new Position(line, column);
+				} else {
+					int tabwidth = widget.getTabs();
+					int displayColumn = 0;
+					// Get display column corresponding to character index
+					for (int i = 0; i < column; i++) {
+						displayColumn = getDisplayColumnForNextChar(offsetAtLine, i, displayColumn, tabwidth);
+					}
+					return new Position(line, displayColumn);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Returns display column index for next character.
+	 *
+	 * If current character is tab, it calculates the spaces consumed by tab by
+	 * considering the column index at which tab occurs. If current character is not
+	 * tab, it increments display column by 1.
+	 *
+	 * @param offset offset of start of the line
+	 * @param column column of current character, 0 based
+	 * @param displayColumn display column for the current character, 0 based
+	 * @param tabwidth tab width measured in characters
+	 * @return display column for the next character, 0 based
+	 */
+	private int getDisplayColumnForNextChar(int offset, int column, int displayColumn, int tabwidth) {
+		char ch = widget.getContent().getTextRange(offset + column, 1).charAt(0);
+		if (ch == SWT.TAB) {
+			// Increment displayColumn by spaces required to align to tab-width
+			int mod = displayColumn % tabwidth;
+			displayColumn += (tabwidth - mod);
+		} else {
+			displayColumn++;
+		}
+		return displayColumn;
+	}
+
+	/**
 	 * Types the text at the given location.
 	 *
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param text the text to be typed at the specified location
+	 * @see SWTBotStyledText#typeText(int, int, String, boolean)
 	 * @since 1.0
 	 */
 	public void typeText(int line, int column, String text) {
@@ -173,14 +268,45 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	}
 
 	/**
+	 * Types text at the given location.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param text the text to be typed at the specified location
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @since 2.8
+	 */
+	public void typeText(int line, int column, String text, boolean withTabWidth) {
+		navigateTo(line, column, withTabWidth);
+		typeText(text);
+	}
+
+	/**
+	 * Inserts text at the given location.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
+	 * @param text the text to be inserted at the specified location
+	 * @see SWTBotStyledText#insertText(int, int, String, boolean)
+	 */
+	public void insertText(int line, int column, String text) {
+		navigateTo(line, column);
+		insertText(text);
+	}
+
+	/**
 	 * Inserts text at the given location.
 	 *
 	 * @param line the line number, 0 based.
 	 * @param column the column number, 0 based.
-	 * @param text the text to be inserted at the specified location
+	 * @param text the text to be inserted at the specified location.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @since 2.8
 	 */
-	public void insertText(int line, int column, String text) {
-		navigateTo(line, column);
+	public void insertText(int line, int column, String text, boolean withTabWidth) {
+		navigateTo(line, column, withTabWidth);
 		insertText(text);
 	}
 
@@ -235,8 +361,9 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * Gets the style for the given line.
 	 *
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @return the {@link StyleRange} at the specified location
+	 * @see SWTBotStyledText#getStyle(int, int, boolean)
 	 */
 	public StyleRange getStyle(final int line, final int column) {
 		return syncExec(new Result<StyleRange>() {
@@ -248,23 +375,70 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	}
 
 	/**
-	 * Gets the offset.
+	 * Gets the style for the given line.
 	 *
 	 * @param line the line number, 0 based.
 	 * @param column the column number, 0 based.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @return the {@link StyleRange} at the specified location
+	 * @since 2.8
+	 */
+	public StyleRange getStyle(final int line, final int column, final boolean withTabWidth) {
+		return syncExec(new Result<StyleRange>() {
+			@Override
+			public StyleRange run() {
+				return widget.getStyleRangeAtOffset(offset(line, column, withTabWidth));
+			}
+		});
+	}
+
+	/**
+	 * Gets the offset.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @return the character offset at the specified location in the styledtext.
 	 * @see StyledTextContent#getOffsetAtLine(int)
+	 * @see SWTBotStyledText#offset(int, int, boolean)
 	 */
 	protected int offset(final int line, final int column) {
 		return widget.getContent().getOffsetAtLine(line) + column;
 	}
 
 	/**
-	 * Selects the range.
+	 * Gets the offset.
 	 *
 	 * @param line the line number, 0 based.
 	 * @param column the column number, 0 based.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @return the character offset at the specified location in the styledtext.
+	 * @see StyledTextContent#getOffsetAtLine(int)
+	 * @since 2.8
+	 */
+	protected int offset(final int line, final int column, final boolean withTabWidth) {
+		int offset = widget.getContent().getOffsetAtLine(line);
+		if (!withTabWidth) {
+			return offset + column;
+		} else {
+			int tabwidth = widget.getTabs();
+			int charIndex = 0;
+			// Get character index considering display column that may change due to tabs.
+			for (int displayColumn = 0; column > charIndex && column > displayColumn; charIndex++) {
+				displayColumn = getDisplayColumnForNextChar(offset, charIndex, displayColumn, tabwidth);
+			}
+			return offset + charIndex;
+		}
+	}
+
+	/**
+	 * Selects the range.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param length the length of the selection.
+	 * @see SWTBotStyledText#selectRange(int, int, int, boolean)
 	 */
 	public void selectRange(final int line, final int column, final int length) {
 		waitForEnabled();
@@ -273,6 +447,29 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 			public void run() {
 				int offset = offset(line, column);
 				widget.setSelection(offset, offset + length);
+			}
+		});
+		notify(SWT.Selection);
+	}
+
+	/**
+	 * Selects the range.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param length the length of the selection.
+	 * @param withTabWidth <code>true</code> if column and length are specified considering tab width preference;
+	 *                     <code>false</code> if column and length are specified considering tab as 1.
+	 * @since 2.8
+	 */
+	public void selectRange(final int line, final int column, final int length, final boolean withTabWidth) {
+		waitForEnabled();
+		asyncExec(new VoidResult() {
+			@Override
+			public void run() {
+				int offset = offset(line, column, withTabWidth);
+				int endOffset = offset(line, column + length, withTabWidth);
+				widget.setSelection(offset, endOffset);
 			}
 		});
 		notify(SWT.Selection);
@@ -296,9 +493,10 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * Gets the style information.
 	 *
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param length the length.
 	 * @return the styles in the specified range.
+	 * @see SWTBotStyledText#getStyles(int, int, int, boolean)
 	 * @see StyledText#getStyleRanges(int, int)
 	 */
 	public StyleRange[] getStyles(final int line, final int column, final int length) {
@@ -307,7 +505,29 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 			public StyleRange[] run() {
 				return widget.getStyleRanges(offset(line, column), length);
 			}
+		});
+	}
 
+	/**
+	 * Gets the style information.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param length the length.
+	 * @param withTabWidth <code>true</code> if column and length are specified considering tab width preference;
+	 *                     <code>false</code> if column and length are specified counting tab as 1.
+	 * @return the styles in the specified range.
+	 * @see StyledText#getStyleRanges(int, int)
+	 * @since 2.8
+	 */
+	public StyleRange[] getStyles(final int line, final int column, final int length, final boolean withTabWidth) {
+		return syncExec(new ArrayResult<StyleRange>() {
+			@Override
+			public StyleRange[] run() {
+				int offset = offset(line, column, withTabWidth);
+				int endOffset = offset(line, column + length, withTabWidth);
+				return widget.getStyleRanges(offset, endOffset - offset);
+			}
 		});
 	}
 
@@ -425,7 +645,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 
 	/**
 	 * Gets the number of lines in the {@link StyledText}.
-	 * 
+	 *
 	 * @return the number of lines in the {@link StyledText}.
 	 */
 	public int getLineCount(){
@@ -439,7 +659,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 
 	/**
 	 * Gets all the lines in the editor.
-	 * 
+	 *
 	 * @return the lines in the editor.
 	 */
 	public List<String> getLines() {
@@ -458,7 +678,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 
 	/**
 	 * Gets the tab width of the {@link StyledText} measured in characters.
-	 * 
+	 *
 	 * @return the tab width of the {@link StyledText} measured in characters.
 	 */
 	public int getTabs() {

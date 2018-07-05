@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,8 @@
  *     Ralf Ebert www.ralfebert.de - (bug 271630) SWTBot Improved RCP / Workbench support
  *     Ingo Mohr - Bug 416859
  *     Lorenzo Bettini - https://bugs.eclipse.org/bugs/show_bug.cgi?id=435390
- *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091) 
+ *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
+ *     Aparna Argade - API to consider Tab width for column (Bug 536131)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -173,7 +174,7 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
-	 * Attempst to applys the quick fix.
+	 * Attempts to apply the quick fix.
 	 * <p>
 	 * FIXME: this needs a lot of optimization.
 	 * </p>
@@ -281,9 +282,23 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 *
 	 * @return the position of the cursor.
 	 * @see SWTBotStyledText#cursorPosition()
+	 * @see SWTBotEclipseEditor#cursorPosition(boolean)
 	 */
 	public Position cursorPosition() {
 		return styledText.cursorPosition();
+	}
+
+	/**
+	 * Gets the current position of the cursor. The returned position will contain a 0-based line and column.
+	 *
+	 * @param withTabWidth <code>true</code> if column in the returned position should consider tab width preference;
+	 *                     <code>false</code> if column in the returned position should count tab as 1.
+	 * @return the position of the cursor.
+	 * @see SWTBotStyledText#cursorPosition(boolean)
+	 * @since 2.8
+	 */
+	public Position cursorPosition(boolean withTabWidth) {
+		return styledText.cursorPosition(withTabWidth);
 	}
 
 	/**
@@ -309,12 +324,28 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 * Gets the style text.
 	 *
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @return the {@link StyleRange} at the specified location
+	 * @see SWTBotEclipseEditor#getStyle(int, int, boolean)
 	 * @see SWTBotStyledText#getStyle(int, int)
 	 */
 	public StyleRange getStyle(int line, int column) {
 		return styledText.getStyle(line, column);
+	}
+
+	/**
+	 * Gets the style text.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @return the {@link StyleRange} at the specified location
+	 * @see SWTBotStyledText#getStyle(int, int, boolean)
+	 * @since 2.8
+	 */
+	public StyleRange getStyle(int line, int column, boolean withTabWidth) {
+		return styledText.getStyle(line, column, withTabWidth);
 	}
 
 	/**
@@ -329,13 +360,27 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param text the text to be typed at the specified location
+	 * @see SWTBotEclipseEditor#typeText(int, int, String, boolean)
 	 * @see SWTBotStyledText#typeText(int, int, java.lang.String)
 	 * @since 1.0
 	 */
 	public void typeText(int line, int column, String text) {
 		styledText.typeText(line, column, text);
+	}
+
+	/**
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param text the text to be typed at the specified location
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @see SWTBotStyledText#typeText(int, int, String, boolean)
+	 * @since 2.8
+	 */
+	public void typeText(int line, int column, String text, boolean withTabWidth) {
+		styledText.typeText(line, column, text, withTabWidth);
 	}
 
 	/**
@@ -349,12 +394,26 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param text the text to be inserted at the specified location
+	 * @see SWTBotEclipseEditor#insertText(int, int, String, boolean)
 	 * @see SWTBotStyledText#insertText(int, int, java.lang.String)
 	 */
 	public void insertText(int line, int column, String text) {
 		styledText.insertText(line, column, text);
+	}
+
+	/**
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param text the text to be inserted at the specified location.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @see SWTBotStyledText#insertText(int, int, String, boolean)
+	 * @since 2.8
+	 */
+	public void insertText(int line, int column, String text, boolean withTabWidth) {
+		styledText.insertText(line, column, text, withTabWidth);
 	}
 
 	/**
@@ -386,11 +445,24 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
+	 * @see SWTBotEclipseEditor#navigateTo(int, int, boolean)
 	 * @see SWTBotStyledText#navigateTo(int, int)
 	 */
 	public void navigateTo(int line, int column) {
 		styledText.navigateTo(line, column);
+	}
+
+	/**
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @see SWTBotStyledText#navigateTo(int, int, boolean)
+	 * @since 2.8
+	 */
+	public void navigateTo(int line, int column, boolean withTabWidth) {
+		styledText.navigateTo(line, column, withTabWidth);
 	}
 
 	/**
@@ -463,12 +535,26 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param length the length of the selection.
+	 * @see SWTBotEclipseEditor#selectRange(int, int, int, boolean)
 	 * @see SWTBotStyledText#selectRange(int, int, int)
 	 */
 	public void selectRange(int line, int column, int length) {
 		styledText.selectRange(line, column, length);
+	}
+
+	/**
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param length the length of the selection.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @see SWTBotStyledText#selectRange(int, int, int, boolean)
+	 * @since 2.8
+	 */
+	public void selectRange(int line, int column, int length, boolean withTabWidth) {
+		styledText.selectRange(line, column, length, withTabWidth);
 	}
 
 	/**
@@ -525,13 +611,28 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 
 	/**
 	 * @param line the line number, 0 based.
-	 * @param column the column number, 0 based.
+	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param length the length.
 	 * @return the styles in the specified range.
+	 * @see SWTBotEclipseEditor#getStyles(int, int, int, boolean)
 	 * @see SWTBotStyledText#getStyles(int, int, int)
 	 */
 	public StyleRange[] getStyles(int line, int column, int length) {
 		return styledText.getStyles(line, column, length);
+	}
+
+	/**
+	 * @param line the line number, 0 based.
+	 * @param column the column number, 0 based.
+	 * @param length the length.
+	 * @param withTabWidth <code>true</code> if column is specified considering tab width preference;
+	 *                     <code>false</code> if column is specified counting tab as 1.
+	 * @return the styles in the specified range.
+	 * @see SWTBotStyledText#getStyles(int, int, int, boolean)
+	 * @since 2.8
+	 */
+	public StyleRange[] getStyles(int line, int column, int length, boolean withTabWidth) {
+		return styledText.getStyles(line, column, length, withTabWidth);
 	}
 
 	/**

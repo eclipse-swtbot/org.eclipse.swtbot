@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Spinner;
@@ -65,6 +66,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotExpandBar;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotLabel;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotLink;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotList;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotProgressBar;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotScale;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotSlider;
@@ -4859,6 +4861,252 @@ public class SWTBot extends SWTBotFactory {
 
 	private Matcher<? extends Widget> withLabel(String label) {
 		return WidgetMatcherFactory.withLabel(label, finder);
+	}
+
+	/**
+	 * @param label the label on the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>label</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarWithLabel(String label) {
+		return progressbarWithLabel(label, 0);
+	}
+
+	/**
+	 * @param label the label on the widget.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>label</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarWithLabel(String label, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withLabel(label));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param text the text on the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>text</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbar(String text) {
+		return progressbar(text, 0);
+	}
+
+	/**
+	 * @param text  the text on the widget.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>text</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbar(String text, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withText(text));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>tooltip</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarWithTooltip(String tooltip) {
+		return progressbarWithTooltip(tooltip, 0);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @param index   the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>tooltip</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarWithTooltip(String tooltip, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withTooltip(tooltip));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param key   the key set on the widget.
+	 * @param value the value for the key.
+	 * @return a {@link SWTBotProgressBar} with the specified
+	 *         <code>key/value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarWithId(String key, String value) {
+		return progressbarWithId(key, value, 0);
+	}
+
+	/**
+	 * @param key   the key set on the widget.
+	 * @param value the value for the key.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified
+	 *         <code>key/value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarWithId(String key, String value, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withId(key, value));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param value the value for the key
+	 *              {@link org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences#DEFAULT_KEY}.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarWithId(String value) {
+		return progressbarWithId(value, 0);
+	}
+
+	/**
+	 * @param value the value for the key
+	 *              {@link org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences#DEFAULT_KEY}.
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>value</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarWithId(String value, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withId(value));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param inGroup the inGroup on the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarInGroup(String inGroup) {
+		return progressbarInGroup(inGroup, 0);
+	}
+
+	/**
+	 * @param inGroup the inGroup on the widget.
+	 * @param index   the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarInGroup(String inGroup, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), inGroup(inGroup));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @return a {@link SWTBotProgressBar} with the specified <code>none</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbar() {
+		return progressbar(0);
+	}
+
+	/**
+	 * @param index the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>none</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbar(int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param label   the label on the widget.
+	 * @param inGroup the inGroup on the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>label</code>
+	 *         with the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarWithLabelInGroup(String label, String inGroup) {
+		return progressbarWithLabelInGroup(label, inGroup, 0);
+	}
+
+	/**
+	 * @param label   the label on the widget.
+	 * @param inGroup the inGroup on the widget.
+	 * @param index   the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>label</code>
+	 *         with the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarWithLabelInGroup(String label, String inGroup, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withLabel(label), inGroup(inGroup));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param text    the text on the widget.
+	 * @param inGroup the inGroup on the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>text</code> with
+	 *         the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarInGroup(String text, String inGroup) {
+		return progressbarInGroup(text, inGroup, 0);
+	}
+
+	/**
+	 * @param text    the text on the widget.
+	 * @param inGroup the inGroup on the widget.
+	 * @param index   the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>text</code> with
+	 *         the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarInGroup(String text, String inGroup, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withText(text), inGroup(inGroup));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @param inGroup the inGroup on the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>tooltip</code>
+	 *         with the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	public SWTBotProgressBar progressbarWithTooltipInGroup(String tooltip, String inGroup) {
+		return progressbarWithTooltipInGroup(tooltip, inGroup, 0);
+	}
+
+	/**
+	 * @param tooltip the tooltip on the widget.
+	 * @param inGroup the inGroup on the widget.
+	 * @param index   the index of the widget.
+	 * @return a {@link SWTBotProgressBar} with the specified <code>tooltip</code>
+	 *         with the specified <code>inGroup</code>.
+	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
+	 * @since 2.8
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public SWTBotProgressBar progressbarWithTooltipInGroup(String tooltip, String inGroup, int index) {
+		Matcher matcher = allOf(widgetOfType(ProgressBar.class), withTooltip(tooltip), inGroup(inGroup));
+		return new SWTBotProgressBar((ProgressBar) widget(matcher, index), matcher);
 	}
 
 }

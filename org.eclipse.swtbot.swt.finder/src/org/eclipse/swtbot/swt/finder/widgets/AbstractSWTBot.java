@@ -977,10 +977,40 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	}
 
 	/**
+	 * Drag and drop this widget in the center of <code>target</code> widget.
+	 *
+	 * @param target The widget in which to drop the current widget
+	 *
 	 * @since 2.2
 	 */
 	public void dragAndDrop(final AbstractSWTBot<? extends Widget> target) {
+		Rectangle targetBounds = target.getBounds();
+		dragAndDrop(target, new Point(targetBounds.width / 2, targetBounds.height / 2));
+	}
 
+	/**
+	 * Drag and drop this widget in a specific location of the <code>target</code>
+	 * widget.
+	 *
+	 * @param target
+	 *            The widget in which to drop the current widget
+	 * @param relativeDropLocation
+	 *            the relative location where to drop the current widget in the
+	 *            target. The location is relative to the target.
+	 * @throws IllegalArgumentException
+	 *             if the <code>dropLocation</code> is not contained in the target
+	 *
+	 * @since 2.8
+	 */
+	public void dragAndDrop(final AbstractSWTBot<? extends Widget> target, Point relativeDropLocation) throws IllegalArgumentException {
+		Point absoluteTargetLocation = Geometry.getLocation(target.absoluteLocation());
+		Point absoluteDropLocation = new Point(absoluteTargetLocation.x + relativeDropLocation.x, absoluteTargetLocation.y + relativeDropLocation.y);
+		// Check that target location is inside target bounds
+		if (!target.absoluteLocation().contains(absoluteDropLocation)) {
+			throw new IllegalArgumentException(
+					MessageFormat.format("The drop location {0} is not contained in the target {1}.",
+							absoluteDropLocation, target.absoluteLocation()).toString());
+		}
 		DragSource dragSource = syncExec(new Result<DragSource>() {
 			@Override
 			public DragSource run() {
@@ -1042,9 +1072,8 @@ public abstract class AbstractSWTBot<T extends Widget> {
 
 		// DND.DragEnter -> DropTarget
 		Event dragEnterEvent = createDNDEvent();
-		Point targetAbsoluteLocation = Geometry.centerPoint(target.absoluteLocation());
-		dragEnterEvent.x = targetAbsoluteLocation.x;
-		dragEnterEvent.y = targetAbsoluteLocation.y;
+		dragEnterEvent.x = absoluteDropLocation.x;
+		dragEnterEvent.y = absoluteDropLocation.y;
 		setDNDEventField(dragEnterEvent, "dataType", dataTypes[0]);
 		setDNDEventField(dragEnterEvent, "dataTypes", dataTypes);
 		setDNDEventField(dragEnterEvent, "operations", DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);

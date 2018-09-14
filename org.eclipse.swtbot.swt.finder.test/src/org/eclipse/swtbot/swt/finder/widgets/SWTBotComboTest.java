@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -127,6 +127,20 @@ public class SWTBotComboTest extends AbstractControlExampleTest {
 		} finally {
 			bot.checkBox("SWT.READ_ONLY").deselect();
 		}
+	}
+
+	@Test
+	public void setTextBetweenSelectionsWithSameIndices() throws Exception {
+		SWTBotCombo comboBox = bot.comboBoxInGroup("Combo");
+		comboBox.setSelection(0);
+		assertEquals("Line 1", comboBox.getText());
+		assertEquals("Line 1", comboBox.selection());
+		comboBox.setText("Line 7");
+		assertEquals("Line 7", comboBox.getText());
+		comboBox.setSelection(0);
+		// This was failing on MacOS before the fix for Bug 539085
+		assertEquals("Line 1", comboBox.getText());
+		assertEquals("Line 1", comboBox.selection());
 	}
 
 	@Before

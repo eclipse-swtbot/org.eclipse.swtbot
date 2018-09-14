@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -112,6 +112,10 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
+				// Bug 539085, deselect and then select for guaranteed selection
+				if (!hasStyle(widget, SWT.READ_ONLY) && selectionIndex() == indexOf) {
+					widget.deselect(indexOf);
+				}
 				widget.select(indexOf);
 			}
 		});
@@ -159,6 +163,10 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
+				// Bug 539085, deselect and then select for guaranteed selection
+				if (!hasStyle(widget, SWT.READ_ONLY) && selectionIndex() == index) {
+					widget.deselect(index);
+				}
 				widget.select(index);
 			}
 		});

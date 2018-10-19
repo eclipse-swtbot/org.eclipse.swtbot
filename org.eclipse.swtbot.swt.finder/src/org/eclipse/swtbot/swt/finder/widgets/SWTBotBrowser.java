@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc. and others.
+ * Copyright (c) 2010, 2018 Red Hat, Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -102,13 +102,13 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	}
 
 	/**
-	 * Executes script in browser asynchronously
-	 * 
+	 * Executes script in browser synchronously
+	 *
 	 * @param script
 	 */
 	public void execute(final String script) {
 		waitForPageLoaded();
-		UIThreadRunnable.asyncExec(new VoidResult() {
+		UIThreadRunnable.syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				widget.execute(script);
@@ -144,7 +144,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 * Navigate to the previous session history item.
 	 */
 	public void back() {
-		UIThreadRunnable.asyncExec(new VoidResult() {
+		UIThreadRunnable.syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				progressListener.setDone(false);
@@ -163,7 +163,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 * Navigate to the next session history item.
 	 */
 	public void forward() {
-		UIThreadRunnable.asyncExec(new VoidResult() {
+		UIThreadRunnable.syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				progressListener.setDone(false);
@@ -182,7 +182,7 @@ public class SWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	 * Refreshes browser
 	 */
 	public void refresh() {
-		UIThreadRunnable.asyncExec(new VoidResult() {
+		UIThreadRunnable.syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				widget.refresh();

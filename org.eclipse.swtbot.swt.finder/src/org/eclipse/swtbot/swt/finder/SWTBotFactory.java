@@ -372,7 +372,7 @@ abstract class SWTBotFactory {
 	/**
 	 * @param matcher the matcher used to match widgets.
 	 * @param parentWidget the parent widget to search for a given widget.
-	 * @return a list of widgets that match the matcher.
+	 * @return a list of widgets in the parent widget that match the matcher.
 	 */
 	public <T extends Widget> List<? extends T> widgets(Matcher<T> matcher, Widget parentWidget) {
 		WaitForObjectCondition<T> waitForWidget = waitForWidget(matcher, parentWidget);
@@ -382,10 +382,12 @@ abstract class SWTBotFactory {
 
 	/**
 	 * @param matcher the matcher used to match widgets.
-	 * @return a list of widgets in the active shell that match the matcher.
+	 * @return a list of widgets that match the matcher.
 	 */
 	public <T extends Widget> List<? extends T> widgets(Matcher<T> matcher) {
-		return widgets(matcher, activeShell().widget);
+		WaitForObjectCondition<T> waitForWidget = waitForWidget(matcher);
+		waitUntilWidgetAppears(waitForWidget);
+		return waitForWidget.getAllMatches();
 	}
 
 	/**

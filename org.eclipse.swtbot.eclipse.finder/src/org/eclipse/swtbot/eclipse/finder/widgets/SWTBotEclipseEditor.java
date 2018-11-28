@@ -934,4 +934,41 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 		bot.waitUntil(table, SWTBotPreferences.TIMEOUT);
 	}
 
+	/**
+	 * Click on the editor at the given line and column.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number considering tab spaces, 0 based.
+	 * @see SWTBotStyledText#click(int, int)
+	 * @since 2.8
+	 */
+	public void click(final int line, final int column) {
+		styledText.click(line, column);
+	}
+
+	/**
+	 * Double-clicks on the editor at the given line and column.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number considering tab spaces, 0 based.
+	 * @see SWTBotStyledText#doubleClick(int, int)
+	 * @since 2.8
+	 */
+	public void doubleClick(final int line, final int column) {
+		styledText.doubleClick(line, column);
+	}
+
+	/**
+	 * Clicks on the editor at the given line and column with modifier key.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number considering tab spaces, 0 based.
+	 * @param modifierKey modifier key or zero.
+	 * @see SWTBotStyledText#click(int, int, int)
+	 * @since 2.8
+	 */
+	public void click(final int line, final int column, final int modifierKey) {
+		styledText.click(line, column, modifierKey);
+	}
+
 }

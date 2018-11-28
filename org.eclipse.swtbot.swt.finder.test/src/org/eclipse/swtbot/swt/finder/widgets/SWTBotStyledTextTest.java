@@ -273,4 +273,80 @@ public class SWTBotStyledTextTest extends AbstractCustomControlExampleTest {
 		});
 	}
 
+	@Test
+	public void canCtrlClickOnStyledText() throws Exception {
+		final int line = 0, column = 17;
+		bot.checkBox("Listen").select();
+		styledText = bot.styledTextInGroup("StyledText");
+		styledText.setText("This is sample text");
+		bot.button("Clear").click();
+		styledText.click(line, column, SWT.MOD1);
+		assertEquals(new Position(line, column), styledText.cursorPosition(true));
+		verifyNotifyClick(SWT.MOD1);
+	}
+
+	@Test
+	public void canShiftClickOnStyledText() throws Exception {
+		final int line = 0, column = 17;
+		bot.checkBox("Listen").select();
+		styledText = bot.styledTextInGroup("StyledText");
+		styledText.setText("This is sample text");
+		bot.button("Clear").click();
+		styledText.click(line, column, SWT.MOD2);
+		assertEquals(new Position(0, 0), styledText.cursorPosition(true));
+		assertEquals("This is sample te", styledText.getSelection());
+		verifyNotifyClick(SWT.MOD2);
+	}
+
+	private void verifyNotifyClick(int modifier) {
+		SWTBotText text = bot.textInGroup("Listeners");
+		assertTextContains("MouseEnter [6]: MouseEvent{StyledText {} ", text.widget);
+		assertTextContains("Activate [26]: ShellEvent{StyledText {} ", text.widget);
+		assertTextContains("FocusIn [15]: FocusEvent{StyledText {} ", text.widget);
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{StyledText {} time=0 data=null button=1 stateMask="
+				+ toStateMask(SWT.NONE | modifier, styledText.widget) + " x=0 y=0 count=1");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{StyledText {} time=0 data=null button=1 stateMask="
+				+ toStateMask(SWT.BUTTON1 | modifier, styledText.widget) + " x=0 y=0 count=1");
+	}
+
+	@Test
+	public void canDoubleClickOnStyledText() throws Exception {
+		final int line = 0, column = 6;
+		bot.checkBox("Listen").select();
+		styledText = bot.styledTextInGroup("StyledText");
+		styledText.setText("This is sample text");
+		bot.button("Clear").click();
+		styledText.doubleClick(line, column);
+		// Default behavior: word is selected upon doubleClick, so cursor position needs
+		// to be compared with start column of the word
+		assertEquals(new Position(line, column - 1), styledText.cursorPosition(true));
+		assertEquals(styledText.getSelection(), "is");
+
+		verifyNotifyClick(0);
+		SWTBotText text = bot.textInGroup("Listeners");
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{StyledText {} time=0 data=null button=1 stateMask="
+				+ toStateMask(SWT.NONE, styledText.widget) + " x=0 y=0 count=2");
+		assertEventMatches(text, "MouseDoubleClick [8]: MouseEvent{StyledText {} time=0 data=null button=1 stateMask="
+				+ toStateMask(SWT.NONE, styledText.widget) + " x=0 y=0 count=2}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{StyledText {} time=0 data=null button=1 stateMask="
+				+ toStateMask(SWT.BUTTON1, styledText.widget) + " x=0 y=0 count=2");
+	}
+
+	@Test
+	public void canClickOnStyledText() throws Exception {
+		int line = 0, column = 5;
+		bot.checkBox("Listen").select();
+		styledText = bot.styledTextInGroup("StyledText");
+		styledText.setText("This is sample text");
+		bot.button("Clear").click();
+		styledText.click(line, column);
+		verifyNotifyClick(0);
+		assertEquals(new Position(line, column), styledText.cursorPosition(true));
+		column = 6;
+		//another way of click
+		styledText.click(line, column, 0);
+		verifyNotifyClick(0);
+		assertEquals(new Position(line, column), styledText.cursorPosition(true));
+	}
+
 }

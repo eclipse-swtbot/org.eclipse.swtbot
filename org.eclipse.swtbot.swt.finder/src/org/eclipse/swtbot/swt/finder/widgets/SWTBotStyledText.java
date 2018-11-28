@@ -15,11 +15,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.bindings.keys.KeyLookupFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.Bullet;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.StyledTextContent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
@@ -686,6 +688,108 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 			@Override
 			public Integer run() {
 				return widget.getTabs();
+			}
+		});
+	}
+
+	/**
+	 * Clicks on the widget at the given line and column.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number considering tab spaces, 0 based.
+	 * @since 2.8
+	 */
+	public void click(final int line, final int column) {
+		navigateTo(line, column, true);
+		notifyClick(getXY(line, column));
+		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+	}
+
+	private void notifyClick(final Point p) {
+		notify(SWT.MouseEnter);
+		notify(SWT.Activate);
+		notify(SWT.FocusIn);
+		notify(SWT.MouseDown, createMouseEvent(p.x, p.y, 1, SWT.NONE, 1));
+		notify(SWT.MouseUp, createMouseEvent(p.x, p.y, 1, SWT.BUTTON1, 1));
+	}
+
+	/**
+	 * Double-clicks on the widget at the given line and column.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number considering tab spaces, 0 based.
+	 * @since 2.8
+	 */
+	public void doubleClick(final int line, final int column) {
+		navigateTo(line, column, true);
+		Point p = getXY(line, column);
+		notifyClick(p);
+		notify(SWT.MouseDown, createMouseEvent(p.x, p.y, 1, SWT.NONE, 2));
+		notify(SWT.MouseDoubleClick, createMouseEvent(p.x, p.y, 1, SWT.NONE, 2));
+		notify(SWT.MouseUp, createMouseEvent(p.x, p.y, 1, SWT.BUTTON1, 2));
+		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+	}
+
+	/**
+	 * Clicks on the widget at the given line and column with modifier key.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number considering tab spaces, 0 based.
+	 * @param modifierKey modifier key or zero.
+	 * @since 2.8
+	 */
+	public void click(final int line, final int column, final int modifierKey) {
+		if (!KeyLookupFactory.getDefault().isModifierKey(modifierKey) && modifierKey != 0) {
+			log.error(MessageFormat.format("{0} is not a modifier key.", modifierKey)); //$NON-NLS-1$
+			return;
+		}
+		log.debug(MessageFormat.format("Clicking on {0} with modifier key {1}", this, //$NON-NLS-1$
+				modifierKey));
+		notify(SWT.MouseEnter);
+		notify(SWT.FocusIn);
+		notify(SWT.Activate);
+		syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				Point originalCursorLocation = display.getCursorLocation();
+				/*
+				 * Scroll vertically and then horizontally so that the given point becomes
+				 * visible. This is done to avoid auto-scrolling that can happen after sending
+				 * MouseDown event. The calculated absolute position should point to the given
+				 * line and column.
+				 */
+				widget.setTopIndex(line);
+				widget.setHorizontalIndex(column);
+				Point p = getXY(line, column);
+				Point absolutePoint = widget.toDisplay(p);
+				moveMouse(absolutePoint.x, absolutePoint.y);
+				notifyStyledText(SWT.MouseDown, createMouseEvent(p.x, p.y, 1, SWT.NONE | modifierKey, 1));
+				notifyStyledText(SWT.MouseUp, createMouseEvent(p.x, p.y, 1, SWT.BUTTON1 | modifierKey, 1));
+				moveMouse(originalCursorLocation.x, originalCursorLocation.y);
+			}
+		});
+		log.debug(MessageFormat.format("Clicked on {0} with modifier key {1}", this, //$NON-NLS-1$
+				modifierKey));
+	}
+
+	private void notifyStyledText(int eventType, Event event) {
+		notify(eventType, event, widget);
+	}
+
+	/**
+	 * Returns x, y coordinates for the given line and column.
+	 *
+	 * @param line the line number, 0 based.
+	 * @param column the column number considering tab spaces, 0 based.
+	 * @return Point which represents x, y for the given line and column.
+	 */
+	private Point getXY(final int line, final int column) {
+		return syncExec(new Result<Point>() {
+			@Override
+			public Point run() {
+				int offset = offset(line, column, true);
+				Point p = widget.getLocationAtOffset(offset);
+				return new Point(p.x, p.y + widget.getLineHeight() / 2);
 			}
 		});
 	}

@@ -358,10 +358,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	public SWTBotTreeItem select() {
 		waitForEnabled();
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				tree.setFocus();
 				tree.setSelection(widget);
 				lastSelectionItem = widget;
 			}
@@ -382,14 +382,12 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
 		notifyTree(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
 					tree.setSelection(widget);
-				}
-				if (!tree.isFocusControl()) {
-					tree.setFocus();
 				}
 			}
 		});
@@ -442,14 +440,12 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
 		notifyTree(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
 					tree.setSelection(widget);
-				}
-				if (!tree.isFocusControl()) {
-					tree.setFocus();
 				}
 			}
 		});
@@ -475,10 +471,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 
 	@Override
 	protected void dragStart() {
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				tree.setFocus();
 				tree.setSelection(widget);
 				lastSelectionItem = widget;
 			}
@@ -927,4 +923,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		});
 	}
 
+	@Override
+	public void setFocus() {
+		new SWTBotTree(tree).setFocus();
+	}
 }

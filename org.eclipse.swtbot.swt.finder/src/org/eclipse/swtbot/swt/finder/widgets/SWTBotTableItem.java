@@ -71,10 +71,10 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 */
 	public SWTBotTableItem select() {
 		waitForEnabled();
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				table.setFocus();
 				table.setSelection(widget);
 			}
 		});
@@ -93,14 +93,12 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
 		notifyTable(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTable(SWT.Activate, super.createEvent());
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				if (table.getSelectionCount() != 1 || !table.getSelection()[0].equals(widget)) {
 					table.setSelection(widget);
-				}
-				if (!table.isFocusControl()) {
-					table.setFocus();
 				}
 			}
 		});
@@ -160,14 +158,12 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
 		notifyTable(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTable(SWT.Activate, super.createEvent());
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
 				if (table.getSelectionCount() != 1 || !table.getSelection()[0].equals(widget)) {
 					table.setSelection(widget);
-				}
-				if (!table.isFocusControl()) {
-					table.setFocus();
 				}
 			}
 		});
@@ -193,10 +189,10 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 
 	@Override
 	protected void dragStart() {
+		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				table.setFocus();
 				table.setSelection(widget);
 			}
 		});
@@ -411,5 +407,10 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 				return display.map(widget.getParent(), null, widget.getBounds());
 			}
 		});
+	}
+
+	@Override
+	public void setFocus() {
+		new SWTBotTable(table).setFocus();
 	}
 }

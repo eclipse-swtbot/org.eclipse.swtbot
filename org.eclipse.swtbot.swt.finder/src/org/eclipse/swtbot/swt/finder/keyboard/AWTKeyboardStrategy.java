@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 SWTBot Committers and others.
+ * Copyright (c) 2009, 2018 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,11 +8,13 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     Patrick Tasse - Add natural key mapping for SWT.CR (Bug 372170)
+ *     Patrick Tasse - Fix SHIFT+ARROW keystrokes on Windows (Bug 290527)
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.keyboard;
 
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +34,19 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 
 	private static final Map<Integer, Integer>	modifierKeyMapping		= new HashMap<Integer, Integer>();
 	private static final Map<Integer, Integer>	naturalKeyKeyMapping	= new HashMap<Integer, Integer>();
+
+	static {
+		try {
+			// Bug JDK-4908075 workaround: Robot does not handle properly
+			// SHIFT+ARROW keystrokes on Windows if NumLock is on.
+			if (System.getProperty("os.name").contains("Windows") &&
+					Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_NUM_LOCK)) {
+				Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
+			}
+		} catch (Exception e) {
+			// ignore
+		}
+	}
 
 	AWTKeyboardStrategy() {
 		try {

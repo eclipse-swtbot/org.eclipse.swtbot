@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,6 +26,7 @@ import org.eclipse.swt.SWT;
  *
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
  * @version $Id$
+ * @noextend This class is not intended to be subclassed by clients.
  */
 public class Keystrokes {
 
@@ -53,6 +54,9 @@ public class Keystrokes {
 	public static final KeyStroke	BS						= KeyStroke.getInstance(0, SWT.BS);
 	/** The delete keystroke. */
 	public static final KeyStroke	DELETE					= KeyStroke.getInstance(0, SWT.DEL);
+	/** The insert keystroke.
+	 * @since 2.8 */
+	public static final KeyStroke	INSERT					= KeyStroke.getInstance(0, SWT.INSERT);
 
 	/** The CR keystroke. */
 	public static final KeyStroke	CR						= KeyStroke.getInstance(0, SWT.CR);

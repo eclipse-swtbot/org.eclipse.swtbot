@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2018 SWTBot Committers and others.
+ * Copyright (c) 2009, 2019 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,8 +16,12 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
@@ -32,21 +36,11 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 
 	private final Robot							robot;
 
+	private boolean toggleNumLock = false;
+
 	private static final Map<Integer, Integer>	modifierKeyMapping		= new HashMap<Integer, Integer>();
 	private static final Map<Integer, Integer>	naturalKeyKeyMapping	= new HashMap<Integer, Integer>();
-
-	static {
-		try {
-			// Bug JDK-4908075 workaround: Robot does not handle properly
-			// SHIFT+ARROW keystrokes on Windows if NumLock is on.
-			if (System.getProperty("os.name").contains("Windows") &&
-					Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_NUM_LOCK)) {
-				Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
-			}
-		} catch (Exception e) {
-			// ignore
-		}
-	}
+	private static final Set<KeyStroke> numPadKeys = new HashSet<KeyStroke>();
 
 	AWTKeyboardStrategy() {
 		try {
@@ -54,6 +48,25 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 		} catch (AWTException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void pressKeys(KeyStroke... keys) {
+		try {
+			if (System.getProperty("os.name").contains("Windows") &&
+					Float.parseFloat(System.getProperty("java.specification.version")) < 1.9 &&
+					Arrays.asList(keys).contains(Keystrokes.SHIFT) &&
+					!Collections.disjoint(Arrays.asList(keys), numPadKeys) &&
+					Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_NUM_LOCK)) {
+				// Bug JDK-4908075 workaround: Robot does not handle properly
+				// SHIFT+ARROW keystrokes on Windows if NumLock is on.
+				Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
+				toggleNumLock = true;
+			}
+		} catch (Exception e) {
+			// Ignore
+		}
+		super.pressKeys(keys);
 	}
 
 	@Override
@@ -65,6 +78,16 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 	public void releaseKey(KeyStroke key) {
 		robot.keyRelease(key(key));
 
+	}
+
+	@Override
+	public void releaseKeys(KeyStroke... keys) {
+		super.releaseKeys(keys);
+		if (toggleNumLock) {
+			toggleNumLock = false;
+			Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK,
+					!Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_NUM_LOCK));
+		}
 	}
 
 	private int key(KeyStroke key) {
@@ -113,6 +136,7 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 		addNaturalKeyMapping(SWT.BS, KeyEvent.VK_BACK_SPACE);
 		addNaturalKeyMapping(SWT.CR, KeyEvent.VK_ENTER);
 		addNaturalKeyMapping(SWT.DEL, KeyEvent.VK_DELETE);
+		addNaturalKeyMapping(SWT.INSERT, KeyEvent.VK_INSERT);
 
 		/* direction and page navigation keys */
 		addNaturalKeyMapping(SWT.HOME, KeyEvent.VK_HOME);
@@ -127,6 +151,18 @@ public class AWTKeyboardStrategy extends AbstractKeyboardStrategy {
 		/* special characters that don't map to the ascii codes. */
 		addNaturalKeyMapping('`', KeyEvent.VK_BACK_QUOTE);
 		addNaturalKeyMapping('\'', KeyEvent.VK_QUOTE);
+
+		/* num pad keys */
+		numPadKeys.add(Keystrokes.UP);
+		numPadKeys.add(Keystrokes.DOWN);
+		numPadKeys.add(Keystrokes.LEFT);
+		numPadKeys.add(Keystrokes.RIGHT);
+		numPadKeys.add(Keystrokes.HOME);
+		numPadKeys.add(Keystrokes.END);
+		numPadKeys.add(Keystrokes.PAGE_UP);
+		numPadKeys.add(Keystrokes.PAGE_DOWN);
+		numPadKeys.add(Keystrokes.INSERT);
+		numPadKeys.add(Keystrokes.DELETE);
 	}
 
 	private static void addModifierKeyMapping(int swtKey, int awtKey) {

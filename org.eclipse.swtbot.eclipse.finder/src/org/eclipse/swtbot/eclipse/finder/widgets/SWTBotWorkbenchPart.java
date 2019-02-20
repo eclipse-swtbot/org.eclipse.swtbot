@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2012 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,16 +7,24 @@
  *
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
+ *     Aparna Argade - Support for reading StatusLine messages (Bug 544633)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
+
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.allOf;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.StatusLineManager;
+import org.eclipse.jface.action.SubStatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
@@ -38,6 +46,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarPushButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarRadioButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarSeparatorButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
+import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchPartSite;
@@ -46,6 +55,7 @@ import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
 import org.hamcrest.core.IsAnything;
+
 
 /**
  * This represents the eclipse {@link IWorkbenchPartReference} item, subclasses must extend this to implement support
@@ -343,6 +353,59 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 		if (widget == null)
 			widget = findWidget(anyWidget);
 		return widget;
+	}
+
+	/**
+	 * Gets messages on MessageLine of StatusLine.
+	 * Caller needs to ensure focus on the editor/view.
+	 *
+	 * @return list of strings present on Status Line.
+	 * @since 2.8
+	 */
+	public List<String> getStatusLineMessages() {
+		return UIThreadRunnable.syncExec(new ListResult<String>() {
+			@Override
+			public List<String> run() {
+				Control statusLine = null;
+				IStatusLineManager s = null;
+				int messageCount = 0;
+				final List<String> l = new ArrayList<String>();
+				IWorkbenchPartSite site = partReference.getPart(false).getSite();
+
+				if (site instanceof IViewSite) {
+					s = ((IViewSite) site).getActionBars().getStatusLineManager();
+				} else if (site instanceof IEditorSite) {
+					s = ((IEditorSite) site).getActionBars().getStatusLineManager();
+				}
+				while (s instanceof SubStatusLineManager) {
+					s = (IStatusLineManager) ((SubStatusLineManager) s).getParent();
+				}
+				if (s instanceof StatusLineManager) {
+					statusLine = ((StatusLineManager) s).getControl();
+				}
+				if (statusLine == null)
+					return l;
+				// StatusLine messages are on CLabel controls
+				SWTBot statusbot = new SWTBot(statusLine);
+				try {
+					@SuppressWarnings("unchecked")
+					List<? extends Widget> clabels = bot.widgets(allOf(widgetOfType(CLabel.class)), statusLine);
+					messageCount = clabels.size();
+				} catch (Exception e) {
+					log.warn("Failed to get CLable controls on Status line", e); //$NON-NLS-1$
+				}
+				// Get text on CLabel controls
+				for (int i = 0; i < messageCount; i++) {
+					try {
+						l.add(statusbot.clabel(i).getText());
+					} catch (Exception e) {
+						log.warn("Failed to get Status line message at index " //$NON-NLS-1$
+								+ Integer.toString(i), e);
+					}
+				}
+				return l;
+			}
+		});
 	}
 
 }

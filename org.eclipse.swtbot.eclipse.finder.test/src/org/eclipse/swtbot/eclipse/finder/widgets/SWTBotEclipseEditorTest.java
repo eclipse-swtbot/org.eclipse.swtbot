@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *     Ketan Padegaonkar - initial API and implementation
  *     Ingo Mohr - Bug 416859
  *     Patrick Tasse - Speed up SWTBot tests
+ *     Aparna Argade - TestCase for StatusLine (Bug 544633)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
@@ -103,6 +104,17 @@ public class SWTBotEclipseEditorTest extends AbstractSWTBotEclipseTest {
 	@Test
 	public void contextMenuWithSubMenu() {
 		editor.contextMenu("Show In");
+	}
+
+	@Test
+	public void getsStatusMessagesOfEditor() throws Exception {
+		editor.click(3, 0); // API accepts 0-based line, column
+		List<String> lstMsgs = editor.getStatusLineMessages();
+		assertEquals(4, lstMsgs.size());
+		assertContains("", lstMsgs.get(0));
+		assertContains("Writable", lstMsgs.get(1));
+		assertContains("Smart Insert", lstMsgs.get(2));
+		assertContains("4 : 1", lstMsgs.get(3)); // Editor shows 1-based line, column
 	}
 
 }

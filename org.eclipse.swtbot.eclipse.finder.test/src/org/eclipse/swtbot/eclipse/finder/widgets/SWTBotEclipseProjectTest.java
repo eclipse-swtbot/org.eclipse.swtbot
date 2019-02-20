@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2017 Lorenzo Bettini and others.
+ * Copyright (c) 2012, 2019 Lorenzo Bettini and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,8 +9,13 @@
  *     Lorenzo Bettini - initial API and implementation
  *     Stephane Bouchet (Intel Corporation) - added testCase for bug 451547
  *     Patrick Tasse - Speed up SWTBot tests
+ *     Aparna Argade - TestCase for StatusLine (Bug 544633)
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.finder.widgets;
+
+import java.util.List;
+import static org.eclipse.swtbot.swt.finder.SWTBotAssert.assertContains;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.helpers.NewJavaClass;
@@ -91,6 +96,14 @@ public class SWTBotEclipseProjectTest extends AbstractSWTBotEclipseTest {
 				CLASS_FILE_NAME);
 		packageExplorerTree().select(javaClassFileTreeItem(), javaClass2item);
 		packageExplorerTree().contextMenu("Compare With").menu("Each Other").click();
+	}
+
+	@Test
+	public void canGetStatusMessageOfView() {
+		packageExplorerTree().select(PROJECT_NAME);
+		List<String> lstMsgs = bot.viewByTitle("Package Explorer").getStatusLineMessages();
+		assertEquals(1, lstMsgs.size());
+		assertContains(PROJECT_NAME, lstMsgs.get(0));
 	}
 
 	private SWTBotTreeItem javaClassFileTreeItem() {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,7 +46,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 	private SWTBotTree	tree;
 
 	@Test
-	public void findsTable() throws Exception {
+	public void findsTree() throws Exception {
 		assertEquals(Tree.class, tree.widget.getClass());
 	}
 
@@ -297,7 +297,7 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		node.click();
 		SWTBotText listener = bot.textInGroup("Listeners");
 		assertEventMatches(listener, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
-		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listener, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 3.1} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(listener, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 	}
 
@@ -342,6 +342,5 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		bot.checkBox("Header Visible").select();
 		bot.checkBox("Multiple Columns").deselect();
 		tree = bot.treeInGroup("Tree");
-
 	}
 }

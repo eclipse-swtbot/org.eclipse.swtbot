@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,7 +21,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
@@ -53,7 +52,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		bot.button("Clear").click();
 		node.contextMenu("getItem(Point) on mouse coordinates").click();
 		assertEventMatches(listeners, "MenuDetect [35]: Event {type=35 Tree {} time=0 data=null x=0 y=0 width=0 height=0 detail=0}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2.2.1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(SWT.BUTTON1, tree.widget) + " text=null doit=true}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2.2.1} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(listeners, "getItem(Point(Point {");
 	}
 
@@ -289,7 +288,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		assertEventMatches(listeners, "Activate [26]: ShellEvent{Tree {} time=0 data=null doit=true}");
 		assertEventMatches(listeners, "FocusIn [15]: FocusEvent{Tree {} time=0 data=null}");
 		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Tree {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
 		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Tree {} time=0 data=null doit=true}");
@@ -310,7 +309,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		assertEventMatches(listeners, "Activate [26]: ShellEvent{Tree {} time=0 data=null doit=true}");
 		assertEventMatches(listeners, "FocusIn [15]: FocusEvent{Tree {} time=0 data=null}");
 		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Tree {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
 		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Tree {} time=0 data=null doit=true}");
@@ -332,12 +331,12 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		assertEventMatches(listeners, "Activate [26]: ShellEvent{Tree {} time=0 data=null doit=true}");
 		assertEventMatches(listeners, "FocusIn [15]: FocusEvent{Tree {} time=0 data=null}");
 		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=2}");
-		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(listeners, "MouseDoubleClick [8]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=2}");
-		assertEventMatches(listeners, "DefaultSelection [14]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x0 text=null doit=true}");
+		assertEventMatches(listeners, "DefaultSelection [14]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=2}");
 		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Tree {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
 		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Tree {} time=0 data=null doit=true}");

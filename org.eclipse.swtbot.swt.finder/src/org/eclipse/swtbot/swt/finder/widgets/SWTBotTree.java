@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -33,7 +32,6 @@ import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.StringResult;
-import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.StringUtils;
@@ -51,8 +49,6 @@ import org.hamcrest.SelfDescribing;
 @SWTBotWidget(clasz = Tree.class, preferredName = "tree", referenceBy = { ReferenceBy.LABEL })
 public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 
-	/** The last selected item */
-	private TreeItem	lastSelectionItem;
 
 	/**
 	 * Constructs an instance of this object with the given tree.
@@ -250,9 +246,8 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 			selection.add(si.widget);
 		}
 		for (int i = 0; i < selection.size(); i++) {
-			boolean add = (i != 0);
-			processSelection(selection.get(i), add);
-			notifySelect(add);
+			int stateMask = (i == 0) ? SWT.NONE : SWT.MOD1;
+			notifySelect(selection.get(i), stateMask);
 		}
 		return this;
 	}
@@ -276,9 +271,8 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 			return unselect();
 		}
 		for (int i = 0; i < items.length; i++) {
-			boolean add = (i != 0);
-			processSelection(items[i].widget, add);
-			notifySelect(add);
+			int stateMask = (i == 0) ? SWT.NONE : SWT.MOD1;
+			notifySelect(items[i].widget, stateMask);
 		}
 		return this;
 	}
@@ -298,8 +292,7 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 			}
 		});
 		for (TreeItem item : selection) {
-			unselect(item);
-			notifySelect(true);
+			notifyUnselect(item);
 		}
 		return this;
 	}
@@ -310,14 +303,13 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 	 * @param item
 	 *            tree item to unselect
 	 */
-	private void unselect(final TreeItem item) {
-		syncExec(new VoidResult() {
+	private Runnable unselectRunnable(final TreeItem item) {
+		return new Runnable() {
 			@Override
 			public void run() {
 				widget.deselect(item);
-				lastSelectionItem = item;
 			}
-		});
+		};
 	}
 
 	/**
@@ -342,9 +334,8 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 		}
 		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
 		for (int i = 0; i < selection.size(); i++) {
-			boolean add = (i != 0);
-			processSelection(selection.get(i), add);
-			notifySelect(add);
+			int stateMask = (i == 0) ? SWT.NONE : SWT.MOD1;
+			notifySelect(selection.get(i), stateMask);
 		}
 		return this;
 	}
@@ -357,8 +348,8 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 	 * @param add
 	 *            true to add to current selection
 	 */
-	private void processSelection(final TreeItem item, final boolean add) {
-		syncExec(new VoidResult() {
+	private Runnable selectRunnable(final TreeItem item, final boolean add) {
+		return new Runnable() {
 			@Override
 			public void run() {
 				if (add) {
@@ -367,43 +358,48 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 					// removes earlier selection
 					widget.setSelection(item);
 				}
-				lastSelectionItem = item;
 			}
-		});
+		};
 	}
 
 	/**
 	 * Notifies the tree widget about selection changes
+	 *
+	 * @deprecated Should not be called by users
 	 */
+	@Deprecated
 	protected void notifySelect() {
-		notifySelect(false);
 	}
 
 	/**
-	 * Notifies the selection.
+	 * Unselects the specified item and sends notifications.
 	 *
-	 * @param ctrl
-	 *            true if CTRL key should be pressed while sending the event,
-	 *            false otherwise.
+	 * @param unselected
+	 *            the tree item to unselect
 	 */
-	private void notifySelect(boolean ctrl) {
-		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
-		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
-		SWTBotTreeItem item = new SWTBotTreeItem(lastSelectionItem);
+	private void notifyUnselect(TreeItem unselected) {
+		notifySelect(unselected, SWT.MOD1, unselectRunnable(unselected));
+	}
+
+	/**
+	 * Selects the specified item and sends notifications.
+	 *
+	 * @param selected  the tree item to select.
+	 * @param stateMask the state of the keyboard modifier keys.
+	 */
+	private void notifySelect(TreeItem selected, int stateMask) {
+		notifySelect(selected, stateMask, selectRunnable(selected, (stateMask & SWT.MOD1) != 0));
+	}
+
+	private void notifySelect(TreeItem selected, int stateMask, Runnable runnable) {
+		SWTBotTreeItem item = new SWTBotTreeItem(selected);
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
-		notify(SWT.MouseDown, item.createMouseEvent(1, stateMask1, 1));
-		notify(SWT.Selection, item.createSelectionEvent(stateMask2));
-		notify(SWT.MouseUp, item.createMouseEvent(1, stateMask2, 1));
-	}
-
-	@Override
-	protected Event createSelectionEvent(int stateMask) {
-		Event event = super.createSelectionEvent(stateMask);
-		event.item = lastSelectionItem;
-		return event;
+		notify(SWT.MouseDown, item.createMouseEvent(1, stateMask, 1));
+		notify(SWT.Selection, item.createSelectionEvent(stateMask | SWT.BUTTON1), widget, runnable);
+		notify(SWT.MouseUp, item.createMouseEvent(1, stateMask | SWT.BUTTON1, 1));
 	}
 
 	/**

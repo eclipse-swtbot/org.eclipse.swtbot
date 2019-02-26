@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -59,9 +59,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	/** The parent tree */
 	private Tree	tree;
 
-	/** The last selected item */
-	private TreeItem	lastSelectionItem;
-
 	/**
 	 * @param treeItem the widget.
 	 * @throws WidgetNotFoundException if the widget is <code>null</code> or widget has been disposed.
@@ -83,7 +80,6 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 				return treeItem.getParent();
 			}
 		});
-		lastSelectionItem = treeItem;
 	}
 
 	/**
@@ -235,12 +231,12 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
 	}
 
-	private void notifyTree(int eventType) {
-		notify(eventType, createEvent(), tree);
-	}
-
 	private void notifyTree(int eventType, Event event) {
 		notify(eventType, event, tree);
+	}
+
+	private void notifyTree(int eventType, Event event, Runnable runnable) {
+		notify(eventType, event, tree, runnable);
 	}
 
 	@Override
@@ -359,14 +355,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public SWTBotTreeItem select() {
 		waitForEnabled();
 		setFocus();
-		syncExec(new VoidResult() {
-			@Override
-			public void run() {
-				tree.setSelection(widget);
-				lastSelectionItem = widget;
-			}
-		});
-		notifySelect();
+		notifySelect(widget, SWT.NONE);
 		return this;
 	}
 
@@ -383,17 +372,9 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		setFocus();
-		syncExec(new VoidResult() {
-			@Override
-			public void run() {
-				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
-					tree.setSelection(widget);
-				}
-			}
-		});
 		notifyTree(SWT.FocusIn, super.createEvent());
 		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
-		notifyTree(SWT.Selection);
+		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1), selectRunnable(widget, false));
 		notifyTree(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
 		notifyTree(SWT.MouseExit, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Deactivate, super.createEvent());
@@ -441,21 +422,13 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		setFocus();
-		syncExec(new VoidResult() {
-			@Override
-			public void run() {
-				if (tree.getSelectionCount() != 1 || !tree.getSelection()[0].equals(widget)) {
-					tree.setSelection(widget);
-				}
-			}
-		});
 		notifyTree(SWT.FocusIn, super.createEvent());
 		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
-		notifyTree(SWT.Selection);
+		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1), selectRunnable(widget, false));
 		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 1));
 		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 2));
 		notifyTree(SWT.MouseDoubleClick, createMouseEvent(1, SWT.NONE, 2));
-		notifyTree(SWT.DefaultSelection);
+		notifyTree(SWT.DefaultSelection, createSelectionEvent(SWT.BUTTON1));
 		notifyTree(SWT.MouseUp, createMouseEvent(1, SWT.BUTTON1, 2));
 		notifyTree(SWT.MouseExit, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Deactivate, super.createEvent());
@@ -472,17 +445,10 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	@Override
 	protected void dragStart() {
 		setFocus();
-		syncExec(new VoidResult() {
-			@Override
-			public void run() {
-				tree.setSelection(widget);
-				lastSelectionItem = widget;
-			}
-		});
 		notifyTree(SWT.Activate, super.createEvent());
 		notifyTree(SWT.FocusIn, super.createEvent());
 		notifyTree(SWT.MouseDown, createMouseEvent(1, SWT.NONE, 1));
-		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1));
+		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1), selectRunnable(widget, false));
 	}
 
 	@Override
@@ -544,9 +510,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			selection.add(si.widget);
 		}
 		for (int i = 0; i < selection.size(); i++) {
-			boolean add = (i != 0);
-			processSelection(selection.get(i), add);
-			notifySelect(add);
+			int stateMask = (i == 0) ? SWT.NONE : SWT.MOD1;
+			notifySelect(selection.get(i), stateMask);
 		}
 		return this;
 	}
@@ -574,9 +539,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		}
 		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
 		for (int i = 0; i < selection.size(); i++) {
-			boolean add = (i != 0);
-			processSelection(selection.get(i), add);
-			notifySelect(add);
+			int stateMask = (i == 0) ? SWT.NONE : SWT.MOD1;
+			notifySelect(selection.get(i), stateMask);
 		}
 		return this;
 	}
@@ -601,8 +565,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @param add
 	 *            true to add to current selection
 	 */
-	private void processSelection(final TreeItem item, final boolean add) {
-		syncExec(new VoidResult() {
+	private Runnable selectRunnable(final TreeItem item, final boolean add) {
+		return new Runnable() {
 			@Override
 			public void run() {
 				if (add) {
@@ -611,41 +575,30 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 					// removes earlier selection
 					tree.setSelection(item);
 				}
-				lastSelectionItem = item;
 			}
-		});
+		};
 	}
 
 	/**
-	 * Notifies the tree widget about selection changes
-	 */
-	private void notifySelect() {
-		notifySelect(false);
-	}
-
-	/**
-	 * Notifies the selection.
+	 * Selects the specified item and sends notifications.
 	 *
-	 * @param ctrl
-	 *            true if CTRL key should be pressed while sending the event,
-	 *            false otherwise.
+	 * @param selected  the tree item to select.
+	 * @param stateMask the state of the keyboard modifier keys.
 	 */
-	private void notifySelect(boolean ctrl) {
-		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
-		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
-		SWTBotTreeItem item = new SWTBotTreeItem(lastSelectionItem);
+	private void notifySelect(TreeItem selected, int stateMask) {
+		SWTBotTreeItem item = new SWTBotTreeItem(selected);
 		notifyTree(SWT.MouseEnter, item.createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		notifyTree(SWT.FocusIn, super.createEvent());
-		notifyTree(SWT.MouseDown, item.createMouseEvent(1, stateMask1, 1));
-		notifyTree(SWT.Selection, item.createSelectionEvent(stateMask2));
-		notifyTree(SWT.MouseUp, item.createMouseEvent(1, stateMask2, 1));
+		notifyTree(SWT.MouseDown, item.createMouseEvent(1, stateMask, 1));
+		notifyTree(SWT.Selection, item.createSelectionEvent(stateMask | SWT.BUTTON1), selectRunnable(selected, (stateMask & SWT.MOD1) != 0));
+		notifyTree(SWT.MouseUp, item.createMouseEvent(1, stateMask | SWT.BUTTON1, 1));
 	}
 
 	@Override
 	protected Event createSelectionEvent(int stateMask) {
 		Event event = super.createSelectionEvent(stateMask);
-		event.item = lastSelectionItem;
+		event.item = widget;
 		return event;
 	}
 
@@ -710,10 +663,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 * @return an event that encapsulates {@link #widget} and {@link #display}.
 	 */
 	private Event createCheckEvent() {
-		Event event = createEvent();
-		event.time = (int) System.currentTimeMillis();
-		event.item = widget;
-		event.widget = tree;
+		Event event = createSelectionEvent(SWT.BUTTON1);
 		event.detail = SWT.CHECK;
 		return event;
 	}

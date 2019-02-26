@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -150,6 +150,19 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @param widget the widget to send the event to.
 	 */
 	protected void notify(final int eventType, final Event createEvent, final Widget widget) {
+		notify(eventType, createEvent, widget, null);
+	}
+
+	/**
+	 * Sends a non-blocking notification of the specified type to the widget.
+	 *
+	 * @param eventType the type of event.
+	 * @param createEvent the event to be sent to the {@link #widget}.
+	 * @param widget the widget to send the event to.
+	 * @param runnable an optional {@link Runnable} to run before sending the event.
+	 * @since 2.8
+	 */
+	protected void notify(final int eventType, final Event createEvent, final Widget widget, final Runnable runnable) {
 		createEvent.type = eventType;
 		final Object[] result = syncExec(new ArrayResult<Object>() {
 			@Override
@@ -169,6 +182,9 @@ public abstract class AbstractSWTBot<T extends Widget> {
 				if (!isEnabledInternal()) {
 					log.warn(MessageFormat.format("Widget is not enabled: {0}", AbstractSWTBot.this)); //$NON-NLS-1$
 					return;
+				}
+				if (runnable != null) {
+					runnable.run();
 				}
 				log.trace(MessageFormat.format("Sending event {0} to {1}", result)); //$NON-NLS-1$
 				widget.notifyListeners(eventType, createEvent);

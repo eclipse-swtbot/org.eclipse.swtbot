@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,8 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotAssert.pass;
+import static org.eclipse.swtbot.swt.finder.utils.SWTUtils.getTextPath;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
@@ -29,6 +31,7 @@ public class SWTBotCTabItemTest extends AbstractCustomControlExampleTest {
 		bot.tabItem("CTabFolder").activate();
 		bot.checkBox("SWT.CLOSE").deselect();
 		bot.checkBox("SWT.CLOSE").select();
+		bot.checkBox("Popup Menu").select();
 		bot.checkBox("Listen").select();
 		bot.button("Clear").click();
 	}
@@ -49,6 +52,13 @@ public class SWTBotCTabItemTest extends AbstractCustomControlExampleTest {
 		}catch (Exception e) {
 			pass();
 		}
+	}
+
+	@Test
+	public void canClickContextMenuOnCTabItem() throws Exception {
+		SWTBotCTabItem cTabItem = bot.cTabItem("CTabItem 0");
+		SWTBotMenu menuItem = cTabItem.contextMenu("Sample popup menu item").hide();
+		assertArrayEquals(new String[] { "POP_UP", "Sample popup menu item" }, getTextPath(menuItem.widget));
 	}
 
 }

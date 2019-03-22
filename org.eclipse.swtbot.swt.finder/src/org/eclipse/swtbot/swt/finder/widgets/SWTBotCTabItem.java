@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others.
+ * Copyright (c) 2009, 2019 SWTBot Committers and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -196,6 +196,13 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 		notifyParent(SWT.Deactivate);
 		notifyParent(SWT.FocusOut);
 		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+	}
+
+	@Override
+	public SWTBotRootMenu contextMenu() throws WidgetNotFoundException {
+		waitForEnabled();
+		activate();
+		return contextMenu(parent);
 	}
 
 }

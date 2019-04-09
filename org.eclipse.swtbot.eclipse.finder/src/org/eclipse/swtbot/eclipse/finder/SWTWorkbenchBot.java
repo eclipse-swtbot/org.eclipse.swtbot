@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009,2010 SWTBot Committers and others
+ * Copyright (c) 2009, 2019 SWTBot Committers and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,9 +14,9 @@ package org.eclipse.swtbot.eclipse.finder;
 
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPartId;
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPartName;
-import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withTitle;
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPerspectiveId;
 import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withPerspectiveLabel;
+import static org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory.withTitle;
 import static org.eclipse.swtbot.eclipse.finder.waits.Conditions.waitForEditor;
 import static org.eclipse.swtbot.eclipse.finder.waits.Conditions.waitForView;
 import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
@@ -32,6 +32,7 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotMultiPageEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotPerspective;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotWorkbenchPart;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.Result;
@@ -39,6 +40,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -117,6 +119,23 @@ public class SWTWorkbenchBot extends SWTBot {
 	 */
 	public List<SWTBotPerspective> perspectives() {
 		return perspectives(Matchers.anything());
+	}
+
+	/**
+	 * Returns the active workbench part
+	 * 
+	 * @return the active part, if any
+	 * @throws WidgetNotFoundException if there is no active part
+	 * @since 2.8
+	 */
+	public SWTBotWorkbenchPart<?> activePart() {
+		IWorkbenchPartReference part = workbenchContentsFinder.findActivePart();
+		if (part instanceof IViewReference) {
+			return new SWTBotView((IViewReference) part, this);
+		} else if (part instanceof IEditorReference) {
+			return new SWTBotEditor((IEditorReference) part, this);
+		}
+		throw new WidgetNotFoundException("There is no active part"); //$NON-NLS-1$
 	}
 
 	/**
@@ -263,7 +282,8 @@ public class SWTWorkbenchBot extends SWTBot {
 	}
 
 	/**
-	 * Returns the active workbench editor part
+	 * Returns the active workbench editor part, which is not necessarily the active
+	 * workbench part
 	 * 
 	 * @return the active editor, if any
 	 * @throws WidgetNotFoundException if there is no active view

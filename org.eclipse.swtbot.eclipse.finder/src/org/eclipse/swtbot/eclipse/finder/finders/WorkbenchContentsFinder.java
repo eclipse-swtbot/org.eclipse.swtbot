@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others
+ * Copyright (c) 2009, 2019 SWTBot Committers and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -123,6 +123,19 @@ public class WorkbenchContentsFinder {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * @return the active part.
+	 * @since 2.8
+	 */
+	public IWorkbenchPartReference findActivePart() {
+		return syncExec(new Result<IWorkbenchPartReference>() {
+			@Override
+			public IWorkbenchPartReference run() {
+				return activePageInternal().getActivePartReference();
+			}
+		});
 	}
 
 	/**

@@ -91,11 +91,33 @@ public class SWTBotEclipseEditorTest extends AbstractSWTBotEclipseTest {
 		javaClass.createClass("com.foo.example", "BazClass");
 
 		assertTrue(bot.activeEditor().isActive());
+		assertTrue(bot.activeEditor().isActiveEditor());
 		assertFalse(bot.editorByTitle("FooClass.java").isActive());
+		assertFalse(bot.editorByTitle("FooClass.java").isActiveEditor());
 		assertFalse(bot.editorByTitle("BarClass.java").isActive());
+		assertFalse(bot.editorByTitle("BarClass.java").isActiveEditor());
 		assertTrue(bot.editorByTitle("BazClass.java").isActive());
+		assertTrue(bot.editorByTitle("BazClass.java").isActiveEditor());
 	}
-	
+
+	@Test
+	public void isActiveIsFalseForActiveEditor() {
+		javaClass.createClass("com.foo.example", "FooClass");
+		javaClass.createClass("com.foo.example", "BarClass");
+		javaClass.createClass("com.foo.example", "BazClass");
+
+		bot.viewByTitle("Package Explorer").setFocus();
+
+		assertFalse(bot.activeEditor().isActive());
+		assertTrue(bot.activeEditor().isActiveEditor());
+		assertFalse(bot.editorByTitle("FooClass.java").isActive());
+		assertFalse(bot.editorByTitle("FooClass.java").isActiveEditor());
+		assertFalse(bot.editorByTitle("BarClass.java").isActive());
+		assertFalse(bot.editorByTitle("BarClass.java").isActiveEditor());
+		assertFalse(bot.editorByTitle("BazClass.java").isActive());
+		assertTrue(bot.editorByTitle("BazClass.java").isActiveEditor());
+	}
+
 	@Test
 	public void contextMenu() {
 		editor.contextMenu("Copy Qualified Name").click();

@@ -59,21 +59,22 @@ public class SWTBotEditor extends SWTBotWorkbenchPart<IEditorReference> {
 	}
 
 	/**
-	 * @see #isActiveEditor()
+	 * @return <code>true</code> if the editor is the active editor, which is not
+	 *         necessarily the active part.
+	 * @see #isActivePart()
 	 */
 	@Override
 	public boolean isActive() {
-		return partReference.getPage().getActivePartReference() == partReference;
+		return bot.activeEditor().partReference == partReference;
 	}
 
 	/**
-	 * @return <code>true</code> if the editor is the active editor, which is not
-	 *         necessarily the active part.
+	 * @return <code>true</code> if the part is currently active.
 	 * @since 2.8
 	 * @see #isActive()
 	 */
-	public boolean isActiveEditor() {
-		return bot.activeEditor().partReference == partReference;
+	public boolean isActivePart() {
+		return partReference.getPage().getActivePartReference() == partReference;
 	}
 
 	@Override

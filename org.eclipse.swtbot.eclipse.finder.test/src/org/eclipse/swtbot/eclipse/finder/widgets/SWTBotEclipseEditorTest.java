@@ -91,31 +91,31 @@ public class SWTBotEclipseEditorTest extends AbstractSWTBotEclipseTest {
 		javaClass.createClass("com.foo.example", "BazClass");
 
 		assertTrue(bot.activeEditor().isActive());
-		assertTrue(bot.activeEditor().isActiveEditor());
+		assertTrue(bot.activeEditor().isActivePart());
 		assertFalse(bot.editorByTitle("FooClass.java").isActive());
-		assertFalse(bot.editorByTitle("FooClass.java").isActiveEditor());
+		assertFalse(bot.editorByTitle("FooClass.java").isActivePart());
 		assertFalse(bot.editorByTitle("BarClass.java").isActive());
-		assertFalse(bot.editorByTitle("BarClass.java").isActiveEditor());
+		assertFalse(bot.editorByTitle("BarClass.java").isActivePart());
 		assertTrue(bot.editorByTitle("BazClass.java").isActive());
-		assertTrue(bot.editorByTitle("BazClass.java").isActiveEditor());
+		assertTrue(bot.editorByTitle("BazClass.java").isActivePart());
 	}
 
 	@Test
-	public void isActiveIsFalseForActiveEditor() {
+	public void isActivePartIsFalseForActiveEditor() {
 		javaClass.createClass("com.foo.example", "FooClass");
 		javaClass.createClass("com.foo.example", "BarClass");
 		javaClass.createClass("com.foo.example", "BazClass");
 
 		bot.viewByTitle("Package Explorer").setFocus();
 
-		assertFalse(bot.activeEditor().isActive());
-		assertTrue(bot.activeEditor().isActiveEditor());
+		assertTrue(bot.activeEditor().isActive());
+		assertFalse(bot.activeEditor().isActivePart());
 		assertFalse(bot.editorByTitle("FooClass.java").isActive());
-		assertFalse(bot.editorByTitle("FooClass.java").isActiveEditor());
+		assertFalse(bot.editorByTitle("FooClass.java").isActivePart());
 		assertFalse(bot.editorByTitle("BarClass.java").isActive());
-		assertFalse(bot.editorByTitle("BarClass.java").isActiveEditor());
-		assertFalse(bot.editorByTitle("BazClass.java").isActive());
-		assertTrue(bot.editorByTitle("BazClass.java").isActiveEditor());
+		assertFalse(bot.editorByTitle("BarClass.java").isActivePart());
+		assertTrue(bot.editorByTitle("BazClass.java").isActive());
+		assertFalse(bot.editorByTitle("BazClass.java").isActivePart());
 	}
 
 	@Test

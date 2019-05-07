@@ -21,9 +21,9 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
-import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.Style;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -125,7 +125,7 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 			notify(SWT.Deactivate);
 			notify(SWT.FocusOut);
 			log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
-			List<MenuItem> findMenus = menuFinder.findMenus(new SWTBot().activeShell().widget, matcher, true);
+			List<MenuItem> findMenus = menuFinder.findMenus((Shell) null, matcher, true);
 			return toSWTBotMenuItems(matcher, findMenus);
 		} finally {
 			menuFinder.unregister();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,6 +28,8 @@ public class NewJavaProject {
 	private SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
 
 	public void createProject(String projectName) throws Exception {
+		bot.shell().activate();
+
 		if (!bot.activePerspective().getLabel().equals("Java")) {
 			// In Mars "Open Perspective" is nested in "Perspective", so use this
 			// method to recursively find "Open Perspective" and don't assume it is
@@ -39,7 +41,6 @@ public class NewJavaProject {
 			}
 		}
 		bot.menu("File").menu("New").menu("Java Project").click();
-	
 
 		SWTBotShell shell = bot.shell("New Java Project");
 		shell.activate();
@@ -48,6 +49,7 @@ public class NewJavaProject {
 
 		bot.waitUntil(Conditions.shellCloses(shell));
 
+		bot.shell().activate();
 	}
 
 }

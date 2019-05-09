@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,6 +27,8 @@ public class NewJavaClass {
 	private SWTWorkbenchBot	bot	= new SWTWorkbenchBot();
 
 	public void createClass(String packageName, String className) {
+		bot.shell().activate();
+
 		if (!bot.activePerspective().getLabel().equals("Java")) {
 			SWTBotMenu windowMenu = bot.menu("Window");
 			SWTBotMenu perspectiveMenu = windowMenu.menu("Open Perspective");
@@ -36,6 +38,7 @@ public class NewJavaClass {
 			}
 		}
 		bot.menu("File").menu("New").menu("Class").click();
+
 		SWTBotShell shell = bot.shell("New Java Class");
 		shell.activate();
 		bot.textWithLabel("Package:").setText(packageName);
@@ -43,5 +46,7 @@ public class NewJavaClass {
 		bot.button("Finish").click();
 
 		bot.waitUntil(Conditions.shellCloses(shell));
+
+		bot.shell().activate();
 	}
 }

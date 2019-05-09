@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,7 +14,7 @@ package org.eclipse.swtbot.swt.finder.widgets;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertSameWidget;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.pass;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
@@ -161,14 +161,15 @@ public class SWTBotShellTest extends AbstractSWTShellTest {
 
 		//after maximize, bounds are greater than original
 		shell.maximize(true);
-		assertThat(getWidth(shell), greaterThan(originalwidth));
-		assertThat(getHeight(shell), greaterThan(originalheight));
+		int maximizedWidth = getWidth(shell);
+		int maximizedHeight = getHeight(shell);
+		assertThat(maximizedWidth, greaterThan(originalwidth));
+		assertThat(maximizedHeight, greaterThan(originalheight));
 
-		// after un-maximize, bounds are either equal (normal size) or less than
-		// (minimized) the original
+		// after un-maximize, bounds are less than the maximized size
 		shell.maximize(false);
-		assertThat(getWidth(shell), lessThanOrEqualTo(originalwidth));
-		assertThat(getHeight(shell), lessThanOrEqualTo(originalheight));
+		assertThat(getWidth(shell), lessThan(maximizedWidth));
+		assertThat(getHeight(shell), lessThan(maximizedHeight));
 	}
 
 }

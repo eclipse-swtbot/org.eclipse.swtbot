@@ -24,6 +24,7 @@ import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.eclipse.finder.finders.WorkbenchContentsFinder;
 import org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.eclipse.finder.waits.WaitForEditor;
@@ -35,12 +36,15 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotWorkbenchPart;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -62,6 +66,23 @@ public class SWTWorkbenchBot extends SWTBot {
 	 */
 	public SWTWorkbenchBot() {
 		workbenchContentsFinder = new WorkbenchContentsFinder();
+	}
+
+	/**
+	 * Returns the shell of the active workbench window
+	 *
+	 * @return the shell of the active workbench window
+	 * @since 2.8
+	 */
+	public SWTBotShell shell() {
+		Shell shell = UIThreadRunnable.syncExec(new Result<Shell>() {
+			@Override
+			public Shell run() {
+				IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				return (window == null) ? null : window.getShell();
+			}
+		});
+		return new SWTBotShell(shell);
 	}
 
 	/**

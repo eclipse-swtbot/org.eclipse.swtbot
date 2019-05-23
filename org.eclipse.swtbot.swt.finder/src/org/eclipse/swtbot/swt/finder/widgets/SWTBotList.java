@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -200,8 +200,8 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @since 2.6
 	 */
 	protected void notifySelect(boolean first) {
-		int stateMask1 = (first) ?  SWT.NONE : (SWT.NONE | SWT.CTRL);
-		int stateMask2 = (first) ?  SWT.BUTTON1 : (SWT.BUTTON1 | SWT.CTRL);
+		int stateMask1 = (first) ?  SWT.NONE : (SWT.NONE | SWT.MOD1);
+		int stateMask2 = (first) ?  SWT.BUTTON1 : (SWT.BUTTON1 | SWT.MOD1);
 		if (first) {
 			notify(SWT.MouseEnter);
 			notify(SWT.Activate);

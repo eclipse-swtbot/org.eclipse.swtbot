@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -468,13 +468,13 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	 * Notifies the selection.
 	 *
 	 * @param ctrl
-	 *            true if CTRL key should be pressed while sending the event,
+	 *            true if CTRL/COMMAND key should be pressed while sending the event,
 	 *            false otherwise.
 	 * @since 2.6
 	 */
 	private void notifySelect(boolean ctrl) {
-		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.CTRL) : SWT.NONE;
-		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.CTRL) : SWT.BUTTON1;
+		int stateMask1 = (ctrl) ?  (SWT.NONE | SWT.MOD1) : SWT.NONE;
+		int stateMask2 = (ctrl) ?  (SWT.BUTTON1 | SWT.MOD1) : SWT.BUTTON1;
 		SWTBotTableItem item = new SWTBotTableItem(lastSelectionItem);
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);

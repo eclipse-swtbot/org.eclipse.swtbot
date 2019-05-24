@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -293,7 +293,7 @@ public class SWTBotStyledTextTest extends AbstractCustomControlExampleTest {
 		styledText.setText("This is sample text");
 		bot.button("Clear").click();
 		styledText.click(line, column, SWT.MOD2);
-		assertEquals(new Position(0, 0), styledText.cursorPosition(true));
+		assertEquals(new Position(line, column), styledText.cursorPosition(true));
 		assertEquals("This is sample te", styledText.getSelection());
 		verifyNotifyClick(SWT.MOD2);
 	}
@@ -318,8 +318,8 @@ public class SWTBotStyledTextTest extends AbstractCustomControlExampleTest {
 		bot.button("Clear").click();
 		styledText.doubleClick(line, column);
 		// Default behavior: word is selected upon doubleClick, so cursor position needs
-		// to be compared with start column of the word
-		assertEquals(new Position(line, column - 1), styledText.cursorPosition(true));
+		// to be compared with end of the word
+		assertEquals(new Position(line, column + 1), styledText.cursorPosition(true));
 		assertEquals(styledText.getSelection(), "is");
 
 		verifyNotifyClick(0);

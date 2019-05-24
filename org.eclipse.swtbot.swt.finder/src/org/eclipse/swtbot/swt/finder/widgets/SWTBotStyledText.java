@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -179,30 +179,23 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	}
 
 	/**
-	 * Gets the current position of the cursor. The returned position will contain a 0-based line and column.
+	 * Gets the current position of the cursor. The returned position will contain a
+	 * 0-based line and column, with tabs counting as 1 column.
 	 *
 	 * @return the position of the cursor in the styled text.
 	 * @see SWTBotStyledText#cursorPosition(boolean)
 	 */
 	public Position cursorPosition() {
-		return syncExec(new Result<Position>() {
-			@Override
-			public Position run() {
-				widget.setFocus();
-				int offset = widget.getSelectionRange().x;
-				int line = widget.getContent().getLineAtOffset(offset);
-				int offsetAtLine = widget.getContent().getOffsetAtLine(line);
-				int column = offset - offsetAtLine;
-				return new Position(line, column);
-			}
-		});
+		return cursorPosition(false);
 	}
 
 	/**
-	 * Gets the current position of the cursor. The returned position will contain a 0-based line and column.
+	 * Gets the current position of the cursor. The returned position will contain a
+	 * 0-based line and column.
 	 *
-	 * @param withTabWidth <code>true</code> if column in the returned position should consider tab width preference;
-	 *                     <code>false</code> if column in the returned position should count tab as 1.
+	 * @param withTabWidth <code>true</code> if column in the returned position
+	 *                     should consider tab width preference; <code>false</code>
+	 *                     if column in the returned position should count tab as 1.
 	 * @return the position of the cursor in the styled text.
 	 * @since 2.8
 	 */
@@ -211,7 +204,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 			@Override
 			public Position run() {
 				widget.setFocus();
-				int offset = widget.getSelectionRange().x;
+				int offset = widget.getCaretOffset();
 				int line = widget.getContent().getLineAtOffset(offset);
 				int offsetAtLine = widget.getContent().getOffsetAtLine(line);
 				int column = offset - offsetAtLine;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.eclipse.swtbot.swt.finder.utils.TableCollection;
@@ -128,13 +129,15 @@ public class SWTBotTableTest extends AbstractControlExampleTest {
 
 		table.unselect();
 		assertEquals(0, table.selectionCount());
-		//event.item should contain the item getting unselected, stateMask should reflect CTRL key
-		assertEventMatches(text, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
-		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:1} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
-		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
+		//event.item should contain the item getting unselected, stateMask should reflect CTRL/COMMAND key
+		String stateMaskMulti1 = "0x" + Integer.toHexString(SWT.NONE | SWT.MOD1);
+		String stateMaskMulti2 = "0x" + Integer.toHexString(SWT.BUTTON1 | SWT.MOD1);
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=" + stateMaskMulti1 + " x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:1} detail=0 x=0 y=0 width=0 height=0 stateMask=" + stateMaskMulti2 + " text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=" + stateMaskMulti2 + " x=0 y=0 count=1}");
 
-		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
-		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:3} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:2} detail=0 x=0 y=0 width=0 height=0 stateMask=" + stateMaskMulti2 + " text=null doit=true}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:3} detail=0 x=0 y=0 width=0 height=0 stateMask=" + stateMaskMulti2 + " text=null doit=true}");
 	}
 
 	@Test
@@ -192,10 +195,12 @@ public class SWTBotTableTest extends AbstractControlExampleTest {
 		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 
 		// subsequent selection: event.item should contain the second selected item,
-		//stateMask should reflect CTRL key
-		assertEventMatches(text, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
-		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:10} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
-		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
+		//stateMask should reflect CTRL/COMMAND key
+		String stateMaskMulti1 = "0x" + Integer.toHexString(SWT.NONE | SWT.MOD1);
+		String stateMaskMulti2 = "0x" + Integer.toHexString(SWT.BUTTON1 | SWT.MOD1);
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Table {} time=0 data=null button=1 stateMask=" + stateMaskMulti1 + " x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Table {} time=0 data=null item=TableItem {Index:10} detail=0 x=0 y=0 width=0 height=0 stateMask=" + stateMaskMulti2 + " text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Table {} time=0 data=null button=1 stateMask=" + stateMaskMulti2 + " x=0 y=0 count=1}");
 	}
 
 	@Test

@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
@@ -144,10 +145,12 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		bot.button("Clear").click();
 		tree.unselect();
 		assertEquals(0, tree.selectionCount());
-		//event.item should contain the item getting unselected, stateMask should reflect CTRL key
-		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
-		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
-		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
+		//event.item should contain the item getting unselected, stateMask should reflect CTRL/COMMAND key
+		String stateMaskMulti1 = "0x" + Integer.toHexString(SWT.NONE | SWT.MOD1);
+		String stateMaskMulti2 = "0x" + Integer.toHexString(SWT.BUTTON1 | SWT.MOD1);
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=" + stateMaskMulti1 + " x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=" + stateMaskMulti2 + " text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=" + stateMaskMulti2 + " x=0 y=0 count=1}");
 	}
 
 	@Test
@@ -217,16 +220,18 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 		SWTBotText text = bot.textInGroup("Listeners");
 
 		// first selection: event.item should contain the first selected item,
-		// stateMask should not reflect CTRL key
+		// stateMask should not reflect CTRL/COMMAND key
 		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
 		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
 		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
 
 		// subsequent selection: event.item should contain the second selected item,
-		// stateMask should reflect CTRL key
-		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x40000 x=0 y=0 count=1}");
-		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 3} detail=0 x=0 y=0 width=0 height=0 stateMask=0xc0000 text=null doit=true}");
-		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0xc0000 x=0 y=0 count=1}");
+		// stateMask should reflect CTRL/COMMAND key
+		String stateMaskMulti1 = "0x" + Integer.toHexString(SWT.NONE | SWT.MOD1);
+		String stateMaskMulti2 = "0x" + Integer.toHexString(SWT.BUTTON1 | SWT.MOD1);
+		assertEventMatches(text, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=" + stateMaskMulti1 + " x=0 y=0 count=1}");
+		assertEventMatches(text, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 3} detail=0 x=0 y=0 width=0 height=0 stateMask=" + stateMaskMulti2 + " text=null doit=true}");
+		assertEventMatches(text, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=" + stateMaskMulti2 + " x=0 y=0 count=1}");
 	}
 
 	@Test

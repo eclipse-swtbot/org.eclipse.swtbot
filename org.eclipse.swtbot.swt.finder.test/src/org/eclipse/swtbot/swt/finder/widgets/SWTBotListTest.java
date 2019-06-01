@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.SWTBotAssert;
@@ -172,8 +173,10 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 	{
 		SWTBotText text = bot.textInGroup("Listeners");
 		String[] events = SWTUtils.getText(text.widget).split("\n");
-		String stateMask1 = (select) ?  "0x0" : "0x40000";
-		String stateMask2 = (select) ?  "0x80000" : "0xc0000";
+		String stateMaskMulti1 = "0x" + Integer.toHexString(SWT.NONE | SWT.MOD1);
+		String stateMaskMulti2 = "0x" + Integer.toHexString(SWT.BUTTON1 | SWT.MOD1);
+		String stateMask1 = "0x" + Integer.toHexString(select ? SWT.NONE : SWT.NONE | SWT.MOD1);
+		String stateMask2 = "0x" + Integer.toHexString(select ? SWT.BUTTON1 : SWT.BUTTON1 | SWT.MOD1);
 		int i = 0;
 		i = events[i].startsWith("Paint") ? (i + 1) : i;
 		SWTBotAssert.assertContains("MouseEnter [6]: MouseEvent{List {} ", events[i++]);
@@ -186,8 +189,8 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		SWTBotAssert.assertContains("MouseUp [4]: MouseEvent{List {} ", events[i]);
 		SWTBotAssert.assertContains("stateMask=" + stateMask2, events[i++]);
 		if (select) { //statemasks are changed only for select for further items
-			stateMask1 ="0x40000";
-			stateMask2 = "0xc0000";
+			stateMask1 = stateMaskMulti1;
+			stateMask2 = stateMaskMulti2;
 		}
 		i = events[i].startsWith("Paint") ? (i + 1) : i;
 		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i]);

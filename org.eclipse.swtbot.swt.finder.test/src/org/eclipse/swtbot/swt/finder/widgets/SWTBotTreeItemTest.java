@@ -27,6 +27,7 @@ import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.junit.Before;
 import org.junit.Rule;
@@ -145,6 +146,34 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		}
 	}
 
+	@Test
+	public void selectsAll() {
+		bot.radio("SWT.MULTI").click();
+		tree = bot.tree();
+		SWTBotTreeItem node2 = tree.getTreeItem("Node 2").expand();
+		node2.selectAll();
+		node2.getNode("Node 2.2").expand();
+		assertEquals(2, tree.selectionCount());
+		TableCollection selection = tree.selection();
+		assertEquals("Node 2.1", selection.get(0, 0));
+		assertEquals("Node 2.2", selection.get(1, 0));
+		node2.selectAll();
+		assertEquals(3, tree.selectionCount());
+		selection = tree.selection();
+		assertEquals("Node 2.1", selection.get(0, 0));
+		assertEquals("Node 2.2", selection.get(1, 0));
+		assertEquals("Node 2.2.1", selection.get(2, 0));
+		SWTBotTreeItem node3 = tree.getTreeItem("Node 3");
+		node3.selectAll();
+		assertEquals(1, tree.selectionCount());
+		selection = tree.selection();
+		assertEquals("Node 3", selection.get(0, 0));
+		SWTBotTreeItem node4 = tree.getTreeItem("Node 4");
+		node4.selectAll();
+		assertEquals(1, tree.selectionCount());
+		selection = tree.selection();
+		assertEquals("Node 4", selection.get(0, 0));
+	}
 
 	@Test
 	public void canCheckANode() throws Exception {

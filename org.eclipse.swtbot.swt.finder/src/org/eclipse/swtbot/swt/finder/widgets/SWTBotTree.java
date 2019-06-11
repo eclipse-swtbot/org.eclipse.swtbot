@@ -278,6 +278,59 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 	}
 
 	/**
+	 * Selects all expanded items in the tree. The tree must have the SWT.MULTI
+	 * style.
+	 *
+	 * @since 2.8
+	 */
+	public void selectAll() {
+		assertMultiSelect();
+		waitForEnabled();
+		setFocus();
+		TreeItem first = syncExec(new Result<TreeItem>() {
+			@Override
+			public TreeItem run() {
+				if (widget.getItemCount() == 0) {
+					return null;
+				}
+				return widget.getItem(0);
+			}
+		});
+		if (first == null) {
+			return;
+		}
+		notifySelect(first, SWT.NONE);
+		TreeItem last = syncExec(new Result<TreeItem>() {
+			@Override
+			public TreeItem run() {
+				if (widget.getItemCount() == 0) {
+					return null;
+				}
+				TreeItem last = widget.getItem(widget.getItemCount() - 1);
+				while (last.getExpanded() && last.getItemCount() > 0) {
+					last = last.getItem(last.getItemCount() - 1);
+				}
+				return last;
+			}
+		});
+		if (last != null && last != first) {
+			notifySelect(last, SWT.MOD2, selectAllRunnable());
+		}
+	}
+
+	/**
+	 * Selects all expanded tree items.
+	 */
+	private Runnable selectAllRunnable() {
+		return new Runnable() {
+			@Override
+			public void run() {
+				widget.selectAll();
+			}
+		};
+	}
+
+	/**
 	 * Unselects the selection in the tree.
 	 *
 	 * @return this same instance.

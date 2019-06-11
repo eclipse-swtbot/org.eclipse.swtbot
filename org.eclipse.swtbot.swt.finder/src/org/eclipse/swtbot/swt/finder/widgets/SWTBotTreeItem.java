@@ -580,18 +580,77 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
+	 * Selects all expanded items that are descendants of the tree item. Replaces
+	 * the current selection. Selects the tree item if it is collapsed or has no
+	 * children. The tree must have the SWT.MULTI style.
+	 *
+	 * @since 2.8
+	 */
+	public void selectAll() {
+		assertMultiSelect();
+		waitForEnabled();
+		setFocus();
+		TreeItem[] items = syncExec(new ArrayResult<TreeItem>() {
+			@Override
+			public TreeItem[] run() {
+				if (!widget.getExpanded()) {
+					return new TreeItem[] { widget };
+				}
+				return getExpandedChildren(widget).toArray(new TreeItem[0]);
+			}
+		});
+		if (items.length == 0) {
+			return;
+		}
+		notifySelect(items[0], SWT.NONE);
+		if (items.length > 1) {
+			notifySelect(items[items.length - 1], SWT.MOD2, selectRunnable(items));
+		}
+	}
+
+	private List<TreeItem> getExpandedChildren(TreeItem item) {
+		List<TreeItem> items = new ArrayList<TreeItem>();
+		for (TreeItem child : item.getItems()) {
+			items.add(child);
+			if (child.getExpanded() && child.getItemCount() > 0) {
+				items.addAll(getExpandedChildren(child));
+			}
+		}
+		return items;
+	}
+
+	/**
+	 * Selects the specified items.
+	 *
+	 * @param items
+	 *            the tree items to select
+	 */
+	private Runnable selectRunnable(final TreeItem[] items) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				tree.setSelection(items);
+			}
+		};
+	}
+
+	/**
 	 * Selects the specified item and sends notifications.
 	 *
 	 * @param selected  the tree item to select.
 	 * @param stateMask the state of the keyboard modifier keys.
 	 */
 	private void notifySelect(TreeItem selected, int stateMask) {
+		notifySelect(selected, stateMask, selectRunnable(selected, (stateMask & SWT.MOD1) != 0));
+	}
+
+	private void notifySelect(TreeItem selected, int stateMask, Runnable runnable) {
 		SWTBotTreeItem item = new SWTBotTreeItem(selected);
 		notifyTree(SWT.MouseEnter, item.createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		notifyTree(SWT.FocusIn, super.createEvent());
 		notifyTree(SWT.MouseDown, item.createMouseEvent(1, stateMask, 1));
-		notifyTree(SWT.Selection, item.createSelectionEvent(stateMask | SWT.BUTTON1), selectRunnable(selected, (stateMask & SWT.MOD1) != 0));
+		notifyTree(SWT.Selection, item.createSelectionEvent(stateMask | SWT.BUTTON1), runnable);
 		notifyTree(SWT.MouseUp, item.createMouseEvent(1, stateMask | SWT.BUTTON1, 1));
 	}
 

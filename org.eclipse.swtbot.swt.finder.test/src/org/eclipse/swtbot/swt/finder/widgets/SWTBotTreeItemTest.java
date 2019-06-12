@@ -176,6 +176,20 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 	}
 
 	@Test
+	public void unselects() {
+		bot.radio("SWT.MULTI").click();
+		tree = bot.tree();
+		tree.select("Node 1", "Node 2");
+		assertEquals(2, tree.selectionCount());
+		tree.getTreeItem("Node 1").unselect();
+		assertEquals(1, tree.selectionCount());
+		TableCollection selection = tree.selection();
+		assertEquals("Node 2", selection.get(0, 0));
+		tree.getTreeItem("Node 2").unselect();
+		assertEquals(0, tree.selectionCount());
+	}
+
+	@Test
 	public void canCheckANode() throws Exception {
 		bot.checkBox("SWT.CHECK").select();
 		tree = bot.tree();

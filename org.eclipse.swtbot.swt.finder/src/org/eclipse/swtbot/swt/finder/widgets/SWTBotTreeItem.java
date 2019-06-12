@@ -360,6 +360,23 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	}
 
 	/**
+	 * Unselects the current tree item. The tree must have the SWT.MULTI style.
+	 *
+	 * @return the current node.
+	 * @since 2.8
+	 */
+	public SWTBotTreeItem unselect() {
+		assertMultiSelect();
+		if (!isSelected()) {
+			return this;
+		}
+		waitForEnabled();
+		setFocus();
+		notifyUnselect(widget);
+		return this;
+	}
+
+	/**
 	 * Click on the tree at given coordinates
 	 *
 	 * @param x the x co-ordinate of the click
@@ -632,6 +649,31 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 				tree.setSelection(items);
 			}
 		};
+	}
+
+	/**
+	 * Unselects the given tree item.
+	 *
+	 * @param item
+	 *            tree item to unselect
+	 */
+	private Runnable unselectRunnable(final TreeItem item) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				tree.deselect(item);
+			}
+		};
+	}
+
+	/**
+	 * Unselects the specified item and sends notifications.
+	 *
+	 * @param unselected
+	 *            the tree item to unselect
+	 */
+	private void notifyUnselect(TreeItem unselected) {
+		notifySelect(unselected, SWT.MOD1, unselectRunnable(unselected));
 	}
 
 	/**

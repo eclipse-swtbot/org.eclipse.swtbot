@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.swtbot.nebula.gallery"
       label="SWTBot for Eclipse Nebula Gallery Testing"
-      version="2.8.0.qualifier"
+      version="2.9.0.qualifier"
       provider-name="Eclipse.org - SWTBot"
       plugin="org.eclipse.swtbot.eclipse.ui"
       license-feature="org.eclipse.license"

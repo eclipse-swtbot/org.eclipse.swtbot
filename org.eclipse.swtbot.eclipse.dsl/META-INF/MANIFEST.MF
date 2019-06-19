@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot DSL for Eclipse IDE Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.eclipse.dsl
-Bundle-Version: 2.8.0.qualifier
+Bundle-Version: 2.9.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.eclipse.dsl.Activator
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

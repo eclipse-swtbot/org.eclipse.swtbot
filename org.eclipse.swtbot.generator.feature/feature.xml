@@ -8,7 +8,7 @@
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 
-   <description url="http://eclipse.org/">
+   <description url="http://www.eclipse.org/swtbot/">
       SWTBot Generator: Enable recording of Events and generates code accordingly. APIs are still in a provisional state and are likely to evolve.
    </description>
 
@@ -19,6 +19,10 @@
    <license url="%licenseURL">
       %license
    </license>
+
+   <url>
+      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
+   </url>
 
    <plugin
          id="org.eclipse.swtbot.generator"

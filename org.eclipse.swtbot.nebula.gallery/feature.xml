@@ -8,8 +8,8 @@
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 
-   <description url="http://eclipse.org/">
-      SWTBot for testing Eclipse Forms based plugins and applications
+   <description url="http://www.eclipse.org/swtbot/">
+      SWTBot for testing Eclipse Nebula Gallery-based plugins and applications
    </description>
 
    <copyright>
@@ -21,7 +21,7 @@
    </license>
 
    <url>
-      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/update-site"/>
+      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
    </url>
 
    <includes

@@ -8,7 +8,7 @@
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 
-   <description url="http://eclipse.org/">
+   <description url="http://www.eclipse.org/swtbot/">
       SWTBot IDE support
    </description>
 
@@ -21,7 +21,7 @@
    </license>
 
    <url>
-      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/update-site"/>
+      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
    </url>
 
    <requires>

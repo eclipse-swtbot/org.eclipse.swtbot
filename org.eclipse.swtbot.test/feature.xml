@@ -4,10 +4,11 @@
       label="SWTBot Tests Feature"
       version="2.9.0.qualifier"
       provider-name="Eclipse.org - SWTBot"
+      plugin="org.eclipse.swtbot.eclipse.ui"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 
-   <description url="http://eclipse.org/">
+   <description url="http://www.eclipse.org/swtbot/">
       Tests for SWTBot
    </description>
 
@@ -20,7 +21,7 @@
    </license>
 
    <url>
-      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/update-site"/>
+      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
    </url>
 
    <includes

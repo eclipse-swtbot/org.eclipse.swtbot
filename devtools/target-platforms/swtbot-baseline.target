@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="swtbot-baseline" sequenceNumber="6">
+<?pde version="3.8"?><target name="swtbot-baseline" sequenceNumber="7">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.swtbot.nebula.gallery.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.swtbot.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.swtbot.ide.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.generator.feature.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.ide.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.nebula.gallery.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.nebula.nattable.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">

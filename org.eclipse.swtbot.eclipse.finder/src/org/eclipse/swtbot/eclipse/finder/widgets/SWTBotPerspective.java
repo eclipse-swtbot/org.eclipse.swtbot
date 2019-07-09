@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 SWTBot Committers and others
+ * Copyright (c) 2009, 2019 SWTBot Committers and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -56,6 +56,23 @@ public class SWTBotPerspective {
 					workbench.showPerspective(perspectiveDescriptor.getId(), workbench.getActiveWorkbenchWindow());
 				} catch (Exception e) {
 					// TODO: what's the correct exception for such an error? Own exception class?
+					throw new WidgetNotFoundException(e.getMessage(), e);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Closes the perspective.
+	 */
+	public void close() {
+		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				try {
+					IWorkbench workbench = PlatformUI.getWorkbench();
+					workbench.getActiveWorkbenchWindow().getActivePage().closePerspective(perspectiveDescriptor, false, false);
+				} catch (Exception e) {
 					throw new WidgetNotFoundException(e.getMessage(), e);
 				}
 			}

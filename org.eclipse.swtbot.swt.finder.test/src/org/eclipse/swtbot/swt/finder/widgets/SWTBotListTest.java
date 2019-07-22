@@ -178,7 +178,6 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		String stateMask1 = "0x" + Integer.toHexString(select ? SWT.NONE : SWT.NONE | SWT.MOD1);
 		String stateMask2 = "0x" + Integer.toHexString(select ? SWT.BUTTON1 : SWT.BUTTON1 | SWT.MOD1);
 		int i = 0;
-		i = events[i].startsWith("Paint") ? (i + 1) : i;
 		SWTBotAssert.assertContains("MouseEnter [6]: MouseEvent{List {} ", events[i++]);
 		SWTBotAssert.assertContains("Activate [26]: ShellEvent{List {} ", events[i++]);
 		SWTBotAssert.assertContains("FocusIn [15]: FocusEvent{List {} ", events[i++]);
@@ -192,7 +191,6 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 			stateMask1 = stateMaskMulti1;
 			stateMask2 = stateMaskMulti2;
 		}
-		i = events[i].startsWith("Paint") ? (i + 1) : i;
 		SWTBotAssert.assertContains("MouseDown [3]: MouseEvent{List {} ", events[i]);
 		SWTBotAssert.assertContains("stateMask=" + stateMask1, events[i++]);
 		SWTBotAssert.assertContains("Selection [13]: SelectionEvent{List {} ", events[i]);
@@ -212,7 +210,7 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		assertTextContains("MouseDown [3]: MouseEvent{List {} ", text.widget);
 	}
 
-	private void verifynotifyPostSelectDoubleClick() {
+	private void verifyNotifyPostSelectDoubleClick() {
 		SWTBotText text = bot.textInGroup("Listeners");
 		assertEventMatches(text,
 				"MouseDown [3]: MouseEvent{List {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1");
@@ -236,7 +234,7 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 		assertEquals(1, list.selectionCount());
 		assertEquals(item, list.selection()[0]);
 		verifyNotifySelect();
-		verifynotifyPostSelectDoubleClick();
+		verifyNotifyPostSelectDoubleClick();
 	}
 
 	@Test
@@ -292,6 +290,11 @@ public class SWTBotListTest extends AbstractControlExampleTest {
 	@Before
 	public void prepareExample() throws Exception {
 		bot.tabItem("List").activate();
+		bot.buttonInGroup("Select Listeners", "Listeners").click();
+		SWTBot shellBot = bot.shell("Select Listeners").activate().bot();
+		shellBot.table().getTableItem("Paint").uncheck();
+		shellBot.button("OK").click();
+		bot.buttonInGroup("Clear", "Listeners").click();
 	}
 
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Eclipse Kepler via p2" sequenceNumber="53">
+<?pde version="3.8"?><target name="Eclipse Kepler via p2" sequenceNumber="54">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.ide" version="0.0.0"/>
@@ -32,6 +32,6 @@
 </location>
 </locations>
 <launcherArgs>
-<vmArgs>-Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Xms128m -Xmx1024m</vmArgs>
+<vmArgs>-Dosgi.requiredJavaVersion=1.6 -Xms128m -Xmx1024m</vmArgs>
 </launcherArgs>
 </target>

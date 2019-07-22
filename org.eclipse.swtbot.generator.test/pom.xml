@@ -32,6 +32,7 @@ Authors:
   			<configuration>
   				<useUIHarness>true</useUIHarness>
   				<useUIThread>false</useUIThread>
+  				<trimStackTrace>false</trimStackTrace>
   			</configuration>
   		</plugin>
 

@@ -5,7 +5,7 @@ terms of the Eclipse Public License v1.0 which accompanies this distribution,
 and is available at http://www.eclipse.org/legal/epl-v10.html
 
 Authors:
-* Mickael Istria (Red Hat Inc.)
+* Lorenzo Bettini
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -13,28 +13,12 @@ Authors:
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.eclipse.swtbot</groupId>
-  <artifactId>target-platforms</artifactId>
-  <packaging>pom</packaging>
+  <groupId>org.eclipse.swtbot.target-platforms</groupId>
+  <artifactId>2019-09</artifactId>
+  <packaging>eclipse-target-definition</packaging>
   <parent>
     <groupId>org.eclipse.swtbot</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>target-platforms</artifactId>
     <version>2.9.0-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
   </parent>
-
-  <modules>
-    <module>2019-09</module>
-    <module>2019-06</module>
-    <module>2019-03</module>
-    <module>2018-12</module>
-    <module>2018-09</module>
-    <module>photon</module>
-    <module>oxygen</module>
-    <module>neon</module>
-    <module>mars</module>
-    <module>luna</module>
-    <module>kepler</module>
-    <module>juno</module>
-  </modules>
 </project>

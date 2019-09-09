@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc..
+ * Copyright (c) 2012, 2019 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,7 @@ public class PushButtonClickedRule extends GenerationSimpleRule {
 	public void initializeForEvent(Event event) {
 		this.button = (Button)event.widget;
 		this.buttonText = this.button.getText();
-		if (this.buttonText != null) {
+		if (!this.buttonText.equals("")) {
 			this.buttonText = this.buttonText.replace("&", "");
 		} else {
 			this.index = WidgetUtils.getIndex((Button)event.widget);
@@ -47,7 +47,7 @@ public class PushButtonClickedRule extends GenerationSimpleRule {
 	public List<String> getActions() {
 		List<String> actions = new ArrayList<String>();
 		StringBuilder code = new StringBuilder();
-		if (this.buttonText != null) {
+		if (!this.buttonText.equals("")) {
 			code.append("bot.button(\"" + this.buttonText + "\")");
 		} else {
 			code.append("bot.button(" + this.index + ")");

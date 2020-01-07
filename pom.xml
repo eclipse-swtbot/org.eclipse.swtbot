@@ -32,7 +32,6 @@ Authors:
 		<!-- Enable this on Hudson CI @Eclipse.org -->
 		<cbi.jarsigner.skip>true</cbi.jarsigner.skip>
 		<tycho.scmUrl>scm:git:git://git.eclipse.org/gitroot/swtbot/org.eclipse.swtbot.git</tycho.scmUrl>
-		<SWT_GTK3>0</SWT_GTK3>
 		<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
 		<uitest.vmparams>${tycho.testArgLine} -Xms64m -Xmx1024m</uitest.vmparams>
 	</properties>
@@ -343,6 +342,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -367,6 +369,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -391,6 +396,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -415,6 +423,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -439,6 +450,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -463,6 +477,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -487,6 +504,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -511,6 +531,9 @@ Authors:
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<SWT_GTK3>0</SWT_GTK3>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>

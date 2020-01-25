@@ -65,7 +65,7 @@ public class SWTBotPerspective {
 	/**
 	 * Closes the perspective.
 	 *
-	 * @since 2.9
+	 * @since 3.0
 	 */
 	public void close() {
 		UIThreadRunnable.syncExec(new VoidResult() {

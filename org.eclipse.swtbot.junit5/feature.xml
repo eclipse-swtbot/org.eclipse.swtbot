@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.swtbot.junit5"
+      label="SWTBot JUnit5 Support"
+      version="3.0.0.qualifier"
+      provider-name="Eclipse.org - SWTBot"
+      plugin="org.eclipse.swtbot.eclipse.ui"
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
+
+   <description url="http://www.example.com/description">
+      SWTBot JUnit5 Support
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      %copyright
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <update label="SWTBot update site" url="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.swtbot.swt.finder"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.ui.workbench" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="org.junit.platform.engine"/>
+      <import plugin="org.junit.platform.launcher"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.equinox.app"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.junit.platform.commons"/>
+      <import plugin="org.eclipse.jdt.junit.runtime"/>
+      <import plugin="org.eclipse.pde.junit.runtime"/>
+      <import plugin="org.eclipse.e4.ui.workbench3"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.swtbot.junit5_x"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swtbot.eclipse.junit5.headless"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.swtbot.eclipse.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

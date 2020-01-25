@@ -27,6 +27,9 @@
    <feature id="org.eclipse.swtbot.eclipse.test.junit" version="0.0.0">
       <category name="SWTBot - Headless Support"/>
    </feature>
+   <feature id="org.eclipse.swtbot.junit5" version="0.0.0">
+      <category name="SWTBot - JUnit5 Support"/>
+   </feature>
    <feature id="org.eclipse.swtbot.source" version="0.0.0">
       <category name="SWTBot - Sources"/>
    </feature>
@@ -72,6 +75,7 @@
    <category-def name="SWTBot - API" label="SWTBot - API"/>
    <category-def name="SWTBot - IDE Integration" label="SWTBot - IDE Integration"/>
    <category-def name="SWTBot - Headless Support" label="SWTBot - Headless Support"/>
+   <category-def name="SWTBot - JUnit5 Support" label="SWTBot - JUnit5 Support"/>
    <category-def name="SWTBot - Sources" label="SWTBot - Sources"/>
    <category-def name="SWTBot -- Dependencies" label="SWTBot -- Dependencies"/>
 </site>

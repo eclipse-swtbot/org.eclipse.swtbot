@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot SWT Control Finder Tests Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.swt.finder.test;singleton:=true
-Bundle-Version: 2.9.0.qualifier
+Bundle-Version: 3.0.0.qualifier
 Require-Bundle: org.eclipse.swt,
  org.eclipse.jface,
  org.eclipse.swt.examples,

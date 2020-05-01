@@ -4,7 +4,7 @@ Bundle-Name: SWTBot Nebula NatTable Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.nebula.nattable.finder
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.hamcrest.core;bundle-version="1.1.0",
  org.eclipse.nebula.widgets.nattable.core;bundle-version="1.2.0",
  org.eclipse.swtbot.swt.finder,

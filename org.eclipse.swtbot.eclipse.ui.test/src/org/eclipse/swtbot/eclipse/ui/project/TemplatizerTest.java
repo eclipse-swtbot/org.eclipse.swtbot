@@ -29,7 +29,7 @@ public class TemplatizerTest {
 				"Bundle-Version: @PLUGIN_VERSION@\n" + 
 				"Bundle-ActivationPolicy: lazy\n" + 
 				"Bundle-Vendor: @PLUGIN_PROVIDER@\n" + 
-				"Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n" + 
+				"Bundle-RequiredExecutionEnvironment: JavaSE-1.8\n" + 
 				"Require-Bundle: org.eclipse.swtbot.go\n" + 
 				"");
 		assertEquals("" +
@@ -40,7 +40,7 @@ public class TemplatizerTest {
 				"Bundle-Version: 1.2.3.4\n" + 
 				"Bundle-ActivationPolicy: lazy\n" + 
 				"Bundle-Vendor: Eclipse.org\n" + 
-				"Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n" + 
+				"Bundle-RequiredExecutionEnvironment: JavaSE-1.8\n" + 
 				"Require-Bundle: org.eclipse.swtbot.go\n" + 
 				"", templatize);
 	}

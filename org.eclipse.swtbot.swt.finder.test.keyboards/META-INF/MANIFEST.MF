@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.eclipse.swtbot.swt.finder.test.keyboards
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Fragment-Host: org.eclipse.swtbot.swt.finder;bundle-version="2.1.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

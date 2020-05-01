@@ -21,7 +21,7 @@ Export-Package: org.eclipse.jface.snippets.viewers,
  org.eclipse.swt.examples.paint,
  org.eclipse.swt.examples.texteditor
 Bundle-Vendor: Eclipse.org - SWTBot
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.core.commands.common,
  org.eclipse.jface.action,
  org.eclipse.jface.resource,

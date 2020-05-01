@@ -4,10 +4,11 @@ Bundle-Name: SWTBot Test Recorder & Code Generator Tests Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.generator.test
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="4.7.0",
  org.eclipse.swt,
  org.eclipse.swtbot.swt.finder;bundle-version="2.1.1",
  org.eclipse.swtbot.generator;bundle-version="2.1.1",
- org.eclipse.jface
+ org.eclipse.jface,
+ org.eclipse.ui.workbench
 Export-Package: org.eclipse.swtbot.generator.test

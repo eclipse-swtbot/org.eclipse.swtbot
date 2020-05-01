@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.swtbot.eclipse.junit.headless;singleton:=true
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.swtbot.eclipse.junit.headless
 Import-Package: junit.framework;version="4.5.0",
  org.apache.tools.ant,

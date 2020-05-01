@@ -16,4 +16,4 @@ Require-Bundle: org.eclipse.swt,
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org - SWTBot
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

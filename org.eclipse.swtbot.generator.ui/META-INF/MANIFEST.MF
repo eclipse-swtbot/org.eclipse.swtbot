@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.swtbot.generator.ui;singleton:=true
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: %bundleVendor
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
 Require-Bundle: org.eclipse.swtbot.generator,
  org.eclipse.core.runtime,

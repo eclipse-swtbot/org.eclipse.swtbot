@@ -197,15 +197,20 @@ public class ContextMenuHelper {
 				int[] columnOrder = table.getColumnOrder();
 				Rectangle itemBounds;
 				if (columnOrder.length > 0) {
-					// Use the bounds of the last column to know where the item really ends
-					int lastColumnIndex = columnOrder[columnOrder.length - 1];
-					itemBounds = tableItem.getBounds(lastColumnIndex);
-					itemBounds.width = itemBounds.x + itemBounds.width;
-				} else {
-					Rectangle tableBounds = table.getBounds();
-					itemBounds = tableItem.getBounds();
-					itemBounds.width = tableBounds.width;
+					// Use the bounds of the last visible column to know where the item really ends
+					for (int i = columnOrder.length - 1; i >= 0; i--) {
+						int columnIndex = columnOrder[i];
+						itemBounds = tableItem.getBounds(columnIndex);
+						if (itemBounds.width > 0) {
+							itemBounds.width = itemBounds.x + itemBounds.width;
+							itemBounds.x = 0;
+							return itemBounds;
+						}
+					}
 				}
+				Rectangle tableBounds = table.getBounds();
+				itemBounds = tableItem.getBounds();
+				itemBounds.width = tableBounds.width;
 				itemBounds.x = 0;
 				return itemBounds;
 			}
@@ -218,15 +223,20 @@ public class ContextMenuHelper {
 				int[] columnOrder = tree.getColumnOrder();
 				Rectangle itemBounds;
 				if (columnOrder.length > 0) {
-					// Use the bounds of the last column to know where the item really ends
-					int lastColumnIndex = columnOrder[columnOrder.length - 1];
-					itemBounds = treeItem.getBounds(lastColumnIndex);
-					itemBounds.width = itemBounds.x + itemBounds.width;
-				} else {
-					Rectangle treeBounds = tree.getBounds();
-					itemBounds = treeItem.getBounds();
-					itemBounds.width = treeBounds.width;
+					// Use the bounds of the last visible column to know where the item really ends
+					for (int i = columnOrder.length - 1; i >= 0; i--) {
+						int columnIndex = columnOrder[i];
+						itemBounds = treeItem.getBounds(columnIndex);
+						if (itemBounds.width > 0) {
+							itemBounds.width = itemBounds.x + itemBounds.width;
+							itemBounds.x = 0;
+							return itemBounds;
+						}
+					}
 				}
+				Rectangle tableBounds = tree.getBounds();
+				itemBounds = treeItem.getBounds();
+				itemBounds.width = tableBounds.width;
 				itemBounds.x = 0;
 				return itemBounds;
 			}

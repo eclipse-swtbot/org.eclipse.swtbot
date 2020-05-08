@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -113,14 +113,6 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 */
 	public SWTBotStyledText getStyledText() {
 		return styledText;
-	}
-
-	/**
-	 * @return the editor reference for this view.
-	 * @deprecated use {@link SWTBotWorkbenchPart#getReference()} instead
-	 */
-	public IEditorReference getEditorReference() {
-		return getReference();
 	}
 
 	/**
@@ -465,37 +457,6 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	 */
 	public void navigateTo(int line, int column, boolean withTabWidth) {
 		styledText.navigateTo(line, column, withTabWidth);
-	}
-
-	/**
-	 * Notifies of the keyboard event.
-	 * <p>
-	 * FIXME need some work for CTRL|SHIFT + 1 the 1 is to be sent as '!' in this case.
-	 * </p>
-	 *
-	 * @param modificationKeys the modification keys.
-	 * @param c the character.
-	 * @see Event#character
-	 * @see Event#stateMask
-	 * @deprecated use {@link #pressShortcut(int, char)} instead. This api will be removed.
-	 */
-	public void notifyKeyboardEvent(int modificationKeys, char c) {
-		styledText.notifyKeyboardEvent(modificationKeys, c);
-	}
-
-	/**
-	 * Notifies of keyboard event.
-	 *
-	 * @param modificationKeys the modification key.
-	 * @param c the character.
-	 * @param keyCode any special keys (function keys, arrow or navigation keys etc.)
-	 * @see Event#keyCode
-	 * @see Event#character
-	 * @see Event#stateMask
-	 * @deprecated use {@link #pressShortcut(int, int, char)} instead. This api will be removed.
-	 */
-	public void notifyKeyboardEvent(int modificationKeys, char c, int keyCode) {
-		styledText.notifyKeyboardEvent(modificationKeys, c, keyCode);
 	}
 
 	/**

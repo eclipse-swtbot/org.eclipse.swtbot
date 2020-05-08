@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -29,15 +29,6 @@ import org.hamcrest.SelfDescribing;
 public class KeyboardFactory {
 
 	public final Class<?>	strategyClass;
-
-	/**
-	 * @param strategyClass the name of the class that is an instance of {@link KeyboardStrategy}.
-	 * @throws Exception if the class cannot be instantiated.
-	 */
-	@Deprecated
-	public KeyboardFactory(String strategyClass) throws Exception {
-		this(Class.forName(strategyClass));
-	}
 
 	/**
 	 * @param strategyClass the class representing an instance of {@link KeyboardStrategy}.
@@ -78,7 +69,7 @@ public class KeyboardFactory {
 	 */
 	public static Keyboard getDefaultKeyboard(Widget widget, SelfDescribing description) {
 		try {
-			return new KeyboardFactory(SWTBotPreferences.KEYBOARD_STRATEGY).keyboard(widget, description);
+			return new KeyboardFactory(Class.forName(SWTBotPreferences.KEYBOARD_STRATEGY)).keyboard(widget, description);
 		} catch (Exception e) {
 			return getAWTKeyboard();
 		}

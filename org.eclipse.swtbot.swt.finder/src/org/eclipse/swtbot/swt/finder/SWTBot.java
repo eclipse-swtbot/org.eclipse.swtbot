@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2018 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -218,33 +218,6 @@ public class SWTBot extends SWTBotFactory {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotButton buttonWithTooltip(String tooltip, int index) {
 		Matcher matcher = allOf(widgetOfType(Button.class), withTooltip(tooltip), withStyle(SWT.PUSH, "SWT.PUSH"));
-		return new SWTBotButton((Button) widget(matcher, index), matcher);
-	}
-
-	/**
-	 * @param key the key set on the widget.
-	 * @param value the value for the key.
-	 * @return a {@link SWTBotButton} with the specified <code>key/value</code>.
-	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @deprecated use {@link #buttonWithId(String, Object)} instead
-	 */
-	@Deprecated
-	public SWTBotButton buttonWithId(String key, String value) {
-		return buttonWithId(key, value, 0);
-	}
-
-	/**
-	 * @param key the key set on the widget.
-	 * @param value the value for the key.
-	 * @param index the index of the widget.
-	 * @return a {@link SWTBotButton} with the specified <code>key/value</code>.
-	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @deprecated use {@link #buttonWithId(String, Object, int)} instead
-	 */
-	@Deprecated
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	public SWTBotButton buttonWithId(String key, String value, int index) {
-		Matcher matcher = allOf(widgetOfType(Button.class), withId(key, value), withStyle(SWT.PUSH, "SWT.PUSH"));
 		return new SWTBotButton((Button) widget(matcher, index), matcher);
 	}
 

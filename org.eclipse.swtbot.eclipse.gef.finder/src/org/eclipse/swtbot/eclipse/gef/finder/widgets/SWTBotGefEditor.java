@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2017 MAKE Technologies Inc and others.
+ * Copyright (c) 2004, 2020 MAKE Technologies Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -334,46 +334,5 @@ public class SWTBotGefEditor extends SWTBotEditor {
 	 */
 	public SWTBotGefEditPart getEditPart(String label) {
 		return viewer.getEditPart(label);
-	}
-
-	// FIXME should moved in a finder
-	@Deprecated
-	/*
-	 * * get this edit part with the label as a single selection
-	 */
-	public SWTBotGefEditPart getEditpart(String label, List<SWTBotGefEditPart> allEditParts) {
-		return viewer.getEditpart(label, allEditParts);
-	}
-
-	/* deprecated methods -> keeped for compatibility */
-
-	@Deprecated
-	public void mouseDrag(final int fromXPosition, final int fromYPosition, final int toXPosition, final int toYPosition) {
-		drag(fromXPosition, fromYPosition, toXPosition, toYPosition);
-	}
-
-	@Deprecated
-	public void mouseDrag(final String label, final int toXPosition, final int toYPosition) {
-		drag(label, toXPosition, toYPosition);
-	}
-
-	@Deprecated
-	public void mouseMoveDoubleClick(final int xPosition, final int yPosition) {
-		doubleClick(xPosition, yPosition);
-	}
-
-	@Deprecated
-	public void mouseMoveDoubleClick(final String label) {
-		doubleClick(label);
-	}
-
-	@Deprecated
-	public void mouseMoveLeftClick(final int xPosition, final int yPosition) {
-		click(xPosition, yPosition);
-	}
-
-	@Deprecated
-	public void mouseMoveLeftClick(String label) {
-		click(label);
 	}
 }

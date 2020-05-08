@@ -112,19 +112,6 @@ public abstract class WidgetMatcherFactory {
    *
    * @param text the label.
    * @return a matcher.
-   * @since 2.0
-   * @deprecated use {@link WidgetMatcherFactory#withTooltipIgnoringCase(String)} instead
-   */
-  @Deprecated
-  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withTooltipIgoringCase(java.lang.String text) {
-    return withTooltipIgnoringCase(text);
-  }
-
-  /**
-   * Matches a widget that has the specified tooltip, ignoring case considerations.
-   *
-   * @param text the label.
-   * @return a matcher.
    * @since 2.5
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> withTooltipIgnoringCase(java.lang.String text) {
@@ -213,19 +200,6 @@ public abstract class WidgetMatcherFactory {
    */
   public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> widgetOfType(java.lang.Class<T> type) {
     return org.eclipse.swtbot.swt.finder.matchers.WidgetOfType.widgetOfType(type);
-  }
-
-  /**
-   * Matches another matcher in the context of the UI thread. Useful if you want to make a matcher UI thread safe.
-   *
-   * @param matcher the matcher
-   * @return a matcher.
-   * @since 2.0
-   * @deprecated this has been deprecated and will be removed in future releases of swtbot.
-   */
-  @Deprecated
-  public static <T extends org.eclipse.swt.widgets.Widget> org.hamcrest.Matcher<T> inUIThread(org.hamcrest.Matcher<?> matcher) {
-    return org.eclipse.swtbot.swt.finder.matchers.InUIThread.inUIThread(matcher);
   }
 
   /**

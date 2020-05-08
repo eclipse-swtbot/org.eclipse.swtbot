@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008,2009,2010,2013,2015 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -15,7 +15,6 @@
 package org.eclipse.swtbot.eclipse.finder;
 
 import org.eclipse.swtbot.eclipse.finder.exceptions.QuickFixNotFoundExceptionTest;
-import org.eclipse.swtbot.eclipse.finder.finders.CommandFinderTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditorTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipsePreferencesTest;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseProjectTest;
@@ -32,7 +31,6 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-		CommandFinderTest.class,
 		SWTBotViewTest.class,
 		QuickFixNotFoundExceptionTest.class,
 		SWTBotEclipseEditorTest.class,

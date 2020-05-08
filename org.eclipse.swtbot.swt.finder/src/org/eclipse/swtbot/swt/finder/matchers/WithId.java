@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -74,15 +74,6 @@ public class WithId<T extends Widget> extends AbstractMatcher<T> {
 	public void describeTo(Description description) {
 		description.appendText("with key=").appendText(key).appendText(" and value matching "); //$NON-NLS-1$ //$NON-NLS-2$
 		this.valueMatcher.describeTo(description);
-	}
-
-	/**
-	 * @deprecated use {@link #withId(String, Object)}
-	 */
-	@Deprecated
-	@Factory
-	public static <T extends Widget> Matcher<T> withId(String key, String value) {
-		return new WithId<T>(key, value);
 	}
 
 	/**

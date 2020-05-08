@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -15,11 +15,6 @@
 package org.eclipse.swtbot.eclipse.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.util.List;
 
 import javax.swing.text.View;
 
@@ -134,56 +129,6 @@ public class SWTBotView extends SWTBotWorkbenchPart<IViewReference> {
 		return viewMenu().menu(text, true, 0);
 	}
 
-	/**
-	 * Gets a list of all menus within the partReference. This will also include sub menus.
-	 * 
-	 * @return The list of menus
-	 * @deprecated Use {@link #viewMenu()} and get specific menu items instead.
-	 */
-	@Deprecated
-	public List<SWTBotViewMenu> menus() {
-		return new org.eclipse.swtbot.eclipse.finder.finders.ViewMenuFinder().findMenus(partReference, anything(), true);
-	}
-
-	/**
-	 * Gets a menu item matching the give label within the partReference menu if one exists.
-	 * 
-	 * @param label The label matching name in the menu.
-	 * @return The {@link SWTBotMenu} item.
-	 * @throws WidgetNotFoundException Thrown if the menu can not be found or if the partReference does not contain a
-	 *             menu.
-	 * @deprecated Use {@link #viewMenu(String)} instead.
-	 */
-	@Deprecated
-	public SWTBotViewMenu menu(String label) throws WidgetNotFoundException {
-		return menu(label, 0);
-	}
-
-	/**
-	 * Gets a menu item matching the give label within the partReference menu if one exists.
-	 * 
-	 * @param label The label matching name in the menu.
-	 * @param index The index of the menu to choose.
-	 * @return The {@link SWTBotMenu} item.
-	 * @throws WidgetNotFoundException Thrown if the menu can not be found or if the partReference does not contain a
-	 *             menu.
-	 * @deprecated Use {@link #viewMenu()}.menu(label, true, index) instead.
-	 */
-	@Deprecated
-	public SWTBotViewMenu menu(String label, int index) throws WidgetNotFoundException {
-		try {
-			List<SWTBotViewMenu> menuItems = new org.eclipse.swtbot.eclipse.finder.finders.ViewMenuFinder().findMenus(partReference, withMnemonic(label), true);
-			if ((menuItems == null) || (menuItems.size() < 1)) {
-				org.eclipse.swtbot.eclipse.finder.finders.CommandFinder finder = new org.eclipse.swtbot.eclipse.finder.finders.CommandFinder();
-				List<SWTBotCommand> command = finder.findCommand(equalTo(label));
-				return command.get(index);
-			}
-			return menuItems.get(index);
-		} catch (Exception e) {
-			throw new WidgetNotFoundException("Could not find view menu with label " + label + " at index " + index, e); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-	}
-	
 	@Override
 	public void show() {
 		UIThreadRunnable.syncExec(new VoidResult() {

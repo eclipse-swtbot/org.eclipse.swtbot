@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -73,9 +73,6 @@ import org.hamcrest.Matcher;
  */
 abstract class SWTBotFactory {
 
-	/** the delay between successive polling while waiting for a condition to be true. Use SWTBotPreferences#DEFAULT_POLL_DELAY */
-	@Deprecated
-	public static final long	DEFAULT_POLL_DELAY	= SWTBotPreferences.DEFAULT_POLL_DELAY;
 	/** The display on which the bot operates on. */
 	protected final Display		display;
 	/** The finder used by the bot to find controls. */

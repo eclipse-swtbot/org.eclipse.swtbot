@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2020 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -90,12 +90,14 @@ public class SWTBotDateTime extends AbstractSWTBotControl<DateTime> {
 		waitForEnabled();
 		syncExec(new VoidResult() {
 			@Override
-			@SuppressWarnings("deprecation")
 			public void run() {
-				widget.setDate(toSet.getYear() + 1900, toSet.getMonth(), toSet.getDate());
-				widget.setHours(toSet.getHours());
-				widget.setMinutes(toSet.getMinutes());
-				widget.setSeconds(toSet.getSeconds());
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(toSet);
+				widget.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+						calendar.get(Calendar.DAY_OF_MONTH));
+				widget.setHours(calendar.get(Calendar.HOUR_OF_DAY));
+				widget.setMinutes(calendar.get(Calendar.MINUTE));
+				widget.setSeconds(calendar.get(Calendar.SECOND));
 			}
 		});
 		notify(SWT.Selection);

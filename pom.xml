@@ -22,10 +22,10 @@ Authors:
 	<packaging>pom</packaging>
 
 	<prerequisites>
-		<maven>3.5.3</maven>
+		<maven>3.6.3</maven>
 	</prerequisites>
 	<properties>
-		<tycho-version>1.3.0</tycho-version>
+		<tycho-version>1.7.0</tycho-version>
 		<tycho-extras-version>${tycho-version}</tycho-extras-version>
 		<!-- Properties to enable jacoco code coverage analysis -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -183,7 +183,7 @@ Authors:
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.4.201502262128</version>
+				<version>0.8.5</version>
 				<executions>
 					<execution>
 						<goals>

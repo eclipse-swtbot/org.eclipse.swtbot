@@ -92,16 +92,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @see SWTBotStyledText#navigateTo(int, int, boolean)
 	 */
 	public void navigateTo(final int line, final int column) {
-		log.debug(MessageFormat.format("Enquing navigation to location {0}, {1} in {2}", line, column, this)); //$NON-NLS-1$
-		waitForEnabled();
-		setFocus();
-		syncExec(new VoidResult() {
-			@Override
-			public void run() {
-				log.debug(MessageFormat.format("Navigating to location {0}, {1} in {2}", line, column, widget)); //$NON-NLS-1$
-				widget.setSelection(offset(line, column));
-			}
-		});
+		navigateTo(line, column, false);
 	}
 
 	/**
@@ -227,8 +218,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @since 1.0
 	 */
 	public void typeText(int line, int column, String text) {
-		navigateTo(line, column);
-		typeText(text);
+		typeText(line, column, text, false);
 	}
 
 	/**
@@ -255,8 +245,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @see SWTBotStyledText#insertText(int, int, String, boolean)
 	 */
 	public void insertText(int line, int column, String text) {
-		navigateTo(line, column);
-		insertText(text);
+		insertText(line, column, text, false);
 	}
 
 	/**
@@ -330,12 +319,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @see SWTBotStyledText#getStyle(int, int, boolean)
 	 */
 	public StyleRange getStyle(final int line, final int column) {
-		return syncExec(new Result<StyleRange>() {
-			@Override
-			public StyleRange run() {
-				return widget.getStyleRangeAtOffset(offset(line, column));
-			}
-		});
+		return getStyle(line, column, false);
 	}
 
 	/**
@@ -367,7 +351,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @see SWTBotStyledText#offset(int, int, boolean)
 	 */
 	protected int offset(final int line, final int column) {
-		return widget.getContent().getOffsetAtLine(line) + column;
+		return offset(line, column, false);
 	}
 
 	/**
@@ -405,15 +389,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @see SWTBotStyledText#selectRange(int, int, int, boolean)
 	 */
 	public void selectRange(final int line, final int column, final int length) {
-		waitForEnabled();
-		asyncExec(new VoidResult() {
-			@Override
-			public void run() {
-				int offset = offset(line, column);
-				widget.setSelection(offset, offset + length);
-			}
-		});
-		notify(SWT.Selection);
+		selectRange(line, column, length, false);
 	}
 
 	/**
@@ -464,12 +440,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @see StyledText#getStyleRanges(int, int)
 	 */
 	public StyleRange[] getStyles(final int line, final int column, final int length) {
-		return syncExec(new ArrayResult<StyleRange>() {
-			@Override
-			public StyleRange[] run() {
-				return widget.getStyleRanges(offset(line, column), length);
-			}
-		});
+		return getStyles(line, column, length, false);
 	}
 
 	/**

@@ -91,9 +91,7 @@ public class ClassDocument extends Document {
 				edit.addChild(new InsertEdit(getLineOffset(offset), t));
 			}
 			edit.apply(this);
-		} catch (MalformedTreeException e) {
-			e.printStackTrace();
-		} catch (BadLocationException e) {
+		} catch (MalformedTreeException | BadLocationException e) {
 			e.printStackTrace();
 		}
 		updateColoring();
@@ -105,9 +103,7 @@ public class ClassDocument extends Document {
 		try {
 			edit.addChild(new DeleteEdit(getLineOffset(offset),getLineLength(offset)));
 			edit.apply(this);
-		} catch (MalformedTreeException e) {
-			e.printStackTrace();
-		} catch (BadLocationException e) {
+		} catch (MalformedTreeException | BadLocationException e) {
 			e.printStackTrace();
 		}
 		updateColoring();

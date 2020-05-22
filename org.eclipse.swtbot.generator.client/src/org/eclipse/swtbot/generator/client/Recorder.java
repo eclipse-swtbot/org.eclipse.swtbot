@@ -191,14 +191,10 @@ public enum Recorder implements RecorderClientCodeListener, RecorderClientStatus
 					TextEdit edits = rewrite.rewriteAST();
 					try {
 						edits.apply(selectedMethodDocument);
-					} catch (MalformedTreeException e) {
-						e.printStackTrace();
-					} catch (BadLocationException e) {
+					} catch (MalformedTreeException | BadLocationException e) {
 						e.printStackTrace();
 					}
-				} catch (JavaModelException e1) {
-					e1.printStackTrace();
-				} catch (IllegalArgumentException e1) {
+				} catch (JavaModelException | IllegalArgumentException e1) {
 					e1.printStackTrace();
 				}
 			};

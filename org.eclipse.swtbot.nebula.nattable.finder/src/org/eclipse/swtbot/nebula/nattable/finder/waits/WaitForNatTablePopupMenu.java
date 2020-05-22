@@ -92,17 +92,13 @@ public class WaitForNatTablePopupMenu extends WaitForPopupMenu {
 			Field privateMenu = null;
 			try {
 				privateMenu = PopupMenuAction.class.getDeclaredField("menu");
-			} catch (NoSuchFieldException e) {
-				return null;
-			} catch (SecurityException e) {
+			} catch (NoSuchFieldException | SecurityException e) {
 				return null;
 			}
 			privateMenu.setAccessible(true);
 			try {
 				return (Menu) privateMenu.get(popupMenuAction);
-			} catch (IllegalArgumentException e) {
-				return null;
-			} catch (IllegalAccessException e) {
+			} catch (IllegalArgumentException | IllegalAccessException e) {
 				return null;
 			}
 		}

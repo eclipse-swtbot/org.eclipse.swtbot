@@ -19,3 +19,4 @@ Export-Package: org.eclipse.swtbot.forms.finder,
  org.eclipse.swtbot.forms.finder.widgets
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-Name: SWTBot Forms Plug-in
+Automatic-Module-Name: org.eclipse.swtbot.forms.finder

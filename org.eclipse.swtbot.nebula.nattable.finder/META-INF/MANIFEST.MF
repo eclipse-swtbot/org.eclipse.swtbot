@@ -19,3 +19,4 @@ Import-Package: org.apache.log4j;version="1.2.15",
  org.junit;version="4.8.0"
 Export-Package: org.eclipse.swtbot.nebula.nattable.finder,
  org.eclipse.swtbot.nebula.nattable.finder.widgets
+Automatic-Module-Name: org.eclipse.swtbot.nebula.nattable.finder

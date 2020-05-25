@@ -18,3 +18,4 @@ Import-Package: org.apache.log4j;version="1.2.15",
 Export-Package: org.eclipse.swtbot.nebula.gallery.finder,
  org.eclipse.swtbot.nebula.gallery.finder.widgets
 Bundle-Vendor: Eclipse-org - SWTBot
+Automatic-Module-Name: org.eclipse.swtbot.nebula.gallery.finder

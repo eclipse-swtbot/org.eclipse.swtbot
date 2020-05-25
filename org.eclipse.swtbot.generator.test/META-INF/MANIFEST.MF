@@ -12,3 +12,4 @@ Require-Bundle: org.junit;bundle-version="4.7.0",
  org.eclipse.jface,
  org.eclipse.ui.workbench
 Export-Package: org.eclipse.swtbot.generator.test
+Automatic-Module-Name: org.eclipse.swtbot.generator.test

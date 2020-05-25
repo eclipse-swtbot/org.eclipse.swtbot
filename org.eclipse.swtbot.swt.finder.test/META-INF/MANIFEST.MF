@@ -17,3 +17,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.swtbot.swt.finder.test

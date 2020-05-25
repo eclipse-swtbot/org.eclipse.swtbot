@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text
 Export-Package: org.eclipse.swtbot.generator.jdt.editor
 Bundle-Activator: org.eclipse.swtbot.generator.jdt.SWTBotGeneratorJDTPlugin
+Automatic-Module-Name: org.eclipse.swtbot.generator.jdt

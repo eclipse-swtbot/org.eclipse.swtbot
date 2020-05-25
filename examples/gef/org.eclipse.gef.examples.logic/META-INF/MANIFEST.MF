@@ -70,4 +70,4 @@ Import-Package: org.eclipse.core.commands,
  org.osgi.framework
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-
+Automatic-Module-Name: org.eclipse.gef.examples.logic

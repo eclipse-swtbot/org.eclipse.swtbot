@@ -35,3 +35,4 @@ Require-Bundle: org.eclipse.swtbot.swt.finder;visibility:=reexport,
  org.eclipse.core.jobs,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.workbench.renderers.swt
+Automatic-Module-Name: org.eclipse.swtbot.eclipse.finder

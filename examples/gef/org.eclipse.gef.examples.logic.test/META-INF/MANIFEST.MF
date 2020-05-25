@@ -19,3 +19,4 @@ Require-Bundle: org.eclipse.gef.examples.logic,
  org.apache.log4j,
  org.eclipse.core.resources
 Bundle-Vendor: Eclipse.org - SWTBot
+Automatic-Module-Name: org.eclipse.gef.examples.logic.test

@@ -7,3 +7,4 @@ Fragment-Host: org.apache.ant
 Bundle-Localization: plugin
 Require-Bundle: org.junit
 Bundle-Vendor: Eclipse.org - SWTBot
+Automatic-Module-Name: org.eclipse.swtbot.ant.junit

@@ -13,3 +13,4 @@ Import-Package: org.eclipse.core.runtime;version="3.4.0",
  org.eclipse.ui.testing,
  org.osgi.framework;version="1.4.0"
 Require-Bundle: org.eclipse.osgi
+Automatic-Module-Name: org.eclipse.swtbot.eclipse.core

@@ -14,3 +14,4 @@ Import-Package: org.eclipse.swt,
  org.eclipse.swt.widgets,
  org.eclipse.swtbot.swt.finder,
  org.eclipse.swtbot.swt.finder.widgets
+Automatic-Module-Name: org.eclipse.swtbot.swt.demo

@@ -19,3 +19,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.swtbot.nebula.nattable.finder
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.swtbot.eclipse.finder
+Automatic-Module-Name: org.eclipse.swtbot.nebula.nattable.finder.test

@@ -13,11 +13,10 @@
 package org.eclipse.swtbot.swt.finder.waits;
 
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
-import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 
 /**
- * A condition that returns <code>false</code> until the table has the specified number of rows.
+ * A condition that returns <code>false</code> until the tree has the specified number of rows.
  * 
  * @see Conditions
  * @author Jesper Steen Moeller &lt;jesper [at] selskabet [dot] org&gt;
@@ -29,7 +28,7 @@ class TreeHasRows extends DefaultCondition {
 	 */
 	private final int			rowCount;
 	/**
-	 * The table (SWTBotTable) instance to check.
+	 * The tree (SWTBotTree) instance to check.
 	 */
 	private final SWTBotTree	tree;
 
@@ -39,7 +38,7 @@ class TreeHasRows extends DefaultCondition {
 	 * 
 	 * @param tree the tree
 	 * @param rowCount the number of rows needed.
-	 * @throws NullPointerException Thrown if the table is <code>null</code>.
+	 * @throws NullPointerException Thrown if the tree is <code>null</code>.
 	 * @throws IllegalArgumentException Thrown if the row count is less then 1.
 	 */
 	TreeHasRows(SWTBotTree tree, int rowCount) {

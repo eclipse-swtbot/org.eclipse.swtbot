@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2021 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -281,7 +281,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 	private SWTBotButton getOkButtonInShowViewDialog() {
 		// Button text was "OK" before Oxygen M7, "Open" since.
 		SWTBotButton button = bot.button();
-		if (!button.getText().equals("Open") && !button.getText().equals("OK")) {
+		if (!button.getText().equals("Open") && !button.getText().equals("&Open") && !button.getText().equals("OK")) {
 			button = bot.button(1);
 		}
 		return button;

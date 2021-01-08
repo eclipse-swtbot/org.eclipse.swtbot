@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Stephane Bouchet (Intel Corporation).
+ * Copyright (c) 2015, 2021 Stephane Bouchet (Intel Corporation).
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,7 +39,7 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		bot.menu("Window").menu("Preferences").click();
 		SWTBotShell prefsShell = bot.shell("Preferences");
 		prefsShell.activate();
-		bot.tree().getTreeItem("Team").select().click();
+		assertTrue("Team node is selected", selectTeamNode());
 		bot.radioInGroup("Tree", "Choose the presentation to be used when displaying Workspace projects").click();
 		bot.radioInGroup("Never", "Open the associated perspective when a synchronize operation completes").click();
 		prefsShell.activate();
@@ -52,7 +53,7 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		bot.menu("Window").menu("Preferences").click();
 		prefsShell = bot.shell("Preferences");
 		prefsShell.activate();
-		bot.tree().getTreeItem("Team").select().click();
+		assertTrue("Team node is selected", selectTeamNode());
 		SWTBotRadio pref1 = bot.radioInGroup("Tree", "Choose the presentation to be used when displaying Workspace projects");
 		SWTBotRadio pref2 = bot.radioInGroup("Never", "Open the associated perspective when a synchronize operation completes");
 		assertTrue("Radio should be selected", pref1.isSelected());
@@ -68,4 +69,17 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		}
 		return button;
 	}
+
+	private boolean selectTeamNode() {
+		// eclipse 4.18 has "Version Control(Team)" node, earlier versions have "Team"
+		SWTBotTreeItem[] items = bot.tree().getAllItems();
+		for (SWTBotTreeItem item : items) {
+			if (item.getText().contains("Team")) {
+				item.select();
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

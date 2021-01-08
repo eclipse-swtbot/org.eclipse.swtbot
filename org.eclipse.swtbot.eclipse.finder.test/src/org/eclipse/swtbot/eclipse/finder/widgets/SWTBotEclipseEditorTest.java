@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2021 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -55,10 +55,11 @@ public class SWTBotEclipseEditorTest extends AbstractSWTBotEclipseTest {
 	public void getsAutoCompleteProposals() throws Exception {
 		editor.navigateTo(3, 0);
 		List<String> autoCompleteProposals = editor.getAutoCompleteProposals("JFr");
-		assertEquals(autoCompleteProposals.toString(), 2, autoCompleteProposals.size());
+		// Depending on java or other versions count and sequence may differ
+		assertTrue(autoCompleteProposals.size() > 0);
 		assertEquals("JFrame - javax.swing", autoCompleteProposals.get(0));
-		String string = autoCompleteProposals.get(1);
-		assertTrue(string.equals("JFr()  void - Method stub") || string.equals("JFr() : void - Method stub"));
+		assertTrue(autoCompleteProposals.contains("JFr()  void - Method stub")
+				|| autoCompleteProposals.contains("JFr() : void - Method stub"));
 	}
 
 	@Test

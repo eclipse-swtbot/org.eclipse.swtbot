@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2021 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
 
 /**
  * Screen object to create a new java project
@@ -48,7 +49,12 @@ public class NewJavaProject {
 		shell.activate();
 		bot.textWithLabel("Project name:").setText(projectName);
 		bot.button("Finish").click();
-
+		try {
+			bot.waitUntil(Conditions.shellIsActive("New module-info.java"), 1000);
+			bot.shell("New module-info.java").close();
+		} catch (TimeoutException e) {
+			// do nothing
+		}
 		bot.waitUntil(Conditions.shellCloses(shell));
 
 		bot.shell().activate();

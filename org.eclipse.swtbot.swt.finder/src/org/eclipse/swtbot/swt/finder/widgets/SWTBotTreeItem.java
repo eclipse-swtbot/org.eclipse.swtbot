@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2021 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@
  *     Stephane Bouchet (Intel Corporation) - Bug 451547
  *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 496519
+ *     Laurent Redor (Obeo) - Bug 571838
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -381,8 +382,8 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	/**
 	 * Click on the tree at given coordinates
 	 *
-	 * @param x the x co-ordinate of the click
-	 * @param y the y co-ordinate of the click
+	 * @param x the x coordinate of the click
+	 * @param y the y coordinate of the click
 	 * @since 1.2
 	 */
 	@Override
@@ -454,6 +455,52 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.FocusOut, super.createEvent());
 		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
 		return this;
+	}
+
+	/**
+	 * Double clicks on this node at the given column index.
+	 *
+	 * @param column The index of the column
+	 *
+	 * @return the current node.
+	 * @since 3.1
+	 */
+	public SWTBotTreeItem doubleClick(final int column) {
+		waitForEnabled();
+		Point center = getCenter(getCellBounds(column));
+
+		doubleClickXY(center.x, center.y);
+		return this;
+	}
+
+	/**
+	 * Double clicks on the tree at given coordinates.
+	 *
+	 * @param x the x coordinate of the click
+	 * @param y the y coordinate of the click
+	 *
+	 * @since 3.1
+	 */
+	@Override
+	protected void doubleClickXY(int x, int y) {
+		waitForEnabled();
+
+		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		notifyTree(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notifyTree(SWT.Activate, super.createEvent());
+		setFocus();
+		notifyTree(SWT.FocusIn, super.createEvent());
+		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
+		notifyTree(SWT.Selection, createSelectionEvent(SWT.BUTTON1), selectRunnable(widget, false));
+		notifyTree(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
+		notifyTree(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 2));
+		notifyTree(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.NONE, 2));
+		notifyTree(SWT.DefaultSelection, createSelectionEvent(SWT.BUTTON1));
+		notifyTree(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
+		notifyTree(SWT.MouseExit, createMouseEvent(x, y, 0, SWT.NONE, 0));
+		notifyTree(SWT.Deactivate, super.createEvent());
+		notifyTree(SWT.FocusOut, super.createEvent());
+		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2021 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@
  *     Kristine Jetzke - Bug 379185
  *     Patrick Tasse - Improve SWTBot menu API and implementation (Bug 479091)
  *     Aparna Argade(Cadence Design Systems, Inc.) - Bug 496519
+ *     Laurent Redor (Obeo) - Bug 496519
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
@@ -386,6 +387,35 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Tree {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
 		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Tree {} time=0 data=null doit=true}");
 		assertEventMatches(listeners, "FocusOut [16]: FocusEvent{Tree {} time=0 data=null}");
+		assertEquals(1, tree.selectionCount());
+		assertEquals(ITEM_TEXT, tree.selection().get(0).get(0));
+	}
+
+	@Test
+	public void canDoubleClickOnANodeInAColumn() throws Exception {
+		bot.checkBox("Multiple Columns").select();
+		tree = bot.treeInGroup("Tree");
+		final String ITEM_TEXT = "Node 2";
+		final SWTBotTreeItem treeItem = tree.getTreeItem(ITEM_TEXT);
+
+		treeItem.doubleClick(2);
+
+		assertEventMatches(listeners, "MouseEnter [6]: MouseEvent{Tree {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Activate [26]: ShellEvent{Tree {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusIn [15]: FocusEvent{Tree {} time=0 data=null}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=1}");
+		assertEventMatches(listeners, "MouseDown [3]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=2}");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
+		assertEventMatches(listeners, "MouseDoubleClick [8]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x0 x=0 y=0 count=2}");
+		assertEventMatches(listeners, "DefaultSelection [14]: SelectionEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=0x80000 text=null doit=true}");
+		assertEventMatches(listeners, "MouseUp [4]: MouseEvent{Tree {} time=0 data=null button=1 stateMask=0x80000 x=0 y=0 count=2}");
+		assertEventMatches(listeners, "MouseExit [7]: MouseEvent{Tree {} time=0 data=null button=0 stateMask=0x0 x=0 y=0 count=0}");
+		assertEventMatches(listeners, "Deactivate [27]: ShellEvent{Tree {} time=0 data=null doit=true}");
+		assertEventMatches(listeners, "FocusOut [16]: FocusEvent{Tree {} time=0 data=null}");
+		Point p = getCellCenter(treeItem, 2);
+		assertTextContains(" x=" + p.x + " y=" + p.y + " ", listeners);
 		assertEquals(1, tree.selectionCount());
 		assertEquals(ITEM_TEXT, tree.selection().get(0).get(0));
 	}

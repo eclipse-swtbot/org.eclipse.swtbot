@@ -14,7 +14,7 @@
 <repository location="http://download.eclipse.org/technology/swtbot/releases/latest/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<repository location="http://download.eclipse.org/releases/2020-12"/>
+<repository location="http://download.eclipse.org/releases/2021-03"/>
 </location>
 </locations>
 </target>

@@ -234,6 +234,8 @@
           name="org.eclipse.nebula.widgets.nattable.core.feature.feature.group"/>
       <requirement
           name="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.nebula.widgets.opal.checkboxgroup.feature.feature.group"/>
       <sourceLocator
           rootFolder="${git.clone.location}"
           locateNestedProjects="true"/>

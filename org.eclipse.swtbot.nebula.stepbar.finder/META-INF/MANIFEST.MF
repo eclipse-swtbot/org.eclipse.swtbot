@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SWTBot Nebula Stepbar Plug-in
+Bundle-SymbolicName: org.eclipse.swtbot.nebula.stepbar.finder
+Bundle-Version: 3.1.0.qualifier
+Bundle-Vendor: Eclipse.org - SWTBot
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.hamcrest.core,
+ org.eclipse.swtbot.swt.finder,
+ org.eclipse.swtbot.eclipse.finder,
+ org.eclipse.nebula.widgets.stepbar
+Import-Package: org.apache.log4j,
+ org.eclipse.jface.bindings.keys,
+ org.eclipse.swt,
+ org.eclipse.swt.events,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui,
+ org.junit
+Export-Package: org.eclipse.swtbot.nebula.stepbar.finder,
+ org.eclipse.swtbot.nebula.stepbar.finder.widgets
+Automatic-Module-Name: org.eclipse.swtbot.nebula.stepbar.finder

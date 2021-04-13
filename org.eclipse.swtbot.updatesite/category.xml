@@ -24,6 +24,9 @@
    <feature id="org.eclipse.swtbot.nebula.stepbar" version="0.0.0">
       <category name="SWTBot - API"/>
    </feature>
+   <feature id="org.eclipse.swtbot.nebula.rangeslider" version="0.0.0">
+      <category name="SWTBot - API"/>
+   </feature>
    <feature id="org.eclipse.swtbot.ide" version="0.0.0">
       <category name="SWTBot - IDE Integration"/>
    </feature>
@@ -64,6 +67,9 @@
       <category name="SWTBot - Sources"/>
    </feature>
    <feature id="org.eclipse.swtbot.nebula.stepbar.source" version="0.0.0">
+      <category name="SWTBot - Sources"/>
+   </feature>
+   <feature id="org.eclipse.swtbot.nebula.rangeslider.source" version="0.0.0">
       <category name="SWTBot - Sources"/>
    </feature>
    <bundle id="org.apache.log4j" version="0.0.0">

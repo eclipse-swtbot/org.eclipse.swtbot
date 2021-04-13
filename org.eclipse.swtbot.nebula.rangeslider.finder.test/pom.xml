@@ -1,0 +1,55 @@
+<!-- Copyright (c) 2021 Cadence Design Systems, Inc. and others.
+All rights reserved.
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License 2.0 which accompanies this distribution,
+and is available at https://www.eclipse.org/legal/epl-2.0/
+
+SPDX-License-Identifier: EPL-2.0
+
+Authors:
+* Aparna Argade (Cadence Design Systems, Inc.)
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.swtbot.plugins</groupId>
+  <artifactId>org.eclipse.swtbot.nebula.rangeslider.finder.test</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
+  <parent>
+  	<groupId>org.eclipse.swtbot</groupId>
+  	<artifactId>parent</artifactId>
+  	<version>3.1.0-SNAPSHOT</version>
+  	<relativePath>../pom.xml</relativePath>
+  </parent>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<argLine>${uitest.vmparams}</argLine>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>false</useUIThread>
+					<testClass>org.eclipse.swtbot.nebula.rangeslider.finder.test.SWTBotRangeSliderTest</testClass>
+					<environmentVariables>
+						<!-- Ubuntu overlay scrollbars cause different crashes in GTK2 so disable them -->
+						<LIBOVERLAY_SCROLLBAR>0</LIBOVERLAY_SCROLLBAR>
+						<SWT_GTK3>${SWT_GTK3}</SWT_GTK3>
+					</environmentVariables>
+					<trimStackTrace>false</trimStackTrace>
+				</configuration>
+			</plugin>
+			<plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>target-platform-configuration</artifactId>
+            <configuration>
+                <pomDependencies>consider</pomDependencies>
+            </configuration>
+        </plugin>
+		</plugins>
+	</build>
+</project>

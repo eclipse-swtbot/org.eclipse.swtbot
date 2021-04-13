@@ -69,6 +69,7 @@ Authors:
 		<module>org.eclipse.swtbot.nebula.nattable.finder</module>
 		<module>org.eclipse.swtbot.nebula.checkboxgroup.finder</module>
 		<module>org.eclipse.swtbot.nebula.stepbar.finder</module>
+		<module>org.eclipse.swtbot.nebula.rangeslider.finder</module>
 		<!-- features -->
 		<module>org.eclipse.swtbot</module>
 		<module>org.eclipse.swtbot.forms</module>
@@ -82,6 +83,7 @@ Authors:
 		<module>org.eclipse.swtbot.nebula.nattable</module>
 		<module>org.eclipse.swtbot.nebula.checkboxgroup</module>
 		<module>org.eclipse.swtbot.nebula.stepbar</module>
+		<module>org.eclipse.swtbot.nebula.rangeslider</module>
 		<!-- Repo -->
 		<module>org.eclipse.swtbot.updatesite</module>
 		<!-- Tests -->
@@ -98,6 +100,7 @@ Authors:
 		<module>org.eclipse.swtbot.nebula.nattable.finder.test</module>
 		<module>org.eclipse.swtbot.nebula.checkboxgroup.finder.test</module>
 		<module>org.eclipse.swtbot.nebula.stepbar.finder.test</module>
+		<module>org.eclipse.swtbot.nebula.rangeslider.finder.test</module>
 	</modules>
 
 	<mailingLists>

@@ -237,7 +237,9 @@
       <requirement
           name="org.eclipse.nebula.widgets.opal.checkboxgroup.feature.feature.group"/>
        <requirement
-          name="org.eclipse.nebula.widgets.opal.stepbar.feature.feature.group"/>
+          name="org.eclipse.nebula.widgets.stepbar.feature.feature.group"/>
+       <requirement
+          name="org.eclipse.nebula.widgets.opal.​rangeslider.feature.feature.group"/>
       <sourceLocator
           rootFolder="${git.clone.location}"
           locateNestedProjects="true"/>

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2015 EclipseSource Corporation and others.
+ * Copyright (c) 2003, 2021 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -9,41 +9,43 @@
  * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
- *     EclipseSource Corporation - initial API and implementation 
+ *     IBM Corporation - initial API and implementation
+ *     Carsten Reckord <eclipse@reckord.de> - bug 288343
+ *     Aparna Argade - modification to run tests in non-ui thread- bug 567980
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.core;
 
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IPlatformRunnable;
-import org.eclipse.core.runtime.IProduct;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.*;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.pde.internal.junit.runtime.PDEJUnitRuntimePlugin;
 import org.eclipse.pde.internal.junit.runtime.PlatformUITestHarness;
+import org.eclipse.ui.testing.ITestHarness;
+import org.eclipse.ui.testing.TestableObject;
+import org.junit.Assert;
 
 /**
- * An exact copy of {@link org.eclipse.pde.internal.junit.runtime.NonUIThreadTestApplication}
+ * Taken from
+ * {@link org.eclipse.pde.internal.junit.runtime.NonUIThreadTestApplication }
+ * Added runTests method. Also added null check for PDEJUnitRuntimePlugin
+ * instance under installPlatformUITestHarness
+ * 
  * @version $Id$
  */
-public class UITestApplication implements IApplication {
+public class UITestApplication implements IApplication, ITestHarness {
 
 	private static final String DEFAULT_HEADLESSAPP = "org.eclipse.pde.junit.runtime.coretestapplication"; //$NON-NLS-1$
 
 	protected IApplication fApplication;
 	protected Object fTestHarness;
+	private TestableObject testableObject;
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 
 		String appId = getApplicationToRun(args);
-		Object app = getApplication(appId);
-
-		Assert.isNotNull(app);
+		IApplication app = getApplication(appId);
+		Assert.assertNotNull(app);
 
 		if (!DEFAULT_HEADLESSAPP.equals(appId)) {
 			// this means we are running a different application, which potentially can be UI application;
@@ -53,15 +55,12 @@ public class UITestApplication implements IApplication {
 			installPlatformUITestHarness();
 		}
 
-		return runApp(app, context, args);
+		return runApp(app, context);
 	}
 
-	protected Object runApp(Object app, IApplicationContext context, String[] args) throws Exception {
-		if (app instanceof IApplication) {
-			fApplication = (IApplication) app;
-			return fApplication.start(context);
-		}
-		return ((IPlatformRunnable) app).run(args);
+	protected Object runApp(IApplication app, IApplicationContext context) throws Exception {
+		fApplication = app;
+		return fApplication.start(context);
 	}
 
 	/**
@@ -74,11 +73,14 @@ public class UITestApplication implements IApplication {
 	 * @throws Exception
 	 */
 	private void installPlatformUITestHarness() throws Exception {
-		Object testableObject = PDEJUnitRuntimePlugin.getDefault().getTestableObject();
+		PDEJUnitRuntimePlugin pdeJunitRuntimePlugin = PDEJUnitRuntimePlugin.getDefault();
+		if (pdeJunitRuntimePlugin != null) {
+			testableObject = (TestableObject) pdeJunitRuntimePlugin.getTestableObject();
+		}
 		if (testableObject == null) {
 			try {
 				Class<?> platformUIClass = Class.forName("org.eclipse.ui.PlatformUI", true, getClass().getClassLoader()); //$NON-NLS-1$
-				testableObject = platformUIClass.getMethod("getTestableObject").invoke(null); //$NON-NLS-1$
+				testableObject = (TestableObject) platformUIClass.getMethod("getTestableObject").invoke(null); //$NON-NLS-1$
 			} catch (ClassNotFoundException e) {
 				// PlatformUI is not available
 			}
@@ -100,13 +102,13 @@ public class UITestApplication implements IApplication {
 	 * return the application to run, or null if not even the default application
 	 * is found.
 	 */
-	private Object getApplication(String appId) throws CoreException {
+	private IApplication getApplication(String appId) throws CoreException {
 		// Find the name of the application as specified by the PDE JUnit launcher.
 		// If no application is specified, the 3.0 default workbench application
 		// is returned.
 		IExtension extension = Platform.getExtensionRegistry().getExtension(Platform.PI_RUNTIME, Platform.PT_APPLICATIONS, appId);
 
-		Assert.isNotNull(extension);
+		Assert.assertNotNull(extension);
 
 		// If the extension does not have the correct grammar, return null.
 		// Otherwise, return the application object.
@@ -115,8 +117,8 @@ public class UITestApplication implements IApplication {
 			IConfigurationElement[] runs = elements[0].getChildren("run"); //$NON-NLS-1$
 			if (runs.length > 0) {
 				Object runnable = runs[0].createExecutableExtension("class"); //$NON-NLS-1$
-				if (runnable instanceof IPlatformRunnable || runnable instanceof IApplication)
-					return runnable;
+				if (runnable instanceof IApplication)
+					return (IApplication) runnable;
 			}
 		}
 		return null;
@@ -144,6 +146,17 @@ public class UITestApplication implements IApplication {
 
 	protected String getDefaultApplicationId() {
 		return DEFAULT_HEADLESSAPP;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.testing.ITestHarness#runTests()
+	 */
+	@Override
+	public void runTests() {
+		testableObject = (TestableObject) PDEJUnitRuntimePlugin.getDefault().getTestableObject();
+		testableObject.testingStarting();
+		RemotePluginTestRunner.main(Platform.getCommandLineArgs());
 	}
 
 }

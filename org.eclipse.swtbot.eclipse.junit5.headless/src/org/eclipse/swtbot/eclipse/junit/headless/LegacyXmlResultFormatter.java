@@ -157,6 +157,9 @@ public class LegacyXmlResultFormatter extends AbstractJUnitResultFormatter {
 			this.startedAt = startedAt;
 		}
 	}
+	public void setUseLegacyReportingName(final boolean useLegacyReportingName) {
+		//do nothing
+	}
 
 	private final class XMLReportWriter {
 

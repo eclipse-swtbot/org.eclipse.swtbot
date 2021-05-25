@@ -58,7 +58,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="2021-03"
+      defaultValue="2021-06"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup:CompoundTask"
@@ -255,6 +255,17 @@
       <sourceLocator
           rootFolder="${git.clone.location}"
           locateNestedProjects="true"/>
+      <repositoryList
+          name="2021-06">
+        <repository
+            url="http://download.eclipse.org/releases/2021-06"/>
+        <repository
+            url="http://download.eclipse.org/cbi/updates/license"/>
+        <repository
+            url="http://download.eclipse.org/nebula/snapshot/"/>
+        <repository
+            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
+      </repositoryList>
       <repositoryList
           name="2021-03">
         <repository

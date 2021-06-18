@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Nebula Gallery Tests Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.nebula.gallery.finder.test
-Bundle-Version: 3.1.0.qualifier
+Bundle-Version: 3.2.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.nebula.gallery.finder.test.Activator
 Bundle-Vendor: Eclipse.org - SWTBot
 Require-Bundle: org.eclipse.ui,

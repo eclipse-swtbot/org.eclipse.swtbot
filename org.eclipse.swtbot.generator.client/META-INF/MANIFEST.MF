@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Generator Client
 Bundle-SymbolicName: org.eclipse.swtbot.generator.client;singleton:=true
-Bundle-Version: 3.1.0.qualifier
+Bundle-Version: 3.2.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-Activator: org.eclipse.swtbot.generator.client.SWTBotRecorderClientPlugin
 Require-Bundle: org.eclipse.core.runtime,

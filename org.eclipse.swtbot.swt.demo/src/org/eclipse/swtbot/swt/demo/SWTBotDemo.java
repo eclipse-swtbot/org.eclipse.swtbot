@@ -150,8 +150,6 @@ public class SWTBotDemo {
 		bot.button("Select All").click(); //$NON-NLS-1$
 		shell.close();
 		bot.checkBox("Listen").click(); //$NON-NLS-1$
-		bot.button("One").click(); //$NON-NLS-1$
-		bot.checkBox("Listen").click(); //$NON-NLS-1$
 		bot.button("Clear").click(); //$NON-NLS-1$
 	}
 

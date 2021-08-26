@@ -8,7 +8,7 @@
 <unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/releases/2019-03"/>
+<repository location="https://download.eclipse.org/releases/2019-03"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
@@ -21,23 +21,23 @@
 <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
 <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
 <unit id="ca.odell.glazedlists" version="0.0.0"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/"/>
+<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.license.feature.group" version="2.0.2.v20181016-2210"/>
-<repository location="http://download.eclipse.org/cbi/updates/license"/>
+<repository location="https://download.eclipse.org/cbi/updates/license"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.gallery.feature.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.nebula.widgets.opal.checkboxgroup.feature.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.nebula.widgets.stepbar.feature.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.nebula.widgets.opal.rangeslider.feature.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/nebula/snapshot/"/>
+<repository location="https://download.eclipse.org/nebula/snapshot/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/nattable/snapshots/latest/repository"/>
+<repository location="https://download.eclipse.org/nattable/snapshots/latest/repository"/>
 </location>
 </locations>
 <launcherArgs>

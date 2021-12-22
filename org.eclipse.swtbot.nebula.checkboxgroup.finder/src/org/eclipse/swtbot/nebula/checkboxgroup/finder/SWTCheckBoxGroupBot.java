@@ -20,11 +20,34 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withLa
 
 import org.eclipse.nebula.widgets.opal.checkboxgroup.CheckBoxGroup;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.nebula.checkboxgroup.finder.widgets.SWTBotCheckBoxGroup;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.hamcrest.Matcher;
 
 public class SWTCheckBoxGroupBot extends SWTBot {
+
+	public SWTCheckBoxGroupBot() {
+		super();
+	}
+
+	/**
+	 * Constructs a bot based on the given parent Widget.
+	 * @param parent the parent widget
+	 * @since 4.0
+	 */
+	public SWTCheckBoxGroupBot(Widget parent) {
+		super(parent);
+	}
+
+	/**
+	 * Constructs a bot based on the given parent SWTBot.
+	 * @param bot the parent SWTBot
+	 * @since 4.0 
+	 */
+	public SWTCheckBoxGroupBot(SWTBot bot) {
+		super(bot.getFinder());
+	}
 
 	/**
 	 * @return a {@link SWTBotCheckBoxGroup} with the specified <code>none</code>.

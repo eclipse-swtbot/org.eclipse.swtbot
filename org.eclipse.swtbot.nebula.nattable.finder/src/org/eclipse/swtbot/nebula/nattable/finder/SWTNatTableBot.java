@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Cadence Design Systems, Inc. and others.
+ * Copyright (c) 2016, 2021 Cadence Design Systems, Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -19,11 +19,34 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withId
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withLabel;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.hamcrest.Matcher;
 
-public class SWTNatTableBot extends SWTWorkbenchBot {
+public class SWTNatTableBot extends SWTBot {
+
+	public SWTNatTableBot() {
+		super();
+	}
+
+	/**
+	 * Constructs a bot based on the given parent Widget.
+	 * @param parent the parent widget
+	 * @since 4.0
+	 */
+	public SWTNatTableBot(Widget parent) {
+		super(parent);
+	}
+
+	/**
+	 * Constructs a bot based on the given parent SWTBot.
+	 * @param bot the parent SWTBot
+	 * @since 4.0 
+	 */
+	public SWTNatTableBot(SWTBot bot) {
+		super(bot.getFinder());
+	}
 
 	/**
 	 * @return a {@link SWTBotNatTable} with the specified <code>none</code>.

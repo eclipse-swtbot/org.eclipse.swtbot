@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Eclipse E4 Control Finder Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.e4.finder
-Bundle-Version: 3.2.0.qualifier
+Bundle-Version: 4.0.0.qualifier
 Bundle-Activator: org.eclipse.swtbot.e4.finder.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.inject;version="1.0.0",

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Cadence Design Systems, Inc. and others.
+ * Copyright (c) 2016, 2021 Cadence Design Systems, Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -20,8 +20,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.swtbot.nebula.nattable.finder.SWTNatTableBot;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.Position;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.junit.FixMethodOrder;
@@ -36,7 +38,10 @@ public class TestNatTableOtherFeatures extends _801_VerticalCompositionWithFeatu
 	/* Tests counts of visible and total counts */
 	@Test
 	public void testCount() {
-		SWTBotNatTable nattable = bot.nattable();
+		//for testing of getting SWTNatTableBot from parent widget
+		SWTNatTableBot natbot = new SWTNatTableBot(new SWTBot().shell("Nebula NatTable Test2").widget);
+		
+		SWTBotNatTable nattable = natbot.nattable();
 		int rowCount = nattable.rowCount();
 		int totalRowCount = nattable.preferredRowCount();
 		assertThat(rowCount, lessThanOrEqualTo(totalRowCount));
@@ -50,7 +55,10 @@ public class TestNatTableOtherFeatures extends _801_VerticalCompositionWithFeatu
 	/* Edits nattable cell */
 	@Test
 	public void testDoubleClickAndGetSetCellData() {
-		SWTBotNatTable nattable = bot.nattable();
+		//for testing of getting SWTNatTableBot from another SWTBot object
+		SWTNatTableBot natbot = new SWTNatTableBot(new SWTBot().shell("Nebula NatTable Test2").bot());
+		
+		SWTBotNatTable nattable = natbot.nattable();
 		int row = 5, col = 1;
 		assertEquals("Cell data of 5,1", "aabb", nattable.getCellDataValueByPosition(row, col));
 		nattable.doubleclick(row, col);

@@ -19,11 +19,34 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withId
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withLabel;
 
 import org.eclipse.nebula.widgets.stepbar.Stepbar;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.nebula.stepbar.finder.widgets.SWTBotStepbar;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.hamcrest.Matcher;
 
 public class SWTStepbarBot extends SWTBot {
+
+	public SWTStepbarBot() {
+		super();
+	}
+
+	/**
+	 * Constructs a bot based on the given parent Widget.
+	 * @param parent the parent widget
+	 * @since 4.0
+	 */
+	public SWTStepbarBot(Widget parent) {
+		super(parent);
+	}
+
+	/**
+	 * Constructs a bot based on the given parent SWTBot.
+	 * @param bot the parent SWTBot
+	 * @since 4.0 
+	 */
+	public SWTStepbarBot(SWTBot bot) {
+		super(bot.getFinder());
+	}
 
 	/**
 	 * @return a {@link SWTBotStepbar} with the specified <code>none</code>.

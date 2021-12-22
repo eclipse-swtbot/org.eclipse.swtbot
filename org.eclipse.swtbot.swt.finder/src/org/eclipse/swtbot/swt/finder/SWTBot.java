@@ -1468,7 +1468,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotTree} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotTree treeWithTooltip(String tooltip) {
 		return treeWithTooltip(tooltip, 0);
@@ -1479,7 +1479,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotTree} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotTree treeWithTooltip(String tooltip, int index) {
@@ -1492,7 +1492,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotTree} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotTree treeWithTooltipInGroup(String tooltip, String inGroup) {
 		return treeWithTooltipInGroup(tooltip, inGroup, 0);
@@ -1504,7 +1504,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotTree} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotTree treeWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -1925,7 +1925,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotCombo} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCombo comboBoxWithTooltip(String tooltip) {
 		return comboBoxWithTooltip(tooltip, 0);
@@ -1936,7 +1936,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCombo} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCombo comboBoxWithTooltip(String tooltip, int index) {
@@ -1949,7 +1949,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotCombo} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCombo comboBoxWithTooltipInGroup(String tooltip, String inGroup) {
 		return comboBoxWithTooltipInGroup(tooltip, inGroup, 0);
@@ -1961,7 +1961,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCombo} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCombo comboBoxWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -2145,7 +2145,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotCCombo} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCCombo ccomboBoxWithTooltip(String tooltip) {
 		return ccomboBoxWithTooltip(tooltip, 0);
@@ -2156,7 +2156,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCCombo} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCCombo ccomboBoxWithTooltip(String tooltip, int index) {
@@ -2169,7 +2169,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotCCombo} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCCombo ccomboBoxWithTooltipInGroup(String tooltip, String inGroup) {
 		return ccomboBoxWithTooltipInGroup(tooltip, inGroup, 0);
@@ -2181,7 +2181,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCCombo} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCCombo ccomboBoxWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -2321,7 +2321,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotCLabel} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCLabel clabelWithTooltip(String tooltip) {
 		return clabelWithTooltip(tooltip, 0);
@@ -2332,7 +2332,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCLabel} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCLabel clabelWithTooltip(String tooltip, int index) {
@@ -2345,7 +2345,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotCLabel} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCLabel clabelWithTooltipInGroup(String tooltip, String inGroup) {
 		return clabelWithTooltipInGroup(tooltip, inGroup, 0);
@@ -2357,7 +2357,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCLabel} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCLabel clabelWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -2497,7 +2497,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotLabel} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotLabel labelWithTooltip(String tooltip) {
 		return labelWithTooltip(tooltip, 0);
@@ -2508,7 +2508,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotLabel} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotLabel labelWithTooltip(String tooltip, int index) {
@@ -2521,7 +2521,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotLabel} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotLabel labelWithTooltipInGroup(String tooltip, String inGroup) {
 		return labelWithTooltipInGroup(tooltip, inGroup, 0);
@@ -2533,7 +2533,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotLabel} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotLabel labelWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -2673,7 +2673,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotList} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotList listWithTooltip(String tooltip) {
 		return listWithTooltip(tooltip, 0);
@@ -2684,7 +2684,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotList} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotList listWithTooltip(String tooltip, int index) {
@@ -2697,7 +2697,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotList} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotList listWithTooltipInGroup(String tooltip, String inGroup) {
 		return listWithTooltipInGroup(tooltip, inGroup, 0);
@@ -2709,7 +2709,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotList} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotList listWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -2849,7 +2849,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotTable} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotTable tableWithTooltip(String tooltip) {
 		return tableWithTooltip(tooltip, 0);
@@ -2860,7 +2860,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotTable} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotTable tableWithTooltip(String tooltip, int index) {
@@ -2873,7 +2873,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotTable} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotTable tableWithTooltipInGroup(String tooltip, String inGroup) {
 		return tableWithTooltipInGroup(tooltip, inGroup, 0);
@@ -2885,7 +2885,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotTable} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotTable tableWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -3025,7 +3025,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotTabItem} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotTabItem tabItemTextWithTooltip(String tooltip) {
 		return tabItemWithTooltip(tooltip, 0);
@@ -3036,7 +3036,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotTabItem} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotTabItem tabItemWithTooltip(String tooltip, int index) {
@@ -3049,7 +3049,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotTabItem} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotTabItem tabItemWithTooltipInGroup(String tooltip, String inGroup) {
 		return tabItemWithTooltipInGroup(tooltip, inGroup, 0);
@@ -3061,7 +3061,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotTabItem} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotTabItem tabItemWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -3201,7 +3201,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotCTabItem} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCTabItem cTabItemWithTooltip(String tooltip) {
 		return cTabItemWithTooltip(tooltip, 0);
@@ -3212,7 +3212,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCTabItem} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCTabItem cTabItemWithTooltip(String tooltip, int index) {
@@ -3225,7 +3225,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotCTabItem} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotCTabItem cTabItemWithTooltipInGroup(String tooltip, String inGroup) {
 		return cTabItemWithTooltipInGroup(tooltip, inGroup, 0);
@@ -3237,7 +3237,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotCTabItem} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotCTabItem cTabItemWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -3421,7 +3421,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotStyledText} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotStyledText styledTextWithTooltip(String tooltip) {
 		return styledTextWithTooltip(tooltip, 0);
@@ -3432,7 +3432,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotStyledText} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotStyledText styledTextWithTooltip(String tooltip, int index) {
@@ -3445,7 +3445,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotStyledText} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotStyledText styledTextWithTooltipInGroup(String tooltip, String inGroup) {
 		return styledTextWithTooltipInGroup(tooltip, inGroup, 0);
@@ -3457,7 +3457,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotStyledText} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotStyledText styledTextWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -3597,7 +3597,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotDateTime} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotDateTime dateTimeWithTooltip(String tooltip) {
 		return dateTimeWithTooltip(tooltip, 0);
@@ -3608,7 +3608,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotDateTime} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotDateTime dateTimeWithTooltip(String tooltip, int index) {
@@ -3621,7 +3621,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotDateTime} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotDateTime dateTimeWithTooltipInGroup(String tooltip, String inGroup) {
 		return dateTimeWithTooltipInGroup(tooltip, inGroup, 0);
@@ -3633,7 +3633,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotDateTime} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotDateTime dateTimeWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -4461,7 +4461,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotLink} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotLink linkWithTooltip(String tooltip) {
 		return linkWithTooltip(tooltip, 0);
@@ -4472,7 +4472,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotLink} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotLink linkWithTooltip(String tooltip, int index) {
@@ -4485,7 +4485,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotLink} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotLink linkWithTooltipInGroup(String tooltip, String inGroup) {
 		return linkWithTooltipInGroup(tooltip, inGroup, 0);
@@ -4497,7 +4497,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotLink} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotLink linkWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -5069,7 +5069,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotBrowser} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotBrowser browserWithTooltip(String tooltip) {
 		return browserWithTooltip(tooltip, 0);
@@ -5080,7 +5080,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotBrowser} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotBrowser browserWithTooltip(String tooltip, int index) {
@@ -5093,7 +5093,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotBrowser} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotBrowser browserWithTooltipInGroup(String tooltip, String inGroup) {
 		return browserWithTooltipInGroup(tooltip, inGroup, 0);
@@ -5105,7 +5105,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotBrowser} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotBrowser browserWithTooltipInGroup(String tooltip, String inGroup, int index) {
@@ -5461,7 +5461,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param tooltip the tooltip on the widget.
 	 * @return a {@link SWTBotExpandBar} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotExpandBar expandBarWithTooltip(String tooltip) {
 		return expandBarWithTooltip(tooltip, 0);
@@ -5472,7 +5472,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotExpandBar} with the specified <code>tooltip</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotExpandBar expandBarWithTooltip(String tooltip, int index) {
@@ -5485,7 +5485,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param inGroup the inGroup on the widget.
 	 * @return a {@link SWTBotExpandBar} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	public SWTBotExpandBar expandBarWithTooltipInGroup(String tooltip, String inGroup) {
 		return expandBarWithTooltipInGroup(tooltip, inGroup, 0);
@@ -5497,7 +5497,7 @@ public class SWTBot extends SWTBotFactory {
 	 * @param index the index of the widget.
 	 * @return a {@link SWTBotExpandBar} with the specified <code>tooltip</code> with the specified <code>inGroup</code>.
 	 * @throws WidgetNotFoundException if the widget is not found or is disposed.
-	 * @since 3.2
+	 * @since 4.0
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public SWTBotExpandBar expandBarWithTooltipInGroup(String tooltip, String inGroup, int index) {

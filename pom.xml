@@ -18,7 +18,7 @@ Authors:
 	<groupId>org.eclipse.swtbot</groupId>
 	<artifactId>parent</artifactId>
 	<name>Eclipse SWTBot</name>
-	<version>3.2.0-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<prerequisites>
@@ -363,7 +363,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>juno</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -390,7 +390,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>kepler</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -417,7 +417,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>luna</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -444,7 +444,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>mars</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -471,7 +471,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>neon</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -498,7 +498,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>oxygen</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -525,7 +525,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>photon</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -552,7 +552,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2018-09</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -576,7 +576,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2018-12</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -600,7 +600,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2019-03</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -624,7 +624,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2019-06</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -648,7 +648,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2019-09</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -672,7 +672,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2019-12</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -696,7 +696,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2020-03</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -720,7 +720,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2020-06</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -744,7 +744,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2020-09</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -768,7 +768,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2020-12</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -792,7 +792,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2021-03</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -816,7 +816,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2021-06</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -840,7 +840,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2021-09</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>
@@ -864,7 +864,7 @@ Authors:
 								<artifact>
 									<groupId>org.eclipse.swtbot.target-platforms</groupId>
 									<artifactId>2021-12</artifactId>
-									<version>3.2.0-SNAPSHOT</version>
+									<version>4.0.0-SNAPSHOT</version>
 								</artifact>
 							</target>
 						</configuration>

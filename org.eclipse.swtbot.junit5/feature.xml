@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.swtbot.junit5"
       label="SWTBot JUnit5 Support"
-      version="3.2.0.qualifier"
+      version="4.0.0.qualifier"
       provider-name="Eclipse.org - SWTBot"
       plugin="org.eclipse.swtbot.eclipse.ui"
       license-feature="org.eclipse.license"

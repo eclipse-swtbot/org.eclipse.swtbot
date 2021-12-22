@@ -2,20 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Nebula RangeSlider Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.nebula.rangeslider.finder
-Bundle-Version: 3.2.0.qualifier
+Bundle-Version: 4.0.0.qualifier
 Automatic-Module-Name: org.eclipse.swtbot.nebula.rangeslider.finder
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse.org - SWTBot
 Require-Bundle: org.hamcrest.core,
  org.eclipse.swtbot.swt.finder,
- org.eclipse.swtbot.eclipse.finder,
  org.eclipse.nebula.widgets.opal.rangeslider,
  org.eclipse.jface
 Import-Package: org.apache.log4j,
  org.eclipse.swt,
  org.eclipse.swt.graphics,
  org.eclipse.swt.widgets,
- org.eclipse.ui,
  org.junit
 Export-Package: org.eclipse.swtbot.nebula.rangeslider.finder,
  org.eclipse.swtbot.nebula.rangeslider.finder.widgets

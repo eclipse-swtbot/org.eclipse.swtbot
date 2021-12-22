@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2010 Bonitasoft S.A.
+ * Copyright (C) 2010, 2021 Bonitasoft S.A.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
  *
  * All rights reserved. This program and the accompanying materials
@@ -21,14 +21,37 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withId
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withLabel;
 
 import org.eclipse.nebula.widgets.gallery.Gallery;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.nebula.gallery.finder.widgets.SWTBotGallery;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.hamcrest.Matcher;
 
 /**
  * @author Aurelien Pupier
  */
-public class SWTNebulaBot extends SWTWorkbenchBot {
+public class SWTNebulaBot extends SWTBot {
+
+	public SWTNebulaBot() {
+		super();
+	}
+
+	/**
+	 * Constructs a bot based on the given parent Widget.
+	 * @param parent the parent widget
+	 * @since 4.0
+	 */
+	public SWTNebulaBot(Widget parent) {
+		super(parent);
+	}
+
+	/**
+	 * Constructs a bot based on the given parent SWTBot.
+	 * @param bot the parent SWTBot
+	 * @since 4.0 
+	 */
+	public SWTNebulaBot(SWTBot bot) {
+		super(bot.getFinder());
+	}
 
 	/**
 	 * @return a {@link SWTBotGallery} with the specified <code>none</code>.

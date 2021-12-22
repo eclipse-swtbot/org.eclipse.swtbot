@@ -20,10 +20,33 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withLa
 
 import org.eclipse.nebula.widgets.opal.rangeslider.RangeSlider;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.nebula.rangeslider.finder.widgets.SWTBotRangeSlider;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.hamcrest.Matcher;
 public class SWTRangeSliderBot extends SWTBot {
+
+	public SWTRangeSliderBot() {
+		super();
+	}
+
+	/**
+	 * Constructs a bot based on the given parent Widget.
+	 * @param parent the parent widget
+	 * @since 4.0
+	 */
+	public SWTRangeSliderBot(Widget parent) {
+		super(parent);
+	}
+
+	/**
+	 * Constructs a bot based on the given parent SWTBot.
+	 * @param bot the parent SWTBot
+	 * @since 4.0 
+	 */
+	public SWTRangeSliderBot(SWTBot bot) {
+		super(bot.getFinder());
+	}
 
 	/**
 	 * @return a {@link SWTBotRangeSlider} with the specified <code>none</code>.

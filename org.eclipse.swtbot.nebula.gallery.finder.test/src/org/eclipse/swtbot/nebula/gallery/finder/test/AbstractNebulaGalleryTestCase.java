@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2010-2014 Bonitasoft S.A.
+ * Copyright (C) 2010-2022 Bonitasoft S.A.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
  *
  * All rights reserved. This program and the accompanying materials
@@ -11,6 +11,7 @@
  * 
  * Contributors:
  *     Aurelien Pupier <aurelien.pupier@bonitasoft.com> - initial API and implementation
+ *     Aparna Argade - Bug 578271 Deprecate SWTNebulaBot
  */
 package org.eclipse.swtbot.nebula.gallery.finder.test;
 
@@ -22,7 +23,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.nebula.gallery.finder.SWTNebulaBot;
+import org.eclipse.swtbot.nebula.gallery.finder.SWTGalleryBot;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -34,13 +35,13 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 public class AbstractNebulaGalleryTestCase {
 	
-	public static SWTNebulaBot bot;
+	public static SWTGalleryBot bot;
 	public static Gallery gallery;
 	private Shell shell;
 		
 	@Before
 	public void setUp() {
-		bot = new SWTNebulaBot();
+		bot = new SWTGalleryBot();
 		runInUIThread();
 	}
 	

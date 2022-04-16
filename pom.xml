@@ -21,9 +21,6 @@ Authors:
 	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<prerequisites>
-		<maven>3.6.3</maven>
-	</prerequisites>
 	<properties>
 		<tycho-version>2.3.0</tycho-version>
 		<tycho-extras-version>${tycho-version}</tycho-extras-version>
@@ -36,6 +33,7 @@ Authors:
 		<tycho.scmUrl>scm:git:git://git.eclipse.org/gitroot/swtbot/org.eclipse.swtbot.git</tycho.scmUrl>
 		<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
 		<uitest.vmparams>${tycho.testArgLine} -Xms64m -Xmx1024m</uitest.vmparams>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<modules>
@@ -137,6 +135,19 @@ Authors:
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<rules>
+						<requireMavenVersion>
+							<version>3.6.3</version>
+							<message>We require Maven 3.6.3 or better due to bugs in older versions.</message>
+						</requireMavenVersion>
+					</rules>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>

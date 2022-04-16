@@ -39,8 +39,6 @@ Authors:
 	</properties>
 
 	<modules>
-		<module>devtools/target-platforms</module>
-
 		<!-- Plugins -->
 		<module>org.eclipse.swtbot.ant.junit</module>
 		<module>org.eclipse.swtbot.eclipse</module>
@@ -360,11 +358,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>juno</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/juno/juno.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -387,11 +381,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>kepler</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/kepler/kepler.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -414,11 +404,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>luna</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/luna/luna.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -441,11 +427,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>mars</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/mars/mars.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -468,11 +450,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>neon</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/neon/neon.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -495,11 +473,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>oxygen</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/oxygen/oxygen.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -522,11 +496,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>photon</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/photon/photon.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -549,11 +519,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2018-09</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2018-09/2018-09.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -573,11 +539,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2018-12</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2018-12/2018-12.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -597,11 +559,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2019-03</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2019-03/2019-03.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -621,11 +579,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2019-06</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2019-06/2019-06.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -645,11 +599,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2019-09</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2019-09/2019-09.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -669,11 +619,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2019-12</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2019-12/2019-12.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -693,11 +639,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2020-03</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2020-03/2020-03.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -717,11 +659,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2020-06</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2020-06/2020-06.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -741,11 +679,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2020-09</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2020-09/2020-09.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -765,11 +699,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2020-12</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2020-12/2020-12.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -789,11 +719,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2021-03</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2021-03/2021-03.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -813,11 +739,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2021-06</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2021-06/2021-06.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -837,11 +759,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2021-09</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2021-09/2021-09.target</file>
 							</target>
 						</configuration>
 					</plugin>
@@ -861,11 +779,7 @@ Authors:
 						<version>${tycho-version}</version>
 						<configuration>
 							<target>
-								<artifact>
-									<groupId>org.eclipse.swtbot.target-platforms</groupId>
-									<artifactId>2021-12</artifactId>
-									<version>4.0.0-SNAPSHOT</version>
-								</artifact>
+								<file>../devtools/target-platforms/2021-12/2021-12.target</file>
 							</target>
 						</configuration>
 					</plugin>

@@ -32,7 +32,8 @@ public class PositionTest {
 		assertEquals(position, position);
 		assertEquals(position.hashCode(), position.hashCode());
 
-		assertFalse(position.equals(""));
+		Object other = "";
+		assertFalse(position.equals(other));
 	}
 
 	@Test

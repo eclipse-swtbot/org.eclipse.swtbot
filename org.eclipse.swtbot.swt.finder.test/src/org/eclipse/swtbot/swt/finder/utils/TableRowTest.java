@@ -37,7 +37,8 @@ public class TableRowTest {
 		final TableRow tableRow = emptyTableRow();
 		assertTrue(tableRow.equals(tableRow));
 		assertFalse(tableRow.equals(null));
-		assertFalse(tableRow.equals(this));
+		Object other = this;
+		assertFalse(tableRow.equals(other));
 
 		assertTrue(tableRow.equals(emptyTableRow()));
 	}

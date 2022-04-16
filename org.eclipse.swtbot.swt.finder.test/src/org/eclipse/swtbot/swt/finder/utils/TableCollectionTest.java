@@ -36,7 +36,8 @@ public class TableCollectionTest {
 
 		assertFalse(emptyTableCollection().equals(collection()));
 		assertFalse(collection().equals(null));
-		assertFalse(collection().equals(this));
+		Object other = this;
+		assertFalse(collection().equals(other));
 	}
 
 	@Test

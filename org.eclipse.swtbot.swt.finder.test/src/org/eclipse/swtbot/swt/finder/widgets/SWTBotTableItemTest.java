@@ -26,10 +26,9 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * @author Vincent MAHE &lt;vmahe [at] free [dot]fr&gt;
@@ -37,9 +36,6 @@ import org.junit.rules.ExpectedException;
  */
 public class SWTBotTableItemTest extends AbstractControlExampleTest {
 
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
-	
 	private SWTBotTable	table;
 	private SWTBotText	listeners;
 
@@ -210,10 +206,8 @@ public class SWTBotTableItemTest extends AbstractControlExampleTest {
 	
 	@Test
 	public void isGrayedTableNotChecked() throws Exception {
-		expectedException.expect(IllegalArgumentException.class);
-		expectedException.expectMessage("does not have the style SWT.CHECK");
-		
-		table.getTableItem(0).isGrayed();
+		Assert.assertThrows("does not have the style SWT.CHECK", IllegalArgumentException.class,
+				() -> 		table.getTableItem(0).isGrayed());
 	}
 
 	private Point getCellCenter(final SWTBotTableItem node, final int columnIndex) {

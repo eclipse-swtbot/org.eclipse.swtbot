@@ -24,5 +24,7 @@ import org.eclipse.swtbot.swt.finder.SWTBotTestCase;
  * @author Aurelien Pupier
  */
 public class SWTBotNebulaTestCase extends SWTBotTestCase {
+	// cannot change the deprecated type here
+	@SuppressWarnings("deprecation")
 	protected SWTNebulaBot bot = new SWTNebulaBot();
 }

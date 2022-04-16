@@ -165,6 +165,7 @@ public enum Recorder implements RecorderClientCodeListener, RecorderClientStatus
 	 */
 	private void insertInEditor(String code) {
 		ICompilationUnit methodCompilationUnit = selectedMethod.getCompilationUnit();
+		@SuppressWarnings("deprecation")
 		ASTParser parser = ASTParser.newParser(AST.JLS8);
 		parser.setSource(methodCompilationUnit);
 		parser.setResolveBindings(true);

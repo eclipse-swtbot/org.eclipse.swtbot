@@ -20,7 +20,7 @@ import java.util.List;
 import org.eclipse.nebula.widgets.gallery.Gallery;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 import org.eclipse.swt.SWT;
-import org.eclipse.swtbot.nebula.gallery.finder.SWTNebulaBot;
+import org.eclipse.swtbot.nebula.gallery.finder.SWTGalleryBot;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -159,7 +159,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 	
 	public SWTBotGalleryItem getGalleryItem(final int index){
 		try {
-			new SWTNebulaBot().waitUntil(new DefaultCondition() {
+			new SWTGalleryBot().waitUntil(new DefaultCondition() {
 				@Override
 				public String getFailureMessage() {
 					return "Could not find gallery item for index " + index; //$NON-NLS-1$

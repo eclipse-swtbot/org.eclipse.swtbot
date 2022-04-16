@@ -183,7 +183,6 @@ public class RemotePluginTestRunner extends RemoteTestRunner {
 		}
 	}
 
-	@SuppressWarnings("restriction")
 	private static ClassLoader getPluginClassLoader2(String getfTestPluginName) {
 		Bundle bundle = Platform.getBundle(getfTestPluginName);
 		if (bundle == null) {

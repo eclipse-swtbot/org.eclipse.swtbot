@@ -32,10 +32,9 @@ import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
@@ -43,9 +42,6 @@ import org.junit.rules.ExpectedException;
  * @version $Id$
  */
 public class SWTBotTreeItemTest extends AbstractControlExampleTest {
-
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
 
 	private SWTBotTree	tree;
 	private SWTBotText	listeners;
@@ -453,10 +449,8 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 
 	@Test
 	public void isGrayedTreeNotChecked() throws Exception {
-		expectedException.expect(IllegalArgumentException.class);
-		expectedException.expectMessage("does not have the style SWT.CHECK");
-
-		tree.getAllItems()[0].isGrayed();
+		Assert.assertThrows("does not have the style SWT.CHECK", IllegalArgumentException.class,
+				() -> 		tree.getAllItems()[0].isGrayed());
 	}
 
 	private Point getCellCenter(final SWTBotTreeItem node, final int columnIndex) {

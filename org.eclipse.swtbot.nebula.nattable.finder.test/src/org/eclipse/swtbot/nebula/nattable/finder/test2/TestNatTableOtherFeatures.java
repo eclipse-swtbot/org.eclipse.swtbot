@@ -14,10 +14,10 @@
  *******************************************************************************/
 package org.eclipse.swtbot.nebula.nattable.finder.test2;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.swtbot.nebula.nattable.finder.SWTNatTableBot;

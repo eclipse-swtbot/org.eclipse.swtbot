@@ -107,7 +107,9 @@ public class ProjectCreationWizardTest {
 	}
 
 	private String contentsOf(IProject project, String name) throws CoreException {
-		return FileUtils.read(project.getFile(name).getContents());
+		String content = FileUtils.read(project.getFile(name).getContents());
+		// unify Windows/Linux content
+		return content.replace("\r\n", "\n");
 	}
 
 	@BeforeClass

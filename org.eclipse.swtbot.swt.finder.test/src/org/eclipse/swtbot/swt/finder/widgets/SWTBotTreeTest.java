@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2022 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -256,13 +256,13 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 	public void expandsNode() throws Exception {
 		bot.checkBox("Multiple Columns").select();
 		bot.checkBox("Listen").select();
-		Widget notifications = bot.textInGroup("Listeners").widget;
+		SWTBotText notifications = bot.textInGroup("Listeners");
 		tree = bot.treeInGroup("Tree");
 		tree.expandNode("Node 2");
 		assertEquals(6, tree.visibleRowCount());
-		assertTextContains("Expand [17]: TreeEvent{Tree {} time=", notifications);
-		assertTextContains("data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, tree.widget) + " text=null doit=true}",
-				notifications);
+		assertEventMatches(notifications,
+				"Expand [17]: TreeEvent{Tree {} time=0 data=null item=TreeItem {Node 2} detail=0 x=0 y=0 width=0 height=0 stateMask="
+						+ toStateMask(0, tree.widget) + " text=null doit=true}");
 	}
 
 	@Test

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2016 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2022 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -116,47 +116,47 @@ public class SWTBotPopupMenuTest extends AbstractControlExampleTest {
 	@Test
 	public void clicksMenu() throws Exception {
 		SWTBotRootMenu popupMenu = popupShell.contextMenu();
-		assertThat(listeners.getText(), containsString("MenuDetect [35]: Event {type=35 Shell {Title:0} time="));
-		assertThat(listeners.getText(), containsString("Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time="));
+		assertEventMatches(listeners, "MenuDetect [35]: Event {type=35 Shell {Title:0} time=");
+		assertEventMatches(listeners, "Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=");
 		bot.button("Clear").click();
 
 		SWTBotMenu menuItem = popupMenu.menu("Push");
-		assertThat(listeners.getText(), containsString("Arm [30]: ArmEvent{MenuItem {Push} time="));
+		assertEventMatches(listeners, "Arm [30]: ArmEvent{MenuItem {Push} time=");
 		bot.button("Clear").click();
 
 		menuItem.click();
-		assertThat(listeners.getText(), containsString("Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time="));
-		assertThat(listeners.getText(), containsString("Selection [13]: SelectionEvent{MenuItem {Push} time="));
-		assertThat(listeners.getText(), containsString("Clicked on menu item: POP_UP > Push"));
+		assertEventMatches(listeners, "Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{MenuItem {Push} time=");
+		assertEventMatches(listeners, "Clicked on menu item: POP_UP > Push");
 	}
 
 	@Test
 	public void clicksSubMenu() throws Exception {
 		SWTBotRootMenu popupMenu = popupShell.contextMenu();
-		assertThat(listeners.getText(), containsString("MenuDetect [35]: Event {type=35 Shell {Title:0} time="));
-		assertThat(listeners.getText(), containsString("Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time="));
+		assertEventMatches(listeners, "MenuDetect [35]: Event {type=35 Shell {Title:0} time=");
+		assertEventMatches(listeners, "Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=");
 		bot.button("Clear").click();
 
 		SWTBotMenu cascade1 = popupMenu.menu("Cascade");
-		assertThat(listeners.getText(), containsString("Arm [30]: ArmEvent{MenuItem {Cascade} time="));
-		assertThat(listeners.getText(), containsString("Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time="));
+		assertEventMatches(listeners, "Arm [30]: ArmEvent{MenuItem {Cascade} time=");
+		assertEventMatches(listeners, "Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=");
 		bot.button("Clear").click();
 
 		SWTBotMenu cascade2 = cascade1.menu("Cascade");
-		assertThat(listeners.getText(), containsString("Arm [30]: ArmEvent{MenuItem {Cascade} time="));
-		assertThat(listeners.getText(), containsString("Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2} time="));
+		assertEventMatches(listeners, "Arm [30]: ArmEvent{MenuItem {Cascade} time=");
+		assertEventMatches(listeners, "Show [22]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2} time=");
 		bot.button("Clear").click();
 
 		SWTBotMenu menuItem = cascade2.menu("Push");
-		assertThat(listeners.getText(), containsString("Arm [30]: ArmEvent{MenuItem {Push} time="));
+		assertEventMatches(listeners, "Arm [30]: ArmEvent{MenuItem {Push} time=");
 		bot.button("Clear").click();
 
 		menuItem.click();
-		assertThat(listeners.getText(), containsString("Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2} time="));
-		assertThat(listeners.getText(), containsString("Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time="));
-		assertThat(listeners.getText(), containsString("Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time="));
-		assertThat(listeners.getText(), containsString("Selection [13]: SelectionEvent{MenuItem {Push} time="));
-		assertThat(listeners.getText(), containsString("Clicked on menu item: POP_UP > Cascade > Cascade > Push"));
+		assertEventMatches(listeners, "Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2} time=");
+		assertEventMatches(listeners, "Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=");
+		assertEventMatches(listeners, "Hide [23]: MenuEvent{Menu {Push, |, Check, Radio1, Radio2, Cascade} time=");
+		assertEventMatches(listeners, "Selection [13]: SelectionEvent{MenuItem {Push} time=");
+		assertEventMatches(listeners, "Clicked on menu item: POP_UP > Cascade > Cascade > Push");
 	}
 
 	@Test

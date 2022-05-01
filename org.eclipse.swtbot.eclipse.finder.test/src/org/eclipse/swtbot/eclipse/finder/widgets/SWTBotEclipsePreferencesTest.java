@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015, 2021 Stephane Bouchet (Intel Corporation).
+ * Copyright (c) 2015, 2022 Stephane Bouchet (Intel Corporation).
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -40,8 +40,12 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		SWTBotShell prefsShell = bot.shell("Preferences");
 		prefsShell.activate();
 		assertTrue("Team node is selected", selectTeamNode());
-		bot.radioInGroup("Tree", "Choose the presentation to be used when displaying Workspace projects").click();
-		bot.radioInGroup("Never", "Open the associated perspective when a synchronize operation completes").click();
+		/*
+		 * Indices are used to identify radio buttons because group name and
+		 * mnemonicText can change across releases
+		 */
+		bot.radio(1).click();
+		bot.radio(4).click();
 		prefsShell.activate();
 		SWTBotButton apply = bot.button("Apply");
 		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled(apply));
@@ -54,8 +58,8 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		prefsShell = bot.shell("Preferences");
 		prefsShell.activate();
 		assertTrue("Team node is selected", selectTeamNode());
-		SWTBotRadio pref1 = bot.radioInGroup("Tree", "Choose the presentation to be used when displaying Workspace projects");
-		SWTBotRadio pref2 = bot.radioInGroup("Never", "Open the associated perspective when a synchronize operation completes");
+		SWTBotRadio pref1 = bot.radio(1);
+		SWTBotRadio pref2 = bot.radio(4);
 		assertTrue("Radio should be selected", pref1.isSelected());
 		assertTrue("Radio should be selected", pref2.isSelected());
 	}

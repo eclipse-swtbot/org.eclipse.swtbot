@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2017 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2022 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -66,7 +66,8 @@ public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 			public boolean test() throws Exception {
 				text = listeners.getText();
 				// keyLocation was added in 3.6, we don't care about it for the tests
-				String listenersText = text.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=-?\\d+", "x=X_CO_ORDINATE").replaceAll("y=-?\\d+", "y=Y_CO_ORDINATE").replaceAll("keyLocation=(0x)?[0-9a-f]+ ", "");
+				// [layout=null] was added in 2022-06, we don't care about it for the tests
+				String listenersText = text.replaceAll("time=-?\\d+", "time=SOME_TIME_AGO").replaceAll("x=-?\\d+", "x=X_CO_ORDINATE").replaceAll("y=-?\\d+", "y=Y_CO_ORDINATE").replaceAll("keyLocation=(0x)?[0-9a-f]+ ", "").replaceAll("\\[layout=[.@0-9a-zA-Z]+\\] ", "");
 				return matcher.matches(listenersText);
 			}
 

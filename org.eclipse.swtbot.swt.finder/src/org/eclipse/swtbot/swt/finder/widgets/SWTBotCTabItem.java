@@ -27,7 +27,6 @@ import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.hamcrest.SelfDescribing;
@@ -92,14 +91,14 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 	 * @throws TimeoutException if the tab does not activate
 	 */
 	public SWTBotCTabItem activate() throws TimeoutException {
-		log.trace(MessageFormat.format("Activating {0}", this)); //$NON-NLS-1$
+		log.trace("Activating {}", this); //$NON-NLS-1$
 		waitForEnabled();
 		// this runs in sync because tabFolder.setSelection() does not send a notification, and so should not block.
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
 				widget.getParent().setSelection(widget);
-				log.debug(MessageFormat.format("Activated {0}", this)); //$NON-NLS-1$
+				log.debug("Activated {}", this); //$NON-NLS-1$
 			}
 		});
 
@@ -183,7 +182,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 
 
 	private void clickCloseButton(int x, int y) {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicking on {}", this); //$NON-NLS-1$
 		notifyParent(SWT.MouseEnter);
 		notifyParent(SWT.MouseMove);
 		notifyParent(SWT.Activate);
@@ -197,7 +196,7 @@ public class SWTBotCTabItem extends AbstractSWTBot<CTabItem> {
 		notifyParent(SWT.MouseExit);
 		notifyParent(SWT.Deactivate);
 		notifyParent(SWT.FocusOut);
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 	}
 
 	@Override

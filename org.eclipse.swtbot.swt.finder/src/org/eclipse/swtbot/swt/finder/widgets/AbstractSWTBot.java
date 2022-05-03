@@ -23,7 +23,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.swt.SWT;
@@ -68,6 +67,8 @@ import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.hamcrest.SelfDescribing;
 import org.hamcrest.StringDescription;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper to find SWT {@link Widget}s and perform operations on them.
@@ -121,7 +122,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 			throw new WidgetNotFoundException("The widget {" + description + "} was disposed." + SWTUtils.toString(w)); //$NON-NLS-1$ //$NON-NLS-2$
 
 		display = w.getDisplay();
-		log = Logger.getLogger(getClass());
+		log = LoggerFactory.getLogger(getClass());
 	}
 
 	/**
@@ -173,24 +174,24 @@ public abstract class AbstractSWTBot<T extends Widget> {
 			}
 		});
 
-		log.trace(MessageFormat.format("Enquing event {0} on {1}", result)); //$NON-NLS-1$
+		log.trace("Enquing event {} on {}", result[0], result[1]); //$NON-NLS-1$
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
 				if ((widget == null) || widget.isDisposed()) {
-					log.trace(MessageFormat.format("Not notifying {0} is null or has been disposed", AbstractSWTBot.this)); //$NON-NLS-1$
+					log.trace("Not notifying {} is null or has been disposed", AbstractSWTBot.this); //$NON-NLS-1$
 					return;
 				}
 				if (!isEnabledInternal()) {
-					log.warn(MessageFormat.format("Widget is not enabled: {0}", AbstractSWTBot.this)); //$NON-NLS-1$
+					log.warn("Widget is not enabled: {}", AbstractSWTBot.this); //$NON-NLS-1$
 					return;
 				}
 				if (runnable != null) {
 					runnable.run();
 				}
-				log.trace(MessageFormat.format("Sending event {0} to {1}", result)); //$NON-NLS-1$
+				log.trace("Sending event {} to {}", eventType, result); //$NON-NLS-1$
 				widget.notifyListeners(eventType, createEvent);
-				log.debug(MessageFormat.format("Sent event {0} to {1}", result)); //$NON-NLS-1$
+				log.debug("Sent event {} to {}", eventType, result); //$NON-NLS-1$
 			}
 		});
 
@@ -297,7 +298,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @since 2.0
 	 */
 	protected void clickXY(int x, int y) {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicking on {}", this); //$NON-NLS-1$
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
@@ -310,7 +311,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		notify(SWT.MouseExit);
 		notify(SWT.Deactivate);
 		notify(SWT.FocusOut);
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 	}
 
 	/**
@@ -321,7 +322,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @since 2.0
 	 */
 	private void rightClickXY(int x, int y) {
-		log.debug(MessageFormat.format("Right clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Right clicking on {}", this); //$NON-NLS-1$
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
@@ -334,7 +335,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		notify(SWT.MouseExit);
 		notify(SWT.Deactivate);
 		notify(SWT.FocusOut);
-		log.debug(MessageFormat.format("Right clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Right clicked on {}", this); //$NON-NLS-1$
 	}
 
 	/**
@@ -345,7 +346,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 * @since 2.0
 	 */
 	protected void doubleClickXY(int x, int y) {
-		log.debug(MessageFormat.format("Double-clicking on {0}", widget)); //$NON-NLS-1$
+		log.debug("Double-clicking on {}", widget); //$NON-NLS-1$
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
@@ -363,7 +364,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 		notify(SWT.MouseExit);
 		notify(SWT.Deactivate);
 		notify(SWT.FocusOut);
-		log.debug(MessageFormat.format("Double-clicked on {0}", widget)); //$NON-NLS-1$
+		log.debug("Double-clicked on {}", widget); //$NON-NLS-1$
 	}
 
 	@Override
@@ -736,7 +737,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	public void setFocus() {
 		waitForEnabled();
-		log.debug(MessageFormat.format("Attempting to set focus on {0}", this));
+		log.debug("Attempting to set focus on {}", this);
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
@@ -1037,7 +1038,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 			}
 		});
 		if (dragSource == null) {
-			log.error(MessageFormat.format("Widget {0} is not configured for drag support.", this));
+			log.error("Widget {} is not configured for drag support.", this);
 			return;
 		}
 
@@ -1049,7 +1050,7 @@ public abstract class AbstractSWTBot<T extends Widget> {
 			}
 		});
 		if (dropTarget == null) {
-			log.error(MessageFormat.format("Widget {0} is not configured for drop support.", target));
+			log.error("Widget {} is not configured for drop support.", target);
 			return;
 		}
 

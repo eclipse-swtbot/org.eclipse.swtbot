@@ -22,7 +22,6 @@ import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -86,7 +85,7 @@ public class SWTBotDateTime extends AbstractSWTBotControl<DateTime> {
 	 * @param toSet the date to set into the control.
 	 */
 	public void setDate(final Date toSet) {
-		log.debug(MessageFormat.format("Setting date on control: {0} to {1}", this, toSet)); //$NON-NLS-1$
+		log.debug("Setting date on control: {} to {}", this, toSet); //$NON-NLS-1$
 		waitForEnabled();
 		syncExec(new VoidResult() {
 			@Override

@@ -29,7 +29,6 @@ import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.StringUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
@@ -95,7 +94,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 		if (indices.length > 1)
 			assertMultiSelect();
 		setFocus();
-		log.debug(MessageFormat.format("Selecting items {0} in gallery {1}", StringUtils.join(indices, ", "), this)); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("Selecting items {} in gallery {1}", StringUtils.join(indices, ", "), this); //$NON-NLS-1$ //$NON-NLS-2$
 		unselect();
 		for (int i = 0; i < indices.length; i++)
 			additionalSelectAndNotify(indices[i]);
@@ -284,7 +283,7 @@ public class SWTBotGallery extends AbstractSWTBotControl<Gallery> {
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Unselecting all in {0}", widget)); //$NON-NLS-1$
+				log.debug("Unselecting all in {}", widget); //$NON-NLS-1$
 				widget.deselectAll();
 			}
 		});

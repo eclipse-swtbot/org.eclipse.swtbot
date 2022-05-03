@@ -23,7 +23,6 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
@@ -68,12 +67,12 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 	@Override
 	public SWTBotRadio click() {
 		if (isSelected()) {
-			log.debug(MessageFormat.format("Widget {0} is already selected, not clicking again.", this)); //$NON-NLS-1$
+			log.debug("Widget {} is already selected, not clicking again.", this); //$NON-NLS-1$
 			return this;
 		}
 		waitForEnabled();
 
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicking on {}", this); //$NON-NLS-1$
 
 		final SWTBotRadio otherSelectedButton=otherSelectedButton();
 
@@ -100,7 +99,7 @@ public class SWTBotRadio extends AbstractSWTBotControl<Button> {
 		});
 		notify(SWT.Selection);
 
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 		return this;
 	}
 

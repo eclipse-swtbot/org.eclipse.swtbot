@@ -12,12 +12,12 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.keyboard;
 
-import org.apache.log4j.Logger;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementors must have a default no-args constructor.
@@ -30,7 +30,7 @@ public abstract class AbstractKeyboardStrategy implements KeyboardStrategy {
 	protected final Logger	log;
 
 	protected AbstractKeyboardStrategy() {
-		this.log = Logger.getLogger(getClass());
+		this.log = LoggerFactory.getLogger(getClass());
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public abstract class AbstractKeyboardStrategy implements KeyboardStrategy {
 	public void pressKeys(KeyStroke... keys) {
 		assertKeys(keys);
 		for (KeyStroke key : keys) {
-			log.trace(MessageFormat.format("Pressing down key {0}", key));
+			log.trace("Pressing down key {}", key);
 			pressKey(key);
 		}
 	}
@@ -65,7 +65,7 @@ public abstract class AbstractKeyboardStrategy implements KeyboardStrategy {
 	public void releaseKeys(KeyStroke... keys) {
 		assertKeys(keys);
 		for (KeyStroke key : keys) {
-			log.trace(MessageFormat.format("Releasing key {0}", key));
+			log.trace("Releasing key {}", key);
 			releaseKey(key);
 		}
 	}

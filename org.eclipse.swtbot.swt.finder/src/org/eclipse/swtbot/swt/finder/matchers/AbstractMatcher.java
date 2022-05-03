@@ -14,15 +14,15 @@
 package org.eclipse.swtbot.swt.finder.matchers;
 
 
-import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.finders.PathGenerator;
 import org.eclipse.swtbot.swt.finder.utils.ClassUtils;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.TreePath;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.StringDescription;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A matcher that logs the result of matches. The match is done by subclasses.
@@ -32,7 +32,7 @@ import org.hamcrest.StringDescription;
  */
 public abstract class AbstractMatcher<T> extends BaseMatcher<T> {
 
-	public static final Logger	log	= Logger.getLogger(AbstractMatcher.class);
+	public static final Logger	log	= LoggerFactory.getLogger(AbstractMatcher.class);
 
 	@Override
 	public boolean matches(Object item) {
@@ -49,9 +49,9 @@ public abstract class AbstractMatcher<T> extends BaseMatcher<T> {
 					// do nothing
 				}
 				if (result) {
-					log.debug(MessageFormat.format("matched {0} with text \"{1}\", using matcher: {2}", ClassUtils.simpleClassName(item), text, StringDescription.toString(this))); //$NON-NLS-1$
+					log.debug("matched {} with text \"{}\", using matcher: {}", ClassUtils.simpleClassName(item), text, StringDescription.toString(this)); //$NON-NLS-1$
 				} else
-					log.trace(MessageFormat.format("did not match {0} with text \"{1}\", using matcher: {2}", ClassUtils.simpleClassName(item), text, StringDescription.toString(this))); //$NON-NLS-1$
+					log.trace("did not match {} with text \"{}\", using matcher: {}", ClassUtils.simpleClassName(item), text, StringDescription.toString(this)); //$NON-NLS-1$
 			}
 
 			if (log.isTraceEnabled() && (item instanceof Widget)) {

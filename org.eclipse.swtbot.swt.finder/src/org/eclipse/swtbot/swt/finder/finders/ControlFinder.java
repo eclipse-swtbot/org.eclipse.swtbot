@@ -19,7 +19,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -32,10 +31,11 @@ import org.eclipse.swtbot.swt.finder.resolvers.IParentResolver;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.ListResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.TreePath;
 import org.hamcrest.Matcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Finds controls matching a particular matcher.
@@ -49,7 +49,7 @@ public class ControlFinder {
 	/**
 	 * The logging instance for this class.
 	 */
-	private static final Logger			log							= Logger.getLogger(ControlFinder.class);
+	private static final Logger			log							= LoggerFactory.getLogger(ControlFinder.class);
 
 	/** The childrenResolver */
 	protected final IChildrenResolver	childrenResolver;
@@ -190,7 +190,7 @@ public class ControlFinder {
 			return new ArrayList<T>();
 		if (!visible(parentWidget)) {
 			if (!isComposite(parentWidget))
-				log.trace(MessageFormat.format("{0} is not visible, skipping.", parentWidget)); //$NON-NLS-1$
+				log.trace("{} is not visible, skipping.", parentWidget); //$NON-NLS-1$
 			return new ArrayList<T>();
 		}
 		LinkedHashSet<T> controls = new LinkedHashSet<T>();

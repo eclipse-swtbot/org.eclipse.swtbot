@@ -25,7 +25,6 @@ import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.StringResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.hamcrest.SelfDescribing;
 
@@ -77,7 +76,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 * @return the same instance.
 	 */
 	public SWTBotCombo typeText(final String text, int interval) {
-		log.debug(MessageFormat.format("Inserting text:{0} into text {1}", text, this)); //$NON-NLS-1$
+		log.debug("Inserting text:{} into text {}", text, this); //$NON-NLS-1$
 		setFocus();
 		keyboard().typeText(text, interval);
 		return this;
@@ -89,11 +88,11 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 * @param text the text to set into the combo.
 	 */
 	public void setSelection(final String text) {
-		log.debug(MessageFormat.format("Setting selection on {0} to {1}", this, text)); //$NON-NLS-1$
+		log.debug("Setting selection on {} to {}", this, text); //$NON-NLS-1$
 		waitForEnabled();
 		_setSelection(text);
 		notify(SWT.Selection);
-		log.debug(MessageFormat.format("Set selection on {0} to {1}", this, text)); //$NON-NLS-1$
+		log.debug("Set selection on {} to {}", this, text); //$NON-NLS-1$
 	}
 
 	/**
@@ -211,7 +210,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 	 * @since 1.0
 	 */
 	public void setText(final String text) {
-		log.debug(MessageFormat.format("Setting text on {0} to {1}", this, text)); //$NON-NLS-1$
+		log.debug("Setting text on {} to {}", this, text); //$NON-NLS-1$
 		waitForEnabled();
 
 		if (hasStyle(widget, SWT.READ_ONLY))
@@ -224,7 +223,7 @@ public class SWTBotCombo extends AbstractSWTBotControl<Combo> {
 			}
 		});
 		notify(SWT.Modify);
-		log.debug(MessageFormat.format("Set text on {0} to {1}", this, text)); //$NON-NLS-1$
+		log.debug("Set text on {} to {}", this, text); //$NON-NLS-1$
 	}
 
 }

@@ -15,7 +15,8 @@ package org.eclipse.swtbot.swt.finder.junit;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.junit.runner.Description;
@@ -31,7 +32,7 @@ import org.junit.runner.notification.RunListener;
  */
 public final class ScreenshotCaptureListener extends RunListener {
 	/** The logger. */
-	private static Logger log = Logger.getLogger(SWTBotApplicationLauncherClassRunner.class);
+	private static Logger log = LoggerFactory.getLogger(SWTBotApplicationLauncherClassRunner.class);
 
 	/** Counts the screenshots to determine if maximum number is reached. */
 	private static int screenshotCounter = 0;

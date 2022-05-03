@@ -26,7 +26,6 @@
 
    <requires>
       <import plugin="org.eclipse.swtbot.swt.finder"/>
-      <import plugin="org.apache.log4j"/>
       <import plugin="org.eclipse.ui.workbench" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.junit.platform.engine"/>
       <import plugin="org.junit.platform.launcher"/>
@@ -39,6 +38,7 @@
       <import plugin="org.eclipse.jdt.junit.runtime"/>
       <import plugin="org.eclipse.pde.junit.runtime"/>
       <import plugin="org.eclipse.e4.ui.workbench3"/>
+      <import plugin="org.slf4j.api"/>
    </requires>
 
    <plugin

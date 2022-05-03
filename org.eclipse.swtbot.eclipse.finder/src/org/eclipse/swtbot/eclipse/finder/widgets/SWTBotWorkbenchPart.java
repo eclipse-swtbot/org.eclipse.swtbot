@@ -19,7 +19,8 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widget
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.StatusLineManager;
@@ -104,7 +105,7 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 		this.description = description;
 		Assert.isNotNull(partReference, "The part reference cannot be null"); //$NON-NLS-1$
 		this.partReference = partReference;
-		log = Logger.getLogger(getClass());
+		log = LoggerFactory.getLogger(getClass());
 	}
 
 	/**

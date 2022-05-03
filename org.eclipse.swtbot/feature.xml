@@ -27,9 +27,9 @@
    <requires>
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.junit"/>
-      <import plugin="org.apache.log4j"/>
       <import plugin="org.hamcrest.core"/>
       <import plugin="org.hamcrest.library"/>
+      <import plugin="org.slf4j.api"/>
    </requires>
 
    <plugin

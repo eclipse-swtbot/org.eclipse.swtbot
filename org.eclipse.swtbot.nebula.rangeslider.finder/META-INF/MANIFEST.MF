@@ -10,10 +10,10 @@ Require-Bundle: org.hamcrest.core,
  org.eclipse.swtbot.swt.finder,
  org.eclipse.nebula.widgets.opal.rangeslider,
  org.eclipse.jface
-Import-Package: org.apache.log4j,
- org.eclipse.swt,
+Import-Package: org.eclipse.swt,
  org.eclipse.swt.graphics,
  org.eclipse.swt.widgets,
- org.junit
+ org.junit,
+ org.slf4j
 Export-Package: org.eclipse.swtbot.nebula.rangeslider.finder,
  org.eclipse.swtbot.nebula.rangeslider.finder.widgets

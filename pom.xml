@@ -34,8 +34,15 @@ Authors:
 		<!-- tycho.testArgLine repeated to re-use the configuration for argLine for jacoco agent -->
 		<uitest.vmparams>${tycho.testArgLine} -Xms64m -Xmx1024m</uitest.vmparams>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4jVersion>1.7.30</slf4jVersion>
 	</properties>
-
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4jVersion}</version>
+		</dependency>			
+	</dependencies>
 	<modules>
 		<!-- Plugins -->
 		<module>org.eclipse.swtbot.ant.junit</module>

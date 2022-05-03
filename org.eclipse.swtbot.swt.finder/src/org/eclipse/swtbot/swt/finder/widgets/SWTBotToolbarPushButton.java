@@ -19,7 +19,6 @@ import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.Style;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
@@ -58,10 +57,10 @@ public class SWTBotToolbarPushButton extends SWTBotToolbarButton {
 	 */
 	@Override
 	public SWTBotToolbarPushButton click(int stateMask) {
-		log.debug(MessageFormat.format("Clicking on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
+		log.debug("Clicking on {}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask)); //$NON-NLS-1$
 		waitForEnabled();
 		sendNotifications(stateMask);
-		log.debug(MessageFormat.format("Clicked on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
+		log.debug("Clicked on {}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask)); //$NON-NLS-1$
 		return this;
 	}
 }

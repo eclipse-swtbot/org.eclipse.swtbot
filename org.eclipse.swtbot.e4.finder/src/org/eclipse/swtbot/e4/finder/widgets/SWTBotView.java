@@ -19,7 +19,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.text.View;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.menu.MToolBar;
@@ -67,7 +68,7 @@ public class SWTBotView {
 		this.bot = bot;
 		Assert.isNotNull(part, "The part cannot be null");
 		this.part = part;
-		this.log = Logger.getLogger(getClass());
+		this.log = LoggerFactory.getLogger(getClass());
 	}
 
 	/**

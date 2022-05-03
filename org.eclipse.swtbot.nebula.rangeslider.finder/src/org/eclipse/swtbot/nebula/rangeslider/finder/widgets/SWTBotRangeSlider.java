@@ -23,7 +23,6 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBotControl;
 import org.hamcrest.SelfDescribing;
@@ -71,7 +70,7 @@ public class SWTBotRangeSlider extends AbstractSWTBotControl<RangeSlider> {
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Selecting lower value {0}", this)); //$NON-NLS-1$
+				log.debug("Selecting lower value {}", this); //$NON-NLS-1$
 				widget.setLowerValue(value);
 			}
 		});
@@ -125,7 +124,7 @@ public class SWTBotRangeSlider extends AbstractSWTBotControl<RangeSlider> {
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Selecting upper value {0}", this)); //$NON-NLS-1$
+				log.debug("Selecting upper value {}", this); //$NON-NLS-1$
 				widget.setUpperValue(value);
 			}
 		});

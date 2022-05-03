@@ -23,7 +23,6 @@ import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
@@ -193,7 +192,7 @@ public class SWTBotShell extends AbstractSWTBotControl<Shell> {
 	 */
 	public SWTBotShell maximize(final boolean maximize) throws TimeoutException {
 		if (maximize == isMaximizedState()) {
-			log.debug(MessageFormat.format("{0} is already in expected state, not resizing again.", this)); //$NON-NLS-1$
+			log.debug("{} is already in expected state, not resizing again.", this); //$NON-NLS-1$
 			return this;
 		}
 		final Rectangle initialRectangle = getBounds();

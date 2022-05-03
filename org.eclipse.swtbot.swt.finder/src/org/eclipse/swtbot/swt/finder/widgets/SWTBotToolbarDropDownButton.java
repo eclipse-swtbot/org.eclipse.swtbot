@@ -30,7 +30,6 @@ import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.Style;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.EventContextMenuFinder;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.Matcher;
@@ -112,7 +111,7 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 		EventContextMenuFinder menuFinder = new EventContextMenuFinder();
 		try {
 			menuFinder.register();
-			log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+			log.debug("Clicking on {}", this); //$NON-NLS-1$
 			waitForEnabled();
 			notify(SWT.MouseEnter);
 			notify(SWT.MouseMove);
@@ -126,7 +125,7 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 			notify(SWT.MouseExit);
 			notify(SWT.Deactivate);
 			notify(SWT.FocusOut);
-			log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+			log.debug("Clicked on {}", this); //$NON-NLS-1$
 			List<MenuItem> findMenus = menuFinder.findMenus((Shell) null, matcher, true);
 			return toSWTBotMenuItems(matcher, findMenus);
 		} finally {
@@ -139,10 +138,10 @@ public class SWTBotToolbarDropDownButton extends SWTBotToolbarButton {
 	 */
 	@Override
 	public SWTBotToolbarDropDownButton click(int stateMask) {
-		log.debug(MessageFormat.format("Clicking on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
+		log.debug("Clicking on {}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask)); //$NON-NLS-1$
 		waitForEnabled();
 		sendNotifications(stateMask);
-		log.debug(MessageFormat.format("Clicked on {0}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask))); //$NON-NLS-1$
+		log.debug("Clicked on {}" + (stateMask != 0 ? " with stateMask=0x{1}" : ""), this, Integer.toHexString(stateMask)); //$NON-NLS-1$
 		return this;
 	}
 

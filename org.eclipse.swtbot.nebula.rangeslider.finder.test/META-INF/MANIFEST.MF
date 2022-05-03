@@ -10,11 +10,11 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.junit,
- org.apache.log4j,
  org.hamcrest.core,
  org.hamcrest.library,
  org.eclipse.swtbot.junit4_x,
  org.eclipse.swtbot.swt.finder,
  org.eclipse.nebula.widgets.opal.rangeslider,
  org.eclipse.swtbot.nebula.rangeslider.finder
-Import-Package: org.eclipse.swtbot.eclipse.finder
+Import-Package: org.eclipse.swtbot.eclipse.finder,
+ org.slf4j

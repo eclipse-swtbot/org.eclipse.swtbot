@@ -26,7 +26,6 @@ import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.StringResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -66,7 +65,7 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 * @param text the text to set.
 	 */
 	public void setText(final String text) {
-		log.debug(MessageFormat.format("Setting text on widget {0} to {1}", this, text)); //$NON-NLS-1$
+		log.debug("Setting text on widget {} to {}", this, text); //$NON-NLS-1$
 		waitForEnabled();
 		if (hasStyle(widget, SWT.READ_ONLY))
 			throw new RuntimeException("This combo box is read-only."); //$NON-NLS-1$
@@ -100,9 +99,9 @@ public class SWTBotCCombo extends AbstractSWTBotControl<CCombo> {
 	 * @param text the text to set into the combo.
 	 */
 	public void setSelection(final String text) {
-		log.debug(MessageFormat.format("Setting selection on {0} to {1}", widget, text)); //$NON-NLS-1$
+		log.debug("Setting selection on {} to {}", widget, text); //$NON-NLS-1$
 		_setSelection(text);
-		log.debug(MessageFormat.format("Set selection on {0} to {1}", widget, text)); //$NON-NLS-1$
+		log.debug("Set selection on {} to {}", widget, text); //$NON-NLS-1$
 	}
 
 	/**

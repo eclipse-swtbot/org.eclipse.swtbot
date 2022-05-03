@@ -47,7 +47,6 @@
    <requires>
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.swtbot.swt.finder"/>
-      <import plugin="org.apache.log4j"/>
       <import plugin="org.junit"/>
       <import plugin="org.hamcrest.core"/>
       <import plugin="org.eclipse.swtbot.junit4_x"/>
@@ -61,6 +60,7 @@
       <import plugin="org.eclipse.swtbot.eclipse.ui"/>
       <import plugin="org.apache.ant"/>
       <import plugin="org.junit"/>
+      <import plugin="org.slf4j.api"/>
    </requires>
 
    <plugin

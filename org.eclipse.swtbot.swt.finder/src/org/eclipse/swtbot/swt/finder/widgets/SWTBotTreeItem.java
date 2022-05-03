@@ -97,7 +97,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			return getText();
 		}
 		int columnCount = new SWTBotTree(tree).columnCount();
-		Assert.isLegal(column < columnCount, java.text.MessageFormat.format(
+		Assert.isLegal(column < columnCount, MessageFormat.format(
 				"The column index ({0}) is more than the number of column({1}) in the tree.", column, columnCount)); //$NON-NLS-1$
 		return syncExec(new StringResult() {
 			@Override
@@ -152,7 +152,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public SWTBotTreeItem getNode(final int row) {
 		int rowCount = rowCount();
 		Assert.isLegal(row < rowCount,
-				java.text.MessageFormat.format("The row number ({0}) is more than the number of rows({1}) in the tree.", row, rowCount)); //$NON-NLS-1$
+				MessageFormat.format("The row number ({0}) is more than the number of rows({1}) in the tree.", row, rowCount)); //$NON-NLS-1$
 		return syncExec(new Result<SWTBotTreeItem>() {
 			@Override
 			public SWTBotTreeItem run() {
@@ -183,7 +183,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		waitForEnabled();
 
 		if (isExpanded()) {
-			log.warn(MessageFormat.format("Tree item {0} is already expanded. Won''t expand it again.", this));
+			log.warn("Tree item {} is already expanded. Won''t expand it again.", this);
 			return this;
 		}
 
@@ -208,7 +208,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		waitForEnabled();
 
 		if (!isExpanded()) {
-			log.warn(MessageFormat.format("Tree item {0} is already collapsed. Won''t collapse it again.", this));
+			log.warn("Tree item {} is already collapsed. Won''t collapse it again.", this);
 			return this;
 		}
 
@@ -388,7 +388,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	 */
 	@Override
 	protected void clickXY(int x, int y) {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicking on {}", this); //$NON-NLS-1$
 		notifyTree(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		setFocus();
@@ -399,7 +399,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseExit, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Deactivate, super.createEvent());
 		notifyTree(SWT.FocusOut, super.createEvent());
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 	}
 
 	/**
@@ -438,7 +438,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	public SWTBotTreeItem doubleClick() {
 		waitForEnabled();
 
-		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicking on {}", this); //$NON-NLS-1$
 		notifyTree(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		setFocus();
@@ -453,7 +453,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseExit, createMouseEvent(0, SWT.NONE, 0));
 		notifyTree(SWT.Deactivate, super.createEvent());
 		notifyTree(SWT.FocusOut, super.createEvent());
-		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicked on {}", this); //$NON-NLS-1$
 		return this;
 	}
 
@@ -485,7 +485,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 	protected void doubleClickXY(int x, int y) {
 		waitForEnabled();
 
-		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicking on {}", this); //$NON-NLS-1$
 		notifyTree(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Activate, super.createEvent());
 		setFocus();
@@ -500,7 +500,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		notifyTree(SWT.MouseExit, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTree(SWT.Deactivate, super.createEvent());
 		notifyTree(SWT.FocusOut, super.createEvent());
-		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicked on {}", this); //$NON-NLS-1$
 	}
 
 	@Override
@@ -603,7 +603,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		for (int index : indices) {
 			selection.add(getItem(index));
 		}
-		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("Selecting rows {} in {}", Arrays.toString(indices), this); //$NON-NLS-1$ //$NON-NLS-2$
 		for (int i = 0; i < selection.size(); i++) {
 			int stateMask = (i == 0) ? SWT.NONE : SWT.MOD1;
 			notifySelect(selection.get(i), stateMask);
@@ -824,7 +824,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Setting state to {0} on: {1}", (checked ? "checked" : "unchecked"), widget.getText())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				log.debug("Setting state to {} on: {}", (checked ? "checked" : "unchecked"), widget.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				widget.setChecked(checked);
 			}
 		});

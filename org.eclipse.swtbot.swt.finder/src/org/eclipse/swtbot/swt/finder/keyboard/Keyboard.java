@@ -19,11 +19,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a Keyboard. Allows for typing keys and pressing shortcuts. Pressing shortcuts is different from pressing
@@ -50,7 +50,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
  */
 public class Keyboard {
 
-	private static final Logger		log	= Logger.getLogger(Keyboard.class);
+	private static final Logger		log	= LoggerFactory.getLogger(Keyboard.class);
 
 	private final KeyboardStrategy	strategy;
 
@@ -86,7 +86,7 @@ public class Keyboard {
 	 * @param interval the interval between the keystrokes.
 	 */
 	public void typeText(String text, int interval) {
-		log.debug(MessageFormat.format("Typing text ''{0}'' with an interval of {1}ms. between characters.", text, interval));
+		log.debug("Typing text ''{}'' with an interval of {1}ms. between characters.", text, interval);
 		for (int i = 0; i < text.length(); i++) {
 			typeCharacter(text.charAt(i));
 			sleep(interval);
@@ -121,7 +121,7 @@ public class Keyboard {
 	 * @see Keystrokes#toKeys(int, char)
 	 */
 	public void pressShortcut(KeyStroke... keys) {
-		log.trace(MessageFormat.format("Pressing shortcut {0}", Arrays.asList(keys)));
+		log.trace("Pressing shortcut {}", Arrays.asList(keys));
 		pressKeys(keys);
 		releaseKeys(reverse(keys));
 	}

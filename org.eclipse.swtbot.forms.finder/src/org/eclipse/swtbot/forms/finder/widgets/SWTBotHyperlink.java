@@ -20,7 +20,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot;
@@ -70,7 +69,7 @@ public class SWTBotHyperlink extends AbstractSWTBotControl<Hyperlink> {
 	 * @return itself.
 	 */
 	public AbstractSWTBot<Hyperlink> click(String hyperlinkText) {
-		log.debug(MessageFormat.format("Clicking on {0}", SWTUtils.getText(widget))); //$NON-NLS-1$
+		log.debug("Clicking on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
 		String text = getText();
 		boolean isText = text.contains(">" + hyperlinkText + "<");
 		Assert.isLegal(isText, "Link does not contain text (" + hyperlinkText + "). It contains (" + text + ")");
@@ -78,7 +77,7 @@ public class SWTBotHyperlink extends AbstractSWTBotControl<Hyperlink> {
 		hyperlinkText = extractHyperlinkTextOrHREF(hyperlinkText, text);
 		notify(SWT.Selection, createHyperlinkEvent(hyperlinkText));
 
-		log.debug(MessageFormat.format("Clicked on {0}", SWTUtils.getText(widget))); //$NON-NLS-1$
+		log.debug("Clicked on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
 		return click(true);
 	}
 

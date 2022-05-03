@@ -20,7 +20,6 @@ import org.eclipse.swtbot.swt.finder.Style;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
@@ -66,9 +65,9 @@ public class SWTBotCheckBox extends AbstractSWTBotControl<Button> {
 	 */
 	@Override
 	public SWTBotCheckBox click() {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicking on {}", this); //$NON-NLS-1$
 		toggle();
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 		return this;
 	}
 
@@ -76,16 +75,16 @@ public class SWTBotCheckBox extends AbstractSWTBotControl<Button> {
 	 * Deselect the checkbox.
 	 */
 	public void deselect() {
-		log.debug(MessageFormat.format("Deselecting {0}", this)); //$NON-NLS-1$
+		log.debug("Deselecting {}", this); //$NON-NLS-1$
 		waitForEnabled();
 		if (!isChecked()) {
-			log.debug(MessageFormat.format("Widget {0} already deselected, not deselecting again.", this)); //$NON-NLS-1$
+			log.debug("Widget {} already deselected, not deselecting again.", this); //$NON-NLS-1$
 			return;
 		}
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Deselecting {0}", this)); //$NON-NLS-1$
+				log.debug("Deselecting {}", this); //$NON-NLS-1$
 				widget.setSelection(false);
 			}
 		});
@@ -96,16 +95,16 @@ public class SWTBotCheckBox extends AbstractSWTBotControl<Button> {
 	 * Select the checkbox.
 	 */
 	public void select() {
-		log.debug(MessageFormat.format("Selecting {0}", this)); //$NON-NLS-1$
+		log.debug("Selecting {}", this); //$NON-NLS-1$
 		waitForEnabled();
 		if (isChecked()) {
-			log.debug(MessageFormat.format("Widget {0} already selected, not selecting again.", this)); //$NON-NLS-1$
+			log.debug("Widget {} already selected, not selecting again.", this); //$NON-NLS-1$
 			return;
 		}
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Selecting {0}", this)); //$NON-NLS-1$
+				log.debug("Selecting {}", this); //$NON-NLS-1$
 				widget.setSelection(true);
 			}
 		});
@@ -120,8 +119,8 @@ public class SWTBotCheckBox extends AbstractSWTBotControl<Button> {
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Toggling state on {0}. Setting state to {1}", widget, (!widget.getSelection() ? "selected" //$NON-NLS-1$ //$NON-NLS-2$
-						: "unselected"))); //$NON-NLS-1$
+				log.debug("Toggling state on {}. Setting state to {}", widget, (!widget.getSelection() ? "selected" //$NON-NLS-1$ //$NON-NLS-2$
+						: "unselected")); //$NON-NLS-1$
 				widget.setSelection(!widget.getSelection());
 			}
 		});

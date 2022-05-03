@@ -23,7 +23,6 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.hamcrest.SelfDescribing;
@@ -72,14 +71,14 @@ public class SWTBotTabItem extends AbstractSWTBot<TabItem> {
 	 * @throws TimeoutException if the tab does not activate
 	 */
 	public SWTBotTabItem activate() throws TimeoutException {
-		log.trace(MessageFormat.format("Activating {0}", this)); //$NON-NLS-1$
+		log.trace("Activating {}", this); //$NON-NLS-1$
 		waitForEnabled();
 		// this runs in sync because tabFolder.setSelection() does not send a notification, and so should not block.
 		asyncExec(new VoidResult() {
 			@Override
 			public void run() {
 				widget.getParent().setSelection(widget);
-				log.debug(MessageFormat.format("Activated {0}", this)); //$NON-NLS-1$
+				log.debug("Activated {}", this); //$NON-NLS-1$
 			}
 		});
 

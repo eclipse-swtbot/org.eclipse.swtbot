@@ -29,7 +29,6 @@ import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.StringResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
 
@@ -92,7 +91,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	 */
 	@Override
 	protected void clickXY(int x, int y) {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicking on {}", this); //$NON-NLS-1$
 		notifyTable(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTable(SWT.Activate, super.createEvent());
 		setFocus();
@@ -111,7 +110,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.MouseExit, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notifyTable(SWT.Deactivate, super.createEvent());
 		notifyTable(SWT.FocusOut, super.createEvent());
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 	}
 
 	private void notifyTable(int eventType, Event event) {
@@ -157,7 +156,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 	public SWTBotTableItem doubleClick() {
 		waitForEnabled();
 
-		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicking on {}", this); //$NON-NLS-1$
 		notifyTable(SWT.MouseEnter, createMouseEvent(0, SWT.NONE, 0));
 		notifyTable(SWT.Activate, super.createEvent());
 		setFocus();
@@ -180,7 +179,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 		notifyTable(SWT.MouseExit, createMouseEvent(0, SWT.NONE, 0));
 		notifyTable(SWT.Deactivate, super.createEvent());
 		notifyTable(SWT.FocusOut, super.createEvent());
-		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicked on {}", this); //$NON-NLS-1$
 		return this;
 	}
 
@@ -345,7 +344,7 @@ public class SWTBotTableItem extends AbstractSWTBot<TableItem> {
 			@Override
 			public void run() {
 				TableItem item = widget;
-				log.debug(MessageFormat.format("Setting state to {0} on: {1}", (checked ? "checked" : "unchecked"), item.getText())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				log.debug("Setting state to {} on: {}", (checked ? "checked" : "unchecked"), item.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				item.setChecked(checked);
 			}
 		});

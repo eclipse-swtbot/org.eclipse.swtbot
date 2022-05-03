@@ -12,7 +12,8 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.test;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.swt.finder.RunUIThreadRule;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -41,7 +42,7 @@ public abstract class AbstractSWTTest {
 		java.lang.System.setProperty("org.eclipse.swt.internal.carbon.smallFonts", "");
 	}
 
-	protected final Logger	    log	= Logger.getLogger(getClass());
+	protected final Logger	    log	= LoggerFactory.getLogger(getClass());
 	protected SWTBot		    bot;
 	protected ControlFinder	    controlFinder;
 	protected Finder		    finder;

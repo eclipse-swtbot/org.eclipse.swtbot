@@ -19,7 +19,6 @@ import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.Result;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -68,14 +67,14 @@ public class SWTBotCanvas extends AbstractSWTBotControl<Canvas> {
 	 * @param y the y-coordinate of the click
 	 */
 	public void click(int x, int y) {
-		log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicking on {}", this); //$NON-NLS-1$
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
 		notify(SWT.Activate);
 		notify(SWT.FocusIn);
 		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 1));
 		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 1));
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 	}
 
 	/**
@@ -102,7 +101,7 @@ public class SWTBotCanvas extends AbstractSWTBotControl<Canvas> {
 	 * @since 2.6
 	 */
 	public void doubleClick(int x, int y) {
-		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicking on {}", this); //$NON-NLS-1$
 		notify(SWT.MouseEnter, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notify(SWT.MouseMove, createMouseEvent(x, y, 0, SWT.NONE, 0));
 		notify(SWT.Activate);
@@ -112,6 +111,6 @@ public class SWTBotCanvas extends AbstractSWTBotControl<Canvas> {
 		notify(SWT.MouseDown, createMouseEvent(x, y, 1, SWT.NONE, 2));
 		notify(SWT.MouseDoubleClick, createMouseEvent(x, y, 1, SWT.NONE, 2));
 		notify(SWT.MouseUp, createMouseEvent(x, y, 1, SWT.BUTTON1, 2));
-		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicked on {}", this); //$NON-NLS-1$
 	}
 }

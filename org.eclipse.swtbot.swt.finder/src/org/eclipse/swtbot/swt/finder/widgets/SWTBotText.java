@@ -21,7 +21,6 @@ import org.eclipse.swtbot.swt.finder.SWTBotAssert;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
@@ -94,7 +93,7 @@ public class SWTBotText extends AbstractSWTBotControl<Text> {
 	 * @since 1.2
 	 */
 	public SWTBotText typeText(final String text, int interval) {
-		log.debug(MessageFormat.format("Inserting text:{0} into text {1}", text, this)); //$NON-NLS-1$
+		log.debug("Inserting text:{} into text {}", text, this); //$NON-NLS-1$
 		assertWritable();
 		setFocus();
 		keyboard().typeText(text, interval);

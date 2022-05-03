@@ -18,11 +18,11 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -58,7 +58,7 @@ import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
 public abstract class SWTUtils {
 
 	/** The logger. */
-	private static Logger	log	= Logger.getLogger(SWTUtils.class);
+	private static Logger	log	= LoggerFactory.getLogger(SWTUtils.class);
 
 	/**
 	 * The display used for the GUI.
@@ -452,7 +452,7 @@ public abstract class SWTUtils {
 		if (parentDir != null)
 			parentDir.mkdirs();
 		try {
-			log.debug(MessageFormat.format("Capturing screenshot ''{0}''", fileName)); //$NON-NLS-1$
+			log.debug("Capturing screenshot ''{}''", fileName); //$NON-NLS-1$
 
 			image = new Image(display, bounds.width, bounds.height);
 			gc.copyArea(image, bounds.x, bounds.y);
@@ -465,10 +465,10 @@ public abstract class SWTUtils {
 			File brokenImage = file.getAbsoluteFile();
 			if (brokenImage.exists()) {
 				try {
-					log.trace(MessageFormat.format("Broken screenshot set to be deleted on exit: {0}", fileName)); //$NON-NLS-1$
+					log.trace("Broken screenshot set to be deleted on exit: {}", fileName); //$NON-NLS-1$
 					brokenImage.deleteOnExit();
 				} catch (Exception ex) {
-					log.info(MessageFormat.format("Could not set broken screenshot to be deleted on exit: {0}", fileName), ex); //$NON-NLS-1$
+					log.info("Could not set broken screenshot to be deleted on exit: {}", fileName, ex); //$NON-NLS-1$
 				}
 			}
 			return false;

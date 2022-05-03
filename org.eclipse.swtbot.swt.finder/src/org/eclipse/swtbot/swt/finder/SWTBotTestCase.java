@@ -17,7 +17,8 @@ package org.eclipse.swtbot.swt.finder;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.utils.ClassUtils;
@@ -45,7 +46,7 @@ public abstract class SWTBotTestCase extends TestCase {
 	protected SWTBot		bot					= new SWTBot();
 
 	/** The logger. */
-	private static Logger	log					= Logger.getLogger(SWTBotTestCase.class);
+	private static Logger	log					= LoggerFactory.getLogger(SWTBotTestCase.class);
 
 	/** Counts the screenshots to determine if maximum number is reached. */
 	private static int		screenshotCounter	= 0;

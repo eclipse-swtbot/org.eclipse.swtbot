@@ -40,7 +40,6 @@ import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.StringResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
@@ -372,7 +371,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 	public void unselect() {
 		waitForEnabled();
 		setFocus();
-		log.debug(MessageFormat.format("Unselecting all in {0}", this)); //$NON-NLS-1$
+		log.debug("Unselecting all in {}", this); //$NON-NLS-1$
 		TableItem[] selection = syncExec(new ArrayResult<TableItem>() {
 			@Override
 			public TableItem[] run() {
@@ -417,7 +416,7 @@ public class SWTBotTable extends AbstractSWTBotControl<Table> {
 			return;
 		}
 		setFocus();
-		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("Selecting rows {} in {}", Arrays.toString(indices), this); //$NON-NLS-1$ //$NON-NLS-2$
 		for (int i = 0; i < indices.length; i++) {
 			assertIsLegalRowIndex(indices[i]);
 		}

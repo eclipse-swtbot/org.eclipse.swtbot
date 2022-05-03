@@ -72,22 +72,22 @@
    <feature id="org.eclipse.swtbot.nebula.rangeslider.source" version="0.0.0">
       <category name="SWTBot - Sources"/>
    </feature>
-   <bundle id="org.apache.log4j" version="0.0.0">
-      <category name="SWTBot -- Dependencies"/>
-   </bundle>
    <bundle id="org.hamcrest.core" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
    <bundle id="org.hamcrest.library" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
-   <bundle id="org.apache.log4j.source" version="0.0.0">
-      <category name="SWTBot -- Dependencies"/>
-   </bundle>
    <bundle id="org.hamcrest.core.source" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
    <bundle id="org.hamcrest.library.source" version="0.0.0">
+      <category name="SWTBot -- Dependencies"/>
+   </bundle>
+   <bundle id="org.slf4j.api">
+      <category name="SWTBot -- Dependencies"/>
+   </bundle>
+   <bundle id="org.slf4j.api.source">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
    <category-def name="SWTBot - API" label="SWTBot - API"/>

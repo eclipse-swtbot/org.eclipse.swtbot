@@ -14,7 +14,8 @@ package org.eclipse.swtbot.swt.finder.junit5;
 
 import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
@@ -39,7 +40,7 @@ import org.junit.jupiter.api.extension.TestWatcher;
 public class SWTBotJunit5Extension implements TestWatcher {
 
 	/** The logger. */
-	private static Logger log = Logger.getLogger(SWTBot.class);
+	private static Logger log = LoggerFactory.getLogger(SWTBot.class);
 
 	/** Counts the screenshots to determine if maximum number is reached. */
 	private static int screenshotCounter = 0;

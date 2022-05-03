@@ -8,11 +8,11 @@ Require-Bundle: org.eclipse.swtbot.swt.finder;bundle-version="2.0.0",
  org.hamcrest.core;bundle-version="1.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.apache.log4j;version="1.2.15",
- org.eclipse.jface.bindings.keys,
+Import-Package: org.eclipse.jface.bindings.keys,
  org.eclipse.swt,
  org.eclipse.swt.widgets,
- org.junit;version="4.8.1"
+ org.junit;version="4.8.1",
+ org.slf4j
 Export-Package: org.eclipse.swtbot.nebula.gallery.finder,
  org.eclipse.swtbot.nebula.gallery.finder.widgets
 Bundle-Vendor: Eclipse-org - SWTBot

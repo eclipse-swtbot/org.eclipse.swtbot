@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.gef.examples.logic,
  org.eclipse.osgi,
  org.eclipse.gef,
  org.eclipse.core.runtime,
- org.apache.log4j,
  org.eclipse.core.resources
 Bundle-Vendor: Eclipse.org - SWTBot
 Automatic-Module-Name: org.eclipse.gef.examples.logic.test
+Import-Package: org.slf4j

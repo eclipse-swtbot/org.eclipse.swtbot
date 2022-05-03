@@ -13,7 +13,6 @@
  *******************************************************************************/
 package org.eclipse.swtbot.swt.finder.widgets;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,13 +104,14 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @since 2.8
 	 */
 	public void navigateTo(final int line, final int column, final boolean withTabWidth) {
-		log.debug(MessageFormat.format("Enquing navigation to location {0}, {1} in {2}", line, column, this)); //$NON-NLS-1$
+		log.info("test {}", "Test");
+		log.debug("Enquing navigation to location {}, {} in {}", line, column, this); //$NON-NLS-1$
 		waitForEnabled();
 		setFocus();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Navigating to location {0}, {1} in {2}", line, column, widget)); //$NON-NLS-1$
+				log.debug("Navigating to location {}, {} in {}", line, column, widget); //$NON-NLS-1$
 				widget.setSelection(offset(line, column, withTabWidth));
 			}
 		});
@@ -305,7 +305,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @since 1.0
 	 */
 	public void typeText(final String text, int interval) {
-		log.debug(MessageFormat.format("Inserting text:{0} into styledtext{1}", text, this)); //$NON-NLS-1$
+		log.debug("Inserting text:{} into styledtext{}", text, this); //$NON-NLS-1$
 		setFocus();
 		keyboard().typeText(text);
 	}
@@ -635,7 +635,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	public void click(final int line, final int column) {
 		navigateTo(line, column, true);
 		notifyClick(getXY(line, column));
-		log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Clicked on {}", this); //$NON-NLS-1$
 	}
 
 	private void notifyClick(final Point p) {
@@ -660,7 +660,7 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 		notify(SWT.MouseDown, createMouseEvent(p.x, p.y, 1, SWT.NONE, 2));
 		notify(SWT.MouseDoubleClick, createMouseEvent(p.x, p.y, 1, SWT.NONE, 2));
 		notify(SWT.MouseUp, createMouseEvent(p.x, p.y, 1, SWT.BUTTON1, 2));
-		log.debug(MessageFormat.format("Double-clicked on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicked on {}", this); //$NON-NLS-1$
 	}
 
 	/**
@@ -673,11 +673,11 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 */
 	public void click(final int line, final int column, final int modifierKey) {
 		if (!KeyLookupFactory.getDefault().isModifierKey(modifierKey) && modifierKey != 0) {
-			log.error(MessageFormat.format("{0} is not a modifier key.", modifierKey)); //$NON-NLS-1$
+			log.error("{} is not a modifier key.", modifierKey); //$NON-NLS-1$
 			return;
 		}
-		log.debug(MessageFormat.format("Clicking on {0} with modifier key {1}", this, //$NON-NLS-1$
-				modifierKey));
+		log.debug("Clicking on {} with modifier key {}", this, //$NON-NLS-1$
+				modifierKey);
 		notify(SWT.MouseEnter);
 		notify(SWT.FocusIn);
 		notify(SWT.Activate);
@@ -701,8 +701,8 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 				moveMouse(originalCursorLocation.x, originalCursorLocation.y);
 			}
 		});
-		log.debug(MessageFormat.format("Clicked on {0} with modifier key {1}", this, //$NON-NLS-1$
-				modifierKey));
+		log.debug("Clicked on {} with modifier key {}", this, //$NON-NLS-1$
+				modifierKey);
 	}
 
 	private void notifyStyledText(int eventType, Event event) {

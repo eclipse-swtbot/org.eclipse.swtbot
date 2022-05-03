@@ -35,7 +35,6 @@ import org.eclipse.swtbot.swt.finder.results.ListResult;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.StringResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.StringUtils;
 import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
@@ -339,7 +338,7 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 	 */
 	public SWTBotTree unselect() {
 		waitForEnabled();
-		log.debug(MessageFormat.format("Unselecting all in {0}", this)); //$NON-NLS-1$
+		log.debug("Unselecting all in {}", this); //$NON-NLS-1$
 		TreeItem[] selection = syncExec(new ArrayResult<TreeItem>() {
 			@Override
 			public TreeItem[] run() {
@@ -387,7 +386,7 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 		for (int index : indices) {
 			selection.add(getItem(index));
 		}
-		log.debug(MessageFormat.format("Selecting rows {0} in {1}", Arrays.toString(indices), this)); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("Selecting rows {} in {}", Arrays.toString(indices), this); //$NON-NLS-1$ //$NON-NLS-2$
 		for (int i = 0; i < selection.size(); i++) {
 			int stateMask = (i == 0) ? SWT.NONE : SWT.MOD1;
 			notifySelect(selection.get(i), stateMask);
@@ -459,7 +458,7 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 		// TODO: this method should be made iterative instead of recursive
 		Assert.isNotEmpty((Object[]) nodes);
 
-		log.debug(MessageFormat.format("Expanding nodes {0} in tree {1}", StringUtils.join(nodes, ">"), this));
+		log.debug("Expanding nodes {} in tree {}", StringUtils.join(nodes, ">"), this);
 
 		waitForEnabled();
 		SWTBotTreeItem item = getTreeItem(nodes[0]).expand();

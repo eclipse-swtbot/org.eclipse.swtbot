@@ -66,7 +66,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @param item the item to select in the list.
 	 */
 	public void select(final String item) {
-		log.debug(MessageFormat.format("Set selection {0} to text {1}", this, item)); //$NON-NLS-1$
+		log.debug("Set selection {} to text {}", this, item); //$NON-NLS-1$
 		waitForEnabled();
 		final int indexOf = indexOfChecked(item);
 		processSelection(true, indexOf);
@@ -79,7 +79,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @param index the selection index.
 	 */
 	public void select(final int index) {
-		log.debug(MessageFormat.format("Set selection {0} to index {1}", this, index)); //$NON-NLS-1$
+		log.debug("Set selection {} to index {}", this, index); //$NON-NLS-1$
 		waitForEnabled();
 		assertIsLegalIndex(index);
 		processSelection(true, index);
@@ -134,7 +134,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @param indices the indices to select in the list.
 	 */
 	public void select(final int... indices) {
-		log.debug(MessageFormat.format("Set selection {0} to indices {1}]", this, StringUtils.join(indices, ", "))); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("Set selection {} to indices {}]", this, StringUtils.join(indices, ", ")); //$NON-NLS-1$ //$NON-NLS-2$
 		waitForEnabled();
 		if (indices.length > 1)
 			assertMultiSelect("multiple selections");
@@ -158,7 +158,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @param items the items to select in the list.
 	 */
 	public void select(final String... items) {
-		log.debug(MessageFormat.format("Set selection {0} to items [{1}]", this, StringUtils.join(items, ", "))); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("Set selection {} to items [{}]", this, StringUtils.join(items, ", ")); //$NON-NLS-1$ //$NON-NLS-2$
 		waitForEnabled();
 		if (items.length > 1)
 			assertMultiSelect("multiple selections");
@@ -175,7 +175,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 
 	private void assertIsLegalIndex(final int index) {
 		int totalCount = itemCount();
-		Assert.isTrue(index < totalCount && index >= 0, java.text.MessageFormat.format(
+		Assert.isTrue(index < totalCount && index >= 0, MessageFormat.format(
 				"The index ({0}) is more than the number of items ({1}) in the list.", index, totalCount)); //$NON-NLS-1$
 	}
 
@@ -300,7 +300,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @since 2.7
 	 */
 	public void doubleClick(final int index) {
-		log.debug(MessageFormat.format("Double clicking {0} on index {1}", this, index)); //$NON-NLS-1$
+		log.debug("Double clicking {} on index {}", this, index); //$NON-NLS-1$
 		select(index);
 		notifyPostSelectDoubleClick();
 	}
@@ -312,7 +312,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 * @since 2.7
 	 */
 	public void doubleClick(final String item) {
-		log.debug(MessageFormat.format("Double clicking {0} on text {1}", this, item)); //$NON-NLS-1$
+		log.debug("Double clicking {} on text {}", this, item); //$NON-NLS-1$
 		select(item);
 		notifyPostSelectDoubleClick();
 	}
@@ -324,7 +324,7 @@ public class SWTBotList extends AbstractSWTBotControl<List> {
 	 */
 	public void doubleClick() {
 		waitForEnabled();
-		log.debug(MessageFormat.format("Double-clicking on {0}", this)); //$NON-NLS-1$
+		log.debug("Double-clicking on {}", this); //$NON-NLS-1$
 		notifySelect(true);
 		notifyPostSelectDoubleClick();
 	}

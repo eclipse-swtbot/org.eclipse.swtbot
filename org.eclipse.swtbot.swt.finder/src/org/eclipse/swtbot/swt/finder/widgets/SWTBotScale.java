@@ -19,7 +19,6 @@ import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -71,7 +70,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 	 * @param value the value to set into the scale.
 	 */
 	public void setValue(final int value) {
-		log.debug(MessageFormat.format("Setting selection on {0} to {1}", this, value)); //$NON-NLS-1$
+		log.debug("Setting selection on {} to {}", this, value); //$NON-NLS-1$
 		waitForEnabled();
 		asyncExec(new VoidResult() {
 			@Override
@@ -80,7 +79,7 @@ public class SWTBotScale extends AbstractSWTBotControl<Scale> {
 			}
 		});
 		notify(SWT.Selection);
-		log.debug(MessageFormat.format("Set selection on {0} to {1}", this, value)); //$NON-NLS-1$
+		log.debug("Set selection on {} to {}", this, value); //$NON-NLS-1$
 	}
 
 	/**

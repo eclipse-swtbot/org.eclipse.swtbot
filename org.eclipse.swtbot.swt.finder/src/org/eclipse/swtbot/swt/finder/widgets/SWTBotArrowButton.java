@@ -18,7 +18,6 @@ import org.eclipse.swtbot.swt.finder.ReferenceBy;
 import org.eclipse.swtbot.swt.finder.SWTBotWidget;
 import org.eclipse.swtbot.swt.finder.Style;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.SelfDescribing;
@@ -64,7 +63,7 @@ public class SWTBotArrowButton extends AbstractSWTBotControl<Button> {
 	 */
 	@Override
 	public SWTBotArrowButton click() {
-		log.debug(MessageFormat.format("Clicking on {0}", SWTUtils.getText(widget))); //$NON-NLS-1$
+		log.debug("Clicking on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
 		waitForEnabled();
 		notify(SWT.MouseEnter);
 		notify(SWT.MouseMove);
@@ -78,7 +77,7 @@ public class SWTBotArrowButton extends AbstractSWTBotControl<Button> {
 		notify(SWT.MouseExit);
 		notify(SWT.Deactivate);
 		notify(SWT.FocusOut);
-		log.debug(MessageFormat.format("Clicked on {0}", SWTUtils.getText(widget))); //$NON-NLS-1$
+		log.debug("Clicked on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
 		return this;
 	}
 

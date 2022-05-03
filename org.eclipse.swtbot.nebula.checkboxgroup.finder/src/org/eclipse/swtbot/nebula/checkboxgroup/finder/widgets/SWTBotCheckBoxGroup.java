@@ -22,7 +22,6 @@ import org.eclipse.swtbot.swt.finder.Style;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBotControl;
 import org.hamcrest.SelfDescribing;
 
@@ -42,12 +41,12 @@ import org.hamcrest.SelfDescribing;
 	 * @param selection the new selection state
 	 */
 	public void setSelection(final boolean selection) {
-		log.debug(MessageFormat.format("Selecting {0}", this)); //$NON-NLS-1$
+		log.debug("Selecting {}", this); //$NON-NLS-1$
 		waitForEnabled();
 		syncExec(new VoidResult() {
 			@Override
 			public void run() {
-				log.debug(MessageFormat.format("Selecting {0}", this)); //$NON-NLS-1$
+				log.debug("Selecting {}", this); //$NON-NLS-1$
 
 				Control children[] = widget.getChildren();
 				for (Control child : children) {

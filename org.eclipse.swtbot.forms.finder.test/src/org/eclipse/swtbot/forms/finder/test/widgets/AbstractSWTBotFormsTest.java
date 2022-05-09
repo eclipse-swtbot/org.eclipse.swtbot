@@ -52,7 +52,7 @@ public abstract class AbstractSWTBotFormsTest {
 	private static SWTBotButton getOkButtonInShowViewDialog() {
 		// Button text was "OK" before Oxygen M7, "Open" since.
 		SWTBotButton button = bot.button();
-		if (!button.getText().equals("Open") && !button.getText().equals("OK")) {
+		if (!button.getText().equals("Open") && !button.getText().equals("&Open") && !button.getText().equals("OK")) {
 			button = bot.button(1);
 		}
 		return button;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2009-2022 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -44,6 +46,11 @@ public class KeystrokesTest {
 
 	@Test
 	public void getsKeyStrokeForSpecialCharacters() throws Exception {
+		/*
+		 * Test can fail for other keyboard layouts due to different special characters,
+		 * it assumes EN_US layout.
+		 */
+		Assume.assumeTrue(SWTBotPreferences.KEYBOARD_LAYOUT.equals("EN_US"));
 		// ! should generate SHIFT+1
 		assertEquals(shift(), Keystrokes.create('!')[0]);
 		assertEquals(key('1'), Keystrokes.create('!')[1]);

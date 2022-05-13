@@ -21,8 +21,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -37,6 +35,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.ArrayResult;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
@@ -47,9 +47,11 @@ import org.eclipse.swtbot.swt.finder.utils.internal.PreviousWidgetFinder;
 import org.eclipse.swtbot.swt.finder.utils.internal.ReflectionInvoker;
 import org.eclipse.swtbot.swt.finder.utils.internal.SiblingFinder;
 import org.eclipse.swtbot.swt.finder.utils.internal.WidgetIndexFinder;
-import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.waits.ICondition;
+import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
 import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
@@ -64,6 +66,11 @@ public abstract class SWTUtils {
 	 * The display used for the GUI.
 	 */
 	private static Display	display;
+
+	/**
+	 * The default SWTBot used for wait conditions
+	 */
+	private static SWTBot swtbot;
 
 	/**
 	 * @param w the widget
@@ -497,25 +504,81 @@ public abstract class SWTUtils {
 	 * @throws TimeoutException if the condition does not evaluate to true after {@code timeout}ms milliseconds.
 	 */
 	public static void waitForDisplayToAppear(long timeout) {
-		waitUntil(new DefaultCondition() {
-
-			@Override
-			public String getFailureMessage() {
-				return "Could not find a display"; //$NON-NLS-1$
+		Assert.isTrue(timeout >= 0, "timeout value is negative"); //$NON-NLS-1$
+		long limit = System.currentTimeMillis() + timeout;
+		long interval = 500;
+		while (true) {
+			try {
+				if (SWTUtils.display() != null) {
+					return;
+				}
+			} catch (Throwable e) {
+				// do nothing
 			}
-
-			@Override
-			public boolean test() throws Exception {
-				return SWTUtils.display() != null;
+			sleep(interval);
+			if (System.currentTimeMillis() > limit) {
+				throw new TimeoutException("Timeout after: " + timeout + " ms.: Could not find a display"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-
-		}, timeout, 500);
+		}
 	}
 
-	private static void waitUntil(ICondition condition, long timeout, long interval) throws TimeoutException {
+	/**
+	 * Waits until a specified wait for widget condition evaluates to true.
+	 *
+	 * @param condition the {@link WaitForObjectCondition} to be evaluated.
+	 * @throws WidgetNotFoundException if the condition does not evaluate to true after {@link SWTBotPreferences#TIMEOUT} milliseconds.
+	 * @since 4.0
+	 */
+	public static void waitUntilWidgetAppears(ICondition waitForWidget) {
+		try {
+			waitUntil(waitForWidget);
+		} catch (TimeoutException e) {
+			String message = "Could not find widget"; //$NON-NLS-1$
+			if (waitForWidget.getFailureMessage() != null) {
+				message = waitForWidget.getFailureMessage();
+			}
+			throw new WidgetNotFoundException(message, e);
+		}
+	}
+
+	/**
+	 * Waits until a specified condition evaluates to true.
+	 *
+	 * @param condition the {@link ICondition} to be evaluated.
+	 * @throws TimeoutException if the condition does not evaluate to true after {@link SWTBotPreferences#TIMEOUT} milliseconds.
+	 * @since 4.0
+	 */
+	public static void waitUntil(ICondition condition) throws TimeoutException {
+		waitUntil(condition, SWTBotPreferences.TIMEOUT);
+	}
+
+	/**
+	 * Waits until the timeout is reached or the condition is met.
+	 *
+	 * @param condition the condition to be evaluated.
+	 * @param timeout the timeout.
+	 * @throws TimeoutException if the condition does not evaluate to true after timeout milliseconds.
+	 * @since 4.0
+	 */
+	public static void waitUntil(ICondition condition, long timeout) throws TimeoutException {
+		waitUntil(condition, timeout, SWTBotPreferences.DEFAULT_POLL_DELAY);
+	}
+
+	/**
+	 * Waits until the condition has been meet, or the timeout is reached. The interval is the delay between evaluating
+	 * the condition after it has failed.
+	 *
+	 * @param condition the condition to be evaluated.
+	 * @param timeout the timeout.
+	 * @param interval The delay time.
+	 * @throws TimeoutException if the condition does not evaluate to true after timeout milliseconds.
+	 * @since 4.0
+	 */
+	public static void waitUntil(ICondition condition, long timeout, long interval) throws TimeoutException {
 		Assert.isTrue(interval >= 0, "interval value is negative"); //$NON-NLS-1$
 		Assert.isTrue(timeout >= 0, "timeout value is negative"); //$NON-NLS-1$
 		long limit = System.currentTimeMillis() + timeout;
+		condition.init(getDefaultSWTBot());
 		while (true) {
 			try {
 				if (condition.test())
@@ -527,6 +590,64 @@ public abstract class SWTUtils {
 			if (System.currentTimeMillis() > limit)
 				throw new TimeoutException("Timeout after: " + timeout + " ms.: " + condition.getFailureMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+	}
+
+	/**
+	 * Waits while the condition is true.
+	 *
+	 * @param condition the {@link ICondition} to be evaluated.
+	 * @throws TimeoutException if the condition does not evaluate to false after {@link SWTBotPreferences#TIMEOUT} milliseconds.
+	 * @since 4.0
+	 */
+	public static void waitWhile(ICondition condition) throws TimeoutException {
+		waitWhile(condition, SWTBotPreferences.TIMEOUT);
+	}
+
+	/**
+	 * Waits while the condition is true, until the timeout is reached.
+	 *
+	 * @param condition the condition to be evaluated.
+	 * @param timeout the timeout.
+	 * @throws TimeoutException if the condition does not evaluate to false after timeout milliseconds.
+	 * @since 4.0
+	 */
+	public static void waitWhile(ICondition condition, long timeout) throws TimeoutException {
+		waitWhile(condition, timeout, SWTBotPreferences.DEFAULT_POLL_DELAY);
+	}
+
+	/**
+	 * Waits while the condition is true, until the timeout is reached. The interval is the delay between evaluating the
+	 * condition after it has succeed.
+	 *
+	 * @param condition the condition to be evaluated.
+	 * @param timeout the timeout.
+	 * @param interval The delay time.
+	 * @throws TimeoutException if the condition does not evaluate to false after timeout milliseconds.
+	 * @since 4.0
+	 */
+	public static void waitWhile(ICondition condition, long timeout, long interval) throws TimeoutException {
+		Assert.isTrue(interval >= 0, "interval value is negative"); //$NON-NLS-1$
+		Assert.isTrue(timeout >= 0, "timeout value is negative"); //$NON-NLS-1$
+		long limit = System.currentTimeMillis() + timeout;
+		condition.init(getDefaultSWTBot());
+		while (true) {
+			try {
+				if (!condition.test())
+					return;
+			} catch (Throwable e) {
+				// do nothing
+			}
+			sleep(interval);
+			if (System.currentTimeMillis() > limit)
+				throw new TimeoutException("Timeout after: " + timeout + " ms.: " + condition.getFailureMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	private static SWTBot getDefaultSWTBot() {
+		if (swtbot == null) {
+			swtbot = new SWTBot();
+		}
+		return swtbot;
 	}
 
 	/**

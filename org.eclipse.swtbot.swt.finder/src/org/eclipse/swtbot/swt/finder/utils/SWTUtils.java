@@ -244,10 +244,20 @@ public abstract class SWTUtils {
 	 * @param millis the time in milliseconds to sleep.
 	 */
 	public static void sleep(long millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			throw new RuntimeException("Could not sleep", e); //$NON-NLS-1$
+		Display current = Display.getCurrent();
+		if (current == null) {
+			try {
+				Thread.sleep(millis);
+			} catch (InterruptedException e) {
+				throw new RuntimeException("Could not sleep", e); //$NON-NLS-1$
+			}
+			return;
+		}
+		long end = System.currentTimeMillis() + millis;
+		while (System.currentTimeMillis() < end && !current.isDisposed()) {
+			if (!current.readAndDispatch()) {
+				Thread.yield();
+			}
 		}
 	}
 

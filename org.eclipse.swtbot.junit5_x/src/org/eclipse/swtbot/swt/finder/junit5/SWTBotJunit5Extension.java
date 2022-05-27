@@ -82,6 +82,7 @@ public class SWTBotJunit5Extension implements TestWatcher {
 
 	private String getFileName(ExtensionContext context) {
 		return SWTBotPreferences.SCREENSHOTS_DIR + "/" + context.getRequiredTestClass().getName() + "." //$NON-NLS-1$
+				+ context.getRequiredTestMethod().getName() + "." //$NON-NLS-1$
 				+ SWTBotPreferences.SCREENSHOT_FORMAT.toLowerCase();
 	}
 

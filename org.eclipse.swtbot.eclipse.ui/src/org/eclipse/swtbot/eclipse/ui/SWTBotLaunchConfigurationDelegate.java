@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009 Ketan Padegaonkar and others.
+ * Copyright (c) 2008, 2022 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -10,11 +10,12 @@
  * Contributors:
  *     Ketan Padegaonkar - initial API and implementation
  *     EclipseSource Corporation - ongoing enhancements
+ *     Aparna Argade - Bug 580708
  *******************************************************************************/
 package org.eclipse.swtbot.eclipse.ui;
 
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.pde.ui.launcher.JUnitLaunchConfigurationDelegate;
+import org.eclipse.pde.launching.JUnitLaunchConfigurationDelegate;
 
 /**
  * A launch delegate for launching JUnit Plug-in tests.

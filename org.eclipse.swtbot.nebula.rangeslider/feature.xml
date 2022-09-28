@@ -36,7 +36,6 @@
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.swtbot.eclipse.finder"/>
       <import plugin="org.eclipse.nebula.widgets.opal.rangeslider"/>
-      <import plugin="org.slf4j.api"/>
    </requires>
 
    <plugin

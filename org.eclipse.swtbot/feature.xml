@@ -29,7 +29,6 @@
       <import plugin="org.junit"/>
       <import plugin="org.hamcrest.core"/>
       <import plugin="org.hamcrest.library"/>
-      <import plugin="org.slf4j.api"/>
    </requires>
 
    <plugin

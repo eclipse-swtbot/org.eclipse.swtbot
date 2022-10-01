@@ -183,7 +183,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		waitForEnabled();
 
 		if (isExpanded()) {
-			log.warn("Tree item {} is already expanded. Won''t expand it again.", this);
+			log.warn("Tree item {} is already expanded. Won't expand it again.", this);
 			return this;
 		}
 
@@ -208,7 +208,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 		waitForEnabled();
 
 		if (!isExpanded()) {
-			log.warn("Tree item {} is already collapsed. Won''t collapse it again.", this);
+			log.warn("Tree item {} is already collapsed. Won't collapse it again.", this);
 			return this;
 		}
 

@@ -53,13 +53,13 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 	@Test
 	public void findsView() throws Exception {
 		bot.menu("Help").menu("Welcome").click();
-		bot.viewByTitle("Welcome");
+		bot.viewByPartName("Welcome");
 	}
 
 	@Test
 	public void getsViewTitle() throws Exception {
 		bot.menu("Help").menu("Welcome").click();
-		assertEquals("Welcome", bot.viewByTitle("Welcome").getTitle());
+		assertEquals("Welcome", bot.viewByPartName("Welcome").getReference().getPartName());
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 	@Test
 	public void closesAView() throws Exception {
 		bot.menu("Help").menu("Welcome").click();
-		SWTBotView view = bot.viewByTitle("Welcome");
+		SWTBotView view = bot.viewByPartName("Welcome");
 		view.close();
 
 		for (SWTBotView aview : bot.views()) {

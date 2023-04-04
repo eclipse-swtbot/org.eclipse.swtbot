@@ -59,7 +59,6 @@
       <import plugin="org.eclipse.swtbot.eclipse.finder"/>
       <import plugin="org.eclipse.swtbot.eclipse.ui"/>
       <import plugin="org.apache.ant"/>
-      <import plugin="org.junit"/>
       <import plugin="org.slf4j.api"/>
    </requires>
 

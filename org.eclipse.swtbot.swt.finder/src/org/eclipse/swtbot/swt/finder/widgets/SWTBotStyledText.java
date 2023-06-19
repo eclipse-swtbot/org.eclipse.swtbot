@@ -104,7 +104,6 @@ public class SWTBotStyledText extends AbstractSWTBotControl<StyledText> {
 	 * @since 2.8
 	 */
 	public void navigateTo(final int line, final int column, final boolean withTabWidth) {
-		log.info("test {}", "Test");
 		log.debug("Enquing navigation to location {}, {} in {}", line, column, this); //$NON-NLS-1$
 		waitForEnabled();
 		setFocus();

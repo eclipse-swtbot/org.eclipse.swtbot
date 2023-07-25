@@ -119,19 +119,19 @@
       <requirement
           name="org.eclipse.mylyn_feature.feature.group"/>
       <requirement
-          name="org.eclipse.egit.mylyn.feature.group"/>
+          name="org.eclipse.mylyn.egit.feature.feature.group"/>
       <repository
-          url="http://download.eclipse.org/mylyn/releases/latest"/>
+          url="https://download.eclipse.org/mylyn/updates/release/latest"/>
       <description>Task and build connector</description>
     </setupTask>
     <setupTask
         xsi:type="setup.p2:P2Task"
-        label="Findbugs">
+        label="SpotBugs">
       <requirement
-          name="edu.umd.cs.findbugs.plugin.eclipse.feature.group"
+          name="com.github.spotbugs.plugin.eclipse.feature.group"
           optional="true"/>
       <repository
-          url="http://findbugs.cs.umd.edu/eclipse/"/>
+          url="https://spotbugs.github.io/eclipse/"/>
     </setupTask>
     <setupTask
         xsi:type="setup.p2:P2Task"
@@ -166,7 +166,7 @@
           name="org.eclipse.eclemma.feature.feature.group"
           optional="true"/>
       <repository
-          url="http://update.eclemma.org"/>
+          url="https://download.eclipse.org/eclemma/releases"/>
     </setupTask>
   </setupTask>
   <setupTask

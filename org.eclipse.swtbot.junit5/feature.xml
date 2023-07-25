@@ -27,14 +27,11 @@
    <requires>
       <import plugin="org.eclipse.swtbot.swt.finder"/>
       <import plugin="org.eclipse.ui.workbench" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.junit.platform.engine"/>
-      <import plugin="org.junit.platform.launcher"/>
       <import plugin="org.eclipse.osgi"/>
       <import plugin="org.apache.ant"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.equinox.app"/>
       <import plugin="org.junit"/>
-      <import plugin="org.junit.platform.commons"/>
       <import plugin="org.eclipse.jdt.junit.runtime"/>
       <import plugin="org.eclipse.pde.junit.runtime"/>
       <import plugin="org.eclipse.e4.ui.workbench3"/>

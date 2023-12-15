@@ -153,7 +153,7 @@ public class SWTBotGefViewer {
 	@SuppressWarnings("unchecked")
 	public List<SWTBotGefEditPart> selectedEditParts() {
 		List<SWTBotGefEditPart> toReturn = new ArrayList<SWTBotGefEditPart>();
-		List<EditPart> parts = graphicalViewer.getSelectedEditParts();
+		List<? extends EditPart> parts = graphicalViewer.getSelectedEditParts();
 		for (EditPart editPart : parts) {
 			toReturn.add(createEditPart(editPart));
 		}

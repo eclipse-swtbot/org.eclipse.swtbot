@@ -44,13 +44,13 @@
     <content>
       &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>
       &lt;section name=&quot;Workbench&quot;>
-      	&lt;section name=&quot;org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart&quot;>
-      		&lt;item value=&quot;true&quot; key=&quot;group_libraries&quot;/>
-      		&lt;item value=&quot;false&quot; key=&quot;linkWithEditor&quot;/>
-      		&lt;item value=&quot;2&quot; key=&quot;layout&quot;/>
-      		&lt;item value=&quot;2&quot; key=&quot;rootMode&quot;/>
-      		&lt;item value=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;packageExplorer configured=&amp;quot;true&amp;quot; group_libraries=&amp;quot;1&amp;quot; layout=&amp;quot;2&amp;quot; linkWithEditor=&amp;quot;0&amp;quot; rootMode=&amp;quot;2&amp;quot; sortWorkingSets=&amp;quot;false&amp;quot; workingSetName=&amp;quot;&amp;quot;&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;workingSet editPageId=&amp;quot;org.eclipse.jdt.internal.ui.OthersWorkingSet&amp;quot; factoryID=&amp;quot;org.eclipse.ui.internal.WorkingSetFactory&amp;quot; id=&amp;quot;1382792884467_1&amp;quot; label=&amp;quot;Other Projects&amp;quot; name=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;activeWorkingSet workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;allWorkingSets workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/packageExplorer&amp;gt;&quot; key=&quot;memento&quot;/>
-      	&lt;/section>
+          &lt;section name=&quot;org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart&quot;>
+              &lt;item value=&quot;true&quot; key=&quot;group_libraries&quot;/>
+              &lt;item value=&quot;false&quot; key=&quot;linkWithEditor&quot;/>
+              &lt;item value=&quot;2&quot; key=&quot;layout&quot;/>
+              &lt;item value=&quot;2&quot; key=&quot;rootMode&quot;/>
+              &lt;item value=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;packageExplorer configured=&amp;quot;true&amp;quot; group_libraries=&amp;quot;1&amp;quot; layout=&amp;quot;2&amp;quot; linkWithEditor=&amp;quot;0&amp;quot; rootMode=&amp;quot;2&amp;quot; sortWorkingSets=&amp;quot;false&amp;quot; workingSetName=&amp;quot;&amp;quot;&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;workingSet editPageId=&amp;quot;org.eclipse.jdt.internal.ui.OthersWorkingSet&amp;quot; factoryID=&amp;quot;org.eclipse.ui.internal.WorkingSetFactory&amp;quot; id=&amp;quot;1382792884467_1&amp;quot; label=&amp;quot;Other Projects&amp;quot; name=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;activeWorkingSet workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;allWorkingSets workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/packageExplorer&amp;gt;&quot; key=&quot;memento&quot;/>
+          &lt;/section>
       &lt;/section>
 
     </content>
@@ -58,7 +58,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="2023-12"
+      defaultValue="2024-03"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup:CompoundTask"
@@ -243,6 +243,17 @@
           rootFolder="${git.clone.location}"
           locateNestedProjects="true"/>
         <repositoryList
+          name="2024-03">
+        <repository
+            url="http://download.eclipse.org/releases/2024-03"/>
+        <repository
+            url="http://download.eclipse.org/cbi/updates/license"/>
+        <repository
+            url="http://download.eclipse.org/nebula/snapshot/"/>
+        <repository
+            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
+        </repositoryList>
+        <repositoryList
           name="2023-12">
         <repository
             url="http://download.eclipse.org/releases/2023-12"/>
@@ -252,8 +263,8 @@
             url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-		</repositoryList>
-		<repositoryList
+        </repositoryList>
+        <repositoryList
           name="2023-09">
         <repository
             url="http://download.eclipse.org/releases/2023-09"/>
@@ -263,8 +274,8 @@
             url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-		</repositoryList>
-		<repositoryList
+        </repositoryList>
+        <repositoryList
           name="2023-06">
         <repository
             url="http://download.eclipse.org/releases/2023-06"/>
@@ -274,8 +285,8 @@
             url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-		</repositoryList>
-		<repositoryList
+        </repositoryList>
+        <repositoryList
           name="2023-03">
         <repository
             url="http://download.eclipse.org/releases/2023-03"/>
@@ -285,8 +296,8 @@
             url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-		</repositoryList>
-		<repositoryList
+        </repositoryList>
+        <repositoryList
           name="2022-12">
         <repository
             url="http://download.eclipse.org/releases/2022-12"/>
@@ -296,8 +307,8 @@
             url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-		</repositoryList>
-		<repositoryList
+        </repositoryList>
+        <repositoryList
           name="2022-09">
         <repository
             url="http://download.eclipse.org/releases/2022-09"/>
@@ -307,8 +318,8 @@
             url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-		</repositoryList>
-		<repositoryList
+        </repositoryList>
+        <repositoryList
           name="2022-06">
         <repository
             url="http://download.eclipse.org/releases/2022-06"/>
@@ -319,7 +330,7 @@
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
-	  <repositoryList
+      <repositoryList
           name="2022-03">
         <repository
             url="http://download.eclipse.org/releases/2022-03"/>
@@ -330,7 +341,7 @@
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
-	  <repositoryList
+      <repositoryList
           name="2021-12">
         <repository
             url="http://download.eclipse.org/releases/2021-12"/>
@@ -341,7 +352,7 @@
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
-	  <repositoryList
+      <repositoryList
           name="2021-09">
         <repository
             url="http://download.eclipse.org/releases/2021-09"/>
@@ -352,7 +363,7 @@
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
       </repositoryList>
-	  <repositoryList
+      <repositoryList
           name="2021-06">
         <repository
             url="http://download.eclipse.org/releases/2021-06"/>

@@ -28,11 +28,15 @@ jobs:
       uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
       with:
         maven-version: 3.9.5
+    - name: Install and start Metacity window manager
+      run: |
+        sudo apt-get update
+        sudo apt-get install xvfb metacity libwebkit2gtk-4.0-37
+        Xvfb :1 &
+        sleep 5
+        metacity --sm-disable --replace 2> metacity.err &
     - name: Build with Maven
-      uses: coactions/setup-xvfb@b6b4fcfb9f5a895edadc3bc76318fae0ac17c8b3 # v1.0.1
-      with:
-       run: >- 
-        mvn clean verify
+      run: mvn clean verify
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       if: success() || failure()

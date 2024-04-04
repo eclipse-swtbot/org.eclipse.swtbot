@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009-2022 Ketan Padegaonkar and others.
+ * Copyright (c) 2009, 2024 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,10 @@ import org.junit.Test;
  * @version $Id$
  */
 public class KeystrokesTest {
+
+	static {
+		SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
+	}
 
 	@Test
 	public void getsKeyStrokeForCapitalCharacters() throws Exception {

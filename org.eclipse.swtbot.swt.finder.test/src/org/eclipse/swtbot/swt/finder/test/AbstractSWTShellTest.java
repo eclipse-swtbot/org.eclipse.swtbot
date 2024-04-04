@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2022 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2024 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.UIThread;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.hamcrest.Description;
@@ -35,6 +36,10 @@ import org.hamcrest.StringDescription;
  * @version $Id$
  */
 public abstract class AbstractSWTShellTest extends AbstractSWTTest {
+
+	static {
+		SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
+	}
 
 	protected static final String SHELL_TEXT = "Test shell";
 	protected Display display;

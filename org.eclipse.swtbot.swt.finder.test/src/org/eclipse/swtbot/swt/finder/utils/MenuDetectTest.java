@@ -126,6 +126,7 @@ public class MenuDetectTest extends AbstractSWTShellTest {
 	@Test
 	public void testMenuDetect() {
 		SWTBotLabel label = bot.label();
+		// bot.waitUntil(Conditions.widgetBoundsNotEmpty(label));
 		label.contextMenu(MENU_ITEM_TEXT);
 		assertEquals(EXPECTED_TEXT, label.getText());
 

@@ -291,6 +291,16 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	}
 
 	/**
+	 * Returns true if the widget bounds are empty
+	 *
+	 * @return true if the bounds are empty
+	 * @since 4.2
+	 */
+	public boolean areBoundsEmpty() {
+		return getBounds().isEmpty();
+	}
+
+	/**
 	 * Click on the widget at given coordinates
 	 *
 	 * @param x the x co-ordinate of the click

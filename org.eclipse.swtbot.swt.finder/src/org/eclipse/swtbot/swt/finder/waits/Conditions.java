@@ -220,6 +220,15 @@ public abstract class Conditions {
 
 	/**
 	 * @param widget the widget 
+	 * @return a condition that waits until the widget bounds are not empty.
+	 * @since 4.2
+	 */
+	public static ICondition widgetBoundsNotEmpty(AbstractSWTBot<? extends Widget> widget){
+		return new WidgetBoundsNotEmptyCondition(widget);
+	}
+
+	/**
+	 * @param widget the widget 
 	 * @return a condition that waits until the widget is enabled.
 	 * @since 2.0
 	 */

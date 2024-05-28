@@ -939,7 +939,7 @@ Authors:
 		<profile>
 			<id>2024-03</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -950,6 +950,26 @@ Authors:
 						<configuration>
 							<target>
 								<file>../devtools/target-platforms/2024-03/2024-03.target</file>
+							</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>2024-06</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<target>
+								<file>../devtools/target-platforms/2024-06/2024-06.target</file>
 							</target>
 						</configuration>
 					</plugin>

@@ -324,7 +324,7 @@ public class SWTBotGefEditPart {
 		return UIThreadRunnable.syncExec(new Result<List<SWTBotGefConnectionEditPart>>() {
 			public List<SWTBotGefConnectionEditPart> run() {
 				List<SWTBotGefConnectionEditPart> connections = new ArrayList<SWTBotGefConnectionEditPart>();
-				List<org.eclipse.gef.ConnectionEditPart> sourceConnections = ((GraphicalEditPart) part).getSourceConnections();
+				List<? extends org.eclipse.gef.ConnectionEditPart> sourceConnections = ((GraphicalEditPart) part).getSourceConnections();
 				for (org.eclipse.gef.ConnectionEditPart c : sourceConnections) {
 					connections.add(viewer.createEditPart(c));
 				}
@@ -338,7 +338,7 @@ public class SWTBotGefEditPart {
 		return UIThreadRunnable.syncExec(new Result<List<SWTBotGefConnectionEditPart>>() {
 			public List<SWTBotGefConnectionEditPart> run() {
 				List<SWTBotGefConnectionEditPart> connections = new ArrayList<SWTBotGefConnectionEditPart>();
-				List<org.eclipse.gef.ConnectionEditPart> targetConnections = ((GraphicalEditPart) part).getTargetConnections();
+				List<? extends org.eclipse.gef.ConnectionEditPart> targetConnections = ((GraphicalEditPart) part).getTargetConnections();
 				for (org.eclipse.gef.ConnectionEditPart c : targetConnections) {
 					connections.add(viewer.createEditPart(c));
 				}

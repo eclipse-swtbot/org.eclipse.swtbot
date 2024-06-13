@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -54,7 +53,6 @@ public class WithPartId<T extends IWorkbenchPartReference> extends AbstractMatch
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends IWorkbenchPartReference> Matcher<T> withPartId(String id) {
 		return withPartId(equalTo(id));
 	}
@@ -66,7 +64,6 @@ public class WithPartId<T extends IWorkbenchPartReference> extends AbstractMatch
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends IWorkbenchPartReference> Matcher<T> withPartId(Matcher<String> idMatcher) {
 		return new WithPartId<T>(idMatcher);
 	}

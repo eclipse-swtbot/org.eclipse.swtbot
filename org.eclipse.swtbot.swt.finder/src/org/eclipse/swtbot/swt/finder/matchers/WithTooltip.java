@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -112,7 +111,6 @@ public class WithTooltip<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> withTooltip(String text) {
 		return new WithTooltip<T>(text);
 	}
@@ -124,7 +122,6 @@ public class WithTooltip<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.5
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> withTooltipIgnoringCase(String text) {
 		return new WithTooltip<T>(text, true);
 	}

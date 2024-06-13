@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -85,7 +84,6 @@ public class WithItem<T extends Item> extends AbstractMatcher<T> {
 	 * @param matcher the matcher.
 	 * @return a matcher.
 	 */
-	@Factory
 	public static <T extends Item> WithItem<T> withItem(Matcher<?> matcher) {
 		return new WithItem<T>(matcher);
 	}

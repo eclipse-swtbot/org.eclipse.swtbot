@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -58,7 +57,6 @@ public class WithPerspectiveLabel extends AbstractMatcher<MPerspective> {
 	 * @return a matcher.
 	 * @since 2.3.0
 	 */
-	@Factory
 	public static WithPerspectiveLabel withPerspectiveLabel(final String label) {
 		return withPerspectiveLabel(equalTo(label));
 	}
@@ -70,7 +68,6 @@ public class WithPerspectiveLabel extends AbstractMatcher<MPerspective> {
 	 * @return a matcher.
 	 * @since 2.3.0
 	 */
-	@Factory
 	public static WithPerspectiveLabel withPerspectiveLabel(final Matcher<String> labelMatcher) {
 		return new WithPerspectiveLabel(labelMatcher);
 	}

@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -59,7 +58,6 @@ public class WithPartName<T extends MPart> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.3.0
 	 */
-	@Factory
 	public static <T extends MPart> Matcher<T> withPartName(final String text) {
 		return withPartName(equalTo(text));
 	}
@@ -71,7 +69,6 @@ public class WithPartName<T extends MPart> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.3.0
 	 */
-	@Factory
 	public static <T extends MPart> Matcher<T> withPartName(final Matcher<String> nameMatcher) {
 		return new WithPartName<T>(nameMatcher);
 	}

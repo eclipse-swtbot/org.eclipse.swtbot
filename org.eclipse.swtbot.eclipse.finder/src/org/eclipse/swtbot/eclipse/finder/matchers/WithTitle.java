@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -51,7 +50,6 @@ public class WithTitle<T extends IWorkbenchPartReference> extends
 	 * @return a matcher.
 	 * @since 2.1.2
 	 */
-	@Factory
 	public static <T extends IWorkbenchPartReference> Matcher<T> withTitle(
 			String text) {
 		return withTitle(equalTo(text));
@@ -65,7 +63,6 @@ public class WithTitle<T extends IWorkbenchPartReference> extends
 	 * @return a matcher.
 	 * @since 2.1.2
 	 */
-	@Factory
 	public static <T extends IWorkbenchPartReference> Matcher<T> withTitle(
 			Matcher<String> titleMatcher) {
 		return new WithTitle<T>(titleMatcher);

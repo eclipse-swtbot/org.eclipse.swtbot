@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 import org.eclipse.swt.widgets.Widget;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -63,7 +62,6 @@ public class WithRegex<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> withRegex(String regex) {
 		return new WithRegex<T>(regex);
 	}

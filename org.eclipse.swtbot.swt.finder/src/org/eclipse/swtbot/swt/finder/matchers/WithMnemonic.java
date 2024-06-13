@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 
 import org.eclipse.swt.widgets.Widget;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -96,7 +95,6 @@ public class WithMnemonic<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> withMnemonic(String text) {
 		return new WithMnemonic<T>(text);
 	}

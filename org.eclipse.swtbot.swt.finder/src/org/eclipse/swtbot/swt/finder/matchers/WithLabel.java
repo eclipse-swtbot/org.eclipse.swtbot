@@ -24,7 +24,6 @@ import org.eclipse.swtbot.swt.finder.finders.Finder;
 import org.eclipse.swtbot.swt.finder.finders.MenuFinder;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 
@@ -93,7 +92,6 @@ public class WithLabel<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> withLabel(String labelText) {
 		return new WithLabel<T>(labelText, new Finder(new ControlFinder(), new MenuFinder()));
 	}
@@ -106,7 +104,6 @@ public class WithLabel<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> withLabel(String labelText, Finder finder) {
 		return new WithLabel<T>(labelText, finder);
 	}

@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -79,7 +78,6 @@ class WithMessage<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> withMessage(String message) {
 		return new WithMessage<T>(message);
 	}

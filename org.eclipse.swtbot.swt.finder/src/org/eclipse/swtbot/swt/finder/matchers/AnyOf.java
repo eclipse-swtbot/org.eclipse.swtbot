@@ -16,7 +16,6 @@ import java.util.Arrays;
 
 import org.eclipse.swt.widgets.Widget;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -52,7 +51,6 @@ public class AnyOf<T> extends AbstractMatcher<T> {
 	 *
 	 * @return a matcher.
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> anyOf(Matcher<? extends T>... matchers) {
 		return new AnyOf<T>(Arrays.asList(matchers));
 	}
@@ -62,7 +60,6 @@ public class AnyOf<T> extends AbstractMatcher<T> {
 	 *
 	 * @return a matcher.
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> anyOf(Iterable<Matcher<? extends T>> matchers) {
 		return new AnyOf<T>(matchers);
 	}

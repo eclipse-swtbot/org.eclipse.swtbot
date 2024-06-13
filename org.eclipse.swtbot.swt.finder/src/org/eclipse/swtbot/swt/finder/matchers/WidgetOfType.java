@@ -15,7 +15,6 @@ package org.eclipse.swtbot.swt.finder.matchers;
 
 import org.eclipse.swt.widgets.Widget;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -58,7 +57,6 @@ public class WidgetOfType<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> widgetOfType(Class<T> type) {
 		return new WidgetOfType<T>(type);
 	}

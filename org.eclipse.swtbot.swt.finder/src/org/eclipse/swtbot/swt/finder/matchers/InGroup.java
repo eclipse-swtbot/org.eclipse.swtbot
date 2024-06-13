@@ -19,7 +19,6 @@ import org.eclipse.swtbot.swt.finder.finders.PathGenerator;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.utils.TreePath;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -79,7 +78,6 @@ public class InGroup<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> inGroup(String labelText) {
 		return new InGroup<T>(labelText);
 	}
@@ -91,7 +89,6 @@ public class InGroup<T extends Widget> extends AbstractMatcher<T> {
 	 * @return a matcher.
 	 * @since 2.0
 	 */
-	@Factory
 	public static <T extends Widget> Matcher<T> inGroup(Matcher<?> matcher) {
 		return new InGroup<T>(matcher);
 	}

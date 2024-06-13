@@ -2,9 +2,8 @@
  */
 package org.eclipse.swtbot.eclipse.gef.finder.matchers;
 
-import org.hamcrest.Description;
 import org.hamcrest.BaseMatcher;
-import org.hamcrest.Factory;
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 
@@ -36,7 +35,6 @@ public class IsInstanceOf<T> extends BaseMatcher<T> {
     /**
      * Is the value an instance of a particular type?
      */
-    @Factory
     public static <T> Matcher<T> instanceOf(Class<T> type) {
         return new IsInstanceOf<T>(type);
     }

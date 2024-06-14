@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.swtbot.eclipse.gef"
       label="SWTBot for GEF Testing"
-      version="4.2.0.qualifier"
+      version="4.2.1.qualifier"
       provider-name="Eclipse.org - SWTBot"
       plugin="org.eclipse.swtbot.eclipse.ui"
       license-feature="org.eclipse.license"

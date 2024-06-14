@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Test Recorder & Code Generator JDT Tests Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.generator.jdt.test
-Bundle-Version: 4.2.0.qualifier
+Bundle-Version: 4.2.1.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="4.7.0",

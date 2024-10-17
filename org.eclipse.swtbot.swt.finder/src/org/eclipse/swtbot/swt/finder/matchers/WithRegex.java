@@ -32,7 +32,7 @@ public class WithRegex<T extends Widget> extends AbstractMatcher<T> {
 	private Pattern	pattern;
 
 	/**
-	 * COnstructs the regular expression matcher with the given regular expression stirng.
+	 * Constructs the regular expression matcher with the given regular expression string.
 	 * 
 	 * @param regex the regex to match on the {@link org.eclipse.swt.widgets.Widget}
 	 */

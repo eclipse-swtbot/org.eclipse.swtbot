@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBot Go Convenience Plug-in
 Bundle-SymbolicName: org.eclipse.swtbot.go
-Bundle-Version: 4.2.1.qualifier
+Bundle-Version: 4.3.0.qualifier
 Require-Bundle: org.eclipse.swtbot.eclipse.core;visibility:=reexport,
  org.eclipse.swtbot.eclipse.finder;visibility:=reexport,
  org.eclipse.swtbot.swt.finder;visibility:=reexport,

@@ -87,7 +87,7 @@ public class SWTBotEclipseProjectTest extends AbstractSWTBotEclipseTest {
 	@Test
 	public void canAccessContextMenuSubmenu() {
 		SWTBotMenu openWithMenu = javaClassFileTreeItem().contextMenu("Open With");
-		openWithMenu.menu("Text Editor").click();
+		openWithMenu.menu("Java Editor").click();
 	}
 	
 	@Test

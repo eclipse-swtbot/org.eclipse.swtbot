@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2024 Ketan Padegaonkar and others.
+ * Copyright (c) 2010, 2025 Ketan Padegaonkar and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import org.junit.BeforeClass;
 
 /**
  * @author Ketan Padegaonkar &lt;KetanPadegaonkar [at] gmail [dot] com&gt;
@@ -37,7 +38,8 @@ import org.hamcrest.StringDescription;
  */
 public abstract class AbstractSWTShellTest extends AbstractSWTTest {
 
-	static {
+	@BeforeClass
+	public static void beforeClass() {
 		SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
 	}
 

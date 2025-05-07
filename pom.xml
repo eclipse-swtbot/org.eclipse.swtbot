@@ -22,7 +22,7 @@ Authors:
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.10</tycho-version>
+		<tycho-version>4.0.12</tycho-version>
 		<tycho-extras-version>${tycho-version}</tycho-extras-version>
 		<!-- Properties to enable jacoco code coverage analysis -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -999,7 +999,7 @@ Authors:
 		<profile>
 			<id>2024-12</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -1010,6 +1010,46 @@ Authors:
 						<configuration>
 							<target>
 								<file>../devtools/target-platforms/2024-12/2024-12.target</file>
+							</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>2025-03</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<target>
+								<file>../devtools/target-platforms/2025-03/2025-03.target</file>
+							</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>2025-06</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<target>
+								<file>../devtools/target-platforms/2025-06/2025-06.target</file>
 							</target>
 						</configuration>
 					</plugin>

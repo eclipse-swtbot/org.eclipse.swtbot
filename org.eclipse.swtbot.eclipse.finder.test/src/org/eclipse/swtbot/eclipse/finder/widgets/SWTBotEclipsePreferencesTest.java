@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015, 2022 Stephane Bouchet (Intel Corporation).
+ * Copyright (c) 2015, 2025 Stephane Bouchet (Intel Corporation).
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,7 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 	@Test
 	public void canSelectMultipleRadioInPreferencesWindow() {
 		// this will simply tries to change two radio in the team preferences at same times
-		bot.menu("Window").menu("Preferences").click();
+		bot.menu("Window").menu("Preferences...").click();
 		SWTBotShell prefsShell = bot.shell("Preferences");
 		prefsShell.activate();
 		assertTrue("Team node is selected", selectTeamNode());
@@ -54,7 +54,7 @@ public class SWTBotEclipsePreferencesTest extends AbstractSWTBotEclipseTest {
 		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.widgetIsEnabled(ok));
 		ok.click();
 		bot.waitUntil(org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses(prefsShell));
-		bot.menu("Window").menu("Preferences").click();
+		bot.menu("Window").menu("Preferences...").click();
 		prefsShell = bot.shell("Preferences");
 		prefsShell.activate();
 		assertTrue("Team node is selected", selectTeamNode());

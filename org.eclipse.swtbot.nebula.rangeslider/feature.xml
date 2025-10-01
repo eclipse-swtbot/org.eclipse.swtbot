@@ -29,7 +29,7 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.hamcrest.core"/>
+      <import plugin="org.hamcrest"/>
       <import plugin="org.eclipse.swtbot.swt.finder"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.ui.ide"/>

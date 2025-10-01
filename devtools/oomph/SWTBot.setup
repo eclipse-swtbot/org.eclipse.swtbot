@@ -8,19 +8,18 @@
     xmlns:mylyn="http://www.eclipse.org/oomph/setup/mylyn/1.0"
     xmlns:pde="http://www.eclipse.org/oomph/setup/pde/1.0"
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
-    xmlns:projects="http://www.eclipse.org/oomph/setup/projects/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/mylyn/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Mylyn.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/mylyn/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Mylyn.ecore http://www.eclipse.org/oomph/setup/pde/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/WorkingSets.ecore"
     name="swtbot"
     label="SWTBot">
   <setupTask
       xsi:type="jdt:JRETask"
-      version="JavaSE-17"
-      location="${jre.location-17}">
+      version="JavaSE-21"
+      location="${jre.location-21}">
     <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
@@ -33,7 +32,7 @@
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Doomph.redirection.swtbot"
-      value="=http://git.eclipse.org/c/swtbot/org.eclipse.swtbot.git/plain/devtools/oomph/SWTBot.setup->${git.clone.location|uri}/devtools/oomph/SWTBot.setup"
+      value="=https://raw.githubusercontent.com/eclipse-swtbot/org.eclipse.swtbot/master/devtools/oomph/SWTBot.setup->${git.clone.location|uri}/devtools/oomph/SWTBot.setup"
       vm="true"/>
   <setupTask
       xsi:type="setup:ResourceCreationTask"
@@ -58,7 +57,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="2025-06"
+      defaultValue="${eclipse.target.platform.latest}"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup:CompoundTask"
@@ -89,35 +88,29 @@
         label="Mylyn"
         licenseConfirmationDisabled="true">
       <requirement
-          name="org.eclipse.mylyn.bugzilla_feature.feature.group"/>
+          name="org.eclipse.mylyn.bugzilla.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.builds.feature.group"/>
+          name="org.eclipse.mylyn.builds.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.context_feature.feature.group"/>
-      <requirement
-          name="org.eclipse.mylyn.discovery.feature.group"/>
+          name="org.eclipse.mylyn.context.feature.feature.group"/>
       <requirement
           name="org.eclipse.mylyn.gerrit.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.git.feature.group"/>
+          name="org.eclipse.mylyn.git.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.hudson.feature.group"/>
+          name="org.eclipse.mylyn.jenkins.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.ide_feature.feature.group"/>
+          name="org.eclipse.mylyn.ide.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.java_feature.feature.group"/>
+          name="org.eclipse.mylyn.jdt.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.monitor.feature.group"/>
+          name="org.eclipse.mylyn.monitor.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.pde_feature.feature.group"/>
+          name="org.eclipse.mylyn.pde.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.tasks.ide.feature.group"/>
+          name="org.eclipse.mylyn.tasks.feature.feature.group"/>
       <requirement
-          name="org.eclipse.mylyn.team_feature.feature.group"/>
-      <requirement
-          name="org.eclipse.mylyn.wikitext_feature.feature.group"/>
-      <requirement
-          name="org.eclipse.mylyn_feature.feature.group"/>
+          name="org.eclipse.mylyn.wikitext.feature.feature.group"/>
       <requirement
           name="org.eclipse.mylyn.egit.feature.feature.group"/>
       <repository
@@ -188,16 +181,16 @@
   <setupTask
       xsi:type="git:GitCloneTask"
       id="git.clone"
-      remoteURI="swtbot/org.eclipse.swtbot">
+      remoteURI="eclipse-swtbot/org.eclipse.swtbot">
     <annotation
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
           key="inherit">
-        <value>eclipse.git.gerrit.remoteURIs</value>
+        <value>github.remoteURIs</value>
       </detail>
       <detail
           key="label">
-        <value>Oomph Git or Gerrit Repository</value>
+        <value>SWT GitHub Repository</value>
       </detail>
       <detail
           key="target">
@@ -209,422 +202,33 @@
   <setupTask
       xsi:type="setup.targlets:TargletTask">
     <targlet
-        name="${scope.project.label}"
-        activeRepositoryList="${eclipse.target.platform}">
-      <requirement
-          name="org.eclipse.swtbot.feature.group"/>
-      <requirement
-          name="org.eclipse.swtbot.ide.feature.group"/>
-      <requirement
-          name="org.eclipse.swtbot.generator.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.swtbot.forms.feature.group"/>
-      <requirement
-          name="org.eclipse.swtbot.eclipse.feature.group"/>
-      <requirement
-          name="org.eclipse.swtbot.eclipse.test.junit.feature.group"/>
-      <requirement
-          name="org.eclipse.swtbot.eclipse.gef.feature.group"/>
+        name="${scope.project.label}">
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <requirement
           name="org.eclipse.swtbot.nebula.gallery.feature.group"/>
       <requirement
-          name="org.eclipse.nebula.widgets.nattable.core.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.nebula.widgets.opal.checkboxgroup.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.nebula.widgets.stepbar.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.nebula.widgets.opal.rangeslider.feature.feature.group"/>
+          name="*"/>
       <sourceLocator
           rootFolder="${git.clone.location}"
           locateNestedProjects="true"/>
-        <repositoryList
-          name="2025-06">
+      <repositoryList>
         <repository
-            url="http://download.eclipse.org/releases/2025-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList> 
-        <repositoryList
-          name="2025-03">
-        <repository
-            url="http://download.eclipse.org/releases/2025-03"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/${eclipse.target.platform}"/>
         <repository
             url="http://download.eclipse.org/cbi/updates/license"/>
         <repository
             url="http://download.eclipse.org/nebula/snapshot/"/>
         <repository
             url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList> 
-         <repositoryList
-          name="2024-12">
         <repository
-            url="http://download.eclipse.org/releases/2024-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-         <repositoryList
-          name="2024-09">
-        <repository
-            url="http://download.eclipse.org/releases/2024-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2024-06">
-        <repository
-            url="http://download.eclipse.org/releases/2024-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2024-03">
-        <repository
-            url="http://download.eclipse.org/releases/2024-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2023-12">
-        <repository
-            url="http://download.eclipse.org/releases/2023-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2023-09">
-        <repository
-            url="http://download.eclipse.org/releases/2023-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2023-06">
-        <repository
-            url="http://download.eclipse.org/releases/2023-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2023-03">
-        <repository
-            url="http://download.eclipse.org/releases/2023-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2022-12">
-        <repository
-            url="http://download.eclipse.org/releases/2022-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2022-09">
-        <repository
-            url="http://download.eclipse.org/releases/2022-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-        </repositoryList>
-        <repositoryList
-          name="2022-06">
-        <repository
-            url="http://download.eclipse.org/releases/2022-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2022-03">
-        <repository
-            url="http://download.eclipse.org/releases/2022-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2021-12">
-        <repository
-            url="http://download.eclipse.org/releases/2021-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2021-09">
-        <repository
-            url="http://download.eclipse.org/releases/2021-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2021-06">
-        <repository
-            url="http://download.eclipse.org/releases/2021-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2021-03">
-        <repository
-            url="http://download.eclipse.org/releases/2021-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2020-12">
-        <repository
-            url="http://download.eclipse.org/releases/2020-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2020-09">
-        <repository
-            url="http://download.eclipse.org/releases/2020-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2020-06">
-        <repository
-            url="http://download.eclipse.org/releases/2020-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2020-03">
-        <repository
-            url="http://download.eclipse.org/releases/2020-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-12">
-        <repository
-            url="http://download.eclipse.org/releases/2019-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-09">
-        <repository
-            url="http://download.eclipse.org/releases/2019-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-06">
-        <repository
-            url="http://download.eclipse.org/releases/2019-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-03">
-        <repository
-            url="http://download.eclipse.org/releases/2019-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2018-12">
-        <repository
-            url="http://download.eclipse.org/releases/2018-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="2018-09">
-        <repository
-            url="http://download.eclipse.org/releases/2018-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="Photon">
-        <repository
-            url="http://download.eclipse.org/releases/photon"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="Oxygen">
-        <repository
-            url="http://download.eclipse.org/releases/oxygen"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="Neon">
-        <repository
-            url="http://download.eclipse.org/releases/neon"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="Mars">
-        <repository
-            url="http://download.eclipse.org/releases/mars"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-        <repository
-            url="http://download.eclipse.org/nattable/snapshots/latest/repository/"/>
-      </repositoryList>
-      <repositoryList
-          name="Luna">
-        <repository
-            url="http://download.eclipse.org/releases/luna"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-      </repositoryList>
-      <repositoryList
-          name="Kepler">
-        <repository
-            url="http://download.eclipse.org/releases/kepler"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
-      </repositoryList>
-      <repositoryList
-          name="Juno">
-        <repository
-            url="http://download.eclipse.org/releases/juno"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-        <repository
-            url="http://download.eclipse.org/nebula/snapshot/"/>
+            url="https://download.eclipse.org/tools/gef/classic/milestone/latest"/>
       </repositoryList>
     </targlet>
   </setupTask>
   <setupTask
-      xsi:type="setup.workingsets:WorkingSetTask">
+      xsi:type="setup.workingsets:WorkingSetTask"
+      id="swtbot.workings">
     <workingSet
         name="${scope.project.label} All">
       <predicate
@@ -658,7 +262,7 @@
             nature="org.eclipse.pde.PluginNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.10/@workingSets[name='${scope.project.label}%20Tests']"/>
+            excludedWorkingSet="//'swtbot.workings'/@workingSets[name='${scope.project.label}%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -673,7 +277,7 @@
             nature="org.eclipse.pde.FeatureNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.10/@workingSets[name='${scope.project.label}%20Tests']"/>
+            excludedWorkingSet="//'swtbot.workings'/@workingSets[name='${scope.project.label}%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -685,7 +289,7 @@
             project="org.eclipse.swtbot"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.10/@workingSets[name='${scope.project.label}%20Tests']"/>
+            excludedWorkingSet="//'swtbot.workings'/@workingSets[name='${scope.project.label}%20Tests']"/>
         <operand
             xsi:type="predicates:OrPredicate">
           <operand
@@ -704,13 +308,7 @@
       name="swtbot-latest"
       version="4.3.0"
       location="${installation.location}/api/v4.3/"
-      remoteURI="http://download.eclipse.org/technology/swtbot/releases/4.3.0/repository.zip"/>
-  <setupTask
-      xsi:type="projects:ProjectsImportTask">
-    <sourceLocator
-        rootFolder="${git.clone.location}"
-        locateNestedProjects="true"/>
-  </setupTask>
+      remoteURI="https://download.eclipse.org/technology/swtbot/releases/4.3.0/repository.zip"/>
   <setupTask
       xsi:type="mylyn:MylynQueriesTask"
       repositoryURL="https://bugs.eclipse.org/bugs"

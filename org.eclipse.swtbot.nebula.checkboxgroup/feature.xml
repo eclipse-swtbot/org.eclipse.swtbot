@@ -30,7 +30,7 @@
 
    <requires>
       <import plugin="org.eclipse.swtbot.swt.finder"/>
-      <import plugin="org.hamcrest.core"/>
+      <import plugin="org.hamcrest"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.core.runtime"/>

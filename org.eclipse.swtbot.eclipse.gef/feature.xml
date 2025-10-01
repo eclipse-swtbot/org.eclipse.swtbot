@@ -37,7 +37,7 @@
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.swtbot.swt.finder"/>
       <import plugin="org.eclipse.swtbot.eclipse.finder"/>
-      <import plugin="org.hamcrest.core"/>
+      <import plugin="org.hamcrest"/>
    </requires>
 
    <plugin

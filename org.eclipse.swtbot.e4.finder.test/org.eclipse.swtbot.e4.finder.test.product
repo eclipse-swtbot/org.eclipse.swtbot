@@ -123,10 +123,9 @@
       <plugin id="org.eclipse.ui.ide"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
-      <plugin id="org.hamcrest.core"/>
-      <plugin id="org.hamcrest.library"/>
+      <plugin id="org.hamcrest"/>
       <plugin id="org.junit"/>
-      <plugin id="org.slf4j.api"/>
+      <plugin id="slf4j.api"/>
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>

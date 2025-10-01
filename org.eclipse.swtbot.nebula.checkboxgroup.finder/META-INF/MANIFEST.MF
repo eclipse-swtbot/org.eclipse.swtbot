@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.swtbot.nebula.checkboxgroup.finder
 Bundle-Version: 4.3.0.qualifier
 Bundle-Vendor: Eclipse.org - SWTBot
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.hamcrest.core,
+Require-Bundle: org.hamcrest,
  org.eclipse.swtbot.swt.finder,
  org.eclipse.nebula.widgets.opal.checkboxgroup
 Import-Package: org.eclipse.jface.bindings.keys,

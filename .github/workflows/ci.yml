@@ -29,7 +29,7 @@ jobs:
     - name: Set up Maven
       uses: stCarolas/setup-maven@v5
       with:
-        maven-version: 3.9.5
+        maven-version: 3.9.11
     - name: Install and start Metacity window manager
       run: |
         sudo apt-get update

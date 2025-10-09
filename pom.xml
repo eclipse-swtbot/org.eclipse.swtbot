@@ -22,7 +22,7 @@ Authors:
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.12</tycho-version>
+		<tycho-version>5.0.0</tycho-version>
 		<tycho-extras-version>${tycho-version}</tycho-extras-version>
 		<!-- Properties to enable jacoco code coverage analysis -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -35,6 +35,7 @@ Authors:
 		<uitest.vmparams>${tycho.testArgLine} -Xms64m -Xmx1024m</uitest.vmparams>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4jVersion>1.7.30</slf4jVersion>
+		<jarsigner-version>1.5.2</jarsigner-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -167,7 +168,6 @@ Authors:
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-					<resolver>p2</resolver>
 					<environments>
 						<environment>
 							<os>linux</os>
@@ -185,7 +185,6 @@ Authors:
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
-					<includePackedArtifacts>true</includePackedArtifacts>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -236,25 +235,13 @@ Authors:
 							<goal>plugin-source</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>feature-source</id>
-						<goals>
-							<goal>feature-source</goal>
-						</goals>
-						<configuration>
-							<excludes>
-								<plugin id="org.apache.log4j"/>
-								<plugin id="org.eclipse.swtbot.ant.junit"/>
-							</excludes>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 			<!-- Those mojos are for signing and packing -->
 			<plugin>
 				<groupId>org.eclipse.cbi.maven.plugins</groupId>
 				<artifactId>eclipse-jarsigner-plugin</artifactId>
-				<version>1.3.2</version>
+				<version>${jarsigner-version}</version>
 				<executions>
 					<execution>
 						<id>sign</id>

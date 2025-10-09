@@ -39,39 +39,6 @@
    <feature id="org.eclipse.swtbot.junit5" version="0.0.0">
       <category name="SWTBot - JUnit5 Support"/>
    </feature>
-   <feature id="org.eclipse.swtbot.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.eclipse.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.eclipse.gef.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.forms.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.ide.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.generator.feature.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.nebula.gallery.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.nebula.nattable.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.nebula.checkboxgroup.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.nebula.stepbar.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
-   <feature id="org.eclipse.swtbot.nebula.rangeslider.source" version="0.0.0">
-      <category name="SWTBot - Sources"/>
-   </feature>
    <bundle id="org.hamcrest" version="0.0.0">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
@@ -81,13 +48,9 @@
    <bundle id="slf4j.api">
       <category name="SWTBot -- Dependencies"/>
    </bundle>
-   <bundle id="slf4j.api.source">
-      <category name="SWTBot -- Dependencies"/>
-   </bundle>
    <category-def name="SWTBot - API" label="SWTBot - API"/>
    <category-def name="SWTBot - IDE Integration" label="SWTBot - IDE Integration"/>
    <category-def name="SWTBot - Headless Support" label="SWTBot - Headless Support"/>
    <category-def name="SWTBot - JUnit5 Support" label="SWTBot - JUnit5 Support"/>
-   <category-def name="SWTBot - Sources" label="SWTBot - Sources"/>
    <category-def name="SWTBot -- Dependencies" label="SWTBot -- Dependencies"/>
 </site>

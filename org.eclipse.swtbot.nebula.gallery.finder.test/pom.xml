@@ -34,7 +34,6 @@ Authors:
 					<argLine>${uitest.vmparams}</argLine>
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>false</useUIThread>
-					<testSuite>org.eclipse.swtbot.nebula.gallery.finder.test</testSuite>
 					<testClass>org.eclipse.swtbot.nebula.gallery.finder.test.AllTests</testClass>
 					<environmentVariables>
 						<!-- Ubuntu overlay scrollbars cause different crashes in GTK2 so disable them -->

@@ -71,7 +71,6 @@ Authors:
 					<useUIThread>false</useUIThread>
 					<product>org.eclipse.sdk.ide</product>
 					<application>org.eclipse.ui.ide.workbench</application>
-					<testSuite>org.eclipse.swtbot.eclipse.ui.test</testSuite>
 					<testClass>org.eclipse.swtbot.eclipse.ui.functional.AllTests</testClass>
 					<environmentVariables>
 						<!-- Ubuntu overlay scrollbars cause different crashes in GTK2 so disable them -->

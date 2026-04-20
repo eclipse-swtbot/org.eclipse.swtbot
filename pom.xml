@@ -1026,7 +1026,7 @@ Authors:
 		<profile>
 			<id>2025-06</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -1037,6 +1037,26 @@ Authors:
 						<configuration>
 							<target>
 								<file>../devtools/target-platforms/2025-06/2025-06.target</file>
+							</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>2025-09</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<target>
+								<file>../devtools/target-platforms/2025-09/2025-09.target</file>
 							</target>
 						</configuration>
 					</plugin>

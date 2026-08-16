@@ -27,7 +27,9 @@ import java.util.List;
 import org.eclipse.swtbot.eclipse.finder.FinderTestIds;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.results.IntResult;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
@@ -38,6 +40,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarRadioButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.eclipse.ui.IWorkbenchPage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -60,6 +63,27 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 	public void getsViewTitle() throws Exception {
 		bot.menu("Help").menu("Welcome").click();
 		assertEquals("Welcome", bot.viewByPartName("Welcome").getReference().getPartName());
+	}
+
+	@Test
+	public void maximizesAndRestoresView() throws Exception {
+		openSWTBotTestView();
+		SWTBotView view = bot.viewByTitle("SWTBot Test View");
+
+		view.maximize();
+		assertEquals(IWorkbenchPage.STATE_MAXIMIZED, partStateOf(view));
+
+		view.restore();
+		assertEquals(IWorkbenchPage.STATE_RESTORED, partStateOf(view));
+	}
+
+	private int partStateOf(final SWTBotView view) {
+		return UIThreadRunnable.syncExec(new IntResult() {
+			@Override
+			public Integer run() {
+				return view.getReference().getPage().getPartState(view.getReference());
+			}
+		});
 	}
 
 	@Test

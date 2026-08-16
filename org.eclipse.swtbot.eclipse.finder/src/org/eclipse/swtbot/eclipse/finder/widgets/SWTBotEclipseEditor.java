@@ -352,6 +352,10 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
+	 * Types the text by sending key strokes, so content assist and auto-completion react to it. Editors that close
+	 * quotes and brackets automatically, such as the Java editor, therefore end up with different content than the
+	 * text passed in; use {@link #insertText(int, int, String)} to set the content verbatim.
+	 *
 	 * @param line the line number, 0 based.
 	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param text the text to be typed at the specified location
@@ -377,6 +381,10 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
+	 * Types the text by sending key strokes, so content assist and auto-completion react to it. Editors that close
+	 * quotes and brackets automatically, such as the Java editor, therefore end up with different content than the
+	 * text passed in; use {@link #insertText(String)} to set the content verbatim.
+	 *
 	 * @param text the text to be typed at the location of the caret. *
 	 * @see SWTBotStyledText#typeText(java.lang.String)
 	 * @since 1.0
@@ -386,6 +394,9 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
+	 * Inserts the text without sending key strokes, so auto-completion cannot alter it. Prefer this over
+	 * {@link #typeText(int, int, String)} whenever the editor content has to match the text exactly.
+	 *
 	 * @param line the line number, 0 based.
 	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @param text the text to be inserted at the specified location
@@ -410,6 +421,9 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
+	 * Inserts the text without sending key strokes, so auto-completion cannot alter it. Prefer this over
+	 * {@link #typeText(String)} whenever the editor content has to match the text exactly.
+	 *
 	 * @param text the text to be inserted at the location of the caret.
 	 * @see SWTBotStyledText#insertText(java.lang.String)
 	 */
@@ -428,7 +442,9 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
-	 * Sets the caret at the specified location.
+	 * Sets the caret at the specified location. Parts that track the selection, such as the Outline, update through
+	 * their own listeners and can lag behind, so do not assume they are in sync when this returns; wait for the state
+	 * that is expected instead.
 	 *
 	 * @param position the position of the caret.
 	 */
@@ -437,6 +453,10 @@ public class SWTBotEclipseEditor extends SWTBotEditor {
 	}
 
 	/**
+	 * Sets the caret at the specified location. Parts that track the selection, such as the Outline, update through
+	 * their own listeners and can lag behind, so do not assume they are in sync when this returns; wait for the state
+	 * that is expected instead.
+	 *
 	 * @param line the line number, 0 based.
 	 * @param column the column number, 0 based. Here Tab needs to be counted as 1.
 	 * @see SWTBotEclipseEditor#navigateTo(int, int, boolean)

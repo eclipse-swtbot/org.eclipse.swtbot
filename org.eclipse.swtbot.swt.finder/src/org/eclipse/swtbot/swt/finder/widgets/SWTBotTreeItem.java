@@ -49,6 +49,7 @@ import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.eclipse.swtbot.swt.finder.utils.TextDescription;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -334,8 +335,62 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 			}
 		});
 		if (foundItems.isEmpty())
-			throw new WidgetNotFoundException("Could not find node with text: " + nodeText); //$NON-NLS-1$
+			throw new WidgetNotFoundException("Could not find node with text: " + nodeText + SWTBotTree.describeNodes(getNodes())); //$NON-NLS-1$
 		return foundItems;
+	}
+
+	/**
+	 * Gets all nodes matching the given matcher. Use this instead of {@link #getNodes(String)} when the node text is
+	 * not known exactly, for instance because a label decorator appends information to it.
+	 *
+	 * @param matcher the matcher used to find the nodes.
+	 * @return the nodes matching the matcher.
+	 * @throws WidgetNotFoundException if no matching node was found.
+	 * @since 4.4
+	 */
+	public List<SWTBotTreeItem> getNodes(final Matcher<TreeItem> matcher) {
+		List<SWTBotTreeItem> foundItems = syncExec(new ListResult<SWTBotTreeItem>() {
+			@Override
+			public List<SWTBotTreeItem> run() {
+				List<SWTBotTreeItem> results = new ArrayList<SWTBotTreeItem>();
+				for (TreeItem treeItem : widget.getItems()) {
+					if (matcher.matches(treeItem))
+						results.add(new SWTBotTreeItem(treeItem, new TextDescription("Tree node matching: " + matcher))); //$NON-NLS-1$
+				}
+				return results;
+			}
+		});
+		if (foundItems.isEmpty())
+			throw new WidgetNotFoundException("Could not find node matching " + matcher + SWTBotTree.describeNodes(getNodes())); //$NON-NLS-1$
+		return foundItems;
+	}
+
+	/**
+	 * Gets the first node found matching the given matcher. To expand the node, call {@link #expand()} on the result.
+	 *
+	 * @param matcher the matcher used to find the node.
+	 * @return the first node matching the matcher.
+	 * @throws WidgetNotFoundException if no matching node was found.
+	 * @since 4.4
+	 */
+	public SWTBotTreeItem getNode(final Matcher<TreeItem> matcher) {
+		return getNode(matcher, 0);
+	}
+
+	/**
+	 * Gets the node matching the given matcher and index.
+	 *
+	 * @param matcher the matcher used to find the node.
+	 * @param index the index of the node among the matching nodes.
+	 * @return the node matching the matcher at the given index.
+	 * @throws WidgetNotFoundException if no matching node was found.
+	 * @since 4.4
+	 */
+	public SWTBotTreeItem getNode(final Matcher<TreeItem> matcher, final int index) {
+		List<SWTBotTreeItem> nodes = getNodes(matcher);
+		Assert.isTrue(index < nodes.size(),
+				MessageFormat.format("The index ({0}) was more than the number of nodes ({1}) in the tree.", index, nodes.size()));
+		return nodes.get(index);
 	}
 
 	/**
@@ -953,7 +1008,7 @@ public class SWTBotTreeItem extends AbstractSWTBot<TreeItem> {
 				}
 			});
 		} catch (TimeoutException e) {
-			throw new WidgetNotFoundException("Timed out waiting for tree item " + nodeText, e); //$NON-NLS-1$
+			throw new WidgetNotFoundException("Timed out waiting for tree item " + nodeText + SWTBotTree.describeNodes(getNodes()), e); //$NON-NLS-1$
 		}
 		return new SWTBotTreeItem(getItem(nodeText));
 	}

@@ -19,6 +19,7 @@ package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertText;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withRegex;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,6 +28,7 @@ import static org.junit.Assert.fail;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swtbot.swt.finder.exceptions.AssertionFailedException;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
@@ -61,6 +63,25 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 		SWTBotTreeItem node = tree.expandNode("Node 2");
 		assertText("Node 2.2", node.getNode("Node 2.2"));
 		assertText("Node 2.2", node.getNode("Node 2.2", 0));
+	}
+
+	@Test
+	public void canFindANodeMatchingMatcher() throws Exception {
+		SWTBotTreeItem node = tree.expandNode("Node 2");
+		assertText("Node 2.2", node.getNode(withRegex("Node 2.2")));
+		assertText("Node 2.2", node.getNode(withRegex("Node 2.2"), 0));
+		assertEquals(2, node.getNodes(withRegex("Node 2.")).size());
+	}
+
+	@Test
+	public void listsAvailableNodesWhenNodeIsNotFound() throws Exception {
+		SWTBotTreeItem node = tree.expandNode("Node 2");
+		try {
+			node.getNode("Node 2.42");
+			fail("Expected a WidgetNotFoundException");
+		} catch (WidgetNotFoundException e) {
+			assertTrue(e.getMessage(), e.getMessage().contains("Available nodes: [Node 2.1, Node 2.2]"));
+		}
 	}
 
 	@Test
@@ -141,7 +162,7 @@ public class SWTBotTreeItemTest extends AbstractControlExampleTest {
 			tree.getTreeItem("Node 2").expand().select("NonExisting");
 			fail("Was expecting an exception");
 		} catch (Exception e) {
-			assertEquals("Timed out waiting for tree item NonExisting", e.getMessage());
+			assertEquals("Timed out waiting for tree item NonExisting. Available nodes: [Node 2.1, Node 2.2]", e.getMessage());
 		}
 	}
 

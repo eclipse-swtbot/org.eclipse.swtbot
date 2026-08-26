@@ -22,6 +22,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -29,6 +31,7 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.ControlFinder;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.IntResult;
+import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTShellTest;
 import org.junit.Test;
@@ -72,6 +75,28 @@ public class SWTBotShellTest extends AbstractSWTShellTest {
 		shell2.activate();
 		Shell activeShell = new ControlFinder().activeShell();
 		assertSameWidget(activeShell, shell2.widget);
+	}
+
+	@Test
+	public void capturesImageOfAChildShell() throws Exception {
+		UIThreadRunnable.syncExec(display, new VoidResult() {
+			@Override
+			public void run() {
+				shell2.setSize(200, 150);
+			}
+		});
+		Rectangle bounds = UIThreadRunnable.syncExec(display, new Result<Rectangle>() {
+			@Override
+			public Rectangle run() {
+				return shell2.getBounds();
+			}
+		});
+
+		ImageData image = bot.shell("shell2").captureImage();
+
+		// A child shell reports display relative bounds already, mapping them through its parent shell would be wrong.
+		assertEquals(bounds.width, image.width);
+		assertEquals(bounds.height, image.height);
 	}
 
 	@Test

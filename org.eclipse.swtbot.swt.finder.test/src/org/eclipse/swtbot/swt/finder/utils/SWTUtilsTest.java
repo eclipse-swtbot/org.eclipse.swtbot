@@ -16,9 +16,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,6 +85,55 @@ public class SWTUtilsTest extends AbstractControlExampleTest {
 	@Test
 	public void getsToString() throws Exception {
 		assertEquals("TabFolder {}", SWTUtils.toString(controlExample.getTabFolder()));
+	}
+
+	@Test
+	public void capturesImageOfAControl() throws Exception {
+		Control control = controlExample.getTabFolder();
+		Rectangle bounds = boundsOf(control);
+
+		ImageData image = SWTUtils.captureImage(control);
+
+		assertEquals(bounds.width, image.width);
+		assertEquals(bounds.height, image.height);
+	}
+
+	@Test
+	public void capturesImageOfAShell() throws Exception {
+		Rectangle bounds = boundsOf(shell);
+
+		ImageData image = SWTUtils.captureImage(shell);
+
+		// A shell already reports display relative bounds, so they must be used as they are.
+		assertEquals(bounds.width, image.width);
+		assertEquals(bounds.height, image.height);
+	}
+
+	@Test
+	public void capturesImageOfAnArea() throws Exception {
+		ImageData image = SWTUtils.captureImage(new Rectangle(0, 0, 40, 20));
+
+		assertEquals(40, image.width);
+		assertEquals(20, image.height);
+	}
+
+	@Test
+	public void capturingAnEmptyAreaFails() throws Exception {
+		try {
+			SWTUtils.captureImage(new Rectangle(0, 0, 0, 0));
+			fail("Expecting an IllegalArgumentException");
+		} catch (IllegalArgumentException expected) {
+			assertTrue(expected.getMessage().contains("empty area"));
+		}
+	}
+
+	private Rectangle boundsOf(final Control control) {
+		return UIThreadRunnable.syncExec(new Result<Rectangle>() {
+			@Override
+			public Rectangle run() {
+				return control.getBounds();
+			}
+		});
 	}
 
 	private Control[] getChildren() {

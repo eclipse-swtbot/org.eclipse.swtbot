@@ -32,6 +32,7 @@ import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
@@ -917,6 +918,18 @@ public abstract class AbstractSWTBot<T extends Widget> {
 	 */
 	protected Rectangle absoluteLocation() {
 		throw new UnsupportedOperationException("This operation is not supported by this widget.");
+	}
+
+	/**
+	 * Captures an image of this widget, at 100% zoom regardless of the scale factor of the display. Use
+	 * {@link SWTUtils#captureScreenshot(String, org.eclipse.swt.widgets.Control)} instead to write it to a file.
+	 *
+	 * @throws UnsupportedOperationException if the widget cannot report its location on the display.
+	 * @throws IllegalArgumentException if the widget is empty.
+	 * @since 4.4
+	 */
+	public ImageData captureImage() {
+		return SWTUtils.captureImage(absoluteLocation());
 	}
 
 	/**

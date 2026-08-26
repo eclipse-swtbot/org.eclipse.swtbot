@@ -17,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -28,7 +29,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.BoolResult;
 import org.eclipse.swtbot.swt.finder.test.AbstractSWTShellTest;
+import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotLabel;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
@@ -41,6 +45,10 @@ public class MenuDetectTest extends AbstractSWTShellTest {
 
 	@Override
 	protected void createUI(Composite parent) {
+		// Without an explicit size the shell starts out with whatever the window manager gives it, which can be
+		// degenerate for a while.
+		shell.setSize(600, 400);
+
 		final Label label = new Label(shell, SWT.NONE);
 		label.setText("Label");
 
@@ -125,6 +133,8 @@ public class MenuDetectTest extends AbstractSWTShellTest {
 	 */
 	@Test
 	public void testMenuDetect() {
+		waitUntilWidgetsAreLaidOut();
+
 		SWTBotLabel label = bot.label();
 		label.contextMenu(MENU_ITEM_TEXT);
 		assertEquals(EXPECTED_TEXT, label.getText());
@@ -144,6 +154,34 @@ public class MenuDetectTest extends AbstractSWTShellTest {
 		treeItem = bot.tree(1).getTreeItem("Test tree item");
 		treeItem.contextMenu(MENU_ITEM_TEXT);
 		assertEquals(EXPECTED_TEXT, treeItem.getText());
+	}
+
+	/**
+	 * The test thread may start before the freshly opened shell has been laid out, and synthesizing a menu detect on a
+	 * widget that still has empty bounds produces coordinates outside those bounds.
+	 */
+	private void waitUntilWidgetsAreLaidOut() {
+		bot.waitUntil(new DefaultCondition() {
+			@Override
+			public boolean test() throws Exception {
+				return UIThreadRunnable.syncExec(new BoolResult() {
+					@Override
+					public Boolean run() {
+						for (Control child : shell.getChildren()) {
+							Rectangle bounds = child.getBounds();
+							if (bounds.width <= 0 || bounds.height <= 0)
+								return false;
+						}
+						return true;
+					}
+				});
+			}
+
+			@Override
+			public String getFailureMessage() {
+				return "The widgets in the test shell were not laid out within the timeout";
+			}
+		});
 	}
 
 	private static void checkInsideBounds(Point position, Rectangle bounds) {

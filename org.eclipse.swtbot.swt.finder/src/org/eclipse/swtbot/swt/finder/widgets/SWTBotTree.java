@@ -40,6 +40,7 @@ import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.eclipse.swtbot.swt.finder.utils.internal.Assert;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.hamcrest.Matcher;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -50,6 +51,8 @@ import org.hamcrest.SelfDescribing;
 @SWTBotWidget(clasz = Tree.class, preferredName = "tree", referenceBy = { ReferenceBy.LABEL })
 public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 
+	/** The maximum number of node texts listed in a failure message. */
+	static final int	MAX_NODES_IN_FAILURE_MESSAGE	= 20;
 
 	/**
 	 * Constructs an instance of this object with the given tree.
@@ -574,9 +577,52 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 				}
 			});
 		} catch (TimeoutException e) {
-			throw new WidgetNotFoundException("Timed out waiting for tree item " + nodeText, e); //$NON-NLS-1$
+			throw new WidgetNotFoundException("Timed out waiting for tree item " + nodeText + describeNodes(getItemTexts()), e); //$NON-NLS-1$
 		}
 		return new SWTBotTreeItem(getItem(nodeText));
+	}
+
+	/**
+	 * Gets the first tree item matching the given matcher. Use this instead of {@link #getTreeItem(String)} when the
+	 * node text is not known exactly, for instance because a label decorator appends information to it. To expand the
+	 * node, call {@link SWTBotTreeItem#expand()} on the result.
+	 *
+	 * @param matcher the matcher used to find the node.
+	 * @return the first tree item matching the matcher.
+	 * @throws WidgetNotFoundException if no matching node was found.
+	 * @since 4.4
+	 */
+	public SWTBotTreeItem getTreeItem(final Matcher<TreeItem> matcher) throws WidgetNotFoundException {
+		return getTreeItem(matcher, 0);
+	}
+
+	/**
+	 * Gets the tree item matching the given matcher, in case there are multiple matching nodes.
+	 *
+	 * @param matcher the matcher used to find the node.
+	 * @param index the index of the node among the matching nodes.
+	 * @return the tree item matching the matcher at the given index.
+	 * @throws WidgetNotFoundException if no matching node was found.
+	 * @since 4.4
+	 */
+	public SWTBotTreeItem getTreeItem(final Matcher<TreeItem> matcher, final int index) throws WidgetNotFoundException {
+		try {
+			new SWTBot().waitUntil(new DefaultCondition() {
+				@Override
+				public String getFailureMessage() {
+					return "Could not find node matching " + matcher; //$NON-NLS-1$
+				}
+
+				@Override
+				public boolean test() throws Exception {
+					return getItems(matcher).size() > index;
+				}
+			});
+		} catch (TimeoutException e) {
+			throw new WidgetNotFoundException(
+					"Timed out waiting for tree item matching " + matcher + describeNodes(getItemTexts()), e); //$NON-NLS-1$
+		}
+		return new SWTBotTreeItem(getItems(matcher).get(index));
 	}
 
 	/**
@@ -612,6 +658,61 @@ public class SWTBotTree extends AbstractSWTBotControl<Tree> {
 				return null;
 			}
 		});
+	}
+
+	/**
+	 * Gets the items matching the given matcher.
+	 *
+	 * @param matcher the matcher used to find the nodes.
+	 * @return the matching tree items, or an empty list if there are none.
+	 */
+	private List<TreeItem> getItems(final Matcher<TreeItem> matcher) {
+		return syncExec(new ListResult<TreeItem>() {
+			@Override
+			public List<TreeItem> run() {
+				List<TreeItem> results = new ArrayList<TreeItem>();
+				for (TreeItem item : widget.getItems()) {
+					if (matcher.matches(item))
+						results.add(item);
+				}
+				return results;
+			}
+		});
+	}
+
+	/**
+	 * Gets the text of all the items in the tree.
+	 *
+	 * @return the text of all tree items in the tree, or an empty list if there are none.
+	 */
+	private List<String> getItemTexts() {
+		return syncExec(new ListResult<String>() {
+			@Override
+			public List<String> run() {
+				List<String> results = new ArrayList<String>();
+				for (TreeItem item : widget.getItems())
+					results.add(item.getText());
+				return results;
+			}
+		});
+	}
+
+	/**
+	 * Describes the given node texts so that they can be appended to a failure message. Long lists are truncated to
+	 * keep the message readable.
+	 *
+	 * @param nodeTexts the texts of the nodes that were actually present.
+	 * @return a description of the available nodes, starting with a separating dot.
+	 */
+	static String describeNodes(List<String> nodeTexts) {
+		if (nodeTexts.isEmpty())
+			return ". There are no nodes."; //$NON-NLS-1$
+		List<String> shown = nodeTexts.size() > MAX_NODES_IN_FAILURE_MESSAGE ? nodeTexts.subList(0, MAX_NODES_IN_FAILURE_MESSAGE)
+				: nodeTexts;
+		String description = ". Available nodes: [" + StringUtils.join(shown, ", ") + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (shown.size() < nodeTexts.size())
+			description += " and " + (nodeTexts.size() - shown.size()) + " more"; //$NON-NLS-1$ //$NON-NLS-2$
+		return description;
 	}
 
 	/**

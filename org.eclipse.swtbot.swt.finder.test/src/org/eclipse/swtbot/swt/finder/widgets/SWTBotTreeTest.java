@@ -18,6 +18,7 @@ package org.eclipse.swtbot.swt.finder.widgets;
 
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertSameWidget;
 import static org.eclipse.swtbot.swt.finder.SWTBotTestCase.assertTextContains;
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withRegex;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -34,6 +35,7 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.test.AbstractControlExampleTest;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.TableCollection;
 import org.eclipse.swtbot.swt.finder.utils.TableRow;
 import org.junit.Before;
@@ -276,6 +278,50 @@ public class SWTBotTreeTest extends AbstractControlExampleTest {
 				.textInGroup("Listeners").widget);
 		assertTextContains("data=null item=TreeItem {Node 2.2} detail=0 x=0 y=0 width=0 height=0 stateMask=" + toStateMask(0, tree.widget) + " text=null doit=true}", bot
 				.textInGroup("Listeners").widget);
+	}
+
+	@Test
+	public void findsTreeItemMatchingMatcher() throws Exception {
+		assertEquals("Node 2", tree.getTreeItem(withRegex("Node 2")).getText());
+	}
+
+	@Test
+	public void findsTreeItemMatchingMatcherAtIndex() throws Exception {
+		assertEquals("Node 3", tree.getTreeItem(withRegex("Node "), 2).getText());
+	}
+
+	@Test
+	public void expandsNodeFoundByMatcher() throws Exception {
+		tree.getTreeItem(withRegex("Node 2")).expand();
+		assertEquals(6, tree.visibleRowCount());
+	}
+
+	@Test
+	public void failsWhenNoTreeItemMatchesMatcher() throws Exception {
+		long timeout = SWTBotPreferences.TIMEOUT;
+		SWTBotPreferences.TIMEOUT = 100;
+		try {
+			tree.getTreeItem(withRegex("Node 42"));
+			fail("Expected a WidgetNotFoundException");
+		} catch (WidgetNotFoundException e) {
+			assertTrue(e.getMessage(), e.getMessage().contains("Available nodes: [Node 1, Node 2, Node 3, Node 4]"));
+		} finally {
+			SWTBotPreferences.TIMEOUT = timeout;
+		}
+	}
+
+	@Test
+	public void listsAvailableNodesWhenNodeIsNotFound() throws Exception {
+		long timeout = SWTBotPreferences.TIMEOUT;
+		SWTBotPreferences.TIMEOUT = 100;
+		try {
+			tree.getTreeItem("Node 42");
+			fail("Expected a WidgetNotFoundException");
+		} catch (WidgetNotFoundException e) {
+			assertTrue(e.getMessage(), e.getMessage().contains("Available nodes: [Node 1, Node 2, Node 3, Node 4]"));
+		} finally {
+			SWTBotPreferences.TIMEOUT = timeout;
+		}
 	}
 
 	@Test

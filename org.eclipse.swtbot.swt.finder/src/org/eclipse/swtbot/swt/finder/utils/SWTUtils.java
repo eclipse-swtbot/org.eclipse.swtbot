@@ -408,15 +408,52 @@ public abstract class SWTUtils {
 		return UIThreadRunnable.syncExec(new BoolResult() {
 			@Override
 			public Boolean run() {
-				if (control instanceof Shell)
-					return captureScreenshotInternal(fileName, control.getBounds());
-				Display display = control.getDisplay();
-				Rectangle bounds = control.getBounds();
-				Rectangle mappedToDisplay = display.map(control.getParent(), null, bounds);
-
-				return captureScreenshotInternal(fileName, mappedToDisplay);
+				return captureScreenshotInternal(fileName, displayBounds(control));
 			}
 		});
+	}
+
+	/**
+	 * Captures an image of the given control, at 100% zoom regardless of the scale factor of the display.
+	 *
+	 * @throws IllegalArgumentException if the control is empty.
+	 * @since 4.4
+	 */
+	public static ImageData captureImage(final Control control) {
+		return captureImage(UIThreadRunnable.syncExec(new Result<Rectangle>() {
+			@Override
+			public Rectangle run() {
+				return displayBounds(control);
+			}
+		}));
+	}
+
+	/**
+	 * Captures an image of the given display relative area, at 100% zoom regardless of the scale factor of the display.
+	 *
+	 * @throws IllegalArgumentException if the area is empty.
+	 * @since 4.4
+	 */
+	public static ImageData captureImage(final Rectangle bounds) {
+		// Validated off the UI thread, an exception thrown inside a syncExec reaches the caller wrapped in an SWTException.
+		if (bounds.width <= 0 || bounds.height <= 0)
+			throw new IllegalArgumentException("Cannot capture an image of the empty area " + bounds); //$NON-NLS-1$
+		return UIThreadRunnable.syncExec(new Result<ImageData>() {
+			@Override
+			public ImageData run() {
+				return captureImageInternal(bounds);
+			}
+		});
+	}
+
+	/**
+	 * Gets the bounds of the control relative to the display. Must be invoked from the UI thread.
+	 */
+	private static Rectangle displayBounds(Control control) {
+		// A shell already reports display relative bounds, including its window trim.
+		if (control instanceof Shell)
+			return control.getBounds();
+		return control.getDisplay().map(control.getParent(), null, control.getBounds());
 	}
 
 	/**
@@ -461,9 +498,6 @@ public abstract class SWTUtils {
 	 * @return <code>true</code> if the screenshot was created and saved, <code>false</code> otherwise.
 	 */
 	private static boolean captureScreenshotInternal(final String fileName, Rectangle bounds) {
-		Display display = display();
-		GC gc = new GC(display);
-		Image image = null;
 		File file = new File(fileName);
 		File parentDir = file.getParentFile();
 		if (parentDir != null)
@@ -471,10 +505,8 @@ public abstract class SWTUtils {
 		try {
 			log.debug("Capturing screenshot ''{}''", fileName); //$NON-NLS-1$
 
-			image = new Image(display, bounds.width, bounds.height);
-			gc.copyArea(image, bounds.x, bounds.y);
 			ImageLoader imageLoader = new ImageLoader();
-			imageLoader.data = new ImageData[] { image.getImageData() };
+			imageLoader.data = new ImageData[] { captureImageInternal(bounds) };
 			imageLoader.save(fileName, new ImageFormatConverter().imageTypeOf(fileName.substring(fileName.lastIndexOf('.') + 1)));
 			return true;
 		} catch (Exception e) {
@@ -489,6 +521,22 @@ public abstract class SWTUtils {
 				}
 			}
 			return false;
+		}
+	}
+
+	/**
+	 * Captures an image of the given display relative area. Must be invoked from the UI thread.
+	 */
+	private static ImageData captureImageInternal(Rectangle bounds) {
+		if (bounds.width <= 0 || bounds.height <= 0)
+			throw new IllegalArgumentException("Cannot capture an image of the empty area " + bounds); //$NON-NLS-1$
+		Display display = display();
+		GC gc = new GC(display);
+		Image image = null;
+		try {
+			image = new Image(display, bounds.width, bounds.height);
+			gc.copyArea(image, bounds.x, bounds.y);
+			return image.getImageData();
 		} finally {
 			gc.dispose();
 			if (image != null) {

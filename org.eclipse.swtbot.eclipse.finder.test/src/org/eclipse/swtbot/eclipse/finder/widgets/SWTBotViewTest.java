@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swtbot.eclipse.finder.FinderTestIds;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -99,6 +100,16 @@ public class SWTBotViewTest extends AbstractSWTBotEclipseTest {
 		expandNode.getNode("SWTBot Test View").click();
 		getOkButtonInShowViewDialog().click();
 		this.bot.viewByTitle("SWTBot Test View").show();
+	}
+
+	@Test
+	public void capturesImageOfAView() throws Exception {
+		openSWTBotTestView();
+		SWTBotView view = bot.viewByTitle("SWTBot Test View");
+
+		ImageData image = view.captureImage();
+
+		assertTrue("Expected a non-empty image, got " + image.width + "x" + image.height, image.width > 0 && image.height > 0);
 	}
 
 	@Test

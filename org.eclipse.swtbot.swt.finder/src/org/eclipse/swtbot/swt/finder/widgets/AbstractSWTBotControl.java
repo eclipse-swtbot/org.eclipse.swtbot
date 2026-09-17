@@ -13,12 +13,14 @@
 package org.eclipse.swtbot.swt.finder.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.hamcrest.SelfDescribing;
 
 /**
@@ -89,6 +91,18 @@ public class AbstractSWTBotControl<T extends Control> extends AbstractSWTBot<T> 
 				return display.map(widget.getParent(), null, widget.getBounds());
 			}
 		});
+	}
+
+	/**
+	 * Captures an image of this control. Delegates to {@link SWTUtils#captureImage(Control)} instead of using
+	 * {@link #absoluteLocation()}, which would map the already display relative bounds of a shell through its parent.
+	 *
+	 * @throws IllegalArgumentException if the control is empty.
+	 * @since 4.4
+	 */
+	@Override
+	public ImageData captureImage() {
+		return SWTUtils.captureImage(widget);
 	}
 
 	/**

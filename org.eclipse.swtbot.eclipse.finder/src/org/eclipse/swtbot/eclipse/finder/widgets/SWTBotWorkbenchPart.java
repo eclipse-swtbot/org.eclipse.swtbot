@@ -28,6 +28,7 @@ import org.eclipse.jface.action.SubStatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
@@ -356,6 +357,16 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 		if (widget == null)
 			widget = findWidget(anyWidget);
 		return widget;
+	}
+
+	/**
+	 * Captures an image of this part, at 100% zoom regardless of the scale factor of the display. The part is shown
+	 * first, since only a visible part can be captured.
+	 *
+	 * @since 4.4
+	 */
+	public ImageData captureImage() {
+		return SWTUtils.captureImage((Control) getWidget());
 	}
 
 	/**

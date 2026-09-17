@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
@@ -53,6 +54,15 @@ public class SWTBotTableItemTest extends AbstractControlExampleTest {
 	public void canFindALine() throws Exception {
 		SWTBotTableItem line = table.getTableItem("Index:2");
 		assertText("Index:2", line);
+	}
+
+	@Test
+	public void canCaptureImageOfALine() throws Exception {
+		SWTBotTableItem line = table.getTableItem("Index:2");
+
+		ImageData image = line.captureImage();
+
+		assertTrue("Expected a non-empty image, got " + image.width + "x" + image.height, image.width > 0 && image.height > 0);
 	}
 
 	@Test

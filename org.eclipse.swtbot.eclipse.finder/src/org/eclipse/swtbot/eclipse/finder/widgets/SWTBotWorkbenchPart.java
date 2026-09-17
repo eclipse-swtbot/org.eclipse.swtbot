@@ -51,6 +51,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarSeparatorButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarToggleButton;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
@@ -106,6 +107,41 @@ public abstract class SWTBotWorkbenchPart<T extends IWorkbenchPartReference> {
 		Assert.isNotNull(partReference, "The part reference cannot be null"); //$NON-NLS-1$
 		this.partReference = partReference;
 		log = LoggerFactory.getLogger(getClass());
+	}
+
+	/**
+	 * Maximizes this part so that it fills the workbench window. Useful to make a small part large enough to be
+	 * readable, for instance before capturing it.
+	 *
+	 * @since 4.4
+	 */
+	public void maximize() {
+		setPartState(IWorkbenchPage.STATE_MAXIMIZED);
+	}
+
+	/**
+	 * Restores this part to its normal size, undoing a previous {@link #maximize()}.
+	 *
+	 * @since 4.4
+	 */
+	public void restore() {
+		setPartState(IWorkbenchPage.STATE_RESTORED);
+	}
+
+	/**
+	 * Sets the state of this part. The part is shown first, since the page can only change the state of a part it
+	 * currently holds.
+	 *
+	 * @param state one of the {@code IWorkbenchPage.STATE_*} constants.
+	 */
+	private void setPartState(final int state) {
+		show();
+		UIThreadRunnable.syncExec(new VoidResult() {
+			@Override
+			public void run() {
+				partReference.getPage().setPartState(partReference, state);
+			}
+		});
 	}
 
 	/**
